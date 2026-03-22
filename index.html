@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stylist Encyclopedia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Stylist Encyclopedia</h1>
+  
+  <div class="controls">
+    <input type="text" id="search" placeholder="Search items...">
+    <select id="typeFilter">
+      <option value="">All Types</option>
+    </select>
+    <select id="rarityFilter">
+      <option value="">All Rarity</option>
+      <option value="1">1❤</option>
+      <option value="2">2❤</option>
+      <option value="3">3❤</option>
+      <option value="4">4❤</option>
+      <option value="5">5❤</option>
+      <option value="6">6❤</option>
+    </select>
+    <button onclick="toggleView()">Table/Card View</button>
+  </div>
+
+  <div id="loading">Loading items...</div>
+  <div id="results"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
