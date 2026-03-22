@@ -12,10 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function loadAllData() {
-  const dataFiles = [
-    'hair', 'dress', 'coat', 'top', 'bottom', 'hosiery', 
-    'shoes', 'makeup', 'accessory', 'soul'  // EXACT order you want
-  ];
+  const dataFiles = ['hair', 'dress', 'coat', 'top', 'bottom', 'hosiery', 'shoes', 'makeup', 'accessory', 'soul'];
   let loadedCount = 0;
 
   dataFiles.forEach(type => {
@@ -25,7 +22,6 @@ function loadAllData() {
         allItems.push(...data);
         loadedCount++;
         if (loadedCount === dataFiles.length) {
-          // ✅ FILTER TO HAIR FIRST on load
           filteredItems = allItems.filter(item => item.type === 'hair' || item.subtype === 'hair');
           populateTypeFilter();
           displayPage(filteredItems);
@@ -49,7 +45,6 @@ function populateTypeFilter() {
   const select = document.getElementById('typeFilter');
   select.innerHTML = '<option value="">All Types</option>';
   
-  // ✅ YOUR EXACT ORDER - not random!
   const exactOrder = ['hair', 'dress', 'coat', 'top', 'bottom', 'hosiery', 'shoes', 'makeup', 'accessory', 'soul'];
   
   exactOrder.forEach(type => {
