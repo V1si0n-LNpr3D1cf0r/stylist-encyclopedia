@@ -14,42 +14,46 @@ document.addEventListener('DOMContentLoaded', function() {
 function loadAllData() {
   const dataFiles = [
     'hair', 'dress', 'coat', 'top', 'bottom', 'hosiery', 
-    'shoes', 'makeup', 'accessory', 'soul'  // EXACT order you want
+    'shoes', 'makeup', 'accessory', 'soul'
   ];
   let loadedCount = 0;
+  let totalFiles = dataFiles.length;
 
   dataFiles.forEach(type => {
     fetch(`data_${type}.json`)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
       .then(data => {
         allItems.push(...data);
         loadedCount++;
-        if (loadedCount === dataFiles.length) {
-          // ✅ FILTER TO HAIR FIRST on load
-          filteredItems = allItems.filter(item => item.type === 'hair' || item.subtype === 'hair');
-          populateTypeFilter();
-          displayPage(filteredItems);
-          document.getElementById('loading').style.display = 'none';
-        }
+        updateLoading(loadedCount, totalFiles);
       })
       .catch(err => {
-        console.error('Load error for ' + type + ':', err);
+        console.error(`Failed to load data_${type}.json:`, err);
         loadedCount++;
-        if (loadedCount === dataFiles.length) {
-          filteredItems = allItems.filter(item => item.type === 'hair' || item.subtype === 'hair');
-          populateTypeFilter();
-          displayPage(filteredItems);
-          document.getElementById('loading').style.display = 'none';
-        }
+        updateLoading(loadedCount, totalFiles);
       });
   });
+}
+
+function updateLoading(loaded, total) {
+  const loadingEl = document.getElementById('loading');
+  if (loaded === total) {
+    filteredItems = allItems.filter(item => item.type === 'hair' || item.subtype === 'hair');
+    populateTypeFilter();
+    displayPage(filteredItems);
+    loadingEl.style.display = 'none';
+  } else {
+    loadingEl.textContent = `Loading... (${loaded}/${total} files)`;
+  }
 }
 
 function populateTypeFilter() {
   const select = document.getElementById('typeFilter');
   select.innerHTML = '<option value="">All Types</option>';
   
-  // ✅ YOUR EXACT ORDER - not random!
   const exactOrder = ['hair', 'dress', 'coat', 'top', 'bottom', 'hosiery', 'shoes', 'makeup', 'accessory', 'soul'];
   
   exactOrder.forEach(type => {
@@ -109,6 +113,10 @@ function createTableView(items) {
           <th>Pure</th>
           <th>Warm</th>
           <th>Cool</th>
+          <th>Main Color</th>
+          <th>Other Color</th>
+          <th>Nation</th>
+          <th>Suit</th>
           <th>Tag 1</th>
           <th>Tag 2</th>
           <th>In Suit</th>
@@ -123,10 +131,10 @@ function createTableView(items) {
   items.forEach(item => {
     html += `
       <tr>
-        <td>${item.name}</td>
-        <td>${item.type}</td>
-        <td>${item.subtype}</td>
-        <td>${item.rarity}❤</td>
+        <td>${item.name || '-'}</td>
+        <td>${item.type || '-'}</td>
+        <td>${item.subtype || '-'}</td>
+        <td>${item.rarity || 0}❤</td>
         <td>${item.gorgeous || '-'}</td>
         <td>${item.simple || '-'}</td>
         <td>${item.elegant || '-'}</td>
@@ -137,6 +145,10 @@ function createTableView(items) {
         <td>${item.pure || '-'}</td>
         <td>${item.warm || '-'}</td>
         <td>${item.cool || '-'}</td>
+        <td>${item.maincolor || '-'}</td>
+        <td>${item.othercolor || '-'}</td>
+        <td>${item.nation || '-'}</td>
+        <td>${item.suit || '-'}</td>
         <td>${item.tag1 || '-'}</td>
         <td>${item.tag2 || '-'}</td>
         <td>${item.insuit ? 'Yes' : 'No'}</td>
