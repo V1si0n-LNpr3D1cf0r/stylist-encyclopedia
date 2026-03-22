@@ -1,0 +1,43 @@
+body {
+  font-family: Georgia;
+  background: #fff5f8;
+  text-align: center;
+}
+
+input, select {
+  margin: 10px;
+  padding: 8px;
+}
+
+#results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 150px);
+  gap: 10px;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.card img {
+  width: 80px;
+  height: 80px;
+}
+
+table {
+  background: white;
+  width: 80%;
+}
+
+th {
+  background: #ffd6e7;
+  padding: 8px;
+}
+
+td {
+  padding: 6px;
+  text-align: center;
+}
