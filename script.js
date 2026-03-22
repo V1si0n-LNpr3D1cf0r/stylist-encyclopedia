@@ -52,7 +52,6 @@ function display(list) {
         <th>In Suit</th>
         <th>Pose</th>
         <th>Animated</th>
-        </th>
         <th>Image</th>
       </tr>
   `;
@@ -76,9 +75,9 @@ function display(list) {
         <td>${item.cool || "-"}</td>
         <td>${item.tag1 || "-"}</td>
         <td>${item.tag2 || "-"}</td>
-        <td>${item.insuit || "-"}</td>
-        <td>${item.pose || "-"}</td>
-        <td>${item.animated || "-"}</td>
+        <td>${item.insuit ? 'Yes' : 'No'}</td>
+        <td>${item.pose ? 'Yes' : 'No'}</td>
+        <td>${item.animated ? 'Yes' : 'No'}</td>
         <td>
           <img src="${item.img}" width="60"
           onerror="this.src='https://via.placeholder.com/60'">
