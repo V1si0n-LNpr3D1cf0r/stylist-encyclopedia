@@ -114,3 +114,25 @@ tr:hover { background: #fff5f8; }
   table { font-size: 14px; }
   .cards { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
 }
+
+.made-by {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 10px 25px;
+  border-radius: 25px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  font-size: 14px;
+  color: #d63384;
+  font-weight: 600;
+  z-index: 1000;
+  border: 2px solid #ffd6e7;
+}
+
+.made-by:hover {
+  background: #fff;
+  box-shadow: 0 6px 25px rgba(214, 51, 132, 0.3);
+}
+
