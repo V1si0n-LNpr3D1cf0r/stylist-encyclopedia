@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function loadAllData() {
   const dataFiles = [
     'hair', 'dress', 'coat', 'top', 'bottom', 'hosiery', 
-    'shoes', 'makeup', 'accessory', 'soul'
+    'shoes', 'makeup', 'accessory', 'soul'  // EXACT order you want
   ];
   let loadedCount = 0;
 
@@ -24,7 +24,8 @@ function loadAllData() {
       .then(data => {
         allItems.push(...data);
         loadedCount++;
-        if (loadedCount === dataFiles.length) 
+        if (loadedCount === dataFiles.length) {
+          // ✅ FILTER TO HAIR FIRST on load
           filteredItems = allItems.filter(item => item.type === 'hair' || item.subtype === 'hair');
           populateTypeFilter();
           displayPage(filteredItems);
