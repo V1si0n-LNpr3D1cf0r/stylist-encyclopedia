@@ -5,7 +5,7 @@ const ITEMS_PER_PAGE = 100;
 let isCardView = false;
 
 function loadAllData() {
-  const dataFiles = ['hair', 'dress', 'coat', 'top', 'bottom', 'hosiery', 'shoes', 'makeup', 'accessory', 'soul'];
+  const dataFiles = [];
   let loadedCount = 0;
 
   dataFiles.forEach(type => {
