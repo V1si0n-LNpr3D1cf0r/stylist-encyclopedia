@@ -4,13 +4,6 @@ let currentPage = 1;
 const ITEMS_PER_PAGE = 100;
 let isCardView = false;
 
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('search').addEventListener('input', filter);
-  document.getElementById('typeFilter').addEventListener('change', filter);
-  document.getElementById('rarityFilter').addEventListener('change', filter);
-  loadAllData();
-});
-
 function loadAllData() {
   const dataFiles = ['hair', 'dress', 'coat', 'top', 'bottom', 'hosiery', 'shoes', 'makeup', 'accessory', 'soul'];
   let loadedCount = 0;
@@ -22,7 +15,7 @@ function loadAllData() {
         allItems.push(...data);
         loadedCount++;
         if (loadedCount === dataFiles.length) {
-          filteredItems = allItems.filter(item => item.type === 'hair' || item.subtype === 'hair');
+          filteredItems = [...allItems];
           populateTypeFilter();
           displayPage(filteredItems);
           document.getElementById('loading').style.display = 'none';
@@ -32,7 +25,7 @@ function loadAllData() {
         console.error('Load error for ' + type + ':', err);
         loadedCount++;
         if (loadedCount === dataFiles.length) {
-          filteredItems = allItems.filter(item => item.type === 'hair' || item.subtype === 'hair');
+          filteredItems = [...allItems];
           populateTypeFilter();
           displayPage(filteredItems);
           document.getElementById('loading').style.display = 'none';
@@ -42,18 +35,22 @@ function loadAllData() {
 }
 
 function populateTypeFilter() {
+  const types = [...new Set(allItems.map(item => item.type))];
   const select = document.getElementById('typeFilter');
-  select.innerHTML = '<option value="">All Types</option>';
-  
-  const exactOrder = ['hair', 'dress', 'coat', 'top', 'bottom', 'hosiery', 'shoes', 'makeup', 'accessory', 'soul'];
-  
-  exactOrder.forEach(type => {
+  types.forEach(type => {
     const option = document.createElement('option');
     option.value = type;
-    option.textContent = type.charAt(0).toUpperCase() + type.slice(1).replace(/^\w/, c => c.toUpperCase());
+    option.textContent = type.charAt(0).toUpperCase() + type.slice(1);
     select.appendChild(option);
   });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('search').addEventListener('input', filter);
+  document.getElementById('typeFilter').addEventListener('change', filter);
+  document.getElementById('rarityFilter').addEventListener('change', filter);
+  loadAllData();
+});
 
 function filter() {
   const search = document.getElementById('search').value.toLowerCase();
@@ -62,7 +59,7 @@ function filter() {
 
   filteredItems = allItems.filter(item => 
     item.name.toLowerCase().includes(search) &&
-    (type === '' || item.type === type || item.subtype === type) &&
+    (type === '' || item.type === type) &&
     (rarity === '' || item.rarity == rarity)
   );
   
@@ -106,7 +103,11 @@ function createTableView(items) {
           <th>Cool</th>
           <th>Tag 1</th>
           <th>Tag 2</th>
-          <th>In Suit</th>
+          <th>Main Color</th>
+          <th>Other Color</th>
+          <th>Nation</th>
+          <th>In a Suit</th>
+          <th>Suit</th>
           <th>Pose</th>
           <th>Animated</th>
           <th>Image</th>
@@ -134,7 +135,11 @@ function createTableView(items) {
         <td>${item.cool || '-'}</td>
         <td>${item.tag1 || '-'}</td>
         <td>${item.tag2 || '-'}</td>
-        <td>${item.insuit ? 'Yes' : 'No'}</td>
+        <td>${item.maincolor || '-'}</td>
+        <td>${item.othercolor || '-'}</td>
+        <td>${item.nation || '-'}</td>
+        <td>${item.inasuit ? 'Yes' : 'No'}</td>
+        <td>${item.suit || '-'}</td>
         <td>${item.pose ? 'Yes' : 'No'}</td>
         <td>${item.animated ? 'Yes' : 'No'}</td>
         <td><img src="${item.img}" width="60" onerror="this.src='https://via.placeholder.com/60'"></td>
