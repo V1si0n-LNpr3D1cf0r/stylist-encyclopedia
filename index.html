@@ -12,10 +12,13 @@
   </div>
   
   <!-- SAVE COUNTER -->
-  <div class="save-counter">
-    <span>Saved: <strong id="saveCount">0</strong> items</span>
+<div class="save-counter">
+  <span id="saveCounterText">Saved: <strong id="saveCount">0</strong> / <strong id="totalCount">0</strong></span>
+  <div class="save-buttons">
     <button onclick="saveAllFavorites()" class="save-btn">💾 Save All</button>
+    <button onclick="removeAllFavorites()" class="remove-btn">🗑️ Remove Selection</button>
   </div>
+</div>
   
   <div id="infoModal" class="modal">
     <div class="modal-content">
@@ -60,7 +63,7 @@
   <div id="results"></div>
 
   <footer class="made-by">
-    Made by RamuneSakura 💖
+    Made by Manami
   </footer>
 
   <script src="script.js"></script>
