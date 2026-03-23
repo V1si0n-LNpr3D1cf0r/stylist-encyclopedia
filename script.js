@@ -59,7 +59,8 @@ function populateTypeFilter() {
   exactOrder.forEach(type => {
     const option = document.createElement('option');
     option.value = type;
-    option.textContent = type.charAt(0).toUpperCase() + type.slice(1).replace(/^\w/, c => c.toUpperCase());
+    // ✅ FIXED: Only capitalize FIRST letter
+    option.textContent = type.charAt(0).toUpperCase() + type.slice(1);
     select.appendChild(option);
   });
 }
@@ -202,3 +203,9 @@ function toggleView() {
   isCardView = !isCardView;
   displayPage(filteredItems);
 }
+
+function toggleInfo() {
+  const modal = document.getElementById('infoModal');
+  modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+}
+
