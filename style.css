@@ -164,7 +164,6 @@ tr:hover { background: #fff5f8; }
   transform: translateY(-50%) scale(1.1);
 }
 
-/* MODAL */
 .modal {
   display: none;
   position: fixed;
