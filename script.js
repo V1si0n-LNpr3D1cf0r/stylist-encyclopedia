@@ -11,6 +11,11 @@ document.addEventListener('DOMContentLoaded', function() {
   loadAllData();
 });
 
+function toggleInfo() {
+  const modal = document.getElementById('infoModal');
+  modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+}
+
 function loadAllData() {
   const dataFiles = [
     'hair', 'dress', 'coat', 'top', 'bottom', 'hosiery', 
@@ -54,13 +59,13 @@ function populateTypeFilter() {
   const select = document.getElementById('typeFilter');
   select.innerHTML = '<option value="">All Types</option>';
   
+  // ✅ FIXED: Proper "Hair" capitalization (first letter only)
   const exactOrder = ['hair', 'dress', 'coat', 'top', 'bottom', 'hosiery', 'shoes', 'makeup', 'accessory', 'soul'];
   
   exactOrder.forEach(type => {
     const option = document.createElement('option');
     option.value = type;
-    // ✅ FIXED: Only capitalize FIRST letter
-    option.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+    option.textContent = type.charAt(0).toUpperCase() + type.slice(1); // FIXED!
     select.appendChild(option);
   });
 }
@@ -199,12 +204,8 @@ function createPagination(totalPages, totalItems) {
   return html;
 }
 
-function toggleInfo() {
-  const modal = document.getElementById('infoModal');
-  modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
-}
-
 function toggleView() {
   isCardView = !isCardView;
   displayPage(filteredItems);
-  }
+}
+
