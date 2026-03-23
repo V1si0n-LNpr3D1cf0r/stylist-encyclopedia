@@ -8,12 +8,31 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('search').addEventListener('input', filter);
   document.getElementById('typeFilter').addEventListener('change', filter);
   document.getElementById('rarityFilter').addEventListener('change', filter);
+  
+  // 🌟 PARTICLE EFFECT ON CLICK ANYWHERE
+  document.addEventListener('click', createParticle);
+  document.addEventListener('touchstart', createParticle); // Mobile support
+  
   loadAllData();
 });
 
 function toggleInfo() {
   const modal = document.getElementById('infoModal');
   modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+}
+
+function createParticle(e) {
+  // Don't create particles on buttons/modals
+  if (e.target.closest('button') || e.target.closest('.modal')) return;
+  
+  const particle = document.createElement('div');
+  particle.className = 'particle';
+  particle.innerHTML = '✨';
+  particle.style.left = (e.clientX || e.touches[0].clientX) + 'px';
+  particle.style.top = (e.clientY || e.touches[0].clientY) + 'px';
+  document.body.appendChild(particle);
+  
+  setTimeout(() => particle.remove(), 800);
 }
 
 function loadAllData() {
@@ -59,13 +78,12 @@ function populateTypeFilter() {
   const select = document.getElementById('typeFilter');
   select.innerHTML = '<option value="">All Types</option>';
   
-  // ✅ FIXED: Proper "Hair" capitalization (first letter only)
   const exactOrder = ['hair', 'dress', 'coat', 'top', 'bottom', 'hosiery', 'shoes', 'makeup', 'accessory', 'soul'];
   
   exactOrder.forEach(type => {
     const option = document.createElement('option');
     option.value = type;
-    option.textContent = type.charAt(0).toUpperCase() + type.slice(1); // FIXED!
+    option.textContent = type.charAt(0).toUpperCase() + type.slice(1);
     select.appendChild(option);
   });
 }
@@ -105,38 +123,19 @@ function createTableView(items) {
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Sub Type</th>
-          <th>Rarity</th>
-          <th>Gorgeous</th>
-          <th>Simple</th>
-          <th>Elegant</th>
-          <th>Lively</th>
-          <th>Mature</th>
-          <th>Cute</th>
-          <th>Sexy</th>
-          <th>Pure</th>
-          <th>Warm</th>
-          <th>Cool</th>
-          <th>Main Color</th>
-          <th>Other Color</th>
-          <th>Nation</th>
-          <th>Suit</th>
-          <th>Tag 1</th>
-          <th>Tag 2</th>
-          <th>In Suit</th>
-          <th>Pose</th>
-          <th>Animated</th>
-          <th>Image</th>
+          <th>Name</th><th>Type</th><th>Sub Type</th><th>Rarity</th><th>Gorgeous</th>
+          <th>Simple</th><th>Elegant</th><th>Lively</th><th>Mature</th><th>Cute</th>
+          <th>Sexy</th><th>Pure</th><th>Warm</th><th>Cool</th><th>Main Color</th>
+          <th>Other Color</th><th>Nation</th><th>Suit</th><th>Tag 1</th><th>Tag 2</th>
+          <th>In Suit</th><th>Pose</th><th>Animated</th><th>Image</th>
         </tr>
       </thead>
       <tbody>
   `;
   
-  items.forEach(item => {
+  items.forEach((item, index) => {
     html += `
-      <tr>
+      <tr class="clickable-row" onclick="showItemDetail(${JSON.stringify(item).replace(/"/g, '&quot;')})">
         <td>${item.name || '-'}</td>
         <td>${item.type || '-'}</td>
         <td>${item.subtype || '-'}</td>
@@ -169,11 +168,47 @@ function createTableView(items) {
   return html;
 }
 
+function showItemDetail(item) {
+  const content = document.getElementById('itemDetailContent');
+  content.innerHTML = `
+    <div style="text-align: center;">
+      <img src="${item.img}" style="width: 150px; height: 150px; object-fit: cover; border-radius: 15px; margin-bottom: 20px;">
+      <h2>${item.name} <span style="color: #d63384;">${item.rarity}❤</span></h2>
+      <div style="background: #f8f1f5; padding: 20px; border-radius: 10px; margin: 15px 0;">
+        <p><strong>Type:</strong> ${item.type} / ${item.subtype}</p>
+        <p><strong>Main Color:</strong> ${item.maincolor || 'N/A'}</p>
+        <p><strong>Other Colors:</strong> ${item.othercolor || 'N/A'}</p>
+        <p><strong>Nation:</strong> ${item.nation || 'N/A'}</p>
+        <p><strong>Suit:</strong> ${item.suit || 'N/A'}</p>
+        <p><strong>Tags:</strong> ${[item.tag1, item.tag2].filter(Boolean).join(', ') || 'None'}</p>
+        <div style="margin-top: 15px;">
+          <strong>Stats:</strong><br>
+          Gorgeous: ${item.gorgeous}<br>
+          Simple: ${item.simple}<br>
+          Elegant: ${item.elegant}<br>
+          Lively: ${item.lively}<br>
+          Mature: ${item.mature}<br>
+          Cute: ${item.cute}<br>
+          Sexy: ${item.sexy}<br>
+          Pure: ${item.pure}<br>
+          Warm: ${item.warm}<br>
+          Cool: ${item.cool}
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('itemDetailModal').style.display = 'block';
+}
+
+function closeItemDetail() {
+  document.getElementById('itemDetailModal').style.display = 'none';
+}
+
 function createCardView(items) {
   let html = '<div class="cards">';
   items.forEach(item => {
     html += `
-      <div class="card" title="${item.name} (${item.rarity}❤)">
+      <div class="card" onclick="showItemDetail(${JSON.stringify(item).replace(/"/g, '&quot;')})">
         <img src="${item.img}" onerror="this.src='https://via.placeholder.com/80'">
         <div>${item.name}</div>
         <div>${item.type} | ${item.rarity}❤</div>
@@ -187,19 +222,11 @@ function createCardView(items) {
 function createPagination(totalPages, totalItems) {
   let html = `<p>Showing ${Math.min(currentPage * ITEMS_PER_PAGE, totalItems)} of ${totalItems} items</p>`;
   html += '<div class="pagination">';
-  
-  if (currentPage > 1) {
-    html += `<button onclick="currentPage--; displayPage(filteredItems)">← Prev</button>`;
-  }
-  
+  if (currentPage > 1) html += `<button onclick="currentPage--; displayPage(filteredItems)">← Prev</button>`;
   for (let i = 1; i <= Math.min(5, totalPages); i++) {
     html += `<button onclick="currentPage=${i}; displayPage(filteredItems)" ${i===currentPage?'class="active"':''}>${i}</button>`;
   }
-  
-  if (currentPage < totalPages) {
-    html += `<button onclick="currentPage++; displayPage(filteredItems)">Next →</button>`;
-  }
-  
+  if (currentPage < totalPages) html += `<button onclick="currentPage++; displayPage(filteredItems)">Next →</button>`;
   html += '</div>';
   return html;
 }
@@ -208,4 +235,3 @@ function toggleView() {
   isCardView = !isCardView;
   displayPage(filteredItems);
 }
-
