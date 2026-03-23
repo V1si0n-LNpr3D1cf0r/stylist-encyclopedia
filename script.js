@@ -235,11 +235,20 @@ function displayPage(items) {
 function createCardView(items) {
   let html = '<div class="cards">';
   items.forEach(item => {
-    html += `<div class="card" onclick="showItemDetail(${JSON.stringify(item).replace(/"/g, '&quot;')})">
-      <input type="checkbox" ${savedItems.has(item.id)?'checked':''} onchange="toggleFavorite('${item.id}')" class="card-checkbox">
-      <img src="${item.img}" onerror="this.src='https://via.placeholder.com/80'">
-      <div>${item.name}</div><div>${item.type} | ${item.rarity || 0}❤</div>
-    </div>`;
+    html += `
+      <div class="card">
+        <div class="card-content" onclick="showItemDetail(${JSON.stringify(item).replace(/"/g, '&quot;')})">
+          <img src="${item.img}" onerror="this.src='https://via.placeholder.com/80'">
+          <div class="card-name">${item.name}</div>
+          <div class="card-type">${item.type} | ${item.rarity || 0}❤</div>
+        </div>
+        <label class="card-checkbox-label">
+          <input type="checkbox" ${savedItems.has(item.id)?'checked':''} 
+                 onchange="toggleFavorite('${item.id}'); filter()" 
+                 class="card-checkbox">
+        </label>
+      </div>
+    `;
   });
   return html + '</div>';
 }
@@ -267,4 +276,3 @@ function toggleInfo() {
   document.getElementById('infoModal').style.display = 
     document.getElementById('infoModal').style.display === 'block' ? 'none' : 'block';
 }
-
