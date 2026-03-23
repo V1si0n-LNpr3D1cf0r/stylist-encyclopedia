@@ -6,12 +6,13 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  
+  <!-- HEADER WITH INFO BUTTON -->
   <div class="header">
     <h1>Stylist Encyclopedia</h1>
     <button class="info-btn" onclick="toggleInfo()">ℹ️</button>
   </div>
   
+  <!-- INFO MODAL -->
   <div id="infoModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="toggleInfo()">&times;</span>
@@ -28,6 +29,29 @@
   </div>
 
   <div class="controls">
+    <input type="text" id="search" placeholder="Search items...">
+    <select id="typeFilter">
+      <option value="">All Types</option>
+    </select>
+    <select id="rarityFilter">
+      <option value="">All Rarity</option>
+      <option value="1">1❤</option>
+      <option value="2">2❤</option>
+      <option value="3">3❤</option>
+      <option value="4">4❤</option>
+      <option value="5">5❤</option>
+      <option value="6">6❤</option>
+    </select>
+    <button onclick="toggleView()">Table/Card View</button>
   </div>
+
+  <div id="loading">Loading items...</div>
+  <div id="results"></div>
+
+  <footer class="made-by">
+    Made by RamuneSakura 💖
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
