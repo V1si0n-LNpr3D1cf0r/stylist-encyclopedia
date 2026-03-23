@@ -1,5 +1,6 @@
 let allItems = [];
 let filteredItems = [];
+let savedItems = new Set();
 let currentPage = 1;
 const ITEMS_PER_PAGE = 100;
 let isCardView = false;
@@ -8,8 +9,44 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('search').addEventListener('input', filter);
   document.getElementById('typeFilter').addEventListener('change', filter);
   document.getElementById('rarityFilter').addEventListener('change', filter);
+  
+  // ✅ LOAD SAVED ITEMS FROM LOCALSTORAGE
+  loadSavedItems();
+  updateSaveCounter();
+  
   loadAllData();
 });
+
+function loadSavedItems() {
+  const saved = localStorage.getItem('stylistFavorites');
+  if (saved) {
+    savedItems = new Set(JSON.parse(saved));
+  }
+}
+
+function saveFavorites() {
+  localStorage.setItem('stylistFavorites', JSON.stringify(Array.from(savedItems)));
+  updateSaveCounter();
+}
+
+function updateSaveCounter() {
+  document.getElementById('saveCount').textContent = savedItems.size;
+}
+
+function toggleFavorite(id) {
+  if (savedItems.has(id)) {
+    savedItems.delete(id);
+  } else {
+    savedItems.add(id);
+  }
+  saveFavorites();
+}
+
+function saveAllFavorites() {
+  filteredItems.forEach(item => savedItems.add(item.id));
+  saveFavorites();
+  displayPage(filteredItems); // Refresh checkboxes
+}
 
 function toggleInfo() {
   const modal = document.getElementById('infoModal');
@@ -34,7 +71,6 @@ function loadAllData() {
   ];
   let loadedCount = 0;
 
-  // ✅ EVEN IF NO FILES LOAD, IT WORKS!
   const checkComplete = () => {
     loadedCount++;
     if (loadedCount >= dataFiles.length) {
@@ -65,7 +101,7 @@ function loadAllData() {
       })
       .catch(err => {
         console.warn(`⚠️ ${err}`);
-        checkComplete(); // Continue even if file missing
+        checkComplete();
       });
   });
 }
@@ -119,19 +155,21 @@ function createTableView(items) {
     <table>
       <thead>
         <tr>
-          <th>Name</th><th>Type</th><th>Sub Type</th><th>Rarity</th><th>Gorgeous</th>
-          <th>Simple</th><th>Elegant</th><th>Lively</th><th>Mature</th><th>Cute</th>
-          <th>Sexy</th><th>Pure</th><th>Warm</th><th>Cool</th><th>Main Color</th>
-          <th>Other Color</th><th>Nation</th><th>Suit</th><th>Tag 1</th><th>Tag 2</th>
-          <th>In Suit</th><th>Pose</th><th>Animated</th><th>Image</th>
+          <th>Save</th><th>Name</th><th>Type</th><th>Sub Type</th><th>Rarity</th>
+          <th>Gorgeous</th><th>Simple</th><th>Elegant</th><th>Lively</th><th>Mature</th>
+          <th>Cute</th><th>Sexy</th><th>Pure</th><th>Warm</th><th>Cool</th>
+          <th>Main Color</th><th>Other Color</th><th>Nation</th><th>Suit</th>
+          <th>Tag 1</th><th>Tag 2</th><th>In Suit</th><th>Pose</th><th>Animated</th><th>Image</th>
         </tr>
       </thead>
       <tbody>
   `;
   
   items.forEach(item => {
+    const isSaved = savedItems.has(item.id);
     html += `
       <tr>
+        <td><input type="checkbox" ${isSaved ? 'checked' : ''} onchange="toggleFavorite('${item.id}')" class="save-checkbox"></td>
         <td>${item.name || '-'}</td>
         <td>${item.type || '-'}</td>
         <td>${item.subtype || '-'}</td>
@@ -169,6 +207,7 @@ function createCardView(items) {
   items.forEach(item => {
     html += `
       <div class="card" onclick="showFullImage('${item.img}')">
+        <input type="checkbox" ${savedItems.has(item.id) ? 'checked' : ''} onchange="toggleFavorite('${item.id}')" class="card-checkbox">
         <img src="${item.img}" onerror="this.src='https://via.placeholder.com/80'">
         <div>${item.name}</div>
         <div>${item.type} | ${item.rarity}❤</div>
@@ -195,4 +234,3 @@ function toggleView() {
   isCardView = !isCardView;
   displayPage(filteredItems);
 }
-
