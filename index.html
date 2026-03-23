@@ -26,6 +26,14 @@
     </div>
   </div>
 
+  <!-- FULL IMAGE MODAL (FOR CARDS ONLY) -->
+  <div id="imageModal" class="modal">
+    <div class="modal-content image-modal">
+      <span class="close" onclick="closeImageModal()">&times;</span>
+      <img id="fullImage" src="" alt="Full Image">
+    </div>
+  </div>
+
   <div class="controls">
     <input type="text" id="search" placeholder="Search items...">
     <select id="typeFilter">
@@ -45,14 +53,6 @@
 
   <div id="loading">Loading items...</div>
   <div id="results"></div>
-
-  <!-- ITEM DETAIL POPUP -->
-  <div id="itemDetailModal" class="modal">
-    <div class="modal-content item-detail">
-      <span class="close" onclick="closeItemDetail()">&times;</span>
-      <div id="itemDetailContent"></div>
-    </div>
-  </div>
 
   <footer class="made-by">
     Made by RamuneSakura 💖
