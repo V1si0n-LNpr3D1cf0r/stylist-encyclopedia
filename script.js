@@ -92,7 +92,6 @@ function completeLoading() {
   clearTimeout(loadingTimeout);
   allItems.forEach((item, i) => { if (!item.id) item.id = `item_${i}`; });
   
-  // ✅ HAIR FIRST - Sort by exact order
   const exactOrder = ['hair', 'dress', 'coat', 'top', 'bottom', 'hosiery', 'shoes', 'makeup', 'accessory', 'soul'];
   allItems.sort((a, b) => {
     const aIndex = exactOrder.indexOf(a.type || a.subtype || '');
@@ -197,7 +196,6 @@ function closeItemDetail() {
   document.getElementById('itemDetailModal').style.display = 'none';
 }
 
-// [Rest of functions unchanged...]
 function populateTypeFilter() {
   const select = document.getElementById('typeFilter');
   select.innerHTML = '<option value="">All Types</option>';
