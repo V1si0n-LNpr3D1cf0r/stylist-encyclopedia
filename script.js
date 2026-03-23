@@ -13,7 +13,10 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('rarityFilter').addEventListener('change', filter);
   document.getElementById('nationFilter').addEventListener('change', filter);
   document.getElementById('mainColorFilter').addEventListener('change', filter);
-  
+  document.getElementById('otherColorFilter').addEventListener('change', filter);
+  document.getElementById('tag1Filter').addEventListener('change', filter);
+  document.getElementById('tag2Filter').addEventListener('change', filter);
+
   loadSavedItems();
   startLoadingWithTimeout();
 });
@@ -102,7 +105,7 @@ function completeLoading() {
 }
 
 function populateAllFilters() {
-  populateTypeFilter(); populateNationFilter(); populateColorFilters();
+  populateTypeFilter(); populateNationFilter(); populateColorFilters(); populateExtraFilters();
 }
 
 function filter() {
@@ -112,12 +115,18 @@ function filter() {
     const rarity = document.getElementById('rarityFilter').value;
     const nation = document.getElementById('nationFilter').value;
     const mainColor = document.getElementById('mainColorFilter').value;
+    const otherColor = document.getElementById('otherColorFilter').value;
+    const tag1 = document.getElementById('tag1Filter').value;
+    const tag2 = document.getElementById('tag2Filter').value;
     
-    return item.name.toLowerCase().includes(search) &&
-           (!type || item.type === type || item.subtype === type) &&
-           (!rarity || item.rarity == rarity) &&
-           (!nation || item.nation === nation) &&
-           (!mainColor || item.maincolor === mainColor);
+return item.name.toLowerCase().includes(search) &&
+       (!type || item.type === type || item.subtype === type) &&
+       (!rarity || item.rarity == rarity) &&
+       (!nation || item.nation === nation) &&
+       (!mainColor || item.maincolor === mainColor) &&
+       (!otherColor || item.othercolor === otherColor) &&
+       (!tag1 || item.tag1 === tag1) &&
+       (!tag2 || item.tag2 === tag2);
   });
 
   switch(currentSaveFilter) {
@@ -219,6 +228,27 @@ function populateColorFilters() {
     const option = document.createElement('option');
     option.value = color; option.textContent = color;
     select.appendChild(option);
+  });
+}
+
+function populateExtraFilters() {
+  const otherColors = [...new Set(allItems.map(i => i.othercolor).filter(Boolean))];
+  const tag1s = [...new Set(allItems.map(i => i.tag1).filter(Boolean))];
+  const tag2s = [...new Set(allItems.map(i => i.tag2).filter(Boolean))];
+
+  fillSelect('otherColorFilter', otherColors);
+  fillSelect('tag1Filter', tag1s);
+  fillSelect('tag2Filter', tag2s);
+}
+
+function fillSelect(id, values) {
+  const select = document.getElementById(id);
+  select.innerHTML = `<option value="">All</option>`;
+  values.sort().forEach(v => {
+    const opt = document.createElement('option');
+    opt.value = v;
+    opt.textContent = v;
+    select.appendChild(opt);
   });
 }
 
