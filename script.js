@@ -8,11 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('search').addEventListener('input', filter);
   document.getElementById('typeFilter').addEventListener('change', filter);
   document.getElementById('rarityFilter').addEventListener('change', filter);
-  
-  // 🌟 PARTICLE EFFECT ON CLICK ANYWHERE
-  document.addEventListener('click', createParticle);
-  document.addEventListener('touchstart', createParticle); // Mobile support
-  
   loadAllData();
 });
 
@@ -21,18 +16,15 @@ function toggleInfo() {
   modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
 }
 
-function createParticle(e) {
-  // Don't create particles on buttons/modals
-  if (e.target.closest('button') || e.target.closest('.modal')) return;
-  
-  const particle = document.createElement('div');
-  particle.className = 'particle';
-  particle.innerHTML = '✨';
-  particle.style.left = (e.clientX || e.touches[0].clientX) + 'px';
-  particle.style.top = (e.clientY || e.touches[0].clientY) + 'px';
-  document.body.appendChild(particle);
-  
-  setTimeout(() => particle.remove(), 800);
+function showFullImage(imgSrc) {
+  const modal = document.getElementById('imageModal');
+  const fullImg = document.getElementById('fullImage');
+  fullImg.src = imgSrc;
+  modal.style.display = 'block';
+}
+
+function closeImageModal() {
+  document.getElementById('imageModal').style.display = 'none';
 }
 
 function loadAllData() {
@@ -98,6 +90,107 @@ function filter() {
     (type === '' || item.type === type || item.subtype === type) &&
     (rarity === '' || item.rarity == rarity)
   );
+  
+  currentPage = 1;
+  displayPage(filteredItems);
+}
+
+function displayPage(items) {
+  const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
+  const start = (currentPage - 1) * ITEMS_PER_PAGE;
+  const end = start + ITEMS_PER_PAGE;
+  const pageItems = items.slice(start, end);
+
+  const container = document.getElementById('results');
+  
+  if (isCardView) {
+    container.innerHTML = createCardView(pageItems) + createPagination(totalPages, items.length);
+  } else {
+    container.innerHTML = createTableView(pageItems) + createPagination(totalPages, items.length);
+  }
+}
+
+function createTableView(items) {
+  let html = `
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th><th>Type</th><th>Sub Type</th><th>Rarity</th><th>Gorgeous</th>
+          <th>Simple</th><th>Elegant</th><th>Lively</th><th>Mature</th><th>Cute</th>
+          <th>Sexy</th><th>Pure</th><th>Warm</th><th>Cool</th><th>Main Color</th>
+          <th>Other Color</th><th>Nation</th><th>Suit</th><th>Tag 1</th><th>Tag 2</th>
+          <th>In Suit</th><th>Pose</th><th>Animated</th><th>Image</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+  
+  items.forEach(item => {
+    html += `
+      <tr>
+        <td>${item.name || '-'}</td>
+        <td>${item.type || '-'}</td>
+        <td>${item.subtype || '-'}</td>
+        <td>${item.rarity || 0}❤</td>
+        <td>${item.gorgeous || '-'}</td>
+        <td>${item.simple || '-'}</td>
+        <td>${item.elegant || '-'}</td>
+        <td>${item.lively || '-'}</td>
+        <td>${item.mature || '-'}</td>
+        <td>${item.cute || '-'}</td>
+        <td>${item.sexy || '-'}</td>
+        <td>${item.pure || '-'}</td>
+        <td>${item.warm || '-'}</td>
+        <td>${item.cool || '-'}</td>
+        <td>${item.maincolor || '-'}</td>
+        <td>${item.othercolor || '-'}</td>
+        <td>${item.nation || '-'}</td>
+        <td>${item.suit || '-'}</td>
+        <td>${item.tag1 || '-'}</td>
+        <td>${item.tag2 || '-'}</td>
+        <td>${item.insuit ? 'Yes' : 'No'}</td>
+        <td>${item.pose ? 'Yes' : 'No'}</td>
+        <td>${item.animated ? 'Yes' : 'No'}</td>
+        <td><img src="${item.img}" width="60" onerror="this.src='https://via.placeholder.com/60'"></td>
+      </tr>
+    `;
+  });
+  
+  html += '</tbody></table>';
+  return html;
+}
+
+function createCardView(items) {
+  let html = '<div class="cards">';
+  items.forEach(item => {
+    html += `
+      <div class="card" onclick="showFullImage('${item.img}')">
+        <img src="${item.img}" onerror="this.src='https://via.placeholder.com/80'">
+        <div>${item.name}</div>
+        <div>${item.type} | ${item.rarity}❤</div>
+      </div>
+    `;
+  });
+  html += '</div>';
+  return html;
+}
+
+function createPagination(totalPages, totalItems) {
+  let html = `<p>Showing ${Math.min(currentPage * ITEMS_PER_PAGE, totalItems)} of ${totalItems} items</p>`;
+  html += '<div class="pagination">';
+  if (currentPage > 1) html += `<button onclick="currentPage--; displayPage(filteredItems)">← Prev</button>`;
+  for (let i = 1; i <= Math.min(5, totalPages); i++) {
+    html += `<button onclick="currentPage=${i}; displayPage(filteredItems)" ${i===currentPage?'class="active"':''}>${i}</button>`;
+  }
+  if (currentPage < totalPages) html += `<button onclick="currentPage++; displayPage(filteredItems)">Next →</button>`;
+  html += '</div>';
+  return html;
+}
+
+function toggleView() {
+  isCardView = !isCardView;
+  displayPage(filteredItems);
+}
   
   currentPage = 1;
   displayPage(filteredItems);
