@@ -33,37 +33,41 @@ function loadAllData() {
     'shoes', 'makeup', 'accessory', 'soul'
   ];
   let loadedCount = 0;
-  let totalFiles = dataFiles.length;
+
+  // ✅ EVEN IF NO FILES LOAD, IT WORKS!
+  const checkComplete = () => {
+    loadedCount++;
+    if (loadedCount >= dataFiles.length) {
+      console.log(`✅ Loaded ${allItems.length} total items`);
+      if (allItems.length === 0) {
+        document.getElementById('loading').innerHTML = '❌ No data files found! Check your data_*.json files.';
+      } else {
+        filteredItems = allItems.filter(item => item.type === 'hair' || item.subtype === 'hair');
+        populateTypeFilter();
+        displayPage(filteredItems);
+        document.getElementById('loading').style.display = 'none';
+      }
+    } else {
+      document.getElementById('loading').textContent = `Loading... (${loadedCount}/${dataFiles.length})`;
+    }
+  };
 
   dataFiles.forEach(type => {
     fetch(`data_${type}.json`)
       .then(res => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        if (!res.ok) return Promise.reject(`File not found: data_${type}.json`);
         return res.json();
       })
       .then(data => {
+        console.log(`✅ Loaded data_${type}.json: ${data.length} items`);
         allItems.push(...data);
-        loadedCount++;
-        updateLoading(loadedCount, totalFiles);
+        checkComplete();
       })
       .catch(err => {
-        console.error(`Failed to load data_${type}.json:`, err);
-        loadedCount++;
-        updateLoading(loadedCount, totalFiles);
+        console.warn(`⚠️ ${err}`);
+        checkComplete(); // Continue even if file missing
       });
   });
-}
-
-function updateLoading(loaded, total) {
-  const loadingEl = document.getElementById('loading');
-  if (loaded === total) {
-    filteredItems = allItems.filter(item => item.type === 'hair' || item.subtype === 'hair');
-    populateTypeFilter();
-    displayPage(filteredItems);
-    loadingEl.style.display = 'none';
-  } else {
-    loadingEl.textContent = `Loading... (${loaded}/${total} files)`;
-  }
 }
 
 function populateTypeFilter() {
@@ -176,7 +180,7 @@ function createCardView(items) {
 }
 
 function createPagination(totalPages, totalItems) {
-  let html = `<p>Showing ${Math.min(currentPage * ITEMS_PER_PAGE, totalItems)} of ${totalItems} items</p>`;
+  let html = `<p>Showing ${Math.min(currentPage * ITEMS_PER_PAGE, totalItems)} of ${totalItems} items (Total: ${allItems.length})</p>`;
   html += '<div class="pagination">';
   if (currentPage > 1) html += `<button onclick="currentPage--; displayPage(filteredItems)">← Prev</button>`;
   for (let i = 1; i <= Math.min(5, totalPages); i++) {
@@ -191,140 +195,4 @@ function toggleView() {
   isCardView = !isCardView;
   displayPage(filteredItems);
 }
-  
-  currentPage = 1;
-  displayPage(filteredItems);
-}
 
-function displayPage(items) {
-  const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
-  const start = (currentPage - 1) * ITEMS_PER_PAGE;
-  const end = start + ITEMS_PER_PAGE;
-  const pageItems = items.slice(start, end);
-
-  const container = document.getElementById('results');
-  
-  if (isCardView) {
-    container.innerHTML = createCardView(pageItems) + createPagination(totalPages, items.length);
-  } else {
-    container.innerHTML = createTableView(pageItems) + createPagination(totalPages, items.length);
-  }
-}
-
-function createTableView(items) {
-  let html = `
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th><th>Type</th><th>Sub Type</th><th>Rarity</th><th>Gorgeous</th>
-          <th>Simple</th><th>Elegant</th><th>Lively</th><th>Mature</th><th>Cute</th>
-          <th>Sexy</th><th>Pure</th><th>Warm</th><th>Cool</th><th>Main Color</th>
-          <th>Other Color</th><th>Nation</th><th>Suit</th><th>Tag 1</th><th>Tag 2</th>
-          <th>In Suit</th><th>Pose</th><th>Animated</th><th>Image</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
-  
-  items.forEach((item, index) => {
-    html += `
-      <tr class="clickable-row" onclick="showItemDetail(${JSON.stringify(item).replace(/"/g, '&quot;')})">
-        <td>${item.name || '-'}</td>
-        <td>${item.type || '-'}</td>
-        <td>${item.subtype || '-'}</td>
-        <td>${item.rarity || 0}❤</td>
-        <td>${item.gorgeous || '-'}</td>
-        <td>${item.simple || '-'}</td>
-        <td>${item.elegant || '-'}</td>
-        <td>${item.lively || '-'}</td>
-        <td>${item.mature || '-'}</td>
-        <td>${item.cute || '-'}</td>
-        <td>${item.sexy || '-'}</td>
-        <td>${item.pure || '-'}</td>
-        <td>${item.warm || '-'}</td>
-        <td>${item.cool || '-'}</td>
-        <td>${item.maincolor || '-'}</td>
-        <td>${item.othercolor || '-'}</td>
-        <td>${item.nation || '-'}</td>
-        <td>${item.suit || '-'}</td>
-        <td>${item.tag1 || '-'}</td>
-        <td>${item.tag2 || '-'}</td>
-        <td>${item.insuit ? 'Yes' : 'No'}</td>
-        <td>${item.pose ? 'Yes' : 'No'}</td>
-        <td>${item.animated ? 'Yes' : 'No'}</td>
-        <td><img src="${item.img}" width="60" onerror="this.src='https://via.placeholder.com/60'"></td>
-      </tr>
-    `;
-  });
-  
-  html += '</tbody></table>';
-  return html;
-}
-
-function showItemDetail(item) {
-  const content = document.getElementById('itemDetailContent');
-  content.innerHTML = `
-    <div style="text-align: center;">
-      <img src="${item.img}" style="width: 150px; height: 150px; object-fit: cover; border-radius: 15px; margin-bottom: 20px;">
-      <h2>${item.name} <span style="color: #d63384;">${item.rarity}❤</span></h2>
-      <div style="background: #f8f1f5; padding: 20px; border-radius: 10px; margin: 15px 0;">
-        <p><strong>Type:</strong> ${item.type} / ${item.subtype}</p>
-        <p><strong>Main Color:</strong> ${item.maincolor || 'N/A'}</p>
-        <p><strong>Other Colors:</strong> ${item.othercolor || 'N/A'}</p>
-        <p><strong>Nation:</strong> ${item.nation || 'N/A'}</p>
-        <p><strong>Suit:</strong> ${item.suit || 'N/A'}</p>
-        <p><strong>Tags:</strong> ${[item.tag1, item.tag2].filter(Boolean).join(', ') || 'None'}</p>
-        <div style="margin-top: 15px;">
-          <strong>Stats:</strong><br>
-          Gorgeous: ${item.gorgeous}<br>
-          Simple: ${item.simple}<br>
-          Elegant: ${item.elegant}<br>
-          Lively: ${item.lively}<br>
-          Mature: ${item.mature}<br>
-          Cute: ${item.cute}<br>
-          Sexy: ${item.sexy}<br>
-          Pure: ${item.pure}<br>
-          Warm: ${item.warm}<br>
-          Cool: ${item.cool}
-        </div>
-      </div>
-    </div>
-  `;
-  document.getElementById('itemDetailModal').style.display = 'block';
-}
-
-function closeItemDetail() {
-  document.getElementById('itemDetailModal').style.display = 'none';
-}
-
-function createCardView(items) {
-  let html = '<div class="cards">';
-  items.forEach(item => {
-    html += `
-      <div class="card" onclick="showItemDetail(${JSON.stringify(item).replace(/"/g, '&quot;')})">
-        <img src="${item.img}" onerror="this.src='https://via.placeholder.com/80'">
-        <div>${item.name}</div>
-        <div>${item.type} | ${item.rarity}❤</div>
-      </div>
-    `;
-  });
-  html += '</div>';
-  return html;
-}
-
-function createPagination(totalPages, totalItems) {
-  let html = `<p>Showing ${Math.min(currentPage * ITEMS_PER_PAGE, totalItems)} of ${totalItems} items</p>`;
-  html += '<div class="pagination">';
-  if (currentPage > 1) html += `<button onclick="currentPage--; displayPage(filteredItems)">← Prev</button>`;
-  for (let i = 1; i <= Math.min(5, totalPages); i++) {
-    html += `<button onclick="currentPage=${i}; displayPage(filteredItems)" ${i===currentPage?'class="active"':''}>${i}</button>`;
-  }
-  if (currentPage < totalPages) html += `<button onclick="currentPage++; displayPage(filteredItems)">Next →</button>`;
-  html += '</div>';
-  return html;
-}
-
-function toggleView() {
-  isCardView = !isCardView;
-  displayPage(filteredItems);
-}
