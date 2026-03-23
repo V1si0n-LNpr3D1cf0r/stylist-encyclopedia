@@ -1,5 +1,6 @@
 * { box-sizing: border-box; }
 
+
 body {
   font-family: -apple-system, Georgia, sans-serif;
   background: linear-gradient(135deg, #fff5f8 0%, #ffe4e6 100%);
@@ -8,17 +9,20 @@ body {
   overflow-x: auto;
 }
 
-.header { 
-  position: relative; 
-  text-align: center; 
-  margin-bottom: 20px; 
+
+.header {
+  position: relative;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-h1 { 
-  color: #d63384; 
-  margin: 0 0 10px 0; 
-  font-size: 2.5em; 
+
+h1 {
+  color: #d63384;
+  margin: 0 0 10px 0;
+  font-size: 2.5em;
 }
+
 
 .info-btn {
   position: absolute;
@@ -37,10 +41,12 @@ h1 {
   transition: all 0.3s;
 }
 
+
 .info-btn:hover {
   background: #e55a9b;
   transform: translateY(-50%) scale(1.1);
 }
+
 
 .save-counter {
   background: white;
@@ -54,20 +60,24 @@ h1 {
   border: 2px solid #ffd6e7;
 }
 
+
 .save-buttons {
   display: flex;
   gap: 10px;
 }
+
 
 .save-btn {
   background: #4caf50 !important;
   border-color: #4caf50 !important;
 }
 
+
 .remove-btn {
   background: #f44336 !important;
   border-color: #f44336 !important;
 }
+
 
 .controls {
   background: white;
@@ -81,6 +91,7 @@ h1 {
   justify-items: center;
 }
 
+
 .save-status-filters {
   display: flex;
   gap: 8px;
@@ -88,6 +99,7 @@ h1 {
   flex-wrap: wrap;
   grid-column: 1 / -1;
 }
+
 
 .filter-btn {
   padding: 8px 16px;
@@ -100,6 +112,7 @@ h1 {
   transition: all 0.2s;
 }
 
+
 .filter-btn.active,
 .filter-btn:hover {
   background: #ff69b4;
@@ -108,28 +121,32 @@ h1 {
   box-shadow: 0 4px 12px rgba(255, 105, 180, 0.3);
 }
 
+
 .saved-filter { border-color: #4caf50; }
 .saved-filter.active,
-.saved-filter:hover { 
-  background: #4caf50 !important; 
-  border-color: #4caf50 !important; 
+.saved-filter:hover {
+  background: #4caf50 !important;
+  border-color: #4caf50 !important;
 }
+
 
 .unsaved-filter { border-color: #ff9800; }
 .unsaved-filter.active,
-.unsaved-filter:hover { 
-  background: #ff9800 !important; 
-  border-color: #ff9800 !important; 
-  color: white !important; 
+.unsaved-filter:hover {
+  background: #ff9800 !important;
+  border-color: #ff9800 !important;
+  color: white !important;
 }
+
 
 .all-filter { border-color: #2196f3; }
 .all-filter.active,
-.all-filter:hover { 
-  background: #2196f3 !important; 
-  border-color: #2196f3 !important; 
-  color: white !important; 
+.all-filter:hover {
+  background: #2196f3 !important;
+  border-color: #2196f3 !important;
+  color: white !important;
 }
+
 
 input, select, button {
   padding: 12px 16px;
@@ -139,22 +156,26 @@ input, select, button {
   background: #fff;
 }
 
-button { 
-  background: #ff69b4; 
-  color: white; 
-  cursor: pointer; 
+
+button {
+  background: #ff69b4;
+  color: white;
+  cursor: pointer;
   border: 2px solid #ff69b4;
   font-weight: 500;
 }
 
-button:hover { 
-  background: #e55a9b; 
-  border-color: #e55a9b; 
+
+button:hover {
+  background: #e55a9b;
+  border-color: #e55a9b;
 }
 
-button.active { 
-  background: #c2185b; 
+
+button.active {
+  background: #c2185b;
 }
+
 
 .save-checkbox, .card-checkbox {
   width: 20px;
@@ -163,12 +184,14 @@ button.active {
   accent-color: #ff69b4;
 }
 
+
 #loading {
   text-align: center;
   padding: 40px;
   font-size: 18px;
   color: #666;
 }
+
 
 table {
   width: 100%;
@@ -180,6 +203,7 @@ table {
   margin-bottom: 20px;
 }
 
+
 th {
   background: linear-gradient(135deg, #ffd6e7, #ff99cc);
   padding: 12px 6px;
@@ -189,11 +213,13 @@ th {
   white-space: nowrap;
 }
 
+
 td {
   padding: 10px 6px;
   border-bottom: 1px solid #f8e1ed;
   font-size: 13px;
 }
+
 
 .cards {
   display: grid;
@@ -201,6 +227,7 @@ td {
   gap: 20px;
   padding: 20px;
 }
+
 
 .card {
   position: relative;
@@ -212,10 +239,12 @@ td {
   cursor: pointer;
 }
 
+
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
+
 
 .card-checkbox {
   position: absolute;
@@ -228,6 +257,7 @@ td {
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
+
 .card img {
   width: 100%;
   height: 120px;
@@ -236,6 +266,7 @@ td {
   margin-bottom: 10px;
 }
 
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -243,15 +274,18 @@ td {
   margin-top: 20px;
 }
 
+
 .pagination button {
   padding: 10px 15px;
   border-radius: 20px;
 }
 
+
 .pagination button.active {
   background: #d63384;
   box-shadow: 0 4px 15px rgba(214, 51, 132, 0.4);
 }
+
 
 .modal {
   display: none;
@@ -263,6 +297,7 @@ td {
   height: 100%;
   background-color: rgba(0,0,0,0.8);
 }
+
 
 .modal-content {
   background: white;
@@ -277,15 +312,18 @@ td {
   align-items: center;
 }
 
+
 .item-detail-modal {
   max-width: 700px !important;
   width: 90% !important;
   max-height: 85vh !important;
 }
 
+
 .item-detail-modal .modal-content {
   padding: 0 !important;
 }
+
 
 .image-modal img {
   max-width: 100%;
@@ -295,6 +333,7 @@ td {
   border-radius: 10px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.5);
 }
+
 
 .close {
   position: absolute;
@@ -313,10 +352,12 @@ td {
   justify-content: center;
 }
 
+
 .close:hover {
   background: rgba(255,255,255,0.4);
   color: #ff69b4;
 }
+
 
 .made-by {
   position: fixed;
@@ -334,22 +375,199 @@ td {
   border: 2px solid #ffd6e7;
 }
 
+
 .made-by:hover {
   background: #fff;
   box-shadow: 0 6px 25px rgba(214, 51, 132, 0.3);
 }
 
+
 @media (max-width: 768px) {
   .controls,
-  .save-counter { 
-    flex-direction: column; 
-    align-items: stretch; 
-    gap: 10px; 
+  .save-counter {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
   }
-  .controls { 
-    grid-template-columns: 1fr; 
+  .controls {
+    grid-template-columns: 1fr;
   }
   table { font-size: 12px; }
   th, td { padding: 8px 4px; }
   .cards { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+}
+
+
+.close {
+  position: absolute !important;
+  right: 20px !important;
+  top: 15px !important;
+  font-size: 28px !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  color: white !important;
+  background: rgba(255,255,255,0.25) !important;
+  border-radius: 50% !important;
+  width: 45px !important;
+  height: 45px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 3000 !important;
+  line-height: 1 !important;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+}
+
+
+.close:hover {
+  background: rgba(255,255,255,0.4) !important;
+  color: #ff69b4 !important;
+  transform: scale(1.1) !important;
+}
+
+
+@media (max-width: 768px) {
+  .close {
+    right: 15px !important;
+    top: 10px !important;
+    font-size: 32px !important;
+    width: 50px !important;
+    height: 50px !important;
+  }
+}
+
+
+.card-checkbox, .save-checkbox {
+  position: relative !important;
+  z-index: 100 !important;
+  pointer-events: auto !important;
+}
+
+
+.card {
+  position: relative;
+}
+
+
+#itemDetailContent img {
+  width: 280px !important;
+  height: 280px !important;
+  max-width: 100% !important;
+  object-fit: contain !important;
+  background: white;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+
+@media (max-width: 768px) {
+  #itemDetailContent img {
+    width: 250px !important;
+    height: 250px !important;
+  }
+.card-checkbox-label {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 100;
+  background: white;
+  border-radius: 50%;
+  padding: 4px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+  pointer-events: auto;
+}
+
+
+.card-checkbox-label input {
+  margin: 0;
+  pointer-events: auto;
+}
+
+
+.card {
+  position: relative;
+  background: white;
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: all 0.2s;
+  cursor: pointer;
+  height: 100%;
+}
+
+
+.card-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+
+.card-content:hover {
+  transform: translateY(-5px);
+}
+
+
+.card-checkbox-label {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 100;
+  background: white;
+  border-radius: 50%;
+  padding: 3px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  cursor: pointer;
+}
+
+
+.card-checkbox-label input {
+  margin: 0;
+  width: 18px;
+  height: 18px;
+  accent-color: #ff69b4;
+}
+
+
+.card-checkbox-label {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 100;
+  background: white;
+  border-radius: 50%;
+  padding: 3px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  cursor: pointer;
+  /* HIDE LABEL TEXT - ONLY SHOW CHECKBOX */
+  font-size: 0;
+  color: transparent;
+}
+
+
+.card-checkbox-label input {
+  margin: 0;
+  width: 18px;
+  height: 18px;
+  accent-color: #ff69b4;
+}
+
+
+/* NEW: Card text styling */
+.card-name {
+  font-weight: 600;
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+
+.card-type {
+  font-size: 12px;
+  color: #666;
+  margin-top: 2px;
+}
+
+
 }
