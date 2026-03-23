@@ -6,31 +6,32 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Stylist Encyclopedia</h1>
+  <!-- INFO BUTTON CONTAINER -->
+  <div class="header">
+    <h1>Stylist Encyclopedia</h1>
+    <button class="info-btn" onclick="toggleInfo()">ℹ️</button>
+  </div>
   
-  <div class="controls">
-    <input type="text" id="search" placeholder="Search items...">
-    <select id="typeFilter">
-      <option value="">All Types</option>
-    </select>
-    <select id="rarityFilter">
-      <option value="">All Rarity</option>
-      <option value="1">1❤</option>
-      <option value="2">2❤</option>
-      <option value="3">3❤</option>
-      <option value="4">4❤</option>
-      <option value="5">5❤</option>
-      <option value="6">6❤</option>
-    </select>
-    <button onclick="toggleView()">Table/Card View</button>
+  <!-- INFO MODAL -->
+  <div id="infoModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="toggleInfo()">&times;</span>
+      <h2>About This Website</h2>
+      <p><strong>Stylist Encyclopedia</strong> is a info catalog of wardrobe items from the game.</p>
+      <ul>
+        <li>Inspired from the LN Wiki, Ultimate LN Stylist Search Sheet, and Nikki's Info.</li>
+        <li>Filled with stats, rarity, color, etc. (Data to be placed later)</li>
+        <li>Search, filter by type/rarity (More filters soon)</li>
+        <li>Still on works (WIP)</li>
+        <li> Made by Manami (@ramunesakura in Discord)</li>
+      </ul>
+    </div>
   </div>
 
-  <div id="loading">Loading items...</div>
-  <div id="results"></div>
+  <div class="controls">
+    <!-- your existing controls -->
+  </div>
 
-  <script src="script.js"></script>
-  <footer class="made-by">
-    Made by Manami (@ramunesakura in Discord)
-  </footer>
+  <!-- rest of your HTML -->
 </body>
 </html>
