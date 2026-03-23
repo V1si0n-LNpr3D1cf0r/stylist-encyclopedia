@@ -88,53 +88,21 @@ function startLoadingWithTimeout() {
 function completeLoading() {
   clearTimeout(loadingTimeout);
   allItems.forEach((item, i) => { if (!item.id) item.id = `item_${i}`; });
-  console.log(`🎉 TOTAL: ${allItems.length} items`);
+  
+  // ✅ HAIR FIRST - Sort by exact order
+  const exactOrder = ['hair', 'dress', 'coat', 'top', 'bottom', 'hosiery', 'shoes', 'makeup', 'accessory', 'soul'];
+  allItems.sort((a, b) => {
+    const aIndex = exactOrder.indexOf(a.type || a.subtype || '');
+    const bIndex = exactOrder.indexOf(b.type || b.subtype || '');
+    return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
+  });
+  
+  console.log(`🎉 TOTAL: ${allItems.length} items - HAIR FIRST`);
   updateSaveCounter(); populateAllFilters(); filter(); document.getElementById('loading').style.display = 'none';
 }
 
 function populateAllFilters() {
   populateTypeFilter(); populateNationFilter(); populateColorFilters();
-}
-
-// 🔥 NEW: CARD VIEW DETAIL POPUP
-function showItemDetail(item) {
-  const content = document.getElementById('itemDetailContent');
-  const isSaved = savedItems.has(item.id);
-  
-  content.innerHTML = `
-    <div style="text-align: center; padding: 20px;">
-      <img src="${item.img}" style="width: 200px; height: 200px; object-fit: cover; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px;">
-      <h2 style="color: #d63384; margin: 10px 0;">${item.name} <span style="font-size: 1.2em;">${item.rarity || 0}❤</span></h2>
-      
-      <div style="background: #f8f1f5; padding: 20px; border-radius: 12px; margin: 15px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 14px;">
-        <div><strong>Type:</strong> ${item.type || '-'} / ${item.subtype || '-'}</div>
-        <div><strong>Nation:</strong> ${item.nation || '-'}</div>
-        <div><strong>Main Color:</strong> ${item.maincolor || '-'}</div>
-        <div><strong>Other Color:</strong> ${item.othercolor || '-'}</div>
-        <div><strong>Suit:</strong> ${item.suit || '-'}</div>
-        <div><strong>Tags:</strong> ${[item.tag1, item.tag2].filter(Boolean).join(', ') || 'None'}</div>
-      </div>
-      
-      <div style="background: #fff5f8; padding: 20px; border-radius: 12px; border-left: 5px solid #ff69b4;">
-        <strong style="color: #d63384;">Stats:</strong><br>
-        Gorgeous: ${item.gorgeous || '-'} | Simple: ${item.simple || '-'} | Elegant: ${item.elegant || '-'}<br>
-        Lively: ${item.lively || '-'} | Mature: ${item.mature || '-'} | Cute: ${item.cute || '-'}<br>
-        Sexy: ${item.sexy || '-'} | Pure: ${item.pure || '-'} | Warm: ${item.warm || '-'} | Cool: ${item.cool || '-'}
-      </div>
-      
-      <div style="margin-top: 20px;">
-        <label style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 16px;">
-          <input type="checkbox" ${isSaved ? 'checked' : ''} onchange="toggleFavorite('${item.id}'); showItemDetail(${JSON.stringify(item).replace(/"/g, '&quot;')})" style="width: 20px; height: 20px; accent-color: #ff69b4;">
-          <span>${isSaved ? '⭐ Saved' : '💾 Save Item'}</span>
-        </label>
-      </div>
-    </div>
-  `;
-  document.getElementById('itemDetailModal').style.display = 'block';
-}
-
-function closeItemDetail() {
-  document.getElementById('itemDetailModal').style.display = 'none';
 }
 
 function filter() {
@@ -160,7 +128,67 @@ function filter() {
   filteredItems = tempFiltered; currentPage = 1; displayPage(filteredItems);
 }
 
-// [Rest of functions - populate filters, table/card views, etc. same as before]
+// 🔥 FIXED: Card Detail - ONLY SHOW EXISTING STATS + X BUTTON
+function showItemDetail(item) {
+  const content = document.getElementById('itemDetailContent');
+  const isSaved = savedItems.has(item.id);
+  
+  // ✅ ONLY SHOW STATS THAT EXIST
+  const stats = [];
+  const statFields = ['gorgeous', 'simple', 'elegant', 'lively', 'mature', 'cute', 'sexy', 'pure', 'warm', 'cool'];
+  statFields.forEach(stat => {
+    if (item[stat] && item[stat] !== '-' && item[stat] !== '0') {
+      stats.push(`${stat.charAt(0).toUpperCase() + stat.slice(1)}: ${item[stat]}`);
+    }
+  });
+  
+  const tags = [];
+  if (item.tag1) tags.push(item.tag1);
+  if (item.tag2) tags.push(item.tag2);
+  
+  content.innerHTML = `
+    <div style="text-align: center; padding: 30px 20px 20px;">
+      <img src="${item.img}" style="width: 220px; height: 220px; object-fit: cover; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); margin-bottom: 25px;">
+      
+      <h2 style="color: #d63384; margin: 0 0 20px 0; font-size: 1.8em;">
+        ${item.name} 
+        <span style="font-size: 1.3em; color: #ff69b4;">${item.rarity || 0}❤</span>
+      </h2>
+      
+      <div style="background: linear-gradient(135deg, #fff5f8, #ffe4e6); padding: 25px; border-radius: 20px; margin: 20px 0; border: 2px solid #ffd6e7;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; font-size: 15px; margin-bottom: 20px;">
+          ${item.type ? `<div><strong>Type:</strong> ${item.type}${item.subtype ? ' / ' + item.subtype : ''}</div>` : ''}
+          ${item.nation ? `<div><strong>Nation:</strong> ${item.nation}</div>` : ''}
+          ${item.maincolor ? `<div><strong>Main Color:</strong> ${item.maincolor}</div>` : ''}
+          ${item.othercolor ? `<div><strong>Other Color:</strong> ${item.othercolor}</div>` : ''}
+          ${item.suit ? `<div><strong>Suit:</strong> ${item.suit}</div>` : ''}
+          ${tags.length ? `<div><strong>Tags:</strong> ${tags.join(', ')}</div>` : ''}
+        </div>
+        
+        ${stats.length ? `
+          <div style="background: rgba(255,255,255,0.7); padding: 20px; border-radius: 15px; border-left: 5px solid #ff69b4;">
+            <strong style="color: #d63384; font-size: 16px;">Stats:</strong><br>
+            ${stats.join(' | ')}
+          </div>
+        ` : ''}
+      </div>
+      
+      <div style="padding: 20px 0;">
+        <label style="display: inline-flex; align-items: center; gap: 12px; cursor: pointer; font-size: 18px; background: white; padding: 15px 25px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 2px solid #ffd6e7;">
+          <input type="checkbox" ${isSaved ? 'checked' : ''} onchange="toggleFavorite('${item.id}'); showItemDetail(${JSON.stringify(item).replace(/"/g, '&quot;')})" style="width: 22px; height: 22px; accent-color: #ff69b4;">
+          <span style="color: #333; font-weight: 600;">${isSaved ? '⭐ Saved' : '💾 Save Item'}</span>
+        </label>
+      </div>
+    </div>
+  `;
+  document.getElementById('itemDetailModal').style.display = 'block';
+}
+
+function closeItemDetail() {
+  document.getElementById('itemDetailModal').style.display = 'none';
+}
+
+// [Rest of functions unchanged...]
 function populateTypeFilter() {
   const select = document.getElementById('typeFilter');
   select.innerHTML = '<option value="">All Types</option>';
@@ -210,7 +238,7 @@ function createCardView(items) {
     html += `<div class="card" onclick="showItemDetail(${JSON.stringify(item).replace(/"/g, '&quot;')})">
       <input type="checkbox" ${savedItems.has(item.id)?'checked':''} onchange="toggleFavorite('${item.id}')" class="card-checkbox">
       <img src="${item.img}" onerror="this.src='https://via.placeholder.com/80'">
-      <div>${item.name}</div><div>${item.type} | ${item.rarity}❤</div>
+      <div>${item.name}</div><div>${item.type} | ${item.rarity || 0}❤</div>
     </div>`;
   });
   return html + '</div>';
@@ -239,3 +267,4 @@ function toggleInfo() {
   document.getElementById('infoModal').style.display = 
     document.getElementById('infoModal').style.display === 'block' ? 'none' : 'block';
 }
+
