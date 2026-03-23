@@ -18,6 +18,19 @@ h1 { color: #d63384; margin: 0 0 10px 0; font-size: 2.5em; }
 }
 .info-btn:hover { background: #e55a9b; transform: translateY(-50%) scale(1.1); }
 
+/* ✅ SAVE COUNTER */
+.save-counter {
+  background: white; padding: 15px 25px; border-radius: 15px; 
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-bottom: 20px;
+  display: flex; justify-content: space-between; align-items: center;
+  border: 2px solid #ffd6e7;
+}
+.save-btn {
+  background: #4caf50 !important; border-color: #4caf50 !important;
+  font-weight: bold; font-size: 14px;
+}
+.save-btn:hover { background: #45a049 !important; border-color: #45a049 !important; }
+
 .controls {
   background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
   margin-bottom: 20px; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: center;
@@ -30,19 +43,28 @@ button { background: #ff69b4; color: white; cursor: pointer; border: 2px solid #
 button:hover { background: #e55a9b; border-color: #e55a9b; }
 button.active { background: #c2185b; }
 
+.save-checkbox, .card-checkbox {
+  width: 20px; height: 20px; cursor: pointer; accent-color: #ff69b4;
+}
+
 #loading { text-align: center; padding: 40px; font-size: 18px; color: #666; }
 
 table { width: 100%; border-collapse: collapse; background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.1); margin-bottom: 20px; }
 th { background: linear-gradient(135deg, #ffd6e7, #ff99cc); padding: 12px 6px; color: #880e4f; font-weight: 600; font-size: 13px; white-space: nowrap; }
 td { padding: 10px 6px; border-bottom: 1px solid #f8e1ed; font-size: 13px; }
 
-.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; padding: 20px; }
+.card-checkbox {
+  position: absolute; top: 10px; right: 10px; z-index: 10; background: white; 
+  border-radius: 50%; padding: 2px; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
 .card { 
-  background: white; border-radius: 15px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-  transition: all 0.2s; cursor: pointer;
+  position: relative; background: white; border-radius: 15px; padding: 15px; 
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: all 0.2s; cursor: pointer;
 }
 .card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
 .card img { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; padding: 20px; }
 
 .pagination { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
 .pagination button { padding: 10px 15px; border-radius: 20px; }
@@ -76,127 +98,8 @@ td { padding: 10px 6px; border-bottom: 1px solid #f8e1ed; font-size: 13px; }
 .made-by:hover { background: #fff; box-shadow: 0 6px 25px rgba(214, 51, 132, 0.3); }
 
 @media (max-width: 768px) {
-  .controls { flex-direction: column; align-items: stretch; }
+  .controls, .save-counter { flex-direction: column; align-items: stretch; gap: 10px; }
   table { font-size: 12px; }
   th, td { padding: 8px 4px; }
   .cards { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-}
-
-td {
-  padding: 12px 8px;
-  border-bottom: 1px solid #f8e1ed;
-  font-size: 14px;
-}
-
-tr:hover { background: #fff5f8; }
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
-
-.card {
-  background: white;
-  border-radius: 15px;
-  padding: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
-  cursor: pointer;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-}
-
-.card img { 
-  width: 100%; 
-  height: 120px; 
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.pagination button {
-  padding: 10px 15px;
-  border-radius: 20px;
-}
-
-.pagination button.active {
-  background: #d63384;
-  box-shadow: 0 4px 15px rgba(214, 51, 132, 0.4);
-}
-
-/* MODAL */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 2000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5);
-}
-
-.modal-content {
-  background: white;
-  margin: 10% auto;
-  padding: 30px;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 500px;
-  max-height: 80vh;
-  overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-  position: relative;
-}
-
-.close {
-  position: absolute;
-  right: 20px;
-  top: 15px;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-  color: #d63384;
-}
-
-.close:hover { color: #c2185b; }
-
-.made-by {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.95);
-  padding: 10px 25px;
-  border-radius: 25px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  font-size: 14px;
-  color: #d63384;
-  font-weight: 600;
-  z-index: 1000;
-  border: 2px solid #ffd6e7;
-}
-
-.made-by:hover {
-  background: #fff;
-  box-shadow: 0 6px 25px rgba(214, 51, 132, 0.3);
-}
-
-@media (max-width: 768px) {
-  .controls { flex-direction: column; align-items: stretch; }
-  table { font-size: 12px; }
-  .cards { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-  th, td { padding: 8px 4px; }
 }
