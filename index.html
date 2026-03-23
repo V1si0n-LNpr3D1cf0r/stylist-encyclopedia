@@ -11,6 +11,12 @@
     <button class="info-btn" onclick="toggleInfo()">ℹ️</button>
   </div>
   
+  <!-- SAVE COUNTER -->
+  <div class="save-counter">
+    <span>Saved: <strong id="saveCount">0</strong> items</span>
+    <button onclick="saveAllFavorites()" class="save-btn">💾 Save All</button>
+  </div>
+  
   <div id="infoModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="toggleInfo()">&times;</span>
@@ -21,7 +27,7 @@
         <li>Filled with stats, rarity, color, etc. (Data to be placed later)</li>
         <li>Search, filter by type/rarity (More filters soon)</li>
         <li>Still on works (WIP)</li>
-        <li> Made by Manami (@ramunesakura in Discord)</li>
+        <li>Made by Manami (@ramunesakura in Discord)</li>
       </ul>
     </div>
   </div>
@@ -54,7 +60,7 @@
   <div id="results"></div>
 
   <footer class="made-by">
-    Made by Manami
+    Made by RamuneSakura 💖
   </footer>
 
   <script src="script.js"></script>
