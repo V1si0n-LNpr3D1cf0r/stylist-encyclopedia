@@ -243,15 +243,7 @@ function populateExtraFilters() {
 
 function fillSelect(id, values) {
   const select = document.getElementById(id);
-
-  const labels = {
-    otherColorFilter: "All Other Colors",
-    tag1Filter: "All Tag 1",
-    tag2Filter: "All Tag 2"
-  };
-
-  select.innerHTML = `<option value="">${labels[id] || "All"}</option>`;
-
+  select.innerHTML = `<option value="">All</option>`;
   values.sort().forEach(v => {
     const opt = document.createElement('option');
     opt.value = v;
