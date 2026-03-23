@@ -11,7 +11,6 @@
     <button class="info-btn" onclick="toggleInfo()">ℹ️</button>
   </div>
   
-  <!-- FIXED SAVE COUNTER -->
   <div class="save-counter">
     <span id="saveCounterText">Saved: <strong id="saveCount">0</strong>/<strong id="totalCount">0</strong></span>
     <div class="save-buttons">
@@ -20,10 +19,44 @@
     </div>
   </div>
   
+  <div class="controls">
+    <div class="save-status-filters">
+      <button onclick="filterSavedItems()" id="savedFilterBtn" class="filter-btn saved-filter">⭐ Saved Items</button>
+      <button onclick="filterUnsavedItems()" id="unsavedFilterBtn" class="filter-btn unsaved-filter">➕ Unsaved Items</button>
+      <button onclick="filterAllItems()" id="allFilterBtn" class="filter-btn all-filter active">📋 All Items</button>
+    </div>
+    
+    <input type="text" id="search" placeholder="Search items...">
+    <select id="typeFilter"><option value="">All Types</option></select>
+    <select id="rarityFilter">
+      <option value="">All Rarity</option><option value="1">1❤</option><option value="2">2❤</option>
+      <option value="3">3❤</option><option value="4">4❤</option><option value="5">5❤</option><option value="6">6❤</option>
+    </select>
+    <select id="nationFilter"><option value="">All Nations</option></select>
+    <select id="mainColorFilter"><option value="">All Main Colors</option></select>
+    
+    <button onclick="toggleView()">Table/Card</button>
+    <button onclick="clearAllFilters()">Clear Filters</button>
+  </div>
+
+  <div id="itemDetailModal" class="modal">
+    <div class="modal-content item-detail-modal">
+      <span class="close" onclick="closeItemDetail()">&times;</span>
+      <div id="itemDetailContent"></div>
+    </div>
+  </div>
+
+  <div id="imageModal" class="modal">
+    <div class="modal-content image-modal">
+      <span class="close" onclick="closeImageModal()">&times;</span>
+      <img id="fullImage" src="" alt="Full Image">
+    </div>
+  </div>
+
   <div id="infoModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="toggleInfo()">&times;</span>
-      <h2>About This Website</h2>
+      <h2>Stylist Encyclopedia</h2>
       <p><strong>Stylist Encyclopedia</strong> is an info catalog of wardrobe items from the game.</p>
       <ul>
         <li>Inspired from the LN Wiki, Ultimate LN Stylist Search Sheet, and Nikki's Info.</li>
@@ -35,37 +68,9 @@
     </div>
   </div>
 
-  <div id="imageModal" class="modal">
-    <div class="modal-content image-modal">
-      <span class="close" onclick="closeImageModal()">&times;</span>
-      <img id="fullImage" src="" alt="Full Image">
-    </div>
-  </div>
-
-  <div class="controls">
-    <input type="text" id="search" placeholder="Search items...">
-    <select id="typeFilter">
-      <option value="">All Types</option>
-    </select>
-    <select id="rarityFilter">
-      <option value="">All Rarity</option>
-      <option value="1">1❤</option>
-      <option value="2">2❤</option>
-      <option value="3">3❤</option>
-      <option value="4">4❤</option>
-      <option value="5">5❤</option>
-      <option value="6">6❤</option>
-    </select>
-    <button onclick="toggleView()">Table/Card View</button>
-  </div>
-
   <div id="loading">Loading items...</div>
   <div id="results"></div>
-
-  <footer class="made-by">
-    Made by Manami
-  </footer>
-
+  <footer class="made-by">Made by Manami</footer>
   <script src="script.js"></script>
 </body>
 </html>
