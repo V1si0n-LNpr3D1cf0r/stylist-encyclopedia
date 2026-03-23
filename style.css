@@ -1,18 +1,15 @@
-.item-detail-modal {
-  max-width: 700px !important; width: 90%; max-height: 85vh;
+* { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, Georgia, sans-serif;
+  background: linear-gradient(135deg, #fff5f8 0%, #ffe4e6 100%);
+  margin: 0; padding: 20px;
+  min-height: 100vh;
+  overflow-x: auto;
 }
 
-.item-detail-modal .modal-content {
-  padding: 0 !important; display: block !important;
-}
-
-/* Rest of CSS unchanged from previous version */
-.save-status-filters { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
-.filter-btn { padding: 8px 16px; border: 2px solid #ffd6e7; border-radius: 20px; background: white; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s; }
-.filter-btn.active, .filter-btn:hover { background: #ff69b4; color: white; border-color: #ff69b4; box-shadow: 0 4px 12px rgba(255, 105, 180, 0.3); }
-.saved-filter { border-color: #4caf50; } .saved-filter.active, .saved-filter:hover { background: #4caf50; border-color: #4caf50; }
-.unsaved-filter { border-color: #ff9800; } .unsaved-filter.active, .unsaved-filter:hover { background: #ff9800; border-color: #ff9800; color: white; }
-.all-filter { border-color: #2196f3; } .all-filter.active, .all-filter:hover { background: #2196f3; border-color: #2196f3; color: white; }
-
-.controls { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; justify-items: center; }
-
+.header { position: relative; text-align: center; margin-bottom: 20px; }
+h1 { color: #d63384; margin: 0 0 10px 0; font-size: 2.5em; }
+.info-btn {
+  position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+  background: #ff69b4
