@@ -6,18 +6,16 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- HEADER WITH INFO BUTTON -->
   <div class="header">
     <h1>Stylist Encyclopedia</h1>
     <button class="info-btn" onclick="toggleInfo()">ℹ️</button>
   </div>
   
-  <!-- INFO MODAL -->
   <div id="infoModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="toggleInfo()">&times;</span>
       <h2>About This Website</h2>
-      <p><strong>Stylist Encyclopedia</strong> is a info catalog of wardrobe items from the game.</p>
+      <p><strong>Stylist Encyclopedia</strong> is an info catalog of wardrobe items from the game.</p>
       <ul>
         <li>Inspired from the LN Wiki, Ultimate LN Stylist Search Sheet, and Nikki's Info.</li>
         <li>Filled with stats, rarity, color, etc. (Data to be placed later)</li>
@@ -47,6 +45,14 @@
 
   <div id="loading">Loading items...</div>
   <div id="results"></div>
+
+  <!-- ITEM DETAIL POPUP -->
+  <div id="itemDetailModal" class="modal">
+    <div class="modal-content item-detail">
+      <span class="close" onclick="closeItemDetail()">&times;</span>
+      <div id="itemDetailContent"></div>
+    </div>
+  </div>
 
   <footer class="made-by">
     Made by RamuneSakura 💖
