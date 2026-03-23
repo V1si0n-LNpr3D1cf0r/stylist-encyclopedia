@@ -197,15 +197,15 @@ function createPagination(totalPages, totalItems) {
   
   html += '</div>';
   return html;
-}
-
-function toggleView() {
-  isCardView = !isCardView;
-  displayPage(filteredItems);
-}
+  }
 
 function toggleInfo() {
   const modal = document.getElementById('infoModal');
   modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
-}
+  }
+
+function toggleView() {
+  isCardView = !isCardView;
+  displayPage(filteredItems);
+  }
 
