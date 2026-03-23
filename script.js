@@ -168,8 +168,8 @@ function createTableView(items) {
         <th>Save</th><th>Name</th><th>Type</th><th>Sub Type</th><th>Rarity</th>
         <th>Gorgeous</th><th>Simple</th><th>Elegant</th><th>Lively</th><th>Mature</th>
         <th>Cute</th><th>Sexy</th><th>Pure</th><th>Warm</th><th>Cool</th>
-        <th>Main Color</th><th>Other Color</th><th>Nation</th><th>Suit</th>
-        <th>Tag 1</th><th>Tag 2</th><th>In Suit</th><th>Pose</th><th>Animated</th><th>Image</th>
+        <th>Tag 1</th><th>Tag 2</th><th>Main Color</th><th>Other Color</th>
+        <th>Nation</th><th>Suit</th><th>In Suit</th><th>Pose</th><th>Animated</th><th>Image</th>
       </tr></thead><tbody>
   `;
   items.forEach(item => {
@@ -179,8 +179,8 @@ function createTableView(items) {
         <td>${item.name||'-'}</td><td>${item.type||'-'}</td><td>${item.subtype||'-'}</td><td>${item.rarity||0}❤</td>
         <td>${item.gorgeous||'-'}</td><td>${item.simple||'-'}</td><td>${item.elegant||'-'}</td><td>${item.lively||'-'}</td><td>${item.mature||'-'}</td>
         <td>${item.cute||'-'}</td><td>${item.sexy||'-'}</td><td>${item.pure||'-'}</td><td>${item.warm||'-'}</td><td>${item.cool||'-'}</td>
-        <td>${item.maincolor||'-'}</td><td>${item.othercolor||'-'}</td><td>${item.nation||'-'}</td><td>${item.suit||'-'}</td>
-        <td>${item.tag1||'-'}</td><td>${item.tag2||'-'}</td><td>${item.insuit?'Yes':'No'}</td><td>${item.pose?'Yes':'No'}</td><td>${item.animated?'Yes':'No'}</td>
+        <td>${item.tag1||'-'}</td><td>${item.tag2||'-'}</td><td>${item.maincolor||'-'}</td><td>${item.othercolor||'-'}</td>
+        <td>${item.nation||'-'}</td><td>${item.suit||'-'}</td><td>${item.insuit?'Yes':'No'}</td><td>${item.pose?'Yes':'No'}</td><td>${item.animated?'Yes':'No'}</td>
         <td><img src="${item.img}" width="60" onerror="this.src='https://via.placeholder.com/60'"></td>
       </tr>`;
   });
