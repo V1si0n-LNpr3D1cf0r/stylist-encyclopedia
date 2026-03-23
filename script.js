@@ -10,17 +10,12 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('typeFilter').addEventListener('change', filter);
   document.getElementById('rarityFilter').addEventListener('change', filter);
   
-  // ✅ LOAD SAVED ITEMS FROM LOCALSTORAGE
   loadSavedItems();
-  updateSaveCounter();
-  
   loadAllData();
 });
 
 function loadSavedItems() {
-  const saved = localStorage.getItem('stylistFavorites');
-  if (saved) {
-    savedItems = new Set(JSON.parse(saved));
+  const saved
   }
 }
 
