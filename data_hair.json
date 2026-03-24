@@ -17,7 +17,7 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
-    "maincolor": "Pink",
+    "maincolor": "",
     "othercolor": "",
     "nation": "",
     "inasuit": false,
@@ -90529,8 +90529,7 @@
     "pose": false,
     "animated": true,
     "img": "images/H4090.png"
-  }
-    },
+  },
   {
     "id": "H4094",
     "name": "Woodland Voyage",
@@ -90551,39 +90550,11 @@
     "tag2": "",
     "maincolor": "Brown",
     "othercolor": "",
-    "nation": "Pigeon",
-    "inasuit": false,
-    "suit": "Sylvan Odyssey",
-    "pose": false,
-    "animated": false,
-    "img": "images/H4094.png
-  }
-    },
-  {
-    "id": "H4094,
-    "name": "Woodland Voyage",
-    "type": "hair",
-    "subtype": "hair",
-    "rarity": 5,
-    "gorgeous": "S",
-    "simple": "",
-    "elegant": "SS",
-    "lively": "",
-    "mature": "SS",
-    "cute": "A",
-    "sexy": "",
-    "pure": "A",
-    "warm": "",
-    "cool": "A",
-    "tag1": "",
-    "tag2": "",
-    "maincolor": "Brown",
-    "othercolor": "",
     "nation": "Pigeon Kingdom",
     "inasuit": true,
     "suit": "Sylvan Odyssey",
     "pose": false,
     "animated": false,
-    "img": "images/H4094.png
+    "img": "images/H4094.png"
   }
 ]
