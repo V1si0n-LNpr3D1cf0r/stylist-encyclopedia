@@ -71,10 +71,9 @@ function updateSaveFilterButtons() {
 }
 
 function clearAllFilters() {
-  // Reset search
+
   document.getElementById('search').value = '';
 
-  // 🔥 Explicit reset (NO BUGS VERSION)
   const filters = [
     'typeFilter',
     'rarityFilter',
@@ -88,11 +87,10 @@ function clearAllFilters() {
   filters.forEach(id => {
     const el = document.getElementById(id);
     if (el) {
-      el.selectedIndex = 0; // force reset
+      el.selectedIndex = 0;
     }
   });
 
-  // Reset saved filter buttons
   currentSaveFilter = 'all';
   updateSaveFilterButtons();
 
@@ -135,19 +133,25 @@ function filter() {
     const type = document.getElementById('typeFilter').value;
     const rarity = document.getElementById('rarityFilter').value;
     const nation = document.getElementById('nationFilter').value;
+
+    const mainColor = document.getElementById('mainColorFilter').value;
+    const otherColor = document.getElementById('otherColorFilter').value;
+    const tag1 = document.getElementById('tag1Filter').value;
+    const tag2 = document.getElementById('tag2Filter').value;
+
     const matchTag1 = !tag1 || item.tag1 === tag1 || item.tag2 === tag1;
     const matchTag2 = !tag2 || item.tag1 === tag2 || item.tag2 === tag2;
     const matchMainColor = !mainColor || item.maincolor === mainColor || item.othercolor === mainColor;
     const matchOtherColor = !otherColor || item.maincolor === otherColor || item.othercolor === otherColor;
 
-return (item.name || "").toLowerCase().includes(search) &&
-       (!type || item.type === type || item.subtype === type) &&
-       (!rarity || item.rare == rarity) &&
-       (!nation || item.nation === nation) &&
-       matchMainColor &&
-       matchOtherColor &&
-       matchTag1 &&
-       matchTag2;
+    return (item.name || "").toLowerCase().includes(search) &&
+           (!type || item.type === type || item.subtype === type) &&
+           (!rarity || item.rare == rarity) &&
+           (!nation || item.nation === nation) &&
+           matchMainColor &&
+           matchOtherColor &&
+           matchTag1 &&
+           matchTag2;
   });
 
   switch(currentSaveFilter) {
@@ -155,7 +159,9 @@ return (item.name || "").toLowerCase().includes(search) &&
     case 'unsaved': tempFiltered = tempFiltered.filter(item => !savedItems.has(item.id)); break;
   }
   
-  filteredItems = tempFiltered; currentPage = 1; displayPage(filteredItems);
+  filteredItems = tempFiltered;
+  currentPage = 1;
+  displayPage(filteredItems);
 }
 
 function showItemDetail(item) {
@@ -321,7 +327,6 @@ function createPagination(totalPages, totalItems) {
   let html = `<p>Showing ${Math.min(currentPage * ITEMS_PER_PAGE, totalItems)} of ${totalItems} items</p>`;
   html += `<div class="pagination">`;
 
-  // PREV
   if (currentPage > 1) {
     html += `<button onclick="currentPage--;displayPage(filteredItems)">←</button>`;
   }
@@ -329,7 +334,6 @@ function createPagination(totalPages, totalItems) {
   let start = Math.max(1, currentPage - 2);
   let end = Math.min(totalPages, currentPage + 2);
 
-  // Adjust range if near edges
   if (currentPage <= 3) {
     start = 1;
     end = Math.min(5, totalPages);
@@ -343,7 +347,6 @@ function createPagination(totalPages, totalItems) {
     html += `<button onclick="currentPage=${i};displayPage(filteredItems)" ${i === currentPage ? 'class="active"' : ''}>${i}</button>`;
   }
 
-  // NEXT
   if (currentPage < totalPages) {
     html += `<button onclick="currentPage++;displayPage(filteredItems)">→</button>`;
   }
