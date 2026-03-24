@@ -141,9 +141,9 @@ function filter() {
     const tag1 = document.getElementById('tag1Filter').value;
     const tag2 = document.getElementById('tag2Filter').value;
     
-return item.name.toLowerCase().includes(search) &&
+return (item.name || "").toLowerCase().includes(search) &&
        (!type || item.type === type || item.subtype === type) &&
-       (!rarity || item.rarity == rarity) &&
+       (!rarity || item.rare == rarity) &&
        (!nation || item.nation === nation) &&
        (!mainColor || item.maincolor === mainColor) &&
        (!otherColor || item.othercolor === otherColor) &&
