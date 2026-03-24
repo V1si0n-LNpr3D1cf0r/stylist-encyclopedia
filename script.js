@@ -72,9 +72,13 @@ function updateSaveFilterButtons() {
 
 function clearAllFilters() {
   document.getElementById('search').value = '';
-  ['typeFilter','rarityFilter','nationFilter','mainColorFilter', 'otherColorFilter', 'tag1Filter', 'tag2Filter'].forEach(id => 
-    document.getElementById(id).value = '');
-  filterAllItems(); filter();
+
+  document.querySelectorAll('.filters-grid select').forEach(select => {
+    select.value = '';
+  });
+
+  filterAllItems();
+  filter();
 }
 
 function startLoadingWithTimeout() {
