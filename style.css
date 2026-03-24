@@ -85,10 +85,10 @@ h1 {
   border-radius: 15px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
   margin-bottom: 20px;
+
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 10px;
-  justify-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
 }
 
 
@@ -540,7 +540,6 @@ td {
   padding: 3px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   cursor: pointer;
-  /* HIDE LABEL TEXT - ONLY SHOW CHECKBOX */
   font-size: 0;
   color: transparent;
 }
@@ -554,7 +553,6 @@ td {
 }
 
 
-/* NEW: Card text styling */
 .card-name {
   font-weight: 600;
   margin-top: 8px;
@@ -569,5 +567,10 @@ td {
   margin-top: 2px;
 }
 
+select {
+  width: 100%;
+}
+
+}
 
 }
