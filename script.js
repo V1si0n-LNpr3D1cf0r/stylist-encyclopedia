@@ -71,15 +71,32 @@ function updateSaveFilterButtons() {
 }
 
 function clearAllFilters() {
+  // Reset search
   document.getElementById('search').value = '';
 
-  document.querySelectorAll('.filters-grid select').forEach(select => {
-    select.selectedIndex = 0; // 🔥 FORCE FIRST OPTION
+  // 🔥 Explicit reset (NO BUGS VERSION)
+  const filters = [
+    'typeFilter',
+    'rarityFilter',
+    'nationFilter',
+    'mainColorFilter',
+    'otherColorFilter',
+    'tag1Filter',
+    'tag2Filter'
+  ];
+
+  filters.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.selectedIndex = 0; // force reset
+    }
   });
 
+  // Reset saved filter buttons
   currentSaveFilter = 'all';
   updateSaveFilterButtons();
 
+  // Re-run filter
   filter();
 }
 
