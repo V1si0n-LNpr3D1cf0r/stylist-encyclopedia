@@ -3,7 +3,7 @@ let filteredItems = [];
 let savedItems = new Set();
 let currentPage = 1;
 let currentSaveFilter = 'all';
-const ITEMS_PER_PAGE = 100;
+const ITEMS_PER_PAGE = 50;
 let isCardView = false;
 let loadingTimeout = null;
 
@@ -74,10 +74,12 @@ function clearAllFilters() {
   document.getElementById('search').value = '';
 
   document.querySelectorAll('.filters-grid select').forEach(select => {
-    select.value = '';
+    select.selectedIndex = 0; // 🔥 FORCE FIRST OPTION
   });
 
-  filterAllItems();
+  currentSaveFilter = 'all';
+  updateSaveFilterButtons();
+
   filter();
 }
 
@@ -302,11 +304,38 @@ function createTableView(items) {
 }
 
 function createPagination(totalPages, totalItems) {
-  let html = `<p>Showing ${Math.min(currentPage*ITEMS_PER_PAGE,totalItems)} of ${totalItems} items</p><div class="pagination">`;
-  if (currentPage > 1) html += `<button onclick="currentPage--;displayPage(filteredItems)">← Prev</button>`;
-  for (let i = 1; i <= Math.min(5, totalPages); i++) html += `<button onclick="currentPage=${i};displayPage(filteredItems)" ${i===currentPage?'class="active"':''}>${i}</button>`;
-  if (currentPage < totalPages) html += `<button onclick="currentPage++;displayPage(filteredItems)">Next →</button>`;
-  return html + '</div>';
+  let html = `<p>Showing ${Math.min(currentPage * ITEMS_PER_PAGE, totalItems)} of ${totalItems} items</p>`;
+  html += `<div class="pagination">`;
+
+  // PREV
+  if (currentPage > 1) {
+    html += `<button onclick="currentPage--;displayPage(filteredItems)">←</button>`;
+  }
+
+  let start = Math.max(1, currentPage - 2);
+  let end = Math.min(totalPages, currentPage + 2);
+
+  // Adjust range if near edges
+  if (currentPage <= 3) {
+    start = 1;
+    end = Math.min(5, totalPages);
+  }
+  if (currentPage >= totalPages - 2) {
+    start = Math.max(1, totalPages - 4);
+    end = totalPages;
+  }
+
+  for (let i = start; i <= end; i++) {
+    html += `<button onclick="currentPage=${i};displayPage(filteredItems)" ${i === currentPage ? 'class="active"' : ''}>${i}</button>`;
+  }
+
+  // NEXT
+  if (currentPage < totalPages) {
+    html += `<button onclick="currentPage++;displayPage(filteredItems)">→</button>`;
+  }
+
+  html += `</div>`;
+  return html;
 }
 
 function toggleView() { isCardView = !isCardView; displayPage(filteredItems); }
