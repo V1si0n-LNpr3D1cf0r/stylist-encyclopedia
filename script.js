@@ -72,7 +72,7 @@ function updateSaveFilterButtons() {
 
 function clearAllFilters() {
   document.getElementById('search').value = '';
-  ['typeFilter','rarityFilter','nationFilter','mainColorFilter'].forEach(id => 
+  ['typeFilter','rarityFilter','nationFilter','mainColorFilter', 'otherColorFilter', 'tag1Filter', 'tag2Filter'].forEach(id => 
     document.getElementById(id).value = '');
   filterAllItems(); filter();
 }
