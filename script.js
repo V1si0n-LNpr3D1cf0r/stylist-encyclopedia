@@ -96,7 +96,6 @@ function clearAllFilters() {
   currentSaveFilter = 'all';
   updateSaveFilterButtons();
 
-  // Re-run filter
   filter();
 }
 
@@ -136,19 +135,19 @@ function filter() {
     const type = document.getElementById('typeFilter').value;
     const rarity = document.getElementById('rarityFilter').value;
     const nation = document.getElementById('nationFilter').value;
-    const mainColor = document.getElementById('mainColorFilter').value;
-    const otherColor = document.getElementById('otherColorFilter').value;
-    const tag1 = document.getElementById('tag1Filter').value;
-    const tag2 = document.getElementById('tag2Filter').value;
-    
+    const matchTag1 = !tag1 || item.tag1 === tag1 || item.tag2 === tag1;
+    const matchTag2 = !tag2 || item.tag1 === tag2 || item.tag2 === tag2;
+    const matchMainColor = !mainColor || item.maincolor === mainColor || item.othercolor === mainColor;
+    const matchOtherColor = !otherColor || item.maincolor === otherColor || item.othercolor === otherColor;
+
 return (item.name || "").toLowerCase().includes(search) &&
        (!type || item.type === type || item.subtype === type) &&
        (!rarity || item.rare == rarity) &&
        (!nation || item.nation === nation) &&
-       (!mainColor || item.maincolor === mainColor) &&
-       (!otherColor || item.othercolor === otherColor) &&
-       (!tag1 || item.tag1 === tag1) &&
-       (!tag2 || item.tag2 === tag2);
+       matchMainColor &&
+       matchOtherColor &&
+       matchTag1 &&
+       matchTag2;
   });
 
   switch(currentSaveFilter) {
@@ -159,12 +158,10 @@ return (item.name || "").toLowerCase().includes(search) &&
   filteredItems = tempFiltered; currentPage = 1; displayPage(filteredItems);
 }
 
-// 🔥 FIXED: Card Detail - ONLY SHOW EXISTING STATS + X BUTTON
 function showItemDetail(item) {
   const content = document.getElementById('itemDetailContent');
   const isSaved = savedItems.has(item.id);
   
-  // ✅ ONLY SHOW STATS THAT EXIST
   const stats = [];
   const statFields = ['gorgeous', 'simple', 'elegant', 'lively', 'mature', 'cute', 'sexy', 'pure', 'warm', 'cool'];
   statFields.forEach(stat => {
@@ -192,7 +189,7 @@ function showItemDetail(item) {
           ${item.nation ? `<div><strong>Nation:</strong> ${item.nation}</div>` : ''}
           ${item.maincolor ? `<div><strong>Main Color:</strong> ${item.maincolor}</div>` : ''}
           ${item.othercolor ? `<div><strong>Other Color:</strong> ${item.othercolor}</div>` : ''}
-          ${item.suit ? `<div><strong>Suit:</strong> ${item.suit}</div>` : ''}
+          ${item.inasuit ? `<div><strong>Suit:</strong> ${item.inasuit}</div>` : ''}
           ${tags.length ? `<div><strong>Tags:</strong> ${tags.join(', ')}</div>` : ''}
         </div>
         
@@ -315,7 +312,7 @@ function createCardView(items) {
 function createTableView(items) {
   let html = `<table><thead><tr><th>Save</th><th>Name</th><th>Type</th><th>Sub Type</th><th>Rarity</th><th>Gorgeous</th><th>Simple</th><th>Elegant</th><th>Lively</th><th>Mature</th><th>Cute</th><th>Sexy</th><th>Pure</th><th>Warm</th><th>Cool</th><th>Main Color</th><th>Other Color</th><th>Nation</th><th>Suit</th><th>Tag 1</th><th>Tag 2</th><th>In Suit</th><th>Pose</th><th>Animated</th><th>Image</th></tr></thead><tbody>`;
   items.forEach(item => {
-    html += `<tr><td><input type="checkbox" ${savedItems.has(item.id)?'checked':''} onchange="toggleFavorite('${item.id}')" class="save-checkbox"></td><td>${item.name||'-'}</td><td>${item.type||'-'}</td><td>${item.subtype||'-'}</td><td>${item.rarity||0}❤</td><td>${item.gorgeous||'-'}</td><td>${item.simple||'-'}</td><td>${item.elegant||'-'}</td><td>${item.lively||'-'}</td><td>${item.mature||'-'}</td><td>${item.cute||'-'}</td><td>${item.sexy||'-'}</td><td>${item.pure||'-'}</td><td>${item.warm||'-'}</td><td>${item.cool||'-'}</td><td>${item.maincolor||'-'}</td><td>${item.othercolor||'-'}</td><td>${item.nation||'-'}</td><td>${item.suit||'-'}</td><td>${item.tag1||'-'}</td><td>${item.tag2||'-'}</td><td>${item.insuit?'Yes':'No'}</td><td>${item.pose?'Yes':'No'}</td><td>${item.animated?'Yes':'No'}</td><td><img src="${item.img}" width="60" onerror="this.src='https://via.placeholder.com/60'"></td></tr>`;
+    html += `<tr><td><input type="checkbox" ${savedItems.has(item.id)?'checked':''} onchange="toggleFavorite('${item.id}')" class="save-checkbox"></td><td>${item.name||'-'}</td><td>${item.type||'-'}</td><td>${item.subtype||'-'}</td><td>${item.rarity||0}❤</td><td>${item.gorgeous||'-'}</td><td>${item.simple||'-'}</td><td>${item.elegant||'-'}</td><td>${item.lively||'-'}</td><td>${item.mature||'-'}</td><td>${item.cute||'-'}</td><td>${item.sexy||'-'}</td><td>${item.pure||'-'}</td><td>${item.warm||'-'}</td><td>${item.cool||'-'}</td><td>${item.maincolor||'-'}</td><td>${item.othercolor||'-'}</td><td>${item.nation||'-'}</td><td>${item.inasuit||'-'}</td><td>${item.tag1||'-'}</td><td>${item.tag2||'-'}</td><td>${item.inasuit?'Yes':'No'}</td><td>${item.pose?'Yes':'No'}</td><td>${item.animated?'Yes':'No'}</td><td><img src="${item.img}" width="60" onerror="this.src='https://via.placeholder.com/60'"></td></tr>`;
   });
   return html + '</tbody></table>';
 }
