@@ -56,18 +56,11 @@
       <div id="itemDetailContent"></div>
     </div>
   </div>
-  
-<div id="itemDetailModal" class="modal item-detail-modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeItemDetail()">&times;</span>
-    <div id="itemDetailContent"></div>
-  </div>
-</div>
 
   <div id="imageModal" class="modal">
     <div class="modal-content image-modal">
       <span class="close" onclick="closeImageModal()">&times;</span>
-      <img id="fullImage" src="" alt="Full Image">
+      <img src="${item.img}" loading="lazy">
     </div>
   </div>
 
@@ -79,7 +72,7 @@
       <ul>
         <li>Inspired from the LN Wiki, Ultimate LN Stylist Search Sheet, and Nikki's Info.</li>
         <li>Filled with stats, rarity, color, etc. (Data to be placed later)</li>
-        <li>Search, filter by type/rarity (More filters soon)</li>
+        <li>Search and filter by type, rarity, category, main/other colors, and tags! (Mix and match anyone?)</li>
         <li>Still on works (WIP)</li>
         <li>Made by Manami (@ramunesakura in Discord)</li>
       </ul>

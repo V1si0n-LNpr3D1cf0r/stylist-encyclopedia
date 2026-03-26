@@ -3,27 +3,24 @@ import json
 with open('data.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 
-types = {}
-for item in data:
-    t = item['type']
-    if t not in types:
-        types[t] = []
-    types[t].append(item)
-
-for type_name, items in types.items():
-    filename = f"data_{type_name}.json"
-    with open(filename, 'w', encoding='utf-8') as f:
-        json.dump(items, f, ensure_ascii=False, indent=2)
-    print(f"Created {filename} with {len(items)} items")
-
-print(f"Split into {len(types)} files total!")
-
 formatted_data = []
-for item in data:
+seen_ids = set()
+
+for index, item in enumerate(data):
+    item_id = item.get("id") or f"item_{index}"
+
+    # 🔥 FIX DUPLICATE IDS
+    if item_id in seen_ids:
+        item_id = f"{item_id}_{index}"
+    seen_ids.add(item_id)
+
+    # 🔥 CLEAN TYPE → folder name
+    raw_type = item.get("type", "unknown").lower().replace(" ", "")
+
     new_item = {
-        "id": item.get("id", ""),
+        "id": item_id,
         "name": item.get("name", ""),
-        "type": item.get("type", ""),
+        "type": raw_type,
         "subtype": item.get("subtype", ""),
         "rarity": item.get("rarity", 0),
         "gorgeous": item.get("gorgeous", ""),
@@ -38,20 +35,39 @@ for item in data:
         "cool": item.get("cool", ""),
         "tag1": item.get("tag1", ""),
         "tag2": item.get("tag2", ""),
-        "maincolor": "",
-        "othercolor": "",
-        "category": "",
+        
+        # ✅ CATEGORY FIX (nation fallback)
+        "category": item.get("category") or item.get("nation") or "",
+        
+        "maincolor": item.get("maincolor", ""),
+        "othercolor": item.get("othercolor", ""),
         "inasuit": item.get("inasuit", False),
-        "suit": "",
+        "suit": item.get("suit", ""),
         "pose": item.get("pose", False),
         "animated": item.get("animated", False),
-        "img": f"images/{item.get('id', '')}.png"
+
+        # 🔥 IMAGE PATH FIX
+        "img": f"img/{raw_type}/{item_id}.png"
     }
+
     formatted_data.append(new_item)
 
-with open('data.json', 'w', encoding='utf-8') as f:
+# SAVE CLEAN DATA
+with open('data_clean.json', 'w', encoding='utf-8') as f:
     json.dump(formatted_data, f, ensure_ascii=False, indent=2)
 
-print(f"✅ Formatted {len(formatted_data)} items with new format!")
-print(f"📁 Saved to output/data_v2.json")
-print(f"🖼️ All images now use format: images/[ID].png")
+print(f"✅ Cleaned {len(formatted_data)} items")
+
+# 🔥 SPLIT BY TYPE
+types = {}
+for item in formatted_data:
+    t = item.get('type', 'unknown')
+    types.setdefault(t, []).append(item)
+
+for t, items in types.items():
+    filename = f"data_{t}.json"
+    with open(filename, 'w', encoding='utf-8') as f:
+        json.dump(items, f, ensure_ascii=False, indent=2)
+    print(f"📁 {filename} → {len(items)} items")
+
+print("🎉 DONE")

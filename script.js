@@ -48,15 +48,28 @@ function toggleFavorite(id) {
 }
 
 function saveAllFavorites() {
-  filteredItems.forEach(item => savedItems.add(item.id));
+  filteredItems.forEach(item => {
+    if (item && item.id) {
+      savedItems.add(item.id);
+    }
+  });
+
   saveFavorites();
-  displayPage(filteredItems);
+  filter();
 }
 
-function removeAllFavorites() {
-  filteredItems.forEach(item => savedItems.delete(item.id));
   saveFavorites();
   displayPage(filteredItems);
+
+function removeAllFavorites() {
+  filteredItems.forEach(item => {
+    if (item && item.id) {
+      savedItems.delete(item.id);
+    }
+  });
+
+  saveFavorites();
+  filter();
 }
 
 function filterSavedItems() {
@@ -110,7 +123,14 @@ function startLoadingWithTimeout() {
 
 function completeLoading() {
   clearTimeout(loadingTimeout);
-  allItems.forEach((item, i) => { if (!item.id) item.id = `item_${i}`; });
+const seen = new Set();
+
+allItems.forEach((item, i) => {
+  if (!item.id || seen.has(item.id)) {
+    item.id = `item_${i}`;
+  }
+  seen.add(item.id);
+});
   
   const exactOrder = ['hair', 'dress', 'coat', 'top', 'bottom', 'hosiery', 'shoes', 'makeup', 'accessory', 'soul'];
   allItems.sort((a, b) => {
@@ -120,6 +140,8 @@ function completeLoading() {
   });
   
   console.log(`🎉 TOTAL: ${allItems.length} items - HAIR FIRST`);
+  console.log("ALL:", allItems.length);
+  console.log("FILTERED:", filteredItems.length);
   updateSaveCounter(); populateAllFilters(); filter(); document.getElementById('loading').style.display = 'none';
 }
 
@@ -141,24 +163,33 @@ function filter() {
 
     const matchTag1 = !tag1 || item.tag1 === tag1 || item.tag2 === tag1;
     const matchTag2 = !tag2 || item.tag1 === tag2 || item.tag2 === tag2;
+
     const matchMainColor = !mainColor || item.maincolor === mainColor || item.othercolor === mainColor;
     const matchOtherColor = !otherColor || item.maincolor === otherColor || item.othercolor === otherColor;
 
-    return (item.name || "").toLowerCase().includes(search) &&
-           (!type || item.type === type || item.subtype === type) &&
-           (!rarity || item.rarity == rarity) &&
-           (!category || item.category === category || item.nation === category) &&
-           matchMainColor &&
-           matchOtherColor &&
-           matchTag1 &&
-           matchTag2;
+    return (
+      (item.name || "").toLowerCase().includes(search) &&
+      (!type || item.type === type || item.subtype === type) &&
+      (!rarity || Number(item.rarity) === Number(rarity)) &&
+
+      (!category || (item.category || "") === category) &&
+
+      matchMainColor &&
+      matchOtherColor &&
+      matchTag1 &&
+      matchTag2
+    );
   });
 
   switch(currentSaveFilter) {
-    case 'saved': tempFiltered = tempFiltered.filter(item => savedItems.has(item.id)); break;
-    case 'unsaved': tempFiltered = tempFiltered.filter(item => !savedItems.has(item.id)); break;
+    case 'saved':
+      tempFiltered = tempFiltered.filter(item => savedItems.has(item.id));
+      break;
+    case 'unsaved':
+      tempFiltered = tempFiltered.filter(item => !savedItems.has(item.id));
+      break;
   }
-  
+
   filteredItems = tempFiltered;
   currentPage = 1;
   displayPage(filteredItems);
@@ -234,7 +265,7 @@ function populateTypeFilter() {
 }
 
 function populateCategoryFilter() {
-  const category = ['Apple Federal', 'Lilith Kingdom', 'Cloud Empire', 'Pigeon Kingdom', 'North Kingdom', 'Republic of Wasteland', 'Ruin Island', 'Festivals' , '4 Seasons', 'Troupe'];
+  const category = ['Apple Federal', 'Lilith Kingdom', 'Cloud Empire', 'Pigeon Kingdom', 'North Kingdom', 'Republic of Wasteland', 'Ruin Island', 'Story Suit', 'Classic', 'Luxury', 'Festivals', 'Troupe', '4 Seasons', 'Stars', 'Happiness', 'Wonder Museum', 'Fairytale', 'Gallery'];
   const select = document.getElementById('categoryFilter');
   select.innerHTML = '<option value="">All Category</option>';
   category.forEach(category => {
@@ -318,7 +349,7 @@ function createCardView(items) {
 function createTableView(items) {
   let html = `<table><thead><tr><th>Save</th><th>Name</th><th>Type</th><th>Sub Type</th><th>Rarity</th><th>Gorgeous</th><th>Simple</th><th>Elegant</th><th>Lively</th><th>Mature</th><th>Cute</th><th>Sexy</th><th>Pure</th><th>Warm</th><th>Cool</th><th>Main Color</th><th>Other Color</th><th>Category</th><th>Suit</th><th>Tag 1</th><th>Tag 2</th><th>In Suit</th><th>Pose</th><th>Animated</th><th>Image</th></tr></thead><tbody>`;
   items.forEach(item => {
-    html += `<tr><td><input type="checkbox" ${savedItems.has(item.id)?'checked':''} onchange="toggleFavorite('${item.id}')" class="save-checkbox"></td><td>${item.name||'-'}</td><td>${item.type||'-'}</td><td>${item.subtype||'-'}</td><td>${item.rarity||0}♥</td><td>${item.gorgeous||'-'}</td><td>${item.simple||'-'}</td><td>${item.elegant||'-'}</td><td>${item.lively||'-'}</td><td>${item.mature||'-'}</td><td>${item.cute||'-'}</td><td>${item.sexy||'-'}</td><td>${item.pure||'-'}</td><td>${item.warm||'-'}</td><td>${item.cool||'-'}</td><td>${item.maincolor||'-'}</td><td>${item.othercolor||'-'}</td><td>${item.category||'-'}</td><td>${item.inasuit||'-'}</td><td>${item.tag1||'-'}</td><td>${item.tag2||'-'}</td><td>${item.inasuit?'Yes':'No'}</td><td>${item.pose?'Yes':'No'}</td><td>${item.animated?'Yes':'No'}</td><td><img src="${item.img}" width="60" onerror="this.src='https://via.placeholder.com/60'"></td></tr>`;
+    html += `<tr><td><input type="checkbox" ${savedItems.has(item.id)?'checked':''} onchange="toggleFavorite('${item.id}')" class="save-checkbox"></td><td>${item.name||'-'}</td><td>${item.type||'-'}</td><td>${item.subtype||'-'}</td><td>${item.rarity||0}♥</td><td>${item.gorgeous||'-'}</td><td>${item.simple||'-'}</td><td>${item.elegant||'-'}</td><td>${item.lively||'-'}</td><td>${item.mature||'-'}</td><td>${item.cute||'-'}</td><td>${item.sexy||'-'}</td><td>${item.pure||'-'}</td><td>${item.warm||'-'}</td><td>${item.cool||'-'}</td><td>${item.maincolor||'-'}</td><td>${item.othercolor||'-'}</td><td>${item.category||'-'}</td><td>${item.suit||'-'}</td><td>${item.tag1||'-'}</td><td>${item.tag2||'-'}</td><td>${item.inasuit?'Yes':'No'}</td><td>${item.pose?'Yes':'No'}</td><td>${item.animated?'Yes':'No'}</td><td><img src="${item.img}" width="60" onerror="this.src='https://via.placeholder.com/60'"></td></tr>`;
   });
   return html + '</tbody></table>';
 }

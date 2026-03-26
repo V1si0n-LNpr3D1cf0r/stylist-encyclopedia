@@ -17,14 +17,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X1.png"
+    "img": "img/soul/X1.png"
   },
   {
     "id": "X2",
@@ -44,14 +44,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X2.png"
+    "img": "img/soul/X2.png"
   },
   {
     "id": "X3",
@@ -71,14 +71,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X3.png"
+    "img": "img/soul/X3.png"
   },
   {
     "id": "X4",
@@ -98,14 +98,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X4.png"
+    "img": "img/soul/X4.png"
   },
   {
     "id": "X5",
@@ -125,14 +125,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X5.png"
+    "img": "img/soul/X5.png"
   },
   {
     "id": "X6",
@@ -152,14 +152,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X6.png"
+    "img": "img/soul/X6.png"
   },
   {
     "id": "X7",
@@ -179,14 +179,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X7.png"
+    "img": "img/soul/X7.png"
   },
   {
     "id": "X8",
@@ -206,14 +206,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X8.png"
+    "img": "img/soul/X8.png"
   },
   {
     "id": "X9",
@@ -233,14 +233,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X9.png"
+    "img": "img/soul/X9.png"
   },
   {
     "id": "X10",
@@ -260,14 +260,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X10.png"
+    "img": "img/soul/X10.png"
   },
   {
     "id": "X11",
@@ -287,14 +287,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X11.png"
+    "img": "img/soul/X11.png"
   },
   {
     "id": "X12",
@@ -314,14 +314,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X12.png"
+    "img": "img/soul/X12.png"
   },
   {
     "id": "X13",
@@ -341,14 +341,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X13.png"
+    "img": "img/soul/X13.png"
   },
   {
     "id": "X14",
@@ -368,14 +368,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X14.png"
+    "img": "img/soul/X14.png"
   },
   {
     "id": "X15",
@@ -395,14 +395,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X15.png"
+    "img": "img/soul/X15.png"
   },
   {
     "id": "X16",
@@ -422,14 +422,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X16.png"
+    "img": "img/soul/X16.png"
   },
   {
     "id": "X17",
@@ -449,14 +449,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X17.png"
+    "img": "img/soul/X17.png"
   },
   {
     "id": "X18",
@@ -476,14 +476,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X18.png"
+    "img": "img/soul/X18.png"
   },
   {
     "id": "X19",
@@ -503,14 +503,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X19.png"
+    "img": "img/soul/X19.png"
   },
   {
     "id": "X20",
@@ -530,14 +530,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X20.png"
+    "img": "img/soul/X20.png"
   },
   {
     "id": "X21",
@@ -557,14 +557,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X21.png"
+    "img": "img/soul/X21.png"
   },
   {
     "id": "X22",
@@ -584,14 +584,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X22.png"
+    "img": "img/soul/X22.png"
   },
   {
     "id": "X23",
@@ -611,14 +611,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X23.png"
+    "img": "img/soul/X23.png"
   },
   {
     "id": "X24",
@@ -638,14 +638,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X24.png"
+    "img": "img/soul/X24.png"
   },
   {
     "id": "X25",
@@ -665,14 +665,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X25.png"
+    "img": "img/soul/X25.png"
   },
   {
     "id": "X26",
@@ -692,14 +692,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X26.png"
+    "img": "img/soul/X26.png"
   },
   {
     "id": "X27",
@@ -719,14 +719,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X27.png"
+    "img": "img/soul/X27.png"
   },
   {
     "id": "X28",
@@ -746,14 +746,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X28.png"
+    "img": "img/soul/X28.png"
   },
   {
     "id": "X29",
@@ -773,14 +773,14 @@
     "cool": "C",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X29.png"
+    "img": "img/soul/X29.png"
   },
   {
     "id": "X30",
@@ -800,14 +800,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X30.png"
+    "img": "img/soul/X30.png"
   },
   {
     "id": "X31",
@@ -827,14 +827,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X31.png"
+    "img": "img/soul/X31.png"
   },
   {
     "id": "X32",
@@ -854,14 +854,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X32.png"
+    "img": "img/soul/X32.png"
   },
   {
     "id": "X33",
@@ -881,14 +881,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X33.png"
+    "img": "img/soul/X33.png"
   },
   {
     "id": "X34",
@@ -908,14 +908,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X34.png"
+    "img": "img/soul/X34.png"
   },
   {
     "id": "X35",
@@ -935,14 +935,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X35.png"
+    "img": "img/soul/X35.png"
   },
   {
     "id": "X36",
@@ -962,14 +962,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X36.png"
+    "img": "img/soul/X36.png"
   },
   {
     "id": "X37",
@@ -989,14 +989,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X37.png"
+    "img": "img/soul/X37.png"
   },
   {
     "id": "X38",
@@ -1016,14 +1016,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X38.png"
+    "img": "img/soul/X38.png"
   },
   {
     "id": "X39",
@@ -1043,14 +1043,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X39.png"
+    "img": "img/soul/X39.png"
   },
   {
     "id": "X40",
@@ -1070,14 +1070,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X40.png"
+    "img": "img/soul/X40.png"
   },
   {
     "id": "X41",
@@ -1097,14 +1097,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X41.png"
+    "img": "img/soul/X41.png"
   },
   {
     "id": "X42",
@@ -1124,14 +1124,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X42.png"
+    "img": "img/soul/X42.png"
   },
   {
     "id": "X43",
@@ -1151,14 +1151,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X43.png"
+    "img": "img/soul/X43.png"
   },
   {
     "id": "X44",
@@ -1178,14 +1178,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X44.png"
+    "img": "img/soul/X44.png"
   },
   {
     "id": "X45",
@@ -1205,14 +1205,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X45.png"
+    "img": "img/soul/X45.png"
   },
   {
     "id": "X46",
@@ -1232,14 +1232,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X46.png"
+    "img": "img/soul/X46.png"
   },
   {
     "id": "X47",
@@ -1259,14 +1259,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X47.png"
+    "img": "img/soul/X47.png"
   },
   {
     "id": "X48",
@@ -1286,14 +1286,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X48.png"
+    "img": "img/soul/X48.png"
   },
   {
     "id": "X49",
@@ -1313,14 +1313,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X49.png"
+    "img": "img/soul/X49.png"
   },
   {
     "id": "X50",
@@ -1340,14 +1340,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X50.png"
+    "img": "img/soul/X50.png"
   },
   {
     "id": "X51",
@@ -1367,14 +1367,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X51.png"
+    "img": "img/soul/X51.png"
   },
   {
     "id": "X52",
@@ -1394,14 +1394,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X52.png"
+    "img": "img/soul/X52.png"
   },
   {
     "id": "X53",
@@ -1421,14 +1421,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X53.png"
+    "img": "img/soul/X53.png"
   },
   {
     "id": "X54",
@@ -1448,14 +1448,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X54.png"
+    "img": "img/soul/X54.png"
   },
   {
     "id": "X55",
@@ -1475,14 +1475,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X55.png"
+    "img": "img/soul/X55.png"
   },
   {
     "id": "X56",
@@ -1502,14 +1502,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X56.png"
+    "img": "img/soul/X56.png"
   },
   {
     "id": "X57",
@@ -1529,14 +1529,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X57.png"
+    "img": "img/soul/X57.png"
   },
   {
     "id": "X58",
@@ -1556,14 +1556,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X58.png"
+    "img": "img/soul/X58.png"
   },
   {
     "id": "X59",
@@ -1583,14 +1583,14 @@
     "cool": "S",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X59.png"
+    "img": "img/soul/X59.png"
   },
   {
     "id": "X60",
@@ -1610,14 +1610,14 @@
     "cool": "SS",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X60.png"
+    "img": "img/soul/X60.png"
   },
   {
     "id": "X61",
@@ -1637,14 +1637,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X61.png"
+    "img": "img/soul/X61.png"
   },
   {
     "id": "X62",
@@ -1664,14 +1664,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X62.png"
+    "img": "img/soul/X62.png"
   },
   {
     "id": "X63",
@@ -1691,14 +1691,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X63.png"
+    "img": "img/soul/X63.png"
   },
   {
     "id": "X64",
@@ -1718,14 +1718,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X64.png"
+    "img": "img/soul/X64.png"
   },
   {
     "id": "X65",
@@ -1745,14 +1745,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X65.png"
+    "img": "img/soul/X65.png"
   },
   {
     "id": "X66",
@@ -1772,14 +1772,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X66.png"
+    "img": "img/soul/X66.png"
   },
   {
     "id": "X67",
@@ -1799,14 +1799,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X67.png"
+    "img": "img/soul/X67.png"
   },
   {
     "id": "X68",
@@ -1826,14 +1826,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X68.png"
+    "img": "img/soul/X68.png"
   },
   {
     "id": "X69",
@@ -1853,14 +1853,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X69.png"
+    "img": "img/soul/X69.png"
   },
   {
     "id": "X70",
@@ -1880,14 +1880,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X70.png"
+    "img": "img/soul/X70.png"
   },
   {
     "id": "X71",
@@ -1907,14 +1907,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X71.png"
+    "img": "img/soul/X71.png"
   },
   {
     "id": "X72",
@@ -1934,14 +1934,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X72.png"
+    "img": "img/soul/X72.png"
   },
   {
     "id": "X73",
@@ -1961,14 +1961,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X73.png"
+    "img": "img/soul/X73.png"
   },
   {
     "id": "X74",
@@ -1988,14 +1988,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X74.png"
+    "img": "img/soul/X74.png"
   },
   {
     "id": "X75",
@@ -2015,14 +2015,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X75.png"
+    "img": "img/soul/X75.png"
   },
   {
     "id": "X76",
@@ -2042,14 +2042,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X76.png"
+    "img": "img/soul/X76.png"
   },
   {
     "id": "X77",
@@ -2069,14 +2069,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X77.png"
+    "img": "img/soul/X77.png"
   },
   {
     "id": "X78",
@@ -2096,14 +2096,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X78.png"
+    "img": "img/soul/X78.png"
   },
   {
     "id": "X79",
@@ -2123,14 +2123,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X79.png"
+    "img": "img/soul/X79.png"
   },
   {
     "id": "X80",
@@ -2150,14 +2150,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X80.png"
+    "img": "img/soul/X80.png"
   },
   {
     "id": "X81",
@@ -2177,14 +2177,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X81.png"
+    "img": "img/soul/X81.png"
   },
   {
     "id": "X82",
@@ -2204,14 +2204,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X82.png"
+    "img": "img/soul/X82.png"
   },
   {
     "id": "X83",
@@ -2231,14 +2231,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X83.png"
+    "img": "img/soul/X83.png"
   },
   {
     "id": "X84",
@@ -2258,14 +2258,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X84.png"
+    "img": "img/soul/X84.png"
   },
   {
     "id": "X85",
@@ -2285,14 +2285,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X85.png"
+    "img": "img/soul/X85.png"
   },
   {
     "id": "X86",
@@ -2312,14 +2312,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X86.png"
+    "img": "img/soul/X86.png"
   },
   {
     "id": "X87",
@@ -2339,14 +2339,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X87.png"
+    "img": "img/soul/X87.png"
   },
   {
     "id": "X88",
@@ -2366,14 +2366,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X88.png"
+    "img": "img/soul/X88.png"
   },
   {
     "id": "X89",
@@ -2393,14 +2393,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X89.png"
+    "img": "img/soul/X89.png"
   },
   {
     "id": "X90",
@@ -2420,14 +2420,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X90.png"
+    "img": "img/soul/X90.png"
   },
   {
     "id": "X91",
@@ -2447,14 +2447,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X91.png"
+    "img": "img/soul/X91.png"
   },
   {
     "id": "X92",
@@ -2474,14 +2474,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X92.png"
+    "img": "img/soul/X92.png"
   },
   {
     "id": "X93",
@@ -2501,14 +2501,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X93.png"
+    "img": "img/soul/X93.png"
   },
   {
     "id": "X94",
@@ -2528,14 +2528,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X94.png"
+    "img": "img/soul/X94.png"
   },
   {
     "id": "X95",
@@ -2555,14 +2555,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X95.png"
+    "img": "img/soul/X95.png"
   },
   {
     "id": "X96",
@@ -2582,14 +2582,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X96.png"
+    "img": "img/soul/X96.png"
   },
   {
     "id": "X97",
@@ -2609,14 +2609,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X97.png"
+    "img": "img/soul/X97.png"
   },
   {
     "id": "X98",
@@ -2636,14 +2636,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X98.png"
+    "img": "img/soul/X98.png"
   },
   {
     "id": "X99",
@@ -2663,14 +2663,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X99.png"
+    "img": "img/soul/X99.png"
   },
   {
     "id": "X100",
@@ -2690,14 +2690,14 @@
     "cool": "S",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X100.png"
+    "img": "img/soul/X100.png"
   },
   {
     "id": "X101",
@@ -2717,14 +2717,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X101.png"
+    "img": "img/soul/X101.png"
   },
   {
     "id": "X102",
@@ -2744,14 +2744,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X102.png"
+    "img": "img/soul/X102.png"
   },
   {
     "id": "X103",
@@ -2771,14 +2771,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X103.png"
+    "img": "img/soul/X103.png"
   },
   {
     "id": "X104",
@@ -2798,14 +2798,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X104.png"
+    "img": "img/soul/X104.png"
   },
   {
     "id": "X105",
@@ -2825,14 +2825,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X105.png"
+    "img": "img/soul/X105.png"
   },
   {
     "id": "X106",
@@ -2852,14 +2852,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X106.png"
+    "img": "img/soul/X106.png"
   },
   {
     "id": "X107",
@@ -2879,14 +2879,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X107.png"
+    "img": "img/soul/X107.png"
   },
   {
     "id": "X108",
@@ -2906,14 +2906,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X108.png"
+    "img": "img/soul/X108.png"
   },
   {
     "id": "X109",
@@ -2933,14 +2933,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X109.png"
+    "img": "img/soul/X109.png"
   },
   {
     "id": "X110",
@@ -2960,14 +2960,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X110.png"
+    "img": "img/soul/X110.png"
   },
   {
     "id": "X111",
@@ -2987,14 +2987,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X111.png"
+    "img": "img/soul/X111.png"
   },
   {
     "id": "X112",
@@ -3014,14 +3014,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X112.png"
+    "img": "img/soul/X112.png"
   },
   {
     "id": "X113",
@@ -3041,14 +3041,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X113.png"
+    "img": "img/soul/X113.png"
   },
   {
     "id": "X114",
@@ -3068,14 +3068,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X114.png"
+    "img": "img/soul/X114.png"
   },
   {
     "id": "X115",
@@ -3095,14 +3095,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X115.png"
+    "img": "img/soul/X115.png"
   },
   {
     "id": "X116",
@@ -3122,14 +3122,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X116.png"
+    "img": "img/soul/X116.png"
   },
   {
     "id": "X117",
@@ -3149,14 +3149,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X117.png"
+    "img": "img/soul/X117.png"
   },
   {
     "id": "X118",
@@ -3176,14 +3176,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X118.png"
+    "img": "img/soul/X118.png"
   },
   {
     "id": "X119",
@@ -3203,14 +3203,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X119.png"
+    "img": "img/soul/X119.png"
   },
   {
     "id": "X120",
@@ -3230,14 +3230,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X120.png"
+    "img": "img/soul/X120.png"
   },
   {
     "id": "X125",
@@ -3257,14 +3257,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X125.png"
+    "img": "img/soul/X125.png"
   },
   {
     "id": "X126",
@@ -3284,14 +3284,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X126.png"
+    "img": "img/soul/X126.png"
   },
   {
     "id": "X127",
@@ -3311,14 +3311,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X127.png"
+    "img": "img/soul/X127.png"
   },
   {
     "id": "X128",
@@ -3338,14 +3338,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X128.png"
+    "img": "img/soul/X128.png"
   },
   {
     "id": "X133",
@@ -3365,14 +3365,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X133.png"
+    "img": "img/soul/X133.png"
   },
   {
     "id": "X134",
@@ -3392,14 +3392,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X134.png"
+    "img": "img/soul/X134.png"
   },
   {
     "id": "X135",
@@ -3419,14 +3419,14 @@
     "cool": "S",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X135.png"
+    "img": "img/soul/X135.png"
   },
   {
     "id": "X136",
@@ -3446,14 +3446,14 @@
     "cool": "SS",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X136.png"
+    "img": "img/soul/X136.png"
   },
   {
     "id": "X137",
@@ -3473,14 +3473,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X137.png"
+    "img": "img/soul/X137.png"
   },
   {
     "id": "X138",
@@ -3500,14 +3500,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X138.png"
+    "img": "img/soul/X138.png"
   },
   {
     "id": "X139",
@@ -3527,14 +3527,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X139.png"
+    "img": "img/soul/X139.png"
   },
   {
     "id": "X140",
@@ -3554,14 +3554,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X140.png"
+    "img": "img/soul/X140.png"
   },
   {
     "id": "X141",
@@ -3581,14 +3581,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X141.png"
+    "img": "img/soul/X141.png"
   },
   {
     "id": "X142",
@@ -3608,14 +3608,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X142.png"
+    "img": "img/soul/X142.png"
   },
   {
     "id": "X143",
@@ -3635,14 +3635,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X143.png"
+    "img": "img/soul/X143.png"
   },
   {
     "id": "X144",
@@ -3662,14 +3662,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X144.png"
+    "img": "img/soul/X144.png"
   },
   {
     "id": "X145",
@@ -3689,14 +3689,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X145.png"
+    "img": "img/soul/X145.png"
   },
   {
     "id": "X146",
@@ -3716,14 +3716,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X146.png"
+    "img": "img/soul/X146.png"
   },
   {
     "id": "X147",
@@ -3743,14 +3743,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X147.png"
+    "img": "img/soul/X147.png"
   },
   {
     "id": "X148",
@@ -3770,14 +3770,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X148.png"
+    "img": "img/soul/X148.png"
   },
   {
     "id": "X149",
@@ -3797,14 +3797,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X149.png"
+    "img": "img/soul/X149.png"
   },
   {
     "id": "X150",
@@ -3824,14 +3824,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X150.png"
+    "img": "img/soul/X150.png"
   },
   {
     "id": "X151",
@@ -3851,14 +3851,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X151.png"
+    "img": "img/soul/X151.png"
   },
   {
     "id": "X152",
@@ -3878,14 +3878,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X152.png"
+    "img": "img/soul/X152.png"
   },
   {
     "id": "X153",
@@ -3905,14 +3905,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X153.png"
+    "img": "img/soul/X153.png"
   },
   {
     "id": "X154",
@@ -3932,14 +3932,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X154.png"
+    "img": "img/soul/X154.png"
   },
   {
     "id": "X155",
@@ -3959,14 +3959,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X155.png"
+    "img": "img/soul/X155.png"
   },
   {
     "id": "X156",
@@ -3986,14 +3986,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X156.png"
+    "img": "img/soul/X156.png"
   },
   {
     "id": "X157",
@@ -4013,14 +4013,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X157.png"
+    "img": "img/soul/X157.png"
   },
   {
     "id": "X158",
@@ -4040,14 +4040,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X158.png"
+    "img": "img/soul/X158.png"
   },
   {
     "id": "X159",
@@ -4067,14 +4067,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X159.png"
+    "img": "img/soul/X159.png"
   },
   {
     "id": "X160",
@@ -4094,14 +4094,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X160.png"
+    "img": "img/soul/X160.png"
   },
   {
     "id": "X161",
@@ -4121,14 +4121,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X161.png"
+    "img": "img/soul/X161.png"
   },
   {
     "id": "X162",
@@ -4148,14 +4148,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X162.png"
+    "img": "img/soul/X162.png"
   },
   {
     "id": "X163",
@@ -4175,14 +4175,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X163.png"
+    "img": "img/soul/X163.png"
   },
   {
     "id": "X164",
@@ -4202,14 +4202,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X164.png"
+    "img": "img/soul/X164.png"
   },
   {
     "id": "X165",
@@ -4229,14 +4229,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X165.png"
+    "img": "img/soul/X165.png"
   },
   {
     "id": "X166",
@@ -4256,14 +4256,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X166.png"
+    "img": "img/soul/X166.png"
   },
   {
     "id": "X167",
@@ -4283,14 +4283,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X167.png"
+    "img": "img/soul/X167.png"
   },
   {
     "id": "X168",
@@ -4310,14 +4310,14 @@
     "cool": "",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X168.png"
+    "img": "img/soul/X168.png"
   },
   {
     "id": "X169",
@@ -4337,14 +4337,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X169.png"
+    "img": "img/soul/X169.png"
   },
   {
     "id": "X170",
@@ -4364,14 +4364,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X170.png"
+    "img": "img/soul/X170.png"
   },
   {
     "id": "X171",
@@ -4391,14 +4391,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X171.png"
+    "img": "img/soul/X171.png"
   },
   {
     "id": "X172",
@@ -4418,14 +4418,14 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "images/X172.png"
+    "img": "img/soul/X172.png"
   },
   {
     "id": "X177",
@@ -4445,14 +4445,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "Ming Dreamweaver Souls",
     "pose": false,
     "animated": false,
-    "img": "images/X177.png"
+    "img": "img/soul/X177.png"
   },
   {
     "id": "X178",
@@ -4472,14 +4472,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "Ming Dreamweaver Souls",
     "pose": false,
     "animated": false,
-    "img": "images/X178.png"
+    "img": "img/soul/X178.png"
   },
   {
     "id": "X179",
@@ -4499,14 +4499,14 @@
     "cool": "B",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "Ming Dreamweaver Souls",
     "pose": false,
     "animated": false,
-    "img": "images/X179.png"
+    "img": "img/soul/X179.png"
   },
   {
     "id": "X180",
@@ -4526,13 +4526,13 @@
     "cool": "A",
     "tag1": "",
     "tag2": "",
+    "category": "",
     "maincolor": "",
     "othercolor": "",
-    "category": "",
     "inasuit": false,
     "suit": "Ming Dreamweaver Souls",
     "pose": false,
     "animated": false,
-    "img": "images/X180.png"
+    "img": "img/soul/X180.png"
   }
 ]
