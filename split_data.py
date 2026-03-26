@@ -1,9 +1,8 @@
 import json
 
-with open('formatted_wardrobe_data.json', 'r', encoding='utf-8') as f:
+with open('data.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 
-# Split by type for logical chunks (~2-5k items each)
 types = {}
 for item in data:
     t = item['type']
@@ -11,7 +10,6 @@ for item in data:
         types[t] = []
     types[t].append(item)
 
-# Save each type as separate JSON file
 for type_name, items in types.items():
     filename = f"data_{type_name}.json"
     with open(filename, 'w', encoding='utf-8') as f:
@@ -42,18 +40,18 @@ for item in data:
         "tag2": item.get("tag2", ""),
         "maincolor": "",
         "othercolor": "",
-        "nation": "",
+        "category": "",
         "inasuit": item.get("inasuit", False),
         "suit": "",
         "pose": item.get("pose", False),
         "animated": item.get("animated", False),
-        "img": f"images/{item.get('id', '')}.png"  # Generate from ID
+        "img": f"images/{item.get('id', '')}.png"
     }
     formatted_data.append(new_item)
 
-with open('formatted_wardrobe_data.json', 'w', encoding='utf-8') as f:
+with open('data.json', 'w', encoding='utf-8') as f:
     json.dump(formatted_data, f, ensure_ascii=False, indent=2)
 
 print(f"✅ Formatted {len(formatted_data)} items with new format!")
-print(f"📁 Saved to output/wardrobe_data_v2.json")
+print(f"📁 Saved to output/data_v2.json")
 print(f"🖼️ All images now use format: images/[ID].png")
