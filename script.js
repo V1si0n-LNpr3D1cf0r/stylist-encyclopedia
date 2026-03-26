@@ -3,7 +3,7 @@ let filteredItems = [];
 let savedItems = new Set();
 let currentPage = 1;
 let currentSaveFilter = 'all';
-const ITEMS_PER_PAGE = 50;
+const ITEMS_PER_PAGE = 30;
 let isCardView = false;
 let loadingTimeout = null;
 
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('search').addEventListener('input', filter);
   document.getElementById('typeFilter').addEventListener('change', filter);
   document.getElementById('rarityFilter').addEventListener('change', filter);
-  document.getElementById('nationFilter').addEventListener('change', filter);
+  document.getElementById('categoryFilter').addEventListener('change', filter);
   document.getElementById('mainColorFilter').addEventListener('change', filter);
   document.getElementById('otherColorFilter').addEventListener('change', filter);
   document.getElementById('tag1Filter').addEventListener('change', filter);
@@ -77,7 +77,7 @@ function clearAllFilters() {
   const filters = [
     'typeFilter',
     'rarityFilter',
-    'nationFilter',
+    'categoryFilter',
     'mainColorFilter',
     'otherColorFilter',
     'tag1Filter',
@@ -124,7 +124,7 @@ function completeLoading() {
 }
 
 function populateAllFilters() {
-  populateTypeFilter(); populateNationFilter(); populateColorFilters(); populateExtraFilters();
+  populateTypeFilter(); populateCategoryFilter(); populateColorFilters(); populateExtraFilters();
 }
 
 function filter() {
@@ -132,7 +132,7 @@ function filter() {
     const search = document.getElementById('search').value.toLowerCase();
     const type = document.getElementById('typeFilter').value;
     const rarity = document.getElementById('rarityFilter').value;
-    const nation = document.getElementById('nationFilter').value;
+    const category = document.getElementById('categoryFilter').value;
 
     const mainColor = document.getElementById('mainColorFilter').value;
     const otherColor = document.getElementById('otherColorFilter').value;
@@ -146,8 +146,8 @@ function filter() {
 
     return (item.name || "").toLowerCase().includes(search) &&
            (!type || item.type === type || item.subtype === type) &&
-           (!rarity || item.rare == rarity) &&
-           (!nation || item.nation === nation) &&
+           (!rarity || item.rarity == rarity) &&
+           (!category || item.category === category || item.nation === category) &&
            matchMainColor &&
            matchOtherColor &&
            matchTag1 &&
@@ -186,13 +186,13 @@ function showItemDetail(item) {
       
       <h2 style="color: #d63384; margin: 0 0 20px 0; font-size: 1.8em;">
         ${item.name} 
-        <span style="font-size: 1.3em; color: #ff69b4;">${item.rarity || 0}❤</span>
+        <span style="font-size: 1.3em; color: #ff69b4;">${item.rarity || 0}♥</span>
       </h2>
       
       <div style="background: linear-gradient(135deg, #fff5f8, #ffe4e6); padding: 25px; border-radius: 20px; margin: 20px 0; border: 2px solid #ffd6e7;">
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; font-size: 15px; margin-bottom: 20px;">
           ${item.type ? `<div><strong>Type:</strong> ${item.type}${item.subtype ? ' / ' + item.subtype : ''}</div>` : ''}
-          ${item.nation ? `<div><strong>Nation:</strong> ${item.nation}</div>` : ''}
+          ${item.category ? `<div><strong>Category:</strong> ${item.category}</div>` : ''}
           ${item.maincolor ? `<div><strong>Main Color:</strong> ${item.maincolor}</div>` : ''}
           ${item.othercolor ? `<div><strong>Other Color:</strong> ${item.othercolor}</div>` : ''}
           ${item.inasuit ? `<div><strong>Suit:</strong> ${item.inasuit}</div>` : ''}
@@ -233,13 +233,13 @@ function populateTypeFilter() {
     });
 }
 
-function populateNationFilter() {
-  const nations = ['Apple Federal', 'Lilith Kingdom', 'Cloud Empire', 'Pigeon Kingdom', 'North Kingdom', 'Republic of Wasteland', 'Ruin Island'];
-  const select = document.getElementById('nationFilter');
-  select.innerHTML = '<option value="">All Nations</option>';
-  nations.forEach(nation => {
+function populateCategoryFilter() {
+  const category = ['Apple Federal', 'Lilith Kingdom', 'Cloud Empire', 'Pigeon Kingdom', 'North Kingdom', 'Republic of Wasteland', 'Ruin Island', 'Festivals' , '4 Seasons', 'Troupe'];
+  const select = document.getElementById('categoryFilter');
+  select.innerHTML = '<option value="">All Category</option>';
+  category.forEach(category => {
     const option = document.createElement('option');
-    option.value = nation; option.textContent = nation;
+    option.value = category; option.textContent = category;
     select.appendChild(option);
   });
 }
@@ -302,7 +302,7 @@ function createCardView(items) {
         <div class="card-content" onclick="showItemDetail(${JSON.stringify(item).replace(/"/g, '&quot;')})">
           <img src="${item.img}" onerror="this.src='https://via.placeholder.com/80'">
           <div class="card-name">${item.name}</div>
-          <div class="card-type">${item.type} | ${item.rarity || 0}❤</div>
+          <div class="card-type">${item.type} | ${item.rarity || 0}♥</div>
         </div>
         <label class="card-checkbox-label">
           <input type="checkbox" ${savedItems.has(item.id)?'checked':''} 
@@ -316,9 +316,9 @@ function createCardView(items) {
 }
 
 function createTableView(items) {
-  let html = `<table><thead><tr><th>Save</th><th>Name</th><th>Type</th><th>Sub Type</th><th>Rarity</th><th>Gorgeous</th><th>Simple</th><th>Elegant</th><th>Lively</th><th>Mature</th><th>Cute</th><th>Sexy</th><th>Pure</th><th>Warm</th><th>Cool</th><th>Main Color</th><th>Other Color</th><th>Nation</th><th>Suit</th><th>Tag 1</th><th>Tag 2</th><th>In Suit</th><th>Pose</th><th>Animated</th><th>Image</th></tr></thead><tbody>`;
+  let html = `<table><thead><tr><th>Save</th><th>Name</th><th>Type</th><th>Sub Type</th><th>Rarity</th><th>Gorgeous</th><th>Simple</th><th>Elegant</th><th>Lively</th><th>Mature</th><th>Cute</th><th>Sexy</th><th>Pure</th><th>Warm</th><th>Cool</th><th>Main Color</th><th>Other Color</th><th>Category</th><th>Suit</th><th>Tag 1</th><th>Tag 2</th><th>In Suit</th><th>Pose</th><th>Animated</th><th>Image</th></tr></thead><tbody>`;
   items.forEach(item => {
-    html += `<tr><td><input type="checkbox" ${savedItems.has(item.id)?'checked':''} onchange="toggleFavorite('${item.id}')" class="save-checkbox"></td><td>${item.name||'-'}</td><td>${item.type||'-'}</td><td>${item.subtype||'-'}</td><td>${item.rarity||0}❤</td><td>${item.gorgeous||'-'}</td><td>${item.simple||'-'}</td><td>${item.elegant||'-'}</td><td>${item.lively||'-'}</td><td>${item.mature||'-'}</td><td>${item.cute||'-'}</td><td>${item.sexy||'-'}</td><td>${item.pure||'-'}</td><td>${item.warm||'-'}</td><td>${item.cool||'-'}</td><td>${item.maincolor||'-'}</td><td>${item.othercolor||'-'}</td><td>${item.nation||'-'}</td><td>${item.inasuit||'-'}</td><td>${item.tag1||'-'}</td><td>${item.tag2||'-'}</td><td>${item.inasuit?'Yes':'No'}</td><td>${item.pose?'Yes':'No'}</td><td>${item.animated?'Yes':'No'}</td><td><img src="${item.img}" width="60" onerror="this.src='https://via.placeholder.com/60'"></td></tr>`;
+    html += `<tr><td><input type="checkbox" ${savedItems.has(item.id)?'checked':''} onchange="toggleFavorite('${item.id}')" class="save-checkbox"></td><td>${item.name||'-'}</td><td>${item.type||'-'}</td><td>${item.subtype||'-'}</td><td>${item.rarity||0}♥</td><td>${item.gorgeous||'-'}</td><td>${item.simple||'-'}</td><td>${item.elegant||'-'}</td><td>${item.lively||'-'}</td><td>${item.mature||'-'}</td><td>${item.cute||'-'}</td><td>${item.sexy||'-'}</td><td>${item.pure||'-'}</td><td>${item.warm||'-'}</td><td>${item.cool||'-'}</td><td>${item.maincolor||'-'}</td><td>${item.othercolor||'-'}</td><td>${item.category||'-'}</td><td>${item.inasuit||'-'}</td><td>${item.tag1||'-'}</td><td>${item.tag2||'-'}</td><td>${item.inasuit?'Yes':'No'}</td><td>${item.pose?'Yes':'No'}</td><td>${item.animated?'Yes':'No'}</td><td><img src="${item.img}" width="60" onerror="this.src='https://via.placeholder.com/60'"></td></tr>`;
   });
   return html + '</tbody></table>';
 }
