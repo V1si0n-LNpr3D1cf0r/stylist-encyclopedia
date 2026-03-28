@@ -265,7 +265,7 @@ function populateTypeFilter() {
 }
 
 function populateCategoryFilter() {
-  const category = ['Apple Federal', 'Lilith Kingdom', 'Cloud Empire', 'Pigeon Kingdom', 'North Kingdom', 'Republic of Wasteland', 'Ruin Island', 'Story Suit', 'Classic', 'Luxury', 'Festivals', 'Troupe', '4 Seasons', 'Stars', 'Happiness', 'Wonder Museum', 'Fairytale', 'Gallery'];
+  const category = ['Apple', 'Lilith', 'Cloud', 'Pigeon', 'North', 'Wasteland', 'Ruin', 'Story Suit', 'Classic', 'Luxury', 'Festivals', 'Troupe', '4 Seasons', 'Stars', 'Happiness', 'Wonder Museum', 'Fairytale', 'Gallery'];
   const select = document.getElementById('categoryFilter');
   select.innerHTML = '<option value="">All Category</option>';
   category.forEach(category => {

@@ -104,7 +104,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X4.png"
   },
   {
@@ -212,7 +212,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X8.png"
   },
   {
@@ -320,7 +320,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X12.png"
   },
   {
@@ -536,7 +536,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X20.png"
   },
   {
@@ -590,7 +590,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X22.png"
   },
   {
@@ -617,7 +617,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X23.png"
   },
   {
@@ -644,7 +644,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X24.png"
   },
   {
@@ -752,7 +752,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X28.png"
   },
   {
@@ -860,7 +860,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X32.png"
   },
   {
@@ -968,7 +968,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X36.png"
   },
   {
@@ -1076,7 +1076,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X40.png"
   },
   {
@@ -1184,7 +1184,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X44.png"
   },
   {
@@ -1238,7 +1238,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X46.png"
   },
   {
@@ -1265,7 +1265,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X47.png"
   },
   {
@@ -1292,7 +1292,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X48.png"
   },
   {
@@ -1508,7 +1508,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X56.png"
   },
   {
@@ -2264,7 +2264,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X84.png"
   },
   {
@@ -2372,7 +2372,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X88.png"
   },
   {
@@ -2588,7 +2588,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X96.png"
   },
   {
@@ -2696,7 +2696,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X100.png"
   },
   {
@@ -3020,7 +3020,7 @@
     "inasuit": false,
     "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X112.png"
   },
   {
@@ -4449,7 +4449,7 @@
     "maincolor": "",
     "othercolor": "",
     "inasuit": false,
-    "suit": "Ming Dreamweaver Souls",
+    "suit": "",
     "pose": false,
     "animated": false,
     "img": "img/soul/X177.png"
@@ -4476,7 +4476,7 @@
     "maincolor": "",
     "othercolor": "",
     "inasuit": false,
-    "suit": "Ming Dreamweaver Souls",
+    "suit": "",
     "pose": false,
     "animated": false,
     "img": "img/soul/X178.png"
@@ -4503,7 +4503,7 @@
     "maincolor": "",
     "othercolor": "",
     "inasuit": false,
-    "suit": "Ming Dreamweaver Souls",
+    "suit": "",
     "pose": false,
     "animated": false,
     "img": "img/soul/X179.png"
@@ -4530,9 +4530,9 @@
     "maincolor": "",
     "othercolor": "",
     "inasuit": false,
-    "suit": "Ming Dreamweaver Souls",
+    "suit": "",
     "pose": false,
-    "animated": false,
+    "animated": true,
     "img": "img/soul/X180.png"
   }
 ]
