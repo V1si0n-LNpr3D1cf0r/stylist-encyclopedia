@@ -190,9 +190,14 @@ function filter() {
       break;
   }
 
-  filteredItems = tempFiltered;
-  currentPage = 1;
-  displayPage(filteredItems);
+filteredItems = tempFiltered;
+
+const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
+if (currentPage > totalPages) {
+  currentPage = totalPages || 1;
+}
+
+displayPage(filteredItems);
 }
 
 function showItemDetail(item) {
