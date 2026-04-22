@@ -3,7 +3,7 @@ let filteredItems = [];
 let savedItems = new Set();
 let currentPage = 1;
 let currentSaveFilter = 'all';
-const ITEMS_PER_PAGE = 30;
+const ITEMS_PER_PAGE = 32;
 let isCardView = false;
 let loadingTimeout = null;
 
