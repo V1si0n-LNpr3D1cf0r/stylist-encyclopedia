@@ -21,6 +21,32 @@ document.addEventListener('DOMContentLoaded', function() {
   startLoadingWithTimeout();
 });
 
+function getImageUrl(item) {
+  const base = "https://V1si0n-LNpr3D1cf0r.github.io/";
+
+  const repoMap = {
+    makeup: "mn-dump-makeup-b1",
+    hair: "mn-dump-hair-b1",
+    dress: "mn-dump-dress-b1",
+    coat: "mn-dump-coat-b1",
+    top: "mn-dump-top-b1",
+    bottom: "mn-dump-bottom-b1",
+    hosiery: "mn-dump-hosiery-b1",
+    shoes: "mn-dump-shoes-b1",
+    accessory: "mn-dump-accessory-b1",
+    soul: "mn-dump-soul-b1"
+  };
+
+  const type = item.type || item.subtype;
+  const repo = repoMap[type];
+
+  if (!repo || !item.id) {
+    return "https://placehold.co/400x400?text=No+Image";
+  }
+
+  return `${base}${repo}/${item.id}.png`;
+}
+
 function loadSavedItems() {
   try {
     const saved = localStorage.getItem('stylistFavorites');
@@ -398,4 +424,5 @@ function closeImageModal() { document.getElementById('imageModal').style.display
 function toggleInfo() {
   document.getElementById('infoModal').style.display = 
     document.getElementById('infoModal').style.display === 'block' ? 'none' : 'block';
+
 }
