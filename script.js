@@ -244,7 +244,7 @@ function showItemDetail(item) {
   
   content.innerHTML = `
     <div style="text-align: center; padding: 30px 20px 20px;">
-      <img src="${item.img}" style="width: 220px; height: 220px; object-fit: cover; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); margin-bottom: 25px;">
+      <img src="${getImageUrl(item)}" style="width: 220px; height: 220px; object-fit: cover; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); margin-bottom: 25px;">
       
       <h2 style="color: #d63384; margin: 0 0 20px 0; font-size: 1.8em;">
         ${item.name} 
@@ -362,10 +362,10 @@ function createCardView(items) {
     html += `
       <div class="card">
         <div class="card-content" onclick="showItemDetail(${JSON.stringify(item).replace(/"/g, '&quot;')})">
-          <img src="${item.img}" onerror="this.src='https://placehold.co/400x400?text=No+Image'" class="card-image">
+          <img src="${getImageUrl(item)}" onerror="this.src='https://placehold.co/400x400?text=No+Image'" class="card-image">
           <div class="card-name">${item.name}</div>
           <div class="card-type">${item.type} | ${item.rarity || 0}♥</div>
-          <div class="card-desc">${item.description ? item.description : 'No description yet.'}</div>
+          <div class="card-desc">${item.desc ? item.desc : 'No description yet.'}</div>
         </div>
         <label class="card-checkbox-label">
           <input type="checkbox" ${savedItems.has(item.id)?'checked':''} 
@@ -381,7 +381,7 @@ function createCardView(items) {
 function createTableView(items) {
   let html = `<table><thead><tr><th>Save</th><th>Name</th><th>Type</th><th>Sub Type</th><th>Rarity</th><th>Gorgeous</th><th>Simple</th><th>Elegant</th><th>Lively</th><th>Mature</th><th>Cute</th><th>Sexy</th><th>Pure</th><th>Warm</th><th>Cool</th><th>Main Color</th><th>Other Color</th><th>Category</th><th>Suit</th><th>Tag 1</th><th>Tag 2</th><th>In Suit</th><th>Pose</th><th>Animated</th><th>Image</th></tr></thead><tbody>`;
   items.forEach(item => {
-    html += `<tr><td><input type="checkbox" ${savedItems.has(item.id)?'checked':''} onchange="toggleFavorite('${item.id}')" class="save-checkbox"></td><td>${item.name||'-'}</td><td>${item.type||'-'}</td><td>${item.subtype||'-'}</td><td>${item.rarity||0}♥</td><td>${item.gorgeous||'-'}</td><td>${item.simple||'-'}</td><td>${item.elegant||'-'}</td><td>${item.lively||'-'}</td><td>${item.mature||'-'}</td><td>${item.cute||'-'}</td><td>${item.sexy||'-'}</td><td>${item.pure||'-'}</td><td>${item.warm||'-'}</td><td>${item.cool||'-'}</td><td>${item.maincolor||'-'}</td><td>${item.othercolor||'-'}</td><td>${item.category||'-'}</td><td>${item.suit||'-'}</td><td>${item.tag1||'-'}</td><td>${item.tag2||'-'}</td><td>${item.inasuit?'Yes':'No'}</td><td>${item.pose?'Yes':'No'}</td><td>${item.animated?'Yes':'No'}</td><td><img src="${item.img}" width="60" onerror="this.src='https://placehold.co/400x400?text=No+Image'"></td></tr>`;
+    html += `<tr><td><input type="checkbox" ${savedItems.has(item.id)?'checked':''} onchange="toggleFavorite('${item.id}')" class="save-checkbox"></td><td>${item.name||'-'}</td><td>${item.type||'-'}</td><td>${item.subtype||'-'}</td><td>${item.rarity||0}♥</td><td>${item.gorgeous||'-'}</td><td>${item.simple||'-'}</td><td>${item.elegant||'-'}</td><td>${item.lively||'-'}</td><td>${item.mature||'-'}</td><td>${item.cute||'-'}</td><td>${item.sexy||'-'}</td><td>${item.pure||'-'}</td><td>${item.warm||'-'}</td><td>${item.cool||'-'}</td><td>${item.maincolor||'-'}</td><td>${item.othercolor||'-'}</td><td>${item.category||'-'}</td><td>${item.suit||'-'}</td><td>${item.tag1||'-'}</td><td>${item.tag2||'-'}</td><td>${item.inasuit?'Yes':'No'}</td><td>${item.pose?'Yes':'No'}</td><td>${item.animated?'Yes':'No'}</td><td><img src="${getImageUrl(item)}" width="60" onerror="this.src='https://placehold.co/400x400?text=No+Image'"></td></tr>`;
   });
   return html + '</tbody></table>';
 }
