@@ -3,7 +3,7 @@ let filteredItems = [];
 let savedItems = new Set();
 let currentPage = 1;
 let currentSaveFilter = 'all';
-const ITEMS_PER_PAGE = 32;
+const ITEMS_PER_PAGE = 36;
 let isCardView = false;
 let loadingTimeout = null;
 
@@ -389,7 +389,6 @@ function createCardView(items) {
           <img src="${getImageUrl(item)}" onerror="this.src='https://placehold.co/400x400?text=No+Image'" class="card-image">
           <div class="card-name">${item.name}</div>
           <div class="card-type">${item.type} | ${item.rarity || 0}♥</div>
-          <div class="card-desc">${item.desc ? item.desc : 'No description yet.'}</div>
         </div>
         <label class="card-checkbox-label">
           <input type="checkbox" ${savedItems.has(item.id)?'checked':''} 
