@@ -1,12 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap');
+
 * { box-sizing: border-box; }
 
 
 body {
-  font-family: -apple-system, Georgia, sans-serif;
+  font-family: "Noto Sans SC", "Segoe UI", sans-serif;
   background: linear-gradient(135deg, #fff5f8 0%, #ffe4e6 100%);
   margin: 0; padding: 20px;
   min-height: 100vh;
   overflow-x: auto;
+  color: #ff7cb1;
 }
 
 
@@ -18,11 +21,28 @@ body {
 
 
 h1 {
-  color: #d63384;
+  font-family: "Playfair Display", serif;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  font-size: 2.6em;
+  text-shadow: 0 2px 10px rgba(255, 105, 180, 0.25);
   margin: 0 0 10px 0;
-  font-size: 2.5em;
 }
 
+body.dark h1 {
+  color: #ff85c1;
+  text-shadow:
+    0 0 8px rgba(255, 133, 193, 0.5),
+    0 0 18px rgba(199, 125, 255, 0.25);
+}
+
+.card-name,
+th,
+button,
+.filter-btn {
+  font-family: "Noto Sans SC", sans-serif;
+  letter-spacing: 0.3px;
+}
 
 .info-btn {
   position: absolute;
@@ -587,4 +607,230 @@ select {
   -webkit-line-clamp: unset;
 }
 
+}
+
+.table-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain; /* or cover */
+}
+
+table td {
+  height: 70px;
+  vertical-align: middle;
+}
+
+.table-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 8px;
+}
+
+:root{
+  --pink:#ff69b4;
+  --pink2:#ff85c1;
+  --bg1:#fff0f6;
+  --bg2:#ffe4ec;
+  --card:#ffffffcc;
+  --text:#333;
+}
+
+body.dark{
+  --pink:#c77dff;
+  --pink2:#9d4edd;
+  --bg1:#140b24;
+  --bg2:#0c0618;
+  --card:#24183aee;
+  --text:#ae8df5;
+  --text-soft:#655d7c;
+}
+
+body{
+  margin:0;
+  font-family:"Noto Sans SC","Segoe UI",sans-serif;
+  background: radial-gradient(circle at top, var(--bg1), var(--bg2));
+  color:#973786;
+}
+
+body.dark::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-size:30px 30px;
+  opacity:0.15;
+  pointer-events:none;
+}
+
+h2,.card-name{
+  font-family:"Noto Serif SC",serif;
+}
+
+.header{text-align:center;padding:20px;}
+.header h2{color:var(--pink);margin:0;}
+
+.progress-wrap{
+  width:80%;margin:10px auto;background:#fff;border-radius:20px;overflow:hidden;
+}
+.progress{
+  height:14px;
+  background:linear-gradient(90deg,var(--pink),var(--pink2));
+  width:0%;
+}
+#progressText{text-align:center;font-size:13px;}
+
+.controls{
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:10px;
+}
+
+input,select,button{
+  padding:10px;
+  border-radius:12px;
+  border:1px solid #ffd6e7;
+  background:white;
+  cursor:pointer;
+}
+
+button{
+  background:linear-gradient(135deg,var(--pink),var(--pink2));
+  color:white;
+  border:none;
+}
+
+.filter-btn{
+  background:white;
+  color:var(--text);
+}
+.filter-btn.active{
+  background:var(--pink);
+  color:white;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+  gap:18px;
+  padding:20px;
+}
+
+.card{
+  background:var(--card);
+  border-radius:20px;
+  padding:12px;
+  cursor:pointer;
+  position:relative;
+}
+
+.card img{
+  width:100%;
+  height:130px;
+  object-fit:contain;
+  background:white;
+  border-radius:12px;
+}
+
+.card-name{
+  font-weight:bold;
+  color:var(--pink);
+}
+
+.card small{
+  font-size:12px;
+  color:var(--text-soft);
+}
+
+.card input{
+  position:absolute;
+  top:8px;
+  right:8px;
+}
+
+.pagination{
+  display:flex;justify-content:center;gap:6px;padding:20px;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-content{
+  background:var(--card);
+  padding:20px;
+  border-radius:20px;
+  width:90%;
+  max-width:420px;
+  text-align:center;
+}
+
+body.dark table {
+  background: #1e1e1e;
+  color: #eee;
+}
+
+body.dark .card {
+  background: #1e1e1e;
+  color: #eee;
+}
+
+body.dark input,
+body.dark select {
+  background: #2a2a2a;
+  color: #e55a9b;
+  border: 1px solid #444;
+}
+
+/* =========================
+   🌙 NIGHT NIKKI OVERRIDE FIX
+   (forces old hardcoded colors to obey theme)
+========================= */
+
+body {
+  background: radial-gradient(circle at top, var(--bg1), var(--bg2));
+  color: var(--text);
+}
+
+/* kill leftover white backgrounds */
+.card,
+.controls,
+.save-counter,
+.modal-content,
+table,
+input,
+select {
+  background: var(--card) !important;
+  color: var(--text);
+}
+
+/* fix ALL text that was hardcoded before */
+td, th, p, span, div, small, label {
+  color: #973786;
+}
+
+/* table safety */
+body.dark table {
+  background: var(--card);
+}
+
+/* inputs readability */
+body.dark input,
+body.dark select {
+  background: #2a2a2a;
+  color: var(--text);
+  border: 1px solid #444;
+}
+
+/* force buttons consistency */
+button {
+  color: white;
+}
+
+/* fix weird leftover light borders */
+* {
+  border-color: rgba(255,255,255,0.08);
 }

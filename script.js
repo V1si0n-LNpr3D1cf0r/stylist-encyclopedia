@@ -17,6 +17,10 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('tag1Filter').addEventListener('change', filter);
   document.getElementById('tag2Filter').addEventListener('change', filter);
 
+  if (localStorage.getItem('darkMode') === 'on') {
+  document.body.classList.add('dark');
+}
+
   loadSavedItems();
   startLoadingWithTimeout();
 });
@@ -62,8 +66,13 @@ function saveFavorites() {
 }
 
 function updateSaveCounter() {
-  document.getElementById('saveCount').textContent = savedItems.size;
-  document.getElementById('totalCount').textContent = allItems.length;
+  const total = allItems.length;
+  const saved = savedItems.size;
+
+  const percent = total ? Math.round((saved / total) * 100) : 0;
+
+  document.getElementById('saveFill').style.width = percent + '%';
+  document.getElementById('saveText').textContent = `${saved}/${total} (${percent}%)`;
 }
 
 function toggleFavorite(id) {
@@ -177,7 +186,7 @@ function populateAllFilters() {
 
 function filter() {
   let tempFiltered = allItems.filter(item => {
-    const search = document.getElementById('search').value.toLowerCase();
+    const search = document.getElementById('search').value.toLowerCase().trim();
     const type = document.getElementById('typeFilter').value;
     const rarity = document.getElementById('rarityFilter').value;
     const category = document.getElementById('categoryFilter').value;
@@ -193,13 +202,23 @@ function filter() {
     const matchMainColor = !mainColor || item.maincolor === mainColor || item.othercolor === mainColor;
     const matchOtherColor = !otherColor || item.maincolor === otherColor || item.othercolor === otherColor;
 
+    // 🔥 UPDATED SEARCH (name + suit + more optional fields)
+const isNumberSearch = /^\d+$/.test(search);
+
+const matchSearch =
+  !search ||
+  (item.name || "").toLowerCase().includes(search) ||
+  (item.suit || "").toLowerCase().includes(search) ||
+  (item.category || "").toLowerCase().includes(search) ||
+  (item.tag1 || "").toLowerCase().includes(search) ||
+  (item.tag2 || "").toLowerCase().includes(search) ||
+  (isNumberSearch && String(item.id).includes(search));
+
     return (
-      (item.name || "").toLowerCase().includes(search) &&
+      matchSearch &&
       (!type || item.type === type || item.subtype === type) &&
       (!rarity || Number(item.rarity) === Number(rarity)) &&
-
       (!category || (item.category || "") === category) &&
-
       matchMainColor &&
       matchOtherColor &&
       matchTag1 &&
@@ -216,14 +235,14 @@ function filter() {
       break;
   }
 
-filteredItems = tempFiltered;
+  filteredItems = tempFiltered;
 
-const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
-if (currentPage > totalPages) {
-  currentPage = totalPages || 1;
-}
+  const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
+  if (currentPage > totalPages) {
+    currentPage = totalPages || 1;
+  }
 
-displayPage(filteredItems);
+  displayPage(filteredItems);
 }
 
 function showItemDetail(item) {
@@ -257,7 +276,7 @@ function showItemDetail(item) {
           ${item.category ? `<div><strong>Category:</strong> ${item.category}</div>` : ''}
           ${item.maincolor ? `<div><strong>Main Color:</strong> ${item.maincolor}</div>` : ''}
           ${item.othercolor ? `<div><strong>Other Color:</strong> ${item.othercolor}</div>` : ''}
-          ${item.inasuit ? `<div><strong>Suit:</strong> ${item.inasuit}</div>` : ''}
+          ${item.suit ? `<div><strong>Suit:</strong> ${item.suit}</div>` : ''}
           ${tags.length ? `<div><strong>Tags:</strong> ${tags.join(', ')}</div>` : ''}
         </div>
         
@@ -268,7 +287,12 @@ function showItemDetail(item) {
           </div>
         ` : ''}
       </div>
-      
+      ${item.desc || item.description ? `
+  <div style="margin-top: 15px; font-size: 14px; color: #555; background: rgba(255,255,255,0.7); padding: 15px; border-radius: 12px;">
+    <strong style="color:#d63384;">Description:</strong><br>
+    ${item.desc || item.description}
+  </div>
+` : ''}
       <div style="padding: 20px 0;">
         <label style="display: inline-flex; align-items: center; gap: 12px; cursor: pointer; font-size: 18px; background: white; padding: 15px 25px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 2px solid #ffd6e7;">
           <input type="checkbox" ${isSaved ? 'checked' : ''} onchange="toggleFavorite('${item.id}'); showItemDetail(${JSON.stringify(item).replace(/"/g, '&quot;')})" style="width: 22px; height: 22px; accent-color: #ff69b4;">
@@ -381,7 +405,7 @@ function createCardView(items) {
 function createTableView(items) {
   let html = `<table><thead><tr><th>Save</th><th>Name</th><th>Type</th><th>Sub Type</th><th>Rarity</th><th>Gorgeous</th><th>Simple</th><th>Elegant</th><th>Lively</th><th>Mature</th><th>Cute</th><th>Sexy</th><th>Pure</th><th>Warm</th><th>Cool</th><th>Main Color</th><th>Other Color</th><th>Category</th><th>Suit</th><th>Tag 1</th><th>Tag 2</th><th>In Suit</th><th>Pose</th><th>Animated</th><th>Image</th></tr></thead><tbody>`;
   items.forEach(item => {
-    html += `<tr><td><input type="checkbox" ${savedItems.has(item.id)?'checked':''} onchange="toggleFavorite('${item.id}')" class="save-checkbox"></td><td>${item.name||'-'}</td><td>${item.type||'-'}</td><td>${item.subtype||'-'}</td><td>${item.rarity||0}♥</td><td>${item.gorgeous||'-'}</td><td>${item.simple||'-'}</td><td>${item.elegant||'-'}</td><td>${item.lively||'-'}</td><td>${item.mature||'-'}</td><td>${item.cute||'-'}</td><td>${item.sexy||'-'}</td><td>${item.pure||'-'}</td><td>${item.warm||'-'}</td><td>${item.cool||'-'}</td><td>${item.maincolor||'-'}</td><td>${item.othercolor||'-'}</td><td>${item.category||'-'}</td><td>${item.suit||'-'}</td><td>${item.tag1||'-'}</td><td>${item.tag2||'-'}</td><td>${item.inasuit?'Yes':'No'}</td><td>${item.pose?'Yes':'No'}</td><td>${item.animated?'Yes':'No'}</td><td><img src="${getImageUrl(item)}" width="60" onerror="this.src='https://placehold.co/400x400?text=No+Image'"></td></tr>`;
+    html += `<tr><td><input type="checkbox" ${savedItems.has(item.id)?'checked':''} onchange="toggleFavorite('${item.id}')" class="save-checkbox"></td><td>${item.name||'-'}</td><td>${item.type||'-'}</td><td>${item.subtype||'-'}</td><td>${item.rarity||0}♥</td><td>${item.gorgeous||'-'}</td><td>${item.simple||'-'}</td><td>${item.elegant||'-'}</td><td>${item.lively||'-'}</td><td>${item.mature||'-'}</td><td>${item.cute||'-'}</td><td>${item.sexy||'-'}</td><td>${item.pure||'-'}</td><td>${item.warm||'-'}</td><td>${item.cool||'-'}</td><td>${item.maincolor||'-'}</td><td>${item.othercolor||'-'}</td><td>${item.category||'-'}</td><td>${item.suit||'-'}</td><td>${item.tag1||'-'}</td><td>${item.tag2||'-'}</td><td>${item.inasuit?'Yes':'No'}</td><td>${item.pose?'Yes':'No'}</td><td>${item.animated?'Yes':'No'}</td><td><img src="${getImageUrl(item)}" class="table-img" onerror="this.src='https://placehold.co/400x400?text=No+Image'"></td></tr>`;
   });
   return html + '</tbody></table>';
 }
@@ -425,4 +449,22 @@ function toggleInfo() {
   document.getElementById('infoModal').style.display = 
     document.getElementById('infoModal').style.display === 'block' ? 'none' : 'block';
 
+}
+
+function toggleDarkMode() {
+  document.body.classList.toggle('dark');
+
+  // save preference
+  const isDark = document.body.classList.contains('dark');
+  localStorage.setItem('darkMode', isDark ? 'on' : 'off');
+}
+
+function toggleDarkMode() {
+  document.body.classList.toggle('dark');
+  const btn = document.getElementById('darkModeBtn');
+
+  const isDark = document.body.classList.contains('dark');
+  btn.textContent = isDark ? '☀️' : '🌙';
+
+  localStorage.setItem('darkMode', isDark ? 'on' : 'off');
 }

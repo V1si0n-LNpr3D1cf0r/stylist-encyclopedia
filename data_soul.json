@@ -24,7 +24,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880001.png"
+    "img": "img/soul/880001.png",
+    "desc": "Sharp sword qi covered by soft moonlight. When the soft and strong meet, a powerful relic is born."
   },
   {
     "id": "880002",
@@ -51,7 +52,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880002.png"
+    "img": "img/soul/880002.png",
+    "desc": "Waking up from a millenary dream, the swords exude an aura of solemnity. Only the one proven worthy can wield them."
   },
   {
     "id": "880003",
@@ -78,7 +80,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880003.png"
+    "img": "img/soul/880003.png",
+    "desc": "Edges brightening as snow, tassels flowing like stars, when the dual swords combine, the world shall be shaken."
   },
   {
     "id": "880004",
@@ -105,7 +108,8 @@
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880004.png"
+    "img": "img/soul/880004.png",
+    "desc": "It's said that when the swords were drawn, rainbows will surge in the sky."
   },
   {
     "id": "880005",
@@ -132,7 +136,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880005.png"
+    "img": "img/soul/880005.png",
+    "desc": "Melodious sound flows out from the guqin. The notes, like butterflies, hover their wings and dance in the wind."
   },
   {
     "id": "880006",
@@ -159,7 +164,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880006.png"
+    "img": "img/soul/880006.png",
+    "desc": "A thousand of guqins in a thousand people's eyes because it appears differently to different people."
   },
   {
     "id": "880007",
@@ -186,7 +192,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880007.png"
+    "img": "img/soul/880007.png",
+    "desc": "People in Cloud believe that the most powerful guqin can be enchanting. It's called Stringless Sound."
   },
   {
     "id": "880008",
@@ -213,7 +220,8 @@
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880008.png"
+    "img": "img/soul/880008.png",
+    "desc": "The reason it is called the Stringless Guqin is that it is played using spirit and heart."
   },
   {
     "id": "880009",
@@ -240,7 +248,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880009.png"
+    "img": "img/soul/880009.png",
+    "desc": "I'm a lonely little feather floating in a water blue dream. When can I wake up from the dream and start a new life?"
   },
   {
     "id": "880010",
@@ -267,7 +276,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880010.png"
+    "img": "img/soul/880010.png",
+    "desc": "I grow up in the Tower of Zen but I also want to see the world outside. That man seems lonely. I'll go with him."
   },
   {
     "id": "880011",
@@ -294,7 +304,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880011.png"
+    "img": "img/soul/880011.png",
+    "desc": "The man gave me to his beloved niece as a gift. Every time she gazes into the sky, I feel so close to her heart."
   },
   {
     "id": "880012",
@@ -321,7 +332,8 @@
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880012.png"
+    "img": "img/soul/880012.png",
+    "desc": "Dear master, I've grown up. No matter how far I travel, I remember the road home and take the message back."
   },
   {
     "id": "880013",
@@ -348,7 +360,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880013.png"
+    "img": "img/soul/880013.png",
+    "desc": "Orlando carries with him many marvelous inventions. They are all Flynn's works back in Federal Military Academy."
   },
   {
     "id": "880014",
@@ -375,7 +388,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880014.png"
+    "img": "img/soul/880014.png",
+    "desc": "This badge has a built-in GPS that tracks your trace all the time, and the sapphire is actually a camera."
   },
   {
     "id": "880015",
@@ -402,7 +416,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880015.png"
+    "img": "img/soul/880015.png",
+    "desc": "This pen can function as a recorder and the ink in the holder is deadly poisonous."
   },
   {
     "id": "880016",
@@ -429,7 +444,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880016.png"
+    "img": "img/soul/880016.png",
+    "desc": "This umbrella consists of canopy made of bullet-proof fabric and a mini electromagnetic gun disguised as the pole."
   },
   {
     "id": "880017",
@@ -456,7 +472,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880017.png"
+    "img": "img/soul/880017.png",
+    "desc": "Years passed and I get used to loneliness. Then you broke in the quiet manor, lighting up the fire in my heart."
   },
   {
     "id": "880018",
@@ -483,7 +500,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880018.png"
+    "img": "img/soul/880018.png",
+    "desc": "I believe in you, but the seal is collapsing, I don't know how long I can stand..."
   },
   {
     "id": "880019",
@@ -510,7 +528,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880019.png"
+    "img": "img/soul/880019.png",
+    "desc": "Breaking the chain, I took the first step in the world outside. I will travel alone and find you."
   },
   {
     "id": "880020",
@@ -537,7 +556,8 @@
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880020.png"
+    "img": "img/soul/880020.png",
+    "desc": "May this happy reunion always stay in our hearts. Let's make the covenant once again, a bond of loyalty."
   },
   {
     "id": "880021",
@@ -564,7 +584,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880021.png"
+    "img": "img/soul/880021.png",
+    "desc": "I'm March Hare, not because I'll get mad in March but I was born on a sunny afternoon in March long long ago."
   },
   {
     "id": "880022",
@@ -591,7 +612,8 @@
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880022.png"
+    "img": "img/soul/880022.png",
+    "desc": "I have a magical pocket watch which can take me to anyone's dream. Yes, I'm a hare who knows lots of secrets!"
   },
   {
     "id": "880023",
@@ -618,7 +640,8 @@
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880023.png"
+    "img": "img/soul/880023.png",
+    "desc": "Although I've wandered through different dreams, I've never had one myself, what's the feeling of dreaming?"
   },
   {
     "id": "880024",
@@ -645,7 +668,8 @@
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880024.png"
+    "img": "img/soul/880024.png",
+    "desc": "You want to know what does the one you like dreamed last night? Give me a carrot, I might consider telling you!"
   },
   {
     "id": "880025",
@@ -672,7 +696,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880025.png"
+    "img": "img/soul/880025.png",
+    "desc": "It's said that only the most innocent child can see the Illusion Elf. I see you now. Am I the most innocent one?"
   },
   {
     "id": "880026",
@@ -699,7 +724,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880026.png"
+    "img": "img/soul/880026.png",
+    "desc": "Oh magic book, can you make me a candy castle? Sweet candies, delicious chocolates, and also marshmallow bunnies!"
   },
   {
     "id": "880027",
@@ -726,7 +752,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880027.png"
+    "img": "img/soul/880027.png",
+    "desc": "The magic covenant has been signed when I see you. Magic mark on the souls now. We'll be together forever!"
   },
   {
     "id": "880028",
@@ -747,13 +774,14 @@
     "tag1": "",
     "tag2": "",
     "category": "",
-    "maincolor": "#N/A",
-    "othercolor": "#N/A",
+    "maincolor": "TBA",
+    "othercolor": "TBA",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880028.png"
+    "img": "img/soul/880028.png",
+    "desc": "The hexagram I wove with moonlight and love is shining in the dark. Where are you? Here? Or in my heart?"
   },
   {
     "id": "880029",
@@ -780,7 +808,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880029.png"
+    "img": "img/soul/880029.png",
+    "desc": "Crafted by the first wood elf, its power and appearance vary among different wielders."
   },
   {
     "id": "880030",
@@ -807,7 +836,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880030.png"
+    "img": "img/soul/880030.png",
+    "desc": "When the young Chloris first gained the Ice Flame Bow, elegant engravings appear on the bow."
   },
   {
     "id": "880031",
@@ -834,7 +864,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880031.png"
+    "img": "img/soul/880031.png",
+    "desc": "Chloris spent a great amount of time meditating but still cannot awaken the Ice Flame Bow. He's confused and upset."
   },
   {
     "id": "880032",
@@ -855,13 +886,14 @@
     "tag1": "",
     "tag2": "",
     "category": "",
-    "maincolor": "#N/A",
-    "othercolor": "#N/A",
+    "maincolor": "TBA",
+    "othercolor": "TBA",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880032.png"
+    "img": "img/soul/880032.png",
+    "desc": "Watered by his tears, the bow awakens and releases arrows which break time and space. There he sees Floral."
   },
   {
     "id": "880033",
@@ -888,7 +920,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880033.png"
+    "img": "img/soul/880033.png",
+    "desc": "Nothing is longer than time, because it never ends; nothing is shorter than time, because it's always too late"
   },
   {
     "id": "880034",
@@ -915,7 +948,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880034.png"
+    "img": "img/soul/880034.png",
+    "desc": "Young Yvette always falls asleep holding her wand. She dreams that one day mum's wand will bring her to happiness."
   },
   {
     "id": "880035",
@@ -942,7 +976,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880035.png"
+    "img": "img/soul/880035.png",
+    "desc": "Time may change the face, but not the heart and affection. Like the sun, hope will always shine upon us."
   },
   {
     "id": "880036",
@@ -969,7 +1004,8 @@
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880036.png"
+    "img": "img/soul/880036.png",
+    "desc": "When time flies backward, we sometimes want the magic of time relapse... But we gain strength in memory."
   },
   {
     "id": "880037",
@@ -996,7 +1032,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880037.png"
+    "img": "img/soul/880037.png",
+    "desc": "It's fated that we can not talk when we are awake, but I can feel your song through my silver tiara."
   },
   {
     "id": "880038",
@@ -1023,7 +1060,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880038.png"
+    "img": "img/soul/880038.png",
+    "desc": "We elves are the guardian of the forest. As a duty, you sing the regal ballad."
   },
   {
     "id": "880039",
@@ -1050,7 +1088,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880039.png"
+    "img": "img/soul/880039.png",
+    "desc": "After centuries of sleep, he suddenly appears in my life. The laughter and tears are a symphony in my blood."
   },
   {
     "id": "880040",
@@ -1077,7 +1116,8 @@
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880040.png"
+    "img": "img/soul/880040.png",
+    "desc": "Wood elf's dormant chant once again infuses into the holy gem. It's a story of forgiving and waiting"
   },
   {
     "id": "880041",
@@ -1104,7 +1144,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880041.png"
+    "img": "img/soul/880041.png",
+    "desc": "Ever since I was conscious, I can create illusions. Power, fortune, or beauty, I can give you everything"
   },
   {
     "id": "880042",
@@ -1131,7 +1172,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880042.png"
+    "img": "img/soul/880042.png",
+    "desc": "I'm just a mirror, but I'm unpredictable. I love reality, so I'll never conceal anything from you."
   },
   {
     "id": "880043",
@@ -1158,7 +1200,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880043.png"
+    "img": "img/soul/880043.png",
+    "desc": "I'm just a mirror, people see themselves in me. I can reveal your deepest lust and delusion..."
   },
   {
     "id": "880044",
@@ -1185,7 +1228,8 @@
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880044.png"
+    "img": "img/soul/880044.png",
+    "desc": "I'm just a mirror. I can both reflect reality and create illusions. I named myself Eli when I was deserted."
   },
   {
     "id": "880045",
@@ -1212,7 +1256,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880045.png"
+    "img": "img/soul/880045.png",
+    "desc": "On the Mount Mango, a deer holds a flower in its mouth, with a boy listening to the sound of willows."
   },
   {
     "id": "880046",
@@ -1239,7 +1284,8 @@
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880046.png"
+    "img": "img/soul/880046.png",
+    "desc": "Nature gives the deer a nimble body and bright eyes. And the boy studies from the beauty of nature."
   },
   {
     "id": "880047",
@@ -1266,7 +1312,8 @@
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880047.png"
+    "img": "img/soul/880047.png",
+    "desc": "Beauty is never fixed and you should always follow your heart. After a talk, the deer's eyes were opened."
   },
   {
     "id": "880048",
@@ -1293,7 +1340,8 @@
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880048.png"
+    "img": "img/soul/880048.png",
+    "desc": "The season may change, but flowers will bloom if there is spring in your heart. The boy never forgets this place."
   },
   {
     "id": "880049",
@@ -1320,7 +1368,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880049.png"
+    "img": "img/soul/880049.png",
+    "desc": "I'm a black cat with lapis lazuli colored eyes. Many praised the color of my eyes, but only she took me home."
   },
   {
     "id": "880050",
@@ -1347,7 +1396,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880050.png"
+    "img": "img/soul/880050.png",
+    "desc": "When I was abandoned, I thought I would never see that shy girl again. Until I met Mr. Mindless and Mr. Unhappy."
   },
   {
     "id": "880051",
@@ -1374,7 +1424,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880051.png"
+    "img": "img/soul/880051.png",
+    "desc": "Actually Mr. Mindless is smart and Mr. Unhappy is happy. Meow, Nina smiles. I'll make fun of Mr. Mindless today."
   },
   {
     "id": "880052",
@@ -1401,7 +1452,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880052.png"
+    "img": "img/soul/880052.png",
+    "desc": "They won't stay with me in the afternoon. I know it but I just cannot help waiting on the windowsill."
   },
   {
     "id": "880053",
@@ -1428,7 +1480,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880053.png"
+    "img": "img/soul/880053.png",
+    "desc": "At the beginning of February, snow falls quietly. The little begonia sapling stands firm in the wind."
   },
   {
     "id": "880054",
@@ -1455,7 +1508,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880054.png"
+    "img": "img/soul/880054.png",
+    "desc": "The color is washed away, leaving her pure white flowers behind. The little child was outlining begonia with ink."
   },
   {
     "id": "880055",
@@ -1482,7 +1536,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880055.png"
+    "img": "img/soul/880055.png",
+    "desc": "Emotions stir deep in her heart. Under the begonia tree, she only thinks of the war in the North."
   },
   {
     "id": "880056",
@@ -1509,7 +1564,8 @@
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880056.png"
+    "img": "img/soul/880056.png",
+    "desc": "It's the 23rd summer, the begonia still blooms as always, but the road home seems endless."
   },
   {
     "id": "880057",
@@ -1536,7 +1592,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880057.png"
+    "img": "img/soul/880057.png",
+    "desc": "Full of energy, Mount Mango is a place immortals always visit. But hidden in the mist, it's secret to common people"
   },
   {
     "id": "880058",
@@ -1563,7 +1620,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880058.png"
+    "img": "img/soul/880058.png",
+    "desc": "Time seems to forget this place. Liang Jing and the boy spent the whole summer enjoying the scenery here."
   },
   {
     "id": "880059",
@@ -1590,7 +1648,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880059.png"
+    "img": "img/soul/880059.png",
+    "desc": "Years later when the boy and Liang Jing meet again, both their hearts and faces are like before."
   },
   {
     "id": "880060",
@@ -1617,7 +1676,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880060.png"
+    "img": "img/soul/880060.png",
+    "desc": "I was lost in Mant Mango and when I returned home, the green yard there is dilapidated."
   },
   {
     "id": "880061",
@@ -1644,7 +1704,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880061.png"
+    "img": "img/soul/880061.png",
+    "desc": "In the midsummer night, dreamy dance shines in the girl's eyes and prelude comes out from the case."
   },
   {
     "id": "880062",
@@ -1671,7 +1732,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880062.png"
+    "img": "img/soul/880062.png",
+    "desc": "In the noisy courtyard, the metal clockwork is wound and the machine starts playing a march of toys."
   },
   {
     "id": "880063",
@@ -1698,7 +1760,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880063.png"
+    "img": "img/soul/880063.png",
+    "desc": "A stubborn girl was dancing alone at the cliff. The skirt hemline brought about the ruby polka."
   },
   {
     "id": "880064",
@@ -1725,7 +1788,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880064.png"
+    "img": "img/soul/880064.png",
+    "desc": "The stardusts are blue and deep. On the warm palm, our past is sealed. Listen, the bell rings the waltz of fate."
   },
   {
     "id": "880065",
@@ -1752,7 +1816,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880065.png"
+    "img": "img/soul/880065.png",
+    "desc": "As my illusion was broken like a sugar coating, I tasted the flavor of growth."
   },
   {
     "id": "880066",
@@ -1779,7 +1844,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880066.png"
+    "img": "img/soul/880066.png",
+    "desc": "Cream lace with raspberries, this is Yvette's favorite hairpin! The actress of Raspberry Princess has the same one"
   },
   {
     "id": "880067",
@@ -1806,7 +1872,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880067.png"
+    "img": "img/soul/880067.png",
+    "desc": "The rabbit plate rack looks familiar. Perhaps it's a real rabbit? Hush—let's pretend we didn't notice."
   },
   {
     "id": "880068",
@@ -1833,7 +1900,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880068.png"
+    "img": "img/soul/880068.png",
+    "desc": "Lace tablecloth, rich black tea, and perfect dessert tower. Wear your favorite dress and be a part of the fairy tale"
   },
   {
     "id": "880069",
@@ -1860,7 +1928,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880069.png"
+    "img": "img/soul/880069.png",
+    "desc": "In the foggy town, pentatonic scale comes from a window with a beautiful chord like the sigh of a poet."
   },
   {
     "id": "880070",
@@ -1887,7 +1956,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880070.png"
+    "img": "img/soul/880070.png",
+    "desc": "Jazz is a sad song served in a cup in the dim light. The drunk, holding her broken dream, is waiting for the dawn"
   },
   {
     "id": "880071",
@@ -1914,7 +1984,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880071.png"
+    "img": "img/soul/880071.png",
+    "desc": "When she wakes up, everything is buried in the dusty attic. Oblivion is a lock without key"
   },
   {
     "id": "880072",
@@ -1941,7 +2012,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880072.png"
+    "img": "img/soul/880072.png",
+    "desc": "The kid with the saxophone on her back looked back. She would forget everything: Name, Tears, Hatred... and  Sin."
   },
   {
     "id": "880073",
@@ -1968,7 +2040,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880073.png"
+    "img": "img/soul/880073.png",
+    "desc": "When he was young, he was a scholar. When war broke out, he enlisted in the army."
   },
   {
     "id": "880074",
@@ -1995,7 +2068,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880074.png"
+    "img": "img/soul/880074.png",
+    "desc": "His heart is as hard as his armor. He swears to recover the lost city so that the dead will not die in vain."
   },
   {
     "id": "880075",
@@ -2022,7 +2096,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880075.png"
+    "img": "img/soul/880075.png",
+    "desc": "The well-trained army now awaits. He is talented both in making schemes in the camp and fighting on the frontline."
   },
   {
     "id": "880076",
@@ -2049,7 +2124,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880076.png"
+    "img": "img/soul/880076.png",
+    "desc": "Fearlessly, he charges. He wields the swords ruthlessly like the frost and elegantly like the phoenix"
   },
   {
     "id": "880077",
@@ -2076,7 +2152,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880077.png"
+    "img": "img/soul/880077.png",
+    "desc": "The flower is sweet and the leaf is slender. The ambitious 18-year-old young man is in the capital alone."
   },
   {
     "id": "880078",
@@ -2103,7 +2180,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880078.png"
+    "img": "img/soul/880078.png",
+    "desc": "Red bean is the token of lovesickness. In January last year, we met in the snow and fell at first sight"
   },
   {
     "id": "880079",
@@ -2130,7 +2208,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880079.png"
+    "img": "img/soul/880079.png",
+    "desc": "When the willow withers and flowers fall, will you be back? Willow is the symbol of separation."
   },
   {
     "id": "880080",
@@ -2157,7 +2236,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880080.png"
+    "img": "img/soul/880080.png",
+    "desc": "Like the lofty orchid, at the age of 25, the boy enlisted in the army to serve his country"
   },
   {
     "id": "880081",
@@ -2184,7 +2264,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880081.png"
+    "img": "img/soul/880081.png",
+    "desc": "Kimi's childhood promise is carved in time. She's been learning to grow up and protecting the memories."
   },
   {
     "id": "880082",
@@ -2211,7 +2292,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880082.png"
+    "img": "img/soul/880082.png",
+    "desc": "Lit sparkler and you'll have a star in your hands. Once the light fades, will you remember the happiness?"
   },
   {
     "id": "880083",
@@ -2238,7 +2320,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880083.png"
+    "img": "img/soul/880083.png",
+    "desc": "Kimi saw these spherical fireworks for the first time in a photo at home. They lit up the smile of her parents."
   },
   {
     "id": "880084",
@@ -2259,13 +2342,14 @@
     "tag1": "",
     "tag2": "",
     "category": "",
-    "maincolor": "#N/A",
-    "othercolor": "#N/A",
+    "maincolor": "TBA",
+    "othercolor": "TBA",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880084.png"
+    "img": "img/soul/880084.png",
+    "desc": "She walked to her father with a trophy in the fireworks. Time never stops. She had no choice but to go forward."
   },
   {
     "id": "880085",
@@ -2292,7 +2376,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880085.png"
+    "img": "img/soul/880085.png",
+    "desc": "Zhu Yuxian used to hear tweedle in his dreams when he was young. It sounded sad but he couldn't understand."
   },
   {
     "id": "880086",
@@ -2319,7 +2404,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880086.png"
+    "img": "img/soul/880086.png",
+    "desc": "As time flies, no songs can be heard in the Zhu Palace. Only a few chirps of birds left with a waning moon."
   },
   {
     "id": "880087",
@@ -2346,7 +2432,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880087.png"
+    "img": "img/soul/880087.png",
+    "desc": "When Ming Shuiyuan walks out of the Mansion Voyage Moon, it's deep night, but she is stopped by a sad flute."
   },
   {
     "id": "880088",
@@ -2373,7 +2460,8 @@
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880088.png"
+    "img": "img/soul/880088.png",
+    "desc": "The flute lingers on the snow-covered branch then fades away under misty moonlight. The Mansion is now empty."
   },
   {
     "id": "880089",
@@ -2400,7 +2488,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880089.png"
+    "img": "img/soul/880089.png",
+    "desc": "At 6, Louie owned his first knight spear. Why do we have to fight? You'll know when you grow up, said Master Lionel"
   },
   {
     "id": "880090",
@@ -2427,7 +2516,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880090.png"
+    "img": "img/soul/880090.png",
+    "desc": "At 14, Louie left Black Water City and became a mercenary. He wants to fight for his faith."
   },
   {
     "id": "880091",
@@ -2454,7 +2544,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880091.png"
+    "img": "img/soul/880091.png",
+    "desc": "At 17, Louie came to Cloud, a place he never saw. Vast flower field, warm sunshine, and that girl who saved him."
   },
   {
     "id": "880092",
@@ -2481,7 +2572,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880092.png"
+    "img": "img/soul/880092.png",
+    "desc": "At 24, Louie wore the white robe of Nameless Order and held the knight spear, leaving Bluebird and the past behind"
   },
   {
     "id": "880093",
@@ -2508,7 +2600,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880093.png"
+    "img": "img/soul/880093.png",
+    "desc": "Yue's skills were taught by her parents, though her father said if possible, he would not give his glaive to her."
   },
   {
     "id": "880094",
@@ -2535,7 +2628,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880094.png"
+    "img": "img/soul/880094.png",
+    "desc": "When Yue Qianshuang first took the short blade from her father, it's so heavy that she didn't like it."
   },
   {
     "id": "880095",
@@ -2562,7 +2656,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880095.png"
+    "img": "img/soul/880095.png",
+    "desc": "The glaive was the last thing Father gave her. When she first saw death, she knew the meaning of this weapon."
   },
   {
     "id": "880096",
@@ -2589,7 +2684,8 @@
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880096.png"
+    "img": "img/soul/880096.png",
+    "desc": "Yue carefully cleans the weapon. Today she's just as sharp as it is. She'll kill carnage and protect the peace."
   },
   {
     "id": "880097",
@@ -2616,7 +2712,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880097.png"
+    "img": "img/soul/880097.png",
+    "desc": "The star identifier records that nebulas reflect light through prism in the distant universe."
   },
   {
     "id": "880098",
@@ -2643,7 +2740,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880098.png"
+    "img": "img/soul/880098.png",
+    "desc": "It's said that everyone has a star. Some people's fates are on track, while others' are lost in the mist."
   },
   {
     "id": "880099",
@@ -2670,7 +2768,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880099.png"
+    "img": "img/soul/880099.png",
+    "desc": "The star identifier developed by Flynn and Orlando is kept in the observatory of Federal Military Academy."
   },
   {
     "id": "880100",
@@ -2691,13 +2790,14 @@
     "tag1": "",
     "tag2": "",
     "category": "",
-    "maincolor": "#N/A",
-    "othercolor": "#N/A",
+    "maincolor": "TBA",
+    "othercolor": "TBA",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880100.png"
+    "img": "img/soul/880100.png",
+    "desc": "Before graduation, Flynn and Orlando recorded the starry night as a souvenir. Orlando made them an album later"
   },
   {
     "id": "880101",
@@ -2724,7 +2824,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880101.png"
+    "img": "img/soul/880101.png",
+    "desc": "Bai Yongxi grew up in book piles and showed great talent since young. People put high expectation on him."
   },
   {
     "id": "880102",
@@ -2751,7 +2852,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880102.png"
+    "img": "img/soul/880102.png",
+    "desc": "However, the young king got tired of the pedantic atmosphere in the capital. He set off for the world outside."
   },
   {
     "id": "880103",
@@ -2778,7 +2880,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880103.png"
+    "img": "img/soul/880103.png",
+    "desc": "Later, Jinjin received a letter from her brother, 'You will never know this world until you see it for yourself.'"
   },
   {
     "id": "880104",
@@ -2805,7 +2908,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880104.png"
+    "img": "img/soul/880104.png",
+    "desc": "Years of history are gone like a dream. All the great dynasties left nothing but the words on the books."
   },
   {
     "id": "880105",
@@ -2832,7 +2936,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880105.png"
+    "img": "img/soul/880105.png",
+    "desc": "The dwarfs live in Pigeon Forest and like everything here… But some of them want to see the outside world."
   },
   {
     "id": "880106",
@@ -2859,7 +2964,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880106.png"
+    "img": "img/soul/880106.png",
+    "desc": "The dwarfs are good at making jewelry. Their works are exquisite and delicate but also easily neglected in styling."
   },
   {
     "id": "880107",
@@ -2886,7 +2992,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880107.png"
+    "img": "img/soul/880107.png",
+    "desc": "Debbie is a special kid. She prefers clothes to jewelry. She likes reading books under trees."
   },
   {
     "id": "880108",
@@ -2913,7 +3020,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880108.png"
+    "img": "img/soul/880108.png",
+    "desc": "No one loves Pigeon Forest more than Debbie. That's why she has to leave here before she becomes a great designer."
   },
   {
     "id": "880109",
@@ -2940,7 +3048,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880109.png"
+    "img": "img/soul/880109.png",
+    "desc": "Every generation, elves will have 2 guardians who protect the Pigeon Forest in turn, a Sword and a Moon."
   },
   {
     "id": "880110",
@@ -2967,7 +3076,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880110.png"
+    "img": "img/soul/880110.png",
+    "desc": "Chloris is the first guardian and Lakris didn't appear under the Life Tree till Elf Queen went missing."
   },
   {
     "id": "880111",
@@ -2994,7 +3104,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880111.png"
+    "img": "img/soul/880111.png",
+    "desc": "Chloris and Lakris cannot get to see each other, but they are connected through the fate mark."
   },
   {
     "id": "880112",
@@ -3015,13 +3126,14 @@
     "tag1": "",
     "tag2": "",
     "category": "",
-    "maincolor": "#N/A",
-    "othercolor": "#N/A",
+    "maincolor": "TBA",
+    "othercolor": "TBA",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880112.png"
+    "img": "img/soul/880112.png",
+    "desc": "When Lakris is asleep, he can tell from the harp by Chloris that everything is ok in Pigeon Forest."
   },
   {
     "id": "880113",
@@ -3048,7 +3160,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880113.png"
+    "img": "img/soul/880113.png",
+    "desc": "I dreamed that I lost my will like a puppet and what's left is only fake bubbles and broken faith."
   },
   {
     "id": "880114",
@@ -3075,7 +3188,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880114.png"
+    "img": "img/soul/880114.png",
+    "desc": "I cannot be trapped in yesterday's sorrow. I have to bury the pain and say farewell to the old times."
   },
   {
     "id": "880115",
@@ -3102,7 +3216,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880115.png"
+    "img": "img/soul/880115.png",
+    "desc": "I cannot talk or listen, I can feel no joy or sadness. I can only stuff the nightmare into my belly with the cotton"
   },
   {
     "id": "880116",
@@ -3129,7 +3244,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880116.png"
+    "img": "img/soul/880116.png",
+    "desc": "Light casts in through the seam. I thought it could be hope, but as days pass by, there are silent nights only"
   },
   {
     "id": "880117",
@@ -3156,7 +3272,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880117.png"
+    "img": "img/soul/880117.png",
+    "desc": "The story of Renieve white bears is very popular. The girls who get to see it will win love in the next year."
   },
   {
     "id": "880118",
@@ -3183,7 +3300,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880118.png"
+    "img": "img/soul/880118.png",
+    "desc": "A magician gave Bobo a little bear bag strung by pearls. There's a candy lay in it every time it opened."
   },
   {
     "id": "880119",
@@ -3210,7 +3328,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880119.png"
+    "img": "img/soul/880119.png",
+    "desc": "Two little bears came to Bobo and put stars into her arms. The shimmering starlight reminds her 14th birthday."
   },
   {
     "id": "880120",
@@ -3237,7 +3356,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880120.png"
+    "img": "img/soul/880120.png",
+    "desc": "In countless dreams, Bobo puts her head on the white bear's chest. Its embrace is as warm as her father's."
   },
   {
     "id": "880125",
@@ -3264,7 +3384,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880125.png"
+    "img": "img/soul/880125.png",
+    "desc": "From a gadget in the pocket to the huge city walls, Clan Ming's contraption skills cannot be matched."
   },
   {
     "id": "880126",
@@ -3291,7 +3412,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880126.png"
+    "img": "img/soul/880126.png",
+    "desc": "The Clan holds the principle of defense over offense, but Ming Shuiyuan still goes to quell the southern rebellion."
   },
   {
     "id": "880127",
@@ -3318,7 +3440,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880127.png"
+    "img": "img/soul/880127.png",
+    "desc": "Covered by the fog, the mech army captured the thirteen rebellious cities in a blink."
   },
   {
     "id": "880128",
@@ -3345,7 +3468,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880128.png"
+    "img": "img/soul/880128.png",
+    "desc": "The sophisticated machine of wood assumes the shape of Xuan Wu; Snake is its sword and the turtle is its armor."
   },
   {
     "id": "880133",
@@ -3372,7 +3496,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880133.png"
+    "img": "img/soul/880133.png",
+    "desc": "In the north, it is always snowing, leaving the snowy mountains in deep quiet."
   },
   {
     "id": "880134",
@@ -3399,7 +3524,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880134.png"
+    "img": "img/soul/880134.png",
+    "desc": "Instead of identity, the knight spirit is a deep belief. Even deeply frozen, it will never fall."
   },
   {
     "id": "880135",
@@ -3426,7 +3552,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880135.png"
+    "img": "img/soul/880135.png",
+    "desc": "The snow cannot disturb the peace on the snowfield, but the fire war can."
   },
   {
     "id": "880136",
@@ -3453,7 +3580,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880136.png"
+    "img": "img/soul/880136.png",
+    "desc": "As peace fades away, so does the knight spirit. Abandon the name so that faith and home can be protected."
   },
   {
     "id": "880137",
@@ -3480,7 +3608,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880137.png"
+    "img": "img/soul/880137.png",
+    "desc": "Looking at the uncut satin evolves into gorgeous clothes under the spotlight always touches her."
   },
   {
     "id": "880138",
@@ -3507,7 +3636,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880138.png"
+    "img": "img/soul/880138.png",
+    "desc": "Carefully takes down the first evening dress and plays the first note of the movement. The girl's dance here begins."
   },
   {
     "id": "880139",
@@ -3534,7 +3664,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880139.png"
+    "img": "img/soul/880139.png",
+    "desc": "Wears beloved high heels on the velvet stool. This girl's battle gear will secure the victory on the new journey."
   },
   {
     "id": "880140",
@@ -3561,7 +3692,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880140.png"
+    "img": "img/soul/880140.png",
+    "desc": "Dress up before the mirror and follow the unicorn into that halo of the dream."
   },
   {
     "id": "880141",
@@ -3588,7 +3720,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880141.png"
+    "img": "img/soul/880141.png",
+    "desc": "Childhood is a magnificent fantasy land, and I hope to wander in it and never have to experience separation."
   },
   {
     "id": "880142",
@@ -3615,7 +3748,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880142.png"
+    "img": "img/soul/880142.png",
+    "desc": "Hanging in a colorful dream, reminiscing carefree childhood, she smiled in a midnight sleep."
   },
   {
     "id": "880143",
@@ -3642,7 +3776,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880143.png"
+    "img": "img/soul/880143.png",
+    "desc": "The cute cat puppet dressed up as a bouquet is the most memorable birthday present she has ever received."
   },
   {
     "id": "880144",
@@ -3669,7 +3804,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880144.png"
+    "img": "img/soul/880144.png",
+    "desc": "Open the umbrella and take a family photo. Let the smile freeze on the photo. Let the memory last forever."
   },
   {
     "id": "880145",
@@ -3696,7 +3832,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880145.png"
+    "img": "img/soul/880145.png",
+    "desc": "All the stories begin with an adventure. The world is spinning and life changes at this moment."
   },
   {
     "id": "880146",
@@ -3723,7 +3860,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880146.png"
+    "img": "img/soul/880146.png",
+    "desc": "I have met many friends and experienced twists and turns. Every important moment became an unforgettable memory."
   },
   {
     "id": "880147",
@@ -3750,7 +3888,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880147.png"
+    "img": "img/soul/880147.png",
+    "desc": "She once cried in the dark night, she once hovered in the mist, but a brave heart can never be chained by the fate."
   },
   {
     "id": "880148",
@@ -3777,7 +3916,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880148.png"
+    "img": "img/soul/880148.png",
+    "desc": "Bury the past with silence. Weave the future with dreams. Write the poems of times on the fertile soil of miracles."
   },
   {
     "id": "880149",
@@ -3804,7 +3944,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880149.png"
+    "img": "img/soul/880149.png",
+    "desc": "Memory is a long and dreary corridor. It doesn't seem to end and there are dangers everywhere."
   },
   {
     "id": "880150",
@@ -3831,7 +3972,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880150.png"
+    "img": "img/soul/880150.png",
+    "desc": "He stands before the window, the city lights reflected in his eyes. People would kill for his money."
   },
   {
     "id": "880151",
@@ -3858,7 +4000,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880151.png"
+    "img": "img/soul/880151.png",
+    "desc": "The number 7 reagent is put in the suitcase as the peculiar trade is carried out. He savors the tension in the air."
   },
   {
     "id": "880152",
@@ -3885,7 +4028,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880152.png"
+    "img": "img/soul/880152.png",
+    "desc": "When speed is raised to the limit, body and soul seem to separate. The sensation from this tear is intoxicating."
   },
   {
     "id": "880153",
@@ -3912,7 +4056,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880153.png"
+    "img": "img/soul/880153.png",
+    "desc": "The aroma of the rose can be smelled in the spring breeze. It opens up softly, within it a crystallized dream."
   },
   {
     "id": "880154",
@@ -3939,7 +4084,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880154.png"
+    "img": "img/soul/880154.png",
+    "desc": "Fierce winds couldn't blow it away; rainstorms couldn't damage its beauty. It quietly strives towards the dream."
   },
   {
     "id": "880155",
@@ -3966,7 +4112,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880155.png"
+    "img": "img/soul/880155.png",
+    "desc": "The land basks in the sun. It hears the cries of praise. Amidst the praises, it flaunts its petals."
   },
   {
     "id": "880156",
@@ -3993,7 +4140,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880156.png"
+    "img": "img/soul/880156.png",
+    "desc": "Even the most beautiful flower will die to a gale. But autumn is still far away, so cherish its beauty while it lasts."
   },
   {
     "id": "880157",
@@ -4020,7 +4168,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880157.png"
+    "img": "img/soul/880157.png",
+    "desc": "She once saw the dawn at the mountaintop. A golden light came from the sky, which could make everything silent."
   },
   {
     "id": "880158",
@@ -4047,7 +4196,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880158.png"
+    "img": "img/soul/880158.png",
+    "desc": "Behind the mechanism was a mysterious universe, huge and profound. The door to another world had never been opened."
   },
   {
     "id": "880159",
@@ -4074,7 +4224,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880159.png"
+    "img": "img/soul/880159.png",
+    "desc": "She always focused on what she was doing. Once she had set her goal, she would go forward without turning back."
   },
   {
     "id": "880160",
@@ -4101,7 +4252,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880160.png"
+    "img": "img/soul/880160.png",
+    "desc": "Has the general in the play turned into a bird, flying over the mountains and rivers, seeing the prosperous world?"
   },
   {
     "id": "880161",
@@ -4128,7 +4280,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880161.png"
+    "img": "img/soul/880161.png",
+    "desc": "Legend has it that the winter in the Pigeon Forest is so cold that the Dwarves have to pray together for survival."
   },
   {
     "id": "880162",
@@ -4155,7 +4308,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880162.png"
+    "img": "img/soul/880162.png",
+    "desc": "Everything sleeps when the cold comes, but new hope is breeding under snow, and life will start all over again."
   },
   {
     "id": "880163",
@@ -4182,7 +4336,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880163.png"
+    "img": "img/soul/880163.png",
+    "desc": "The wind sends the scent of spring. The birds rest among the trees. A small wish germinates in Debbie's heart."
   },
   {
     "id": "880164",
@@ -4209,7 +4364,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880164.png"
+    "img": "img/soul/880164.png",
+    "desc": "The bond of blood has never been severed by geography. They believe that spring will eventually come."
   },
   {
     "id": "880165",
@@ -4236,7 +4392,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880165.png"
+    "img": "img/soul/880165.png",
+    "desc": "An unworldly genius is like a diamond in the rough, but tender wings will one day become full-fledged."
   },
   {
     "id": "880166",
@@ -4263,7 +4420,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880166.png"
+    "img": "img/soul/880166.png",
+    "desc": "The first design Fu Su completed in the Ancient Pavilion is a simple fan, its utility being the biggest highlight."
   },
   {
     "id": "880167",
@@ -4290,7 +4448,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880167.png"
+    "img": "img/soul/880167.png",
+    "desc": "Master’s assignments are unpredictable, for example, to learn the pharmacopoeia and brew dew throughout the summer."
   },
   {
     "id": "880168",
@@ -4317,7 +4476,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880168.png"
+    "img": "img/soul/880168.png",
+    "desc": "On the day Fu Su learns to make dew tea, his design is finally finished. He presents his work with a bamboo."
   },
   {
     "id": "880169",
@@ -4344,7 +4504,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880169.png"
+    "img": "img/soul/880169.png",
+    "desc": "The bright moon hangs in the sky. Beside the pond full of blooming lotus, two girls are putting lanterns on water."
   },
   {
     "id": "880170",
@@ -4371,7 +4532,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880170.png"
+    "img": "img/soul/880170.png",
+    "desc": "In the box lies a dangling lotus ornament. The two young girls put make-up for each other."
   },
   {
     "id": "880171",
@@ -4398,7 +4560,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880171.png"
+    "img": "img/soul/880171.png",
+    "desc": "The two girls spent their picturesque teenage years together. They have never thought of separating."
   },
   {
     "id": "880172",
@@ -4425,7 +4588,8 @@
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880172.png"
+    "img": "img/soul/880172.png",
+    "desc": "The girl completes the unfinished paintings, adding flowers and two blue birds. She couldn't stop missing her friend."
   },
   {
     "id": "880177",
@@ -4446,13 +4610,14 @@
     "tag1": "",
     "tag2": "",
     "category": "",
-    "maincolor": "#N/A",
-    "othercolor": "#N/A",
+    "maincolor": "TBA",
+    "othercolor": "TBA",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880177.png"
+    "img": "img/soul/880177.png",
+    "desc": "As she received the Empress's order, she began thorough preparations, with the remote island included in the plan."
   },
   {
     "id": "880178",
@@ -4473,13 +4638,14 @@
     "tag1": "",
     "tag2": "",
     "category": "",
-    "maincolor": "#N/A",
-    "othercolor": "#N/A",
+    "maincolor": "TBA",
+    "othercolor": "TBA",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880178.png"
+    "img": "img/soul/880178.png",
+    "desc": "At sea, the first task is to know one's position. Her carefully calibrated compass always points the exact course."
   },
   {
     "id": "880179",
@@ -4500,13 +4666,14 @@
     "tag1": "",
     "tag2": "",
     "category": "",
-    "maincolor": "#N/A",
-    "othercolor": "#N/A",
+    "maincolor": "TBA",
+    "othercolor": "TBA",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": false,
-    "img": "img/soul/880179.png"
+    "img": "img/soul/880179.png",
+    "desc": "Always prepare before the storm. Sea's moods shift quickly, yet the lens shows every distant ripple in clear detail."
   },
   {
     "id": "880180",
@@ -4527,12 +4694,13 @@
     "tag1": "",
     "tag2": "",
     "category": "",
-    "maincolor": "#N/A",
-    "othercolor": "#N/A",
+    "maincolor": "TBA",
+    "othercolor": "TBA",
     "inasuit": false,
     "suit": "",
     "pose": false,
     "animated": true,
-    "img": "img/soul/880180.png"
+    "img": "img/soul/880180.png",
+    "desc": "To sail seas few dare and reach lands rare, she must combine careful daily planning with clever ship engineering."
   }
 ]
