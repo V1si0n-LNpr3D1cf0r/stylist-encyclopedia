@@ -202,7 +202,6 @@ function filter() {
     const matchMainColor = !mainColor || item.maincolor === mainColor || item.othercolor === mainColor;
     const matchOtherColor = !otherColor || item.maincolor === otherColor || item.othercolor === otherColor;
 
-    // 🔥 UPDATED SEARCH (name + suit + more optional fields)
 const isNumberSearch = /^\d+$/.test(search);
 
 const matchSearch =
@@ -320,7 +319,7 @@ function populateTypeFilter() {
 }
 
 function populateCategoryFilter() {
-  const category = ['Apple', 'Lilith', 'Cloud', 'Pigeon', 'North', 'Wasteland', 'Ruin', 'Story Suit', 'Classic', 'Luxury', 'Festivals', 'Troupe', '4 Seasons', 'Stars', 'Happiness', 'Wonder Museum', 'Fairytale', 'Gallery'];
+  const category = ['Apple', 'Lilith', 'Cloud', 'Pigeon', 'North', 'Wasteland', 'Ruin', 'Story Suits', 'Classic', 'Luxury', 'Festivals', 'Troupe', '4 Seasons', 'Stars', 'Happiness', 'Wonder Museum', 'Fairytale', 'Gallery'];
   const select = document.getElementById('categoryFilter');
   select.innerHTML = '<option value="">All Category</option>';
   category.forEach(category => {
@@ -453,7 +452,6 @@ function toggleInfo() {
 function toggleDarkMode() {
   document.body.classList.toggle('dark');
 
-  // save preference
   const isDark = document.body.classList.contains('dark');
   localStorage.setItem('darkMode', isDark ? 'on' : 'off');
 }
