@@ -785,17 +785,11 @@ body.dark select {
   border: 1px solid #444;
 }
 
-/* =========================
-   🌙 NIGHT NIKKI OVERRIDE FIX
-   (forces old hardcoded colors to obey theme)
-========================= */
-
 body {
   background: radial-gradient(circle at top, var(--bg1), var(--bg2));
   color: var(--text);
 }
 
-/* kill leftover white backgrounds */
 .card,
 .controls,
 .save-counter,
@@ -807,17 +801,14 @@ select {
   color: var(--text);
 }
 
-/* fix ALL text that was hardcoded before */
 td, th, p, span, div, small, label {
   color: #973786;
 }
 
-/* table safety */
 body.dark table {
   background: var(--card);
 }
 
-/* inputs readability */
 body.dark input,
 body.dark select {
   background: #2a2a2a;
@@ -825,12 +816,10 @@ body.dark select {
   border: 1px solid #444;
 }
 
-/* force buttons consistency */
 button {
   color: white;
 }
 
-/* fix weird leftover light borders */
 * {
   border-color: rgba(255,255,255,0.08);
 }
