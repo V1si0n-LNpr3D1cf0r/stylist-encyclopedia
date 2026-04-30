@@ -203,6 +203,7 @@ function filter() {
     const matchMainColor = !mainColor || item.maincolor === mainColor || item.othercolor === mainColor;
     const matchOtherColor = !otherColor || item.maincolor === otherColor || item.othercolor === otherColor;
 
+    // 🔥 UPDATED SEARCH (name + suit + more optional fields)
 const isNumberSearch = /^\d+$/.test(search);
 
 const matchSearch =
@@ -455,7 +456,7 @@ function toggleDarkMode() {
   const btn = document.getElementById('darkModeBtn');
 
   const isDark = document.body.classList.contains('dark');
-  btn.textContent = isDark ? '☀️' : '🌙';
+  btn.textContent = isDark ? '𖤓' : '⏾';
 
   localStorage.setItem('darkMode', isDark ? 'on' : 'off');
 }
