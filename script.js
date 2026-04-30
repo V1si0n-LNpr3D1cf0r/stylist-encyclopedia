@@ -55,6 +55,8 @@ function loadSavedItems() {
   try {
     const saved = localStorage.getItem('stylistFavorites');
     if (saved) savedItems = new Set(JSON.parse(saved));
+
+      updateSaveCounter();
   } catch(e) { console.error('Saved items load error:', e); }
 }
 
@@ -93,9 +95,6 @@ function saveAllFavorites() {
   filter();
 }
 
-  saveFavorites();
-  displayPage(filteredItems);
-
 function removeAllFavorites() {
   filteredItems.forEach(item => {
     if (item && item.id) {
@@ -106,6 +105,8 @@ function removeAllFavorites() {
   saveFavorites();
   filter();
 }
+
+console.log("Loaded savedItems:", savedItems);
 
 function filterSavedItems() {
   currentSaveFilter = 'saved'; updateSaveFilterButtons(); filter();
@@ -161,9 +162,9 @@ function completeLoading() {
 const seen = new Set();
 
 allItems.forEach((item, i) => {
-  if (!item.id || seen.has(item.id)) {
-    item.id = `item_${i}`;
-  }
+ if (!item.id) {
+  item.id = `item_${i}`;
+}
   seen.add(item.id);
 });
   
@@ -447,13 +448,6 @@ function toggleInfo() {
   document.getElementById('infoModal').style.display = 
     document.getElementById('infoModal').style.display === 'block' ? 'none' : 'block';
 
-}
-
-function toggleDarkMode() {
-  document.body.classList.toggle('dark');
-
-  const isDark = document.body.classList.contains('dark');
-  localStorage.setItem('darkMode', isDark ? 'on' : 'off');
 }
 
 function toggleDarkMode() {
