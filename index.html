@@ -18,9 +18,13 @@
   <div class="save-fill" id="saveFill"></div>
   <span id="saveText">0%</span>
     <div class="save-buttons">
-      <button onclick="saveAllFavorites()" class="save-btn">💾 Save All</button>
-      <button onclick="removeAllFavorites()" class="remove-btn">🗑️ Remove Selection</button>
-    </div>
+  <button onclick="saveAllFavorites()" class="save-btn">💾 Save All</button>
+  <button onclick="removeAllFavorites()" class="remove-btn">🗑️ Remove Selection</button>
+  <button onclick="document.getElementById('fileInput').click()" class="import-btn">📂 Import</button>
+  <button onclick="exportWbakFile()" class="export-btn">📤 Export</button>
+  
+  <input type="file" id="fileInput" style="display:none" accept=".wbak" onchange="importWbakFile(event)">
+</div>
   </div>
   
   <div class="controls">

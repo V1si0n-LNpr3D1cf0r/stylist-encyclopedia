@@ -603,3 +603,50 @@ function renderColorSwatch(colorName) {
   const hex = colorMap[colorName] || "#ccc";
   return `<span class="color-swatch" style="background:${hex}"></span>${colorName}`;
 }
+
+function importWbakFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const importedItems = JSON.parse(e.target.result);
+      
+      // I-update ang iyong Set
+      if (Array.isArray(importedItems)) {
+        savedItems = new Set(importedItems);
+        saveFavorites(); // I-save sa localStorage
+        filter(); // I-refresh ang display
+        alert(`Success! ${savedItems.size} items were imported.`);
+      }
+    } catch (err) {
+      alert("Error");
+      console.error(err);
+    }
+  };
+  reader.readAsText(file);
+}
+
+function exportWbakFile() {
+  // 1. I-convert ang Set pabalik sa Array
+  const itemsArray = Array.from(savedItems);
+  
+  // 2. I-convert ang array sa JSON string
+  const jsonString = JSON.stringify(itemsArray);
+  
+  // 3. Gumawa ng Blob (ito ang file data)
+  const blob = new Blob([jsonString], { type: 'application/octet-stream' });
+  
+  // 4. I-trigger ang download
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'my_wardrobe.wbak'; // Pangalan ng file
+  document.body.appendChild(a);
+  a.click();
+  
+  // 5. Cleanup
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
