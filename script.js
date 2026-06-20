@@ -14,12 +14,17 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('categoryFilter').addEventListener('change', filter);
   document.getElementById('mainColorFilter').addEventListener('change', filter);
   document.getElementById('otherColorFilter').addEventListener('change', filter);
+  
+  // Attach tertiary color filter safely
+  const tertiaryFilter = document.getElementById('tertiaryColorFilter');
+  if (tertiaryFilter) tertiaryFilter.addEventListener('change', filter);
+
   document.getElementById('tag1Filter').addEventListener('change', filter);
   document.getElementById('tag2Filter').addEventListener('change', filter);
 
   if (localStorage.getItem('darkMode') === 'on') {
-  document.body.classList.add('dark');
-}
+    document.body.classList.add('dark');
+  }
 
   loadSavedItems();
   startLoadingWithTimeout();
@@ -55,8 +60,7 @@ function loadSavedItems() {
   try {
     const saved = localStorage.getItem('stylistFavorites');
     if (saved) savedItems = new Set(JSON.parse(saved));
-
-      updateSaveCounter();
+    updateSaveCounter();
   } catch(e) { console.error('Saved items load error:', e); }
 }
 
@@ -106,8 +110,6 @@ function removeAllFavorites() {
   filter();
 }
 
-console.log("Loaded savedItems:", savedItems);
-
 function filterSavedItems() {
   currentSaveFilter = 'saved'; updateSaveFilterButtons(); filter();
 }
@@ -120,7 +122,6 @@ function updateSaveFilterButtons() {
 }
 
 function clearAllFilters() {
-
   document.getElementById('search').value = '';
 
   const filters = [
@@ -129,6 +130,7 @@ function clearAllFilters() {
     'categoryFilter',
     'mainColorFilter',
     'otherColorFilter',
+    'tertiaryColorFilter', // Added to clearing logic
     'tag1Filter',
     'tag2Filter'
   ];
@@ -142,31 +144,83 @@ function clearAllFilters() {
 
   currentSaveFilter = 'all';
   updateSaveFilterButtons();
-
   filter();
 }
 
+// -----------------------------------------------------------------
+// DIRECT CSV LOADING & PARSING LOGIC
+// -----------------------------------------------------------------
 function startLoadingWithTimeout() {
-  loadingTimeout = setTimeout(forceCompleteLoading, 10000);
-  const dataFiles = ['hair','dress','coat','top','bottom','hosiery','shoes','makeup','accessory','soul'];
-  let loadedCount = 0;
-  dataFiles.forEach(type => {
-    fetch(`data_${type}.json`).then(res => res.ok ? res.json() : [])
-      .then(data => { allItems.push(...data); loadedCount++; if (loadedCount === dataFiles.length) completeLoading(); })
-      .catch(() => { loadedCount++; if (loadedCount === dataFiles.length) completeLoading(); });
-  });
+  loadingTimeout = setTimeout(forceCompleteLoading, 15000); // Bumped timeout slightly for raw CSV
+  
+  fetch('data.csv')
+    .then(res => res.ok ? res.text() : '')
+    .then(text => {
+      if (text) {
+        allItems = parseCSV(text);
+      }
+      completeLoading();
+    })
+    .catch(err => {
+      console.error('Error loading CSV directly:', err);
+      completeLoading();
+    });
 }
+
+function parseCSV(text) {
+  let ret = [''], i = 0, p = '', s = true;
+  let rows = [];
+  for (let l of text) {
+    if ('"' === l) {
+      if (s && l === p) ret[i] += l;
+      s = !s;
+    } else if (',' === l && s) {
+      l = ret[++i] = '';
+    } else if ('\n' === l && s) {
+      if ('\r' === p) ret[i] = ret[i].slice(0, -1);
+      rows.push(ret);
+      ret = ['']; i = 0;
+    } else {
+      ret[i] += l;
+    }
+    p = l;
+  }
+  if (ret[0] !== '' || ret.length > 1) rows.push(ret);
+
+  if (rows.length === 0) return [];
+  const headers = rows[0].map(h => h.trim().toLowerCase());
+  const data = [];
+  
+  for (let j = 1; j < rows.length; j++) {
+    if (rows[j].length === 1 && rows[j][0].trim() === '') continue;
+    const obj = {};
+    headers.forEach((header, index) => {
+      obj[header] = rows[j][index] ? rows[j][index].trim() : '';
+    });
+    
+    // Automatically convert your TRUE/FALSE CSV strings to actual booleans
+    for (let key in obj) {
+      if (typeof obj[key] === 'string') {
+        if (obj[key].toUpperCase() === 'TRUE') obj[key] = true;
+        else if (obj[key].toUpperCase() === 'FALSE') obj[key] = false;
+      }
+    }
+    data.push(obj);
+  }
+  return data;
+}
+// -----------------------------------------------------------------
 
 function completeLoading() {
   clearTimeout(loadingTimeout);
-const seen = new Set();
+  const seen = new Set();
 
-allItems.forEach((item, i) => {
- if (!item.id) {
-  item.id = `item_${i}`;
-}
-  seen.add(item.id);
-});
+  allItems.forEach((item, i) => {
+   if (!item.id) {
+    item.id = `item_${i}`;
+  }
+    seen.add(item.id);
+  });
   
   const exactOrder = ['hair', 'dress', 'coat', 'top', 'bottom', 'hosiery', 'shoes', 'makeup', 'accessory', 'soul'];
   allItems.sort((a, b) => {
@@ -175,10 +229,11 @@ allItems.forEach((item, i) => {
     return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
   });
   
-  console.log(`🎉 TOTAL: ${allItems.length} items - HAIR FIRST`);
-  console.log("ALL:", allItems.length);
-  console.log("FILTERED:", filteredItems.length);
-  updateSaveCounter(); populateAllFilters(); filter(); document.getElementById('loading').style.display = 'none';
+  console.log(`🎉 TOTAL: ${allItems.length} items - CSV Loaded!`);
+  updateSaveCounter(); 
+  populateAllFilters(); 
+  filter(); 
+  document.getElementById('loading').style.display = 'none';
 }
 
 function populateAllFilters() {
@@ -194,26 +249,30 @@ function filter() {
 
     const mainColor = document.getElementById('mainColorFilter').value;
     const otherColor = document.getElementById('otherColorFilter').value;
+    const tertiaryColorElem = document.getElementById('tertiaryColorFilter');
+    const tertiaryColor = tertiaryColorElem ? tertiaryColorElem.value : '';
+
     const tag1 = document.getElementById('tag1Filter').value;
     const tag2 = document.getElementById('tag2Filter').value;
 
     const matchTag1 = !tag1 || item.tag1 === tag1 || item.tag2 === tag1;
     const matchTag2 = !tag2 || item.tag1 === tag2 || item.tag2 === tag2;
 
-    const matchMainColor = !mainColor || item.maincolor === mainColor || item.othercolor === mainColor;
-    const matchOtherColor = !otherColor || item.maincolor === otherColor || item.othercolor === otherColor;
+    // 🔥 Colors now seamlessly check all 3 columns allowing flexible mix & match!
+    const matchMainColor = !mainColor || item.maincolor === mainColor || item.othercolor === mainColor || item.tertiarycolor === mainColor;
+    const matchOtherColor = !otherColor || item.maincolor === otherColor || item.othercolor === otherColor || item.tertiarycolor === otherColor;
+    const matchTertiaryColor = !tertiaryColor || item.maincolor === tertiaryColor || item.othercolor === tertiaryColor || item.tertiarycolor === tertiaryColor;
 
-    // 🔥 UPDATED SEARCH (name + suit + more optional fields)
-const isNumberSearch = /^\d+$/.test(search);
+    const isNumberSearch = /^\d+$/.test(search);
 
-const matchSearch =
-  !search ||
-  (item.name || "").toLowerCase().includes(search) ||
-  (item.suit || "").toLowerCase().includes(search) ||
-  (item.category || "").toLowerCase().includes(search) ||
-  (item.tag1 || "").toLowerCase().includes(search) ||
-  (item.tag2 || "").toLowerCase().includes(search) ||
-  (isNumberSearch && String(item.id).includes(search));
+    const matchSearch =
+      !search ||
+      (item.name || "").toLowerCase().includes(search) ||
+      (item.suit || "").toLowerCase().includes(search) ||
+      (item.category || "").toLowerCase().includes(search) ||
+      (item.tag1 || "").toLowerCase().includes(search) ||
+      (item.tag2 || "").toLowerCase().includes(search) ||
+      (isNumberSearch && String(item.id).includes(search));
 
     return (
       matchSearch &&
@@ -222,6 +281,7 @@ const matchSearch =
       (!category || (item.category || "") === category) &&
       matchMainColor &&
       matchOtherColor &&
+      matchTertiaryColor &&
       matchTag1 &&
       matchTag2
     );
@@ -275,8 +335,9 @@ function showItemDetail(item) {
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; font-size: 15px; margin-bottom: 20px;">
           ${item.type ? `<div><strong>Type:</strong> ${item.type}${item.subtype ? ' / ' + item.subtype : ''}</div>` : ''}
           ${item.category ? `<div><strong>Category:</strong> ${item.category}</div>` : ''}
-          ${item.maincolor ? `<div><strong>Main Color:</strong> ${item.maincolor}</div>` : ''}
-          ${item.othercolor ? `<div><strong>Other Color:</strong> ${item.othercolor}</div>` : ''}
+          ${item.maincolor ? `<div><strong>Primary Color:</strong> ${item.maincolor}</div>` : ''}
+          ${item.othercolor ? `<div><strong>Secondary Color:</strong> ${item.othercolor}</div>` : ''}
+          ${item.tertiarycolor ? `<div><strong>Tertiary Color:</strong> ${item.tertiarycolor}</div>` : ''}
           ${item.suit ? `<div><strong>Suit:</strong> ${item.suit}</div>` : ''}
           ${tags.length ? `<div><strong>Tags:</strong> ${tags.join(', ')}</div>` : ''}
         </div>
@@ -344,10 +405,16 @@ function populateColorFilters() {
 
 function populateExtraFilters() {
   const otherColors = [...new Set(allItems.map(i => i.othercolor).filter(Boolean))];
+  const tertiaryColors = [...new Set(allItems.map(i => i.tertiarycolor).filter(Boolean))];
   const tag1s = [...new Set(allItems.map(i => i.tag1).filter(Boolean))];
   const tag2s = [...new Set(allItems.map(i => i.tag2).filter(Boolean))];
 
   fillSelect('otherColorFilter', otherColors);
+  
+  if (document.getElementById('tertiaryColorFilter')) {
+      fillSelect('tertiaryColorFilter', tertiaryColors);
+  }
+  
   fillSelect('tag1Filter', tag1s);
   fillSelect('tag2Filter', tag2s);
 }
@@ -357,6 +424,7 @@ function fillSelect(id, values) {
 
   const labels = {
     otherColorFilter: "All Other Colors",
+    tertiaryColorFilter: "All Tertiary Colors",
     tag1Filter: "All Tag 1",
     tag2Filter: "All Tag 2"
   };
@@ -403,9 +471,9 @@ function createCardView(items) {
 }
 
 function createTableView(items) {
-  let html = `<table><thead><tr><th>Save</th><th>Name</th><th>Type</th><th>Sub Type</th><th>Rarity</th><th>Gorgeous</th><th>Simple</th><th>Elegant</th><th>Lively</th><th>Mature</th><th>Cute</th><th>Sexy</th><th>Pure</th><th>Warm</th><th>Cool</th><th>Main Color</th><th>Other Color</th><th>Category</th><th>Suit</th><th>Tag 1</th><th>Tag 2</th><th>In Suit</th><th>Pose</th><th>Animated</th><th>Image</th></tr></thead><tbody>`;
+  let html = `<table><thead><tr><th>Save</th><th>Name</th><th>Type</th><th>Sub Type</th><th>Rarity</th><th>Gorgeous</th><th>Simple</th><th>Elegant</th><th>Lively</th><th>Mature</th><th>Cute</th><th>Sexy</th><th>Pure</th><th>Warm</th><th>Cool</th><th>Main Color</th><th>Other Color</th><th>Tertiary Color</th><th>Category</th><th>Suit</th><th>Tag 1</th><th>Tag 2</th><th>In Suit</th><th>Pose</th><th>Animated</th><th>Image</th></tr></thead><tbody>`;
   items.forEach(item => {
-    html += `<tr><td><input type="checkbox" ${savedItems.has(item.id)?'checked':''} onchange="toggleFavorite('${item.id}')" class="save-checkbox"></td><td>${item.name||'-'}</td><td>${item.type||'-'}</td><td>${item.subtype||'-'}</td><td>${item.rarity||0}♥</td><td>${item.gorgeous||'-'}</td><td>${item.simple||'-'}</td><td>${item.elegant||'-'}</td><td>${item.lively||'-'}</td><td>${item.mature||'-'}</td><td>${item.cute||'-'}</td><td>${item.sexy||'-'}</td><td>${item.pure||'-'}</td><td>${item.warm||'-'}</td><td>${item.cool||'-'}</td><td>${item.maincolor||'-'}</td><td>${item.othercolor||'-'}</td><td>${item.category||'-'}</td><td>${item.suit||'-'}</td><td>${item.tag1||'-'}</td><td>${item.tag2||'-'}</td><td>${item.inasuit?'Yes':'No'}</td><td>${item.pose?'Yes':'No'}</td><td>${item.animated?'Yes':'No'}</td><td><img src="${getImageUrl(item)}" class="table-img" onerror="this.src='https://placehold.co/400x400?text=No+Image'"></td></tr>`;
+    html += `<tr><td><input type="checkbox" ${savedItems.has(item.id)?'checked':''} onchange="toggleFavorite('${item.id}')" class="save-checkbox"></td><td>${item.name||'-'}</td><td>${item.type||'-'}</td><td>${item.subtype||'-'}</td><td>${item.rarity||0}♥</td><td>${item.gorgeous||'-'}</td><td>${item.simple||'-'}</td><td>${item.elegant||'-'}</td><td>${item.lively||'-'}</td><td>${item.mature||'-'}</td><td>${item.cute||'-'}</td><td>${item.sexy||'-'}</td><td>${item.pure||'-'}</td><td>${item.warm||'-'}</td><td>${item.cool||'-'}</td><td>${item.maincolor||'-'}</td><td>${item.othercolor||'-'}</td><td>${item.tertiarycolor||'-'}</td><td>${item.category||'-'}</td><td>${item.suit||'-'}</td><td>${item.tag1||'-'}</td><td>${item.tag2||'-'}</td><td>${item.inasuit?'Yes':'No'}</td><td>${item.pose?'Yes':'No'}</td><td>${item.animated?'Yes':'No'}</td><td><img src="${getImageUrl(item)}" class="table-img" onerror="this.src='https://placehold.co/400x400?text=No+Image'"></td></tr>`;
   });
   return html + '</tbody></table>';
 }
