@@ -3,7 +3,7 @@ let filteredItems = [];
 let savedItems = new Set();
 let currentPage = 1;
 let currentSaveFilter = 'all';
-const ITEMS_PER_PAGE = 36;
+const ITEMS_PER_PAGE = 42;
 let isCardView = false;
 let loadingTimeout = null;
 
@@ -444,11 +444,13 @@ function displayPage(items) {
 
 function createCardView(items) {
   let html = '<div class="cards">';
-  items.forEach(item => {
+  items.forEach((item, index) => { // <-- Note I added 'index' here
     const isMissingData = !item.name || !item.rarity || !item.type;
-const warningClass = isMissingData ? 'missing-data-border' : '';
+    const warningClass = isMissingData ? 'missing-data-border' : '';
+    
+    // Notice the animation-delay trick added to the style below:
     html += `
-      <div class="card ${warningClass}">
+      <div class="card ${warningClass}" style="animation-delay: ${index * 0.03}s">
         <div class="card-content" onclick="showItemDetail(${JSON.stringify(item).replace(/"/g, '&quot;')})">
           <img src="${getImageUrl(item)}" onerror="this.src='https://placehold.co/400x400?text=No+Image'" class="card-image">
           <div class="card-name">${item.name}</div>
