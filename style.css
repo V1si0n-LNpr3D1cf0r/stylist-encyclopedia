@@ -250,19 +250,19 @@ td {
 
 
 .card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px); /* This creates the glass effect */
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  padding: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
-  background: white;
-  border-radius: 15px;
-  padding: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  transition: all 0.2s;
-  cursor: pointer;
 }
 
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
 }
 
 
@@ -822,4 +822,29 @@ button {
 
 * {
   border-color: rgba(255,255,255,0.08);
+}
+
+.color-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  margin-right: 5px;
+}
+
+.tag-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 15px;
+  font-size: 0.75em;
+  color: white;
+  margin: 2px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.missing-data-border {
+  border: 2px solid #ff4d4d !important;
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.3);
 }

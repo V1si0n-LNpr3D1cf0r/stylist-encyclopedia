@@ -14,8 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('categoryFilter').addEventListener('change', filter);
   document.getElementById('mainColorFilter').addEventListener('change', filter);
   document.getElementById('otherColorFilter').addEventListener('change', filter);
-  
-  // Attach tertiary color filter safely
+
   const tertiaryFilter = document.getElementById('tertiaryColorFilter');
   if (tertiaryFilter) tertiaryFilter.addEventListener('change', filter);
 
@@ -130,7 +129,7 @@ function clearAllFilters() {
     'categoryFilter',
     'mainColorFilter',
     'otherColorFilter',
-    'tertiaryColorFilter', // Added to clearing logic
+    'tertiaryColorFilter', 
     'tag1Filter',
     'tag2Filter'
   ];
@@ -147,13 +146,10 @@ function clearAllFilters() {
   filter();
 }
 
-// -----------------------------------------------------------------
-// DIRECT CSV LOADING & PARSING LOGIC
-// -----------------------------------------------------------------
 function startLoadingWithTimeout() {
-  loadingTimeout = setTimeout(forceCompleteLoading, 15000); // Bumped timeout slightly for raw CSV
+  loadingTimeout = setTimeout(forceCompleteLoading, 15000); 
   
-  fetch('data.csv')
+  fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vT9pgrqkCBOBV9zO4RfBFi83_GvPaP8_tPBev7P1wi_CzAHtGN3UKnW8SdWHHjdDFVmoTNmA8_eDfgs/pub?output=csv') 
     .then(res => res.ok ? res.text() : '')
     .then(text => {
       if (text) {
@@ -198,7 +194,6 @@ function parseCSV(text) {
       obj[header] = rows[j][index] ? rows[j][index].trim() : '';
     });
     
-    // Automatically convert your TRUE/FALSE CSV strings to actual booleans
     for (let key in obj) {
       if (typeof obj[key] === 'string') {
         if (obj[key].toUpperCase() === 'TRUE') obj[key] = true;
@@ -209,7 +204,6 @@ function parseCSV(text) {
   }
   return data;
 }
-// -----------------------------------------------------------------
 
 function completeLoading() {
   clearTimeout(loadingTimeout);
@@ -258,7 +252,6 @@ function filter() {
     const matchTag1 = !tag1 || item.tag1 === tag1 || item.tag2 === tag1;
     const matchTag2 = !tag2 || item.tag1 === tag2 || item.tag2 === tag2;
 
-    // 🔥 Colors now seamlessly check all 3 columns allowing flexible mix & match!
     const matchMainColor = !mainColor || item.maincolor === mainColor || item.othercolor === mainColor || item.tertiarycolor === mainColor;
     const matchOtherColor = !otherColor || item.maincolor === otherColor || item.othercolor === otherColor || item.tertiarycolor === otherColor;
     const matchTertiaryColor = !tertiaryColor || item.maincolor === tertiaryColor || item.othercolor === tertiaryColor || item.tertiarycolor === tertiaryColor;
@@ -267,11 +260,11 @@ function filter() {
 
     const matchSearch =
       !search ||
-      (item.name || "").toLowerCase().includes(search) ||
-      (item.suit || "").toLowerCase().includes(search) ||
-      (item.category || "").toLowerCase().includes(search) ||
-      (item.tag1 || "").toLowerCase().includes(search) ||
-      (item.tag2 || "").toLowerCase().includes(search) ||
+      (item.name || "").toLowerCase().includes(search.toLowerCase()) ||
+      (item.suit || "").toLowerCase().includes(search.toLowerCase()) ||
+      (item.category || "").toLowerCase().includes(search.toLowerCase()) ||
+      (item.tag1 || "").toLowerCase().includes(search.toLowerCase()) ||
+      (item.tag2 || "").toLowerCase().includes(search.toLowerCase()) ||
       (isNumberSearch && String(item.id).includes(search));
 
     return (
@@ -452,8 +445,10 @@ function displayPage(items) {
 function createCardView(items) {
   let html = '<div class="cards">';
   items.forEach(item => {
+    const isMissingData = !item.name || !item.rarity || !item.type;
+const warningClass = isMissingData ? 'missing-data-border' : '';
     html += `
-      <div class="card">
+      <div class="card ${warningClass}">
         <div class="card-content" onclick="showItemDetail(${JSON.stringify(item).replace(/"/g, '&quot;')})">
           <img src="${getImageUrl(item)}" onerror="this.src='https://placehold.co/400x400?text=No+Image'" class="card-image">
           <div class="card-name">${item.name}</div>
@@ -473,9 +468,24 @@ function createCardView(items) {
 function createTableView(items) {
   let html = `<table><thead><tr><th>Save</th><th>Name</th><th>Type</th><th>Sub Type</th><th>Rarity</th><th>Gorgeous</th><th>Simple</th><th>Elegant</th><th>Lively</th><th>Mature</th><th>Cute</th><th>Sexy</th><th>Pure</th><th>Warm</th><th>Cool</th><th>Main Color</th><th>Other Color</th><th>Tertiary Color</th><th>Category</th><th>Suit</th><th>Tag 1</th><th>Tag 2</th><th>In Suit</th><th>Pose</th><th>Animated</th><th>Image</th></tr></thead><tbody>`;
   items.forEach(item => {
-    html += `<tr><td><input type="checkbox" ${savedItems.has(item.id)?'checked':''} onchange="toggleFavorite('${item.id}')" class="save-checkbox"></td><td>${item.name||'-'}</td><td>${item.type||'-'}</td><td>${item.subtype||'-'}</td><td>${item.rarity||0}♥</td><td>${item.gorgeous||'-'}</td><td>${item.simple||'-'}</td><td>${item.elegant||'-'}</td><td>${item.lively||'-'}</td><td>${item.mature||'-'}</td><td>${item.cute||'-'}</td><td>${item.sexy||'-'}</td><td>${item.pure||'-'}</td><td>${item.warm||'-'}</td><td>${item.cool||'-'}</td><td>${item.maincolor||'-'}</td><td>${item.othercolor||'-'}</td><td>${item.tertiarycolor||'-'}</td><td>${item.category||'-'}</td><td>${item.suit||'-'}</td><td>${item.tag1||'-'}</td><td>${item.tag2||'-'}</td><td>${item.inasuit?'Yes':'No'}</td><td>${item.pose?'Yes':'No'}</td><td>${item.animated?'Yes':'No'}</td><td><img src="${getImageUrl(item)}" class="table-img" onerror="this.src='https://placehold.co/400x400?text=No+Image'"></td></tr>`;
+    html += `<tr><td><input type="checkbox" ${savedItems.has(item.id)?'checked':''} onchange="toggleFavorite('${item.id}')" class="save-checkbox"></td><td>${item.name||'-'}</td><td>${item.type||'-'}</td><td>${item.subtype||'-'}</td><td>${item.rarity||0}♥</td><td>${item.gorgeous||'-'}</td><td>${item.simple||'-'}</td><td>${item.elegant||'-'}</td><td>${item.lively||'-'}</td><td>${item.mature||'-'}</td><td>${item.cute||'-'}</td><td>${item.sexy||'-'}</td><td>${item.pure||'-'}</td><td>${item.warm||'-'}</td><td>${item.cool||'-'}</td><td>${item.maincolor||'-'}</td><td>${item.othercolor||'-'}</td><td>${item.tertiarycolor||'-'}</td><td>${item.category||'-'}</td><td>${item.suit||'-'}</td><td>${getTagBadge(item.tag1)}</td><td>${getTagBadge(item.tag2)}</td><td>${item.inasuit?'Yes':'No'}</td><td>${item.pose?'Yes':'No'}</td><td>${item.animated?'Yes':'No'}</td><td><img src="${getImageUrl(item)}" class="table-img" onerror="this.src='https://placehold.co/400x400?text=No+Image'"></td></tr>`;
   });
   return html + '</tbody></table>';
+const isMissingData = !item.name || !item.rarity || !item.type;
+const warningClass = isMissingData ? 'missing-data-border' : '';
+
+html += `
+  <div class="card ${warningClass}">
+    ...
+  </div>
+`;
+}
+
+function renderColor(colorName) {
+  if (!colorName) return '-';
+  const map = { "White": "#ffffff", "Pink": "#ffc0cb", "Red": "#ff0000", /* add more */ };
+  const hex = map[colorName] || "#ccc";
+  return `<span class="color-swatch" style="background:${hex}"></span>${colorName}`;
 }
 
 function createPagination(totalPages, totalItems) {
@@ -527,4 +537,67 @@ function toggleDarkMode() {
   btn.textContent = isDark ? '𖤓' : '⏾';
 
   localStorage.setItem('darkMode', isDark ? 'on' : 'off');
+}
+
+function getTagBadge(tagName) {
+  if (!tagName) return '';
+  const tagColors = {
+    "Sun Care": "#f28c3a",
+    "Dancer": "#f26c6c",
+    "Floral": "#e38b84",
+    "Winter": "#7b9ca6",
+    "Sailor": "#4f7fd8",
+    "Traditional": "#df6b4f",
+    "Bunny": "#f47cc6",
+    "Lady": "#d9a23b",
+    "Britain": "#5b74c9",
+    "Swimsuit": "#54b6dc",
+    "Shower": "#62c8cb",
+    "Kimono": "#d98b78",
+    "Lolita": "#f35fa8",
+    "Gothic": "#6b5b5b",
+    "Sports": "#5aa9df",
+    "Street": "#6d6ab3",
+    "Pajamas": "#b28acb",
+    "Wedding": "#b99b9b",
+    "Army": "#73863d",
+    "Chic": "#757575",
+    "Preppy": "#a94a4a",
+    "Unisex": "#6a9556",
+    "Future": "#6d9dc5",
+    "Fairy": "#ff6f9f",
+    "Apron": "#c95d5d",
+    "Cheongsam": "#d66a6a",
+    "Maiden": "#666666",
+    "Evening Gown": "#7261b6",
+    "Musician": "#cf5a5a",
+    "Workwear": "#5f93c6",
+    "Animal": "#bf8b78",
+    "Goddess": "#c887db",
+    "POP": "#f15b5b",
+    "Homewear": "#e6a27b",
+    "Chinese Classical": "#6b5252",
+    "Multicultural": "#d6ad2e",
+    "Republic of China": "#6c79a8",
+    "European": "#5d5d5d",
+    "Swordsman": "#5c8fd8",
+    "Rain": "#6ab37c",
+    "Modern China": "#8a7070",
+    "Dryad": "#7b6666",
+    "Bohemia": "#f38a34",
+    "Paramedics": "#6bc7c7"
+  };
+  
+  const color = tagColors[tagName] || "#a0a0a0"; 
+  return `<span class="tag-badge" style="background-color: ${color}">${tagName}</span>`;
+}
+
+function renderColorSwatch(colorName) {
+  if (!colorName) return '-';
+  const colorMap = {
+    "White": "#ffffff", "Pink": "#ffc0cb", "Red": "#ff0000",
+    "Black": "#000000", "Blue": "#0000ff", "Yellow": "#ffff00"
+  };
+  const hex = colorMap[colorName] || "#ccc";
+  return `<span class="color-swatch" style="background:${hex}"></span>${colorName}`;
 }
