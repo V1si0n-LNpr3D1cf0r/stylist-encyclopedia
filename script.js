@@ -8,7 +8,6 @@ let isCardView = false;
 let loadingTimeout = null;
 
 function isItemSaved(item) {
-  // I-check kung saved gamit ang internal ID O ang NIID
   const idSaved = savedItems.has(String(item.id));
   const niidSaved = item.niid ? savedItems.has(String(item.niid)) : false;
   return idSaved || niidSaved;
@@ -88,24 +87,21 @@ function updateSaveCounter() {
 }
 
 function toggleFavorite(id) {
-  // Hanapin ang item object base sa id O niid
   const item = allItems.find(i => String(i.id) === String(id) || String(i.niid) === String(id));
   if (!item) return;
 
   const isSaved = isItemSaved(item);
 
   if (isSaved) {
-    // Kung saved, tanggalin pareho
     savedItems.delete(String(item.id));
     if (item.niid) savedItems.delete(String(item.niid));
   } else {
-    // Kung hindi pa, i-add pareho
     savedItems.add(String(item.id));
     if (item.niid) savedItems.add(String(item.niid));
   }
   
   saveFavorites();
-  filter(); // Refresh UI
+  filter();
 }
 
 function saveAllFavorites() {
@@ -273,20 +269,20 @@ function filter() {
     const matchTag1 = !tag1 || item.tag1 === tag1 || item.tag2 === tag1;
     const matchTag2 = !tag2 || item.tag1 === tag2 || item.tag2 === tag2;
 
-    const matchMainColor = !mainColor || item.maincolor === mainColor || item.othercolor === mainColor || item.tertiarycolor === mainColor;
-    const matchOtherColor = !otherColor || item.maincolor === otherColor || item.othercolor === otherColor || item.tertiarycolor === otherColor;
-    const matchTertiaryColor = !tertiaryColor || item.maincolor === tertiaryColor || item.othercolor === tertiaryColor || item.tertiarycolor === tertiaryColor;
+    const matchMainColor = !mainColor || item.maincolor === mainColor || item.othercolor === mainColor || item.tertiary === mainColor;
+    const matchOtherColor = !otherColor || item.maincolor === otherColor || item.othercolor === otherColor || item.tertiary === otherColor;
+    const matchTertiaryColor = !tertiaryColor || item.maincolor === tertiaryColor || item.othercolor === tertiaryColor || item.tertiary === tertiaryColor;
 
     const isNumberSearch = /^\d+$/.test(search);
 
     const matchSearch =
       !search ||
-      (item.name || "").toLowerCase().includes(search.toLowerCase()) ||
-      (item.suit || "").toLowerCase().includes(search.toLowerCase()) ||
-      (item.category || "").toLowerCase().includes(search.toLowerCase()) ||
-      (item.tag1 || "").toLowerCase().includes(search.toLowerCase()) ||
-      (item.tag2 || "").toLowerCase().includes(search.toLowerCase()) ||
-      (isNumberSearch && String(item.id).includes(search));
+      (item.name || "").toLowerCase().includes(search) ||
+      (item.suit || "").toLowerCase().includes(search) ||
+      (item.category || "").toLowerCase().includes(search) ||
+      (item.tag1 || "").toLowerCase().includes(search) ||
+      (item.tag2 || "").toLowerCase().includes(search) ||
+      (isNumberSearch && (String(item.id).includes(search) || (item.niid && String(item.niid).includes(search))));
 
     return (
       matchSearch &&
@@ -303,11 +299,9 @@ function filter() {
 
   switch(currentSaveFilter) {
     case 'saved':
-      // Gamitin ang helper function imbes na direct has()
       tempFiltered = tempFiltered.filter(item => isItemSaved(item));
       break;
     case 'unsaved':
-      // Gamitin ang helper function
       tempFiltered = tempFiltered.filter(item => !isItemSaved(item));
       break;
   }
@@ -421,7 +415,7 @@ function populateColorFilters() {
 
 function populateExtraFilters() {
   const otherColors = [...new Set(allItems.map(i => i.othercolor).filter(Boolean))];
-  const tertiaryColors = [...new Set(allItems.map(i => i.tertiarycolor).filter(Boolean))];
+  const tertiaryColors = [...new Set(allItems.map(i => i.tertiary).filter(Boolean))];
   const tag1s = [...new Set(allItems.map(i => i.tag1).filter(Boolean))];
   const tag2s = [...new Set(allItems.map(i => i.tag2).filter(Boolean))];
 
@@ -491,9 +485,38 @@ function createCardView(items) {
 
 function createTableView(items) {
   let html = `<table><thead><tr><th>Save</th><th>Name</th><th>Type</th><th>Sub Type</th><th>Rarity</th><th>Gorgeous</th><th>Simple</th><th>Elegant</th><th>Lively</th><th>Mature</th><th>Cute</th><th>Sexy</th><th>Pure</th><th>Warm</th><th>Cool</th><th>Main Color</th><th>Other Color</th><th>Tertiary Color</th><th>Category</th><th>Suit</th><th>Tag 1</th><th>Tag 2</th><th>In Suit</th><th>Pose</th><th>Animated</th><th>Image</th></tr></thead><tbody>`;
+  
   items.forEach(item => {
-    html += `<tr><td><input type="checkbox" value="${item.id}" ${isItemSaved(item)?'checked':''} onchange="toggleFavorite('${item.id}')" class="save-checkbox"></td><td>${item.name||'-'}</td><td>${item.type||'-'}</td><td>${item.subtype||'-'}</td><td>${item.rarity||0}♥</td><td>${item.gorgeous||'-'}</td><td>${item.simple||'-'}</td><td>${item.elegant||'-'}</td><td>${item.lively||'-'}</td><td>${item.mature||'-'}</td><td>${item.cute||'-'}</td><td>${item.sexy||'-'}</td><td>${item.pure||'-'}</td><td>${item.warm||'-'}</td><td>${item.cool||'-'}</td><td>${item.maincolor||'-'}</td><td>${item.othercolor||'-'}</td><td>${item.tertiarycolor||'-'}</td><td>${item.category||'-'}</td><td>${item.suit||'-'}</td><td>${getTagBadge(item.tag1)}</td><td>${getTagBadge(item.tag2)}</td><td>${item.inasuit?'Yes':'No'}</td><td>${item.pose?'Yes':'No'}</td><td>${item.animated?'Yes':'No'}</ td>< td >< img src = "${getImageUrl(item)}" class="table-img" onerror="this.src='https://placehold.co/400x400?text=No+Image'" ></ td ></ tr > `;
+    html += `<tr>
+      <td><input type="checkbox" value="${item.id}" ${isItemSaved(item)?'checked':''} onchange="toggleFavorite('${item.id}')" class="save-checkbox"></td>
+      <td>${item.name || '-'}</td>
+      <td>${item.type || '-'}</td>
+      <td>${item.subtype || '-'}</td>
+      <td>${item.rarity || 0}♥</td>
+      <td>${item.gorgeous || '-'}</td>
+      <td>${item.simple || '-'}</td>
+      <td>${item.elegant || '-'}</td>
+      <td>${item.lively || '-'}</td>
+      <td>${item.mature || '-'}</td>
+      <td>${item.cute || '-'}</td>
+      <td>${item.sexy || '-'}</td>
+      <td>${item.pure || '-'}</td>
+      <td>${item.warm || '-'}</td>
+      <td>${item.cool || '-'}</td>
+      <td>${item.maincolor || '-'}</td>
+      <td>${item.othercolor || '-'}</td>
+      <td>${item.tertiary || '-'}</td>
+      <td>${item.category || '-'}</td>
+      <td>${item.suit || '-'}</td>
+      <td>${getTagBadge(item.tag1)}</td>
+      <td>${getTagBadge(item.tag2)}</td>
+      <td>${item.inasuit ? 'Yes' : 'No'}</td>
+      <td>${item.pose ? 'Yes' : 'No'}</td>
+      <td>${item.animated ? 'Yes' : 'No'}</td>
+      <td><img src="${getImageUrl(item)}" class="table-img" onerror="this.src='https://placehold.co/400x400?text=No+Image'"></td>
+    </tr>`;
   });
+  
   return html + '</tbody></table>';
 }
 
@@ -628,21 +651,17 @@ function importWbakFile(event) {
       const importedData = JSON.parse(e.target.result);
       let itemsToImport = [];
 
-      // I-handle ang array format
       if (Array.isArray(importedData)) {
         itemsToImport = importedData;
       } else if (importedData && Array.isArray(importedData.items)) {
         itemsToImport = importedData.items;
       }
 
-      // DITO ANG FIX: I-convert lahat ng ID sa String para match sa system
-      // Ginagawa nating .map(String) para maging "123" kahit na number "123" pa ito
       const normalizedItems = itemsToImport.map(id => String(id));
       
       savedItems = new Set(normalizedItems);
       saveFavorites();
       
-      // I-trigger ang filter at console log para ma-debug
       filter();
       console.log("Imported items count:", savedItems.size);
       console.log("Sample ID from Saved:", [...savedItems][0]);
@@ -652,43 +671,35 @@ function importWbakFile(event) {
       alert("Error: Hindi mabasa ang file.");
       console.error(err);
     }
-    event.target.value = ''; // Reset input
+    event.target.value = '';
   };
   reader.readAsText(file);
 }
 
 function exportWbakFile() {
-  // 1. I-convert ang Set pabalik sa Array
   const itemsArray = Array.from(savedItems);
   
-  // 2. I-convert ang array sa JSON string
   const jsonString = JSON.stringify(itemsArray);
   
-  // 3. Gumawa ng Blob (ito ang file data)
   const blob = new Blob([jsonString], { type: 'application/octet-stream' });
   
-  // 4. I-trigger ang download
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'my_wardrobe.wbak'; // Pangalan ng file
+  a.download = 'my_wardrobe.wbak';
   document.body.appendChild(a);
   a.click();
   
-  // 5. Cleanup
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
 
 function updateCheckboxes() {
-  // Kunin lahat ng checkbox input sa page
   const checkboxes = document.querySelectorAll('input[type="checkbox"]');
   
   checkboxes.forEach(cb => {
-    // I-check kung ang ID ng checkbox ay nasa savedItems Set
     if (savedItems.has(cb.value)) {
       cb.checked = true;
-      // Kung may parent class na kailangang i-update (halimbawa .card), gawin ito dito
       cb.closest('.card')?.classList.add('selected');
     } else {
       cb.checked = false;
