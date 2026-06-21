@@ -6,6 +6,7 @@ let currentSaveFilter = 'all';
 const ITEMS_PER_PAGE = 42;
 let isCardView = false;
 let loadingTimeout = null;
+let searchTimeout = null;
 
 function isItemSaved(item) {
   const idSaved = savedItems.has(String(item.id));
@@ -14,7 +15,12 @@ function isItemSaved(item) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('search').addEventListener('input', filter);
+  const searchInput = document.getElementById('search');
+  searchInput.addEventListener('input', () => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(filter, 300);
+  });
+
   document.getElementById('typeFilter').addEventListener('change', filter);
   document.getElementById('rarityFilter').addEventListener('change', filter);
   document.getElementById('categoryFilter').addEventListener('change', filter);
@@ -252,49 +258,45 @@ function populateAllFilters() {
 }
 
 function filter() {
+  const search = document.getElementById('search').value.toLowerCase().trim();
+  const type = document.getElementById('typeFilter').value;
+  const rarity = document.getElementById('rarityFilter').value;
+  const category = document.getElementById('categoryFilter').value;
+  const mainColor = document.getElementById('mainColorFilter').value;
+  const otherColor = document.getElementById('otherColorFilter').value;
+  const tertiaryColorElem = document.getElementById('tertiaryColorFilter');
+  const tertiaryColor = tertiaryColorElem ? tertiaryColorElem.value : '';
+  const tag1 = document.getElementById('tag1Filter').value;
+  const tag2 = document.getElementById('tag2Filter').value;
+  const isNumberSearch = search ? /^\d+$/.test(search) : false;
+
   let tempFiltered = allItems.filter(item => {
-    const search = document.getElementById('search').value.toLowerCase().trim();
-    const type = document.getElementById('typeFilter').value;
-    const rarity = document.getElementById('rarityFilter').value;
-    const category = document.getElementById('categoryFilter').value;
+    if (type && item.type !== type && item.subtype !== type) return false;
+    if (rarity && Number(item.rarity) !== Number(rarity)) return false;
+    if (category && (item.category || "") !== category) return false;
 
-    const mainColor = document.getElementById('mainColorFilter').value;
-    const otherColor = document.getElementById('otherColorFilter').value;
-    const tertiaryColorElem = document.getElementById('tertiaryColorFilter');
-    const tertiaryColor = tertiaryColorElem ? tertiaryColorElem.value : '';
+    if (tag1 && item.tag1 !== tag1 && item.tag2 !== tag1) return false;
+    if (tag2 && item.tag1 !== tag2 && item.tag2 !== tag2) return false;
 
-    const tag1 = document.getElementById('tag1Filter').value;
-    const tag2 = document.getElementById('tag2Filter').value;
+    if (mainColor && item.maincolor !== mainColor && item.othercolor !== mainColor && item.tertiary !== mainColor) return false;
+    if (otherColor && item.maincolor !== otherColor && item.othercolor !== otherColor && item.tertiary !== otherColor) return false;
+    if (tertiaryColor && item.maincolor !== tertiaryColor && item.othercolor !== tertiaryColor && item.tertiary !== tertiaryColor) return false;
 
-    const matchTag1 = !tag1 || item.tag1 === tag1 || item.tag2 === tag1;
-    const matchTag2 = !tag2 || item.tag1 === tag2 || item.tag2 === tag2;
+    if (search) {
+      if (isNumberSearch) {
+        if (!(String(item.id).includes(search) || (item.niid && String(item.niid).includes(search)))) return false;
+      } else {
+        const matchName = item.name && item.name.toLowerCase().includes(search);
+        const matchSuit = item.suit && item.suit.toLowerCase().includes(search);
+        const matchCat = item.category && item.category.toLowerCase().includes(search);
+        const matchTag1 = item.tag1 && item.tag1.toLowerCase().includes(search);
+        const matchTag2 = item.tag2 && item.tag2.toLowerCase().includes(search);
+        
+        if (!(matchName || matchSuit || matchCat || matchTag1 || matchTag2)) return false;
+      }
+    }
 
-    const matchMainColor = !mainColor || item.maincolor === mainColor || item.othercolor === mainColor || item.tertiary === mainColor;
-    const matchOtherColor = !otherColor || item.maincolor === otherColor || item.othercolor === otherColor || item.tertiary === otherColor;
-    const matchTertiaryColor = !tertiaryColor || item.maincolor === tertiaryColor || item.othercolor === tertiaryColor || item.tertiary === tertiaryColor;
-
-    const isNumberSearch = /^\d+$/.test(search);
-
-    const matchSearch =
-      !search ||
-      (item.name || "").toLowerCase().includes(search) ||
-      (item.suit || "").toLowerCase().includes(search) ||
-      (item.category || "").toLowerCase().includes(search) ||
-      (item.tag1 || "").toLowerCase().includes(search) ||
-      (item.tag2 || "").toLowerCase().includes(search) ||
-      (isNumberSearch && (String(item.id).includes(search) || (item.niid && String(item.niid).includes(search))));
-
-    return (
-      matchSearch &&
-      (!type || item.type === type || item.subtype === type) &&
-      (!rarity || Number(item.rarity) === Number(rarity)) &&
-      (!category || (item.category || "") === category) &&
-      matchMainColor &&
-      matchOtherColor &&
-      matchTertiaryColor &&
-      matchTag1 &&
-      matchTag2
-    );
+    return true;
   });
 
   switch(currentSaveFilter) {
@@ -318,13 +320,15 @@ function filter() {
 
 function showItemDetail(item) {
   const content = document.getElementById('itemDetailContent');
-  const isSaved = savedItems.has(item.id);
+  
+  // Gamitin natin ang helper function natin para ma-check kung saved
+  const isSaved = isItemSaved(item); 
   
   const stats = [];
   const statFields = ['gorgeous', 'simple', 'elegant', 'lively', 'mature', 'cute', 'sexy', 'pure', 'warm', 'cool'];
   statFields.forEach(stat => {
     if (item[stat] && item[stat] !== '-' && item[stat] !== '0') {
-      stats.push(`${stat.charAt(0).toUpperCase() + stat.slice(1)}: ${item[stat]}`);
+      stats.push(`<strong>${stat.charAt(0).toUpperCase() + stat.slice(1)}:</strong> ${item[stat]}`);
     }
   });
   
@@ -333,43 +337,53 @@ function showItemDetail(item) {
   if (item.tag2) tags.push(item.tag2);
   
   content.innerHTML = `
-    <div style="text-align: center; padding: 30px 20px 20px;">
-      <img src="${getImageUrl(item)}" style="width: 220px; height: 220px; object-fit: cover; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); margin-bottom: 25px;">
+    <div style="padding: 10px;">
       
-      <h2 style="color: #d63384; margin: 0 0 20px 0; font-size: 1.8em;">
-        ${item.name} 
-        <span style="font-size: 1.3em; color: #ff69b4;">${item.rarity || 0}♥</span>
-      </h2>
-      
-      <div style="background: linear-gradient(135deg, #fff5f8, #ffe4e6); padding: 25px; border-radius: 20px; margin: 20px 0; border: 2px solid #ffd6e7;">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; font-size: 15px; margin-bottom: 20px;">
-          ${item.type ? `<div><strong>Type:</strong> ${item.type}${item.subtype ? ' / ' + item.subtype : ''}</div>` : ''}
-          ${item.category ? `<div><strong>Category:</strong> ${item.category}</div>` : ''}
-          ${item.maincolor ? `<div><strong>Primary Color:</strong> ${item.maincolor}</div>` : ''}
-          ${item.othercolor ? `<div><strong>Secondary Color:</strong> ${item.othercolor}</div>` : ''}
-          ${item.tertiarycolor ? `<div><strong>Tertiary Color:</strong> ${item.tertiarycolor}</div>` : ''}
-          ${item.suit ? `<div><strong>Suit:</strong> ${item.suit}</div>` : ''}
-          ${tags.length ? `<div><strong>Tags:</strong> ${tags.join(', ')}</div>` : ''}
+      <div style="display: flex; flex-wrap: wrap; gap: 25px; align-items: flex-start;">
+        
+        <div style="flex-shrink: 0; margin: 0 auto;">
+          <img src="${getImageUrl(item)}" style="width: 220px; height: 220px; object-fit: cover; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+        </div>
+        
+        <div style="flex: 1; min-width: 250px; text-align: left;">
+          <h2 style="color: #d63384; margin: 0 0 10px 0; font-size: 1.8em; line-height: 1.2;">
+            ${item.name || 'Unknown Item'} 
+            <span style="font-size: 0.8em; color: #ff69b4; white-space: nowrap;">${item.rarity || 0}♥</span>
+          </h2>
+          
+          <div style="margin-bottom: 20px;">
+            <label style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 15px; background: white; padding: 10px 20px; border-radius: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 2px solid #ffd6e7; transition: 0.2s;">
+              <input type="checkbox" ${isSaved ? 'checked' : ''} onchange="toggleFavorite('${item.id}'); showItemDetail(${JSON.stringify(item).replace(/"/g, '&quot;')})" style="width: 18px; height: 18px; accent-color: #ff69b4;">
+              <span style="color: #333; font-weight: 600;">${isSaved ? '⭐ Saved' : '💾 Save Item'}</span>
+            </label>
+          </div>
+
+          ${item.desc || item.description ? `
+            <div style="font-size: 14px; color: #555; background: rgba(255,105,180,0.05); padding: 15px; border-radius: 12px; border-left: 4px solid #ff69b4; line-height: 1.5;">
+              <em>"${item.desc || item.description}"</em>
+            </div>
+          ` : ''}
+        </div>
+      </div>
+
+      <div style="background: linear-gradient(135deg, #fff5f8, #ffe4e6); padding: 25px; border-radius: 20px; margin-top: 25px; border: 2px solid #ffd6e7; text-align: left;">
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; font-size: 14px; margin-bottom: 20px; color: #444;">
+          ${item.type ? `<div><strong style="color:#d63384;">Type:</strong> ${item.type}${item.subtype ? ' / ' + item.subtype : ''}</div>` : ''}
+          ${item.category ? `<div><strong style="color:#d63384;">Category:</strong> ${item.category}</div>` : ''}
+          ${item.maincolor ? `<div><strong style="color:#d63384;">Main Color:</strong> ${item.maincolor}</div>` : ''}
+          ${item.othercolor ? `<div><strong style="color:#d63384;">Other Color:</strong> ${item.othercolor}</div>` : ''}
+          ${item.tertiary ? `<div><strong style="color:#d63384;">Tertiary:</strong> ${item.tertiary}</div>` : ''}
+          ${item.suit ? `<div><strong style="color:#d63384;">Suit:</strong> ${item.suit}</div>` : ''}
+          ${tags.length ? `<div><strong style="color:#d63384;">Tags:</strong> ${tags.join(', ')}</div>` : ''}
         </div>
         
         ${stats.length ? `
-          <div style="background: rgba(255,255,255,0.7); padding: 20px; border-radius: 15px; border-left: 5px solid #ff69b4;">
-            <strong style="color: #d63384; font-size: 16px;">Stats:</strong><br>
-            ${stats.join(' | ')}
+          <div style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 15px; border-left: 4px solid #d63384; display: flex; flex-wrap: wrap; gap: 12px; font-size: 14px;">
+            ${stats.join('<span style="color:#ccc;">|</span>')}
           </div>
         ` : ''}
-      </div>
-      ${item.desc || item.description ? `
-  <div style="margin-top: 15px; font-size: 14px; color: #555; background: rgba(255,255,255,0.7); padding: 15px; border-radius: 12px;">
-    <strong style="color:#d63384;">Description:</strong><br>
-    ${item.desc || item.description}
-  </div>
-` : ''}
-      <div style="padding: 20px 0;">
-        <label style="display: inline-flex; align-items: center; gap: 12px; cursor: pointer; font-size: 18px; background: white; padding: 15px 25px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 2px solid #ffd6e7;">
-          <input type="checkbox" ${isSaved ? 'checked' : ''} onchange="toggleFavorite('${item.id}'); showItemDetail(${JSON.stringify(item).replace(/"/g, '&quot;')})" style="width: 22px; height: 22px; accent-color: #ff69b4;">
-          <span style="color: #333; font-weight: 600;">${isSaved ? '⭐ Saved' : '💾 Save Item'}</span>
-        </label>
+        
       </div>
     </div>
   `;
@@ -468,7 +482,7 @@ function createCardView(items) {
     html += `
       <div class="card ${warningClass}" style="animation-delay: ${index * 0.03}s">
         <div class="card-content" onclick="showItemDetail(${JSON.stringify(item).replace(/"/g, '&quot;')})">
-          <img src="${getImageUrl(item)}" onerror="this.src='https://placehold.co/400x400?text=No+Image'" class="card-image">
+          <img src="${getImageUrl(item)}" loading="lazy" onerror="this.src='https://placehold.co/400x400?text=No+Image'" class="card-image">
           <div class="card-name">${item.name}</div>
           <div class="card-type">${item.type} | ${item.rarity || 0}♥</div>
         </div>
@@ -513,7 +527,7 @@ function createTableView(items) {
       <td>${item.inasuit ? 'Yes' : 'No'}</td>
       <td>${item.pose ? 'Yes' : 'No'}</td>
       <td>${item.animated ? 'Yes' : 'No'}</td>
-      <td><img src="${getImageUrl(item)}" class="table-img" onerror="this.src='https://placehold.co/400x400?text=No+Image'"></td>
+      <td><td><img src="${getImageUrl(item)}" class="table-img" loading="lazy" onerror="this.src='https://placehold.co/400x400?text=No+Image'"></td>
     </tr>`;
   });
   
