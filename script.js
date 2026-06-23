@@ -680,9 +680,9 @@ function importWbakFile(event) {
       console.log("Imported items count:", savedItems.size);
       console.log("Sample ID from Saved:", [...savedItems][0]);
       
-      alert(`Success! Na-import ang ${savedItems.size} items.`);
+      alert(`Success! ${savedItems.size} items was imported!`);
     } catch (err) {
-      alert("Error: Hindi mabasa ang file.");
+      alert("Error");
       console.error(err);
     }
     event.target.value = '';
