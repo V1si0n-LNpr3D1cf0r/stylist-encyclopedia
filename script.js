@@ -962,9 +962,21 @@ const attributeColors = {
   'warm': '#fd764c'
 };
 
+// --- UPDATED RENDER CHAPTER TABLE ---
 function renderChapterTable() {
   const container = document.getElementById('chapterResults');
-  if (!filteredChapterData.length) { container.innerHTML = '<p>No stages found.</p>'; return; }
+  
+  // TIMING FIX: If chapters loaded but the main encyclopedia is still downloading, wait and try again!
+  if (typeof allItems !== 'undefined' && allItems.length === 0) {
+      container.innerHTML = '<p style="text-align:center; padding: 20px; color: var(--accent);">Loading item databases... please wait.</p>';
+      setTimeout(renderChapterTable, 500); // Wait half a second and restart this function
+      return; 
+  }
+
+  if (!filteredChapterData.length) { 
+      container.innerHTML = '<p style="text-align:center; padding: 20px;">No stages found.</p>'; 
+      return; 
+  }
 
   const start = (currentChapterPage - 1) * ITEMS_PER_TAB_PAGE;
   const pageData = filteredChapterData.slice(start, start + ITEMS_PER_TAB_PAGE);
@@ -972,26 +984,29 @@ function renderChapterTable() {
   let html = `<table><thead><tr><th>Vol.</th><th>Stage</th><th>Name</th><th>Attributes</th><th>Maiden Drops</th><th>Princess Drops</th></tr></thead><tbody>`;
   
   pageData.forEach(row => {
+    // Format Attributes
     let attributes = [row['attributes 1'], row['attributes 2'], row['attributes 3'], row['attributes 4'], row['attributes 5']]
       .filter(Boolean)
       .map(attr => {
         let cleanAttr = attr.trim();
         if (cleanAttr.toLowerCase() === 'elegance') cleanAttr = 'Elegant';
-        const color = attributeColors[cleanAttr.toLowerCase()] || 'var(--accent)';
+        const color = (typeof attributeColors !== 'undefined') ? (attributeColors[cleanAttr.toLowerCase()] || 'var(--accent)') : 'var(--accent)';
         return `<span class="tag-badge" style="background-color: ${color}; color: white; border: none;">${cleanAttr}</span>`;
       }).join(' ');
 
-    // 🔴 FIX: Added the icon helper to the drops!
+    // Format Maiden Drops (Injects the image next to the text)
     let maidenDrops = [row['maiden drops 1'], row['maiden drops 2']]
       .filter(Boolean)
-      .map(drop => `<div style="display:flex; align-items:center; margin-bottom:4px;">${getDropIconUrl(drop)}${drop}</div>`)
+      .map(drop => `<div style="display:flex; align-items:center; margin-bottom:4px;">${getDropIconUrl(drop)}<span>${drop}</span></div>`)
       .join('');
       
+    // Format Princess Drops (Injects the image next to the text)
     let princessDrops = [row['princess drops 1'], row['princess drops 2']]
       .filter(Boolean)
-      .map(drop => `<div style="display:flex; align-items:center; margin-bottom:4px;">${getDropIconUrl(drop)}${drop}</div>`)
+      .map(drop => `<div style="display:flex; align-items:center; margin-bottom:4px;">${getDropIconUrl(drop)}<span>${drop}</span></div>`)
       .join('');
 
+    // Build the table row
     html += `<tr>
       <td>${row['volume no.'] || row['volume'] || '-'}</td>
       <td>${row['stage'] || '-'}</td>
@@ -1005,12 +1020,16 @@ function renderChapterTable() {
   html += `</tbody></table>`;
   container.innerHTML = html;
   
+  // Draw Pagination
   const totalPages = Math.ceil(filteredChapterData.length / ITEMS_PER_TAB_PAGE);
-  document.getElementById('chapterPagination').innerHTML = `
-    <button onclick="currentChapterPage--; renderChapterTable()" ${currentChapterPage === 1 ? 'disabled' : ''}>&laquo; Prev</button>
-    <span>Page ${currentChapterPage} of ${totalPages}</span>
-    <button onclick="currentChapterPage++; renderChapterTable()" ${currentChapterPage === totalPages ? 'disabled' : ''}>Next &raquo;</button>
-  `;
+  const pagination = document.getElementById('chapterPagination');
+  if(pagination) {
+      pagination.innerHTML = `
+        <button onclick="currentChapterPage--; renderChapterTable()" ${currentChapterPage === 1 ? 'disabled' : ''}>&laquo; Prev</button>
+        <span>Page ${currentChapterPage} of ${totalPages}</span>
+        <button onclick="currentChapterPage++; renderChapterTable()" ${currentChapterPage === totalPages ? 'disabled' : ''}>Next &raquo;</button>
+      `;
+  }
 }
 
 window.onclick = function(event) {
@@ -1018,13 +1037,29 @@ window.onclick = function(event) {
   if (event.target == modal) closeCraftingModal();
 }
 
+// --- UPDATED ICON HELPER ---
 function getDropIconUrl(dropName) {
   if (!dropName) return '';
-  const found = allItems.find(i => i.name === dropName);
-  if (found && found.id) {
-    return `<img src="https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-icons/main/icon${found.id}.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px; border-radius: 4px;" onerror="this.style.display='none'">`;
+  
+  // Make the search case-insensitive and remove accidental spaces
+  const searchName = dropName.toLowerCase().trim();
+  
+  // Ensure allItems exists and has loaded
+  if (typeof allItems !== 'undefined' && allItems.length > 0) {
+    // Search the encyclopedia for the exact drop name
+    const found = allItems.find(i => {
+        const itemName = (i.name || i['item name'] || '').toLowerCase().trim();
+        return itemName === searchName;
+    });
+    
+    // If we found the item, grab its ID and build the image
+    if (found && (found.id || found.niid)) {
+      const id = found.id || found.niid; // Supports both 'id' and 'niid' column headers
+      return `<img src="https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-icons/main/icon${id}.png" style="width: 25px; height: 25px; vertical-align: middle; margin-right: 8px; border-radius: 4px;" onerror="this.style.display='none'">`;
+    }
   }
-  return '';
+  
+  return ''; // Return nothing if not found yet
 }
 
 function filterEncyclopedia() {
