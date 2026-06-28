@@ -969,8 +969,7 @@ function renderChapterTable() {
   // TIMING FIX: If chapters loaded but the main encyclopedia is still downloading, wait and try again!
   if (typeof allItems !== 'undefined' && allItems.length === 0) {
       container.innerHTML = '<p style="text-align:center; padding: 20px; color: var(--accent);">Loading item databases... please wait.</p>';
-      setTimeout(renderChapterTable, 500); // Wait half a second and restart this function
-      return; 
+      setTimeout(renderChapterTable, 500);
   }
 
   if (!filteredChapterData.length) { 
@@ -981,7 +980,7 @@ function renderChapterTable() {
   const start = (currentChapterPage - 1) * ITEMS_PER_TAB_PAGE;
   const pageData = filteredChapterData.slice(start, start + ITEMS_PER_TAB_PAGE);
 
-  let html = `<table><thead><tr><th>Vol.</th><th>Stage</th><th>Name</th><th>Attributes</th><th>Maiden Drops</th><th>Princess Drops</th></tr></thead><tbody>`;
+  let html = `<table><thead><tr><th>Vol.</th><th>Stage</th><th>Name</th><th>Attributes</th><th>Tag 1</th><th>Tag 2</th><th>Maiden Drops</th><th>Princess Drops</th></tr></thead><tbody>`;
   
   pageData.forEach(row => {
     // Format Attributes
@@ -993,6 +992,11 @@ function renderChapterTable() {
         const color = (typeof attributeColors !== 'undefined') ? (attributeColors[cleanAttr.toLowerCase()] || 'var(--accent)') : 'var(--accent)';
         return `<span class="tag-badge" style="background-color: ${color}; color: white; border: none;">${cleanAttr}</span>`;
       }).join(' ');
+
+    let tags = [row['tags 1'], row['tags 2']]
+      .filter(Boolean)
+      .map(tag => getTagBadge(tag))
+      .join(' ');
 
     // Format Maiden Drops (Injects the image next to the text)
     let maidenDrops = [row['maiden drops 1'], row['maiden drops 2']]
@@ -1006,12 +1010,13 @@ function renderChapterTable() {
       .map(drop => `<div style="display:flex; align-items:center; margin-bottom:4px;">${getDropIconUrl(drop)}<span>${drop}</span></div>`)
       .join('');
 
-    // Build the table row
     html += `<tr>
       <td>${row['volume no.'] || row['volume'] || '-'}</td>
       <td>${row['stage'] || '-'}</td>
       <td style="font-weight: bold; color: var(--text-title);">${row['name'] || '-'}</td>
       <td>${attributes || '-'}</td>
+      <td>${row['tags 1'] || '-'}</td>
+      <td>${row['tags 2'] || '-'}</td>
       <td>${maidenDrops || '-'}</td>
       <td>${princessDrops || '-'}</td>
     </tr>`;
