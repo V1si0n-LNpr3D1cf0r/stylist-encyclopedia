@@ -980,7 +980,7 @@ function renderChapterTable() {
   const start = (currentChapterPage - 1) * ITEMS_PER_TAB_PAGE;
   const pageData = filteredChapterData.slice(start, start + ITEMS_PER_TAB_PAGE);
 
-  let html = `<table><thead><tr><th>Vol.</th><th>Stage</th><th>Name</th><th>Attributes</th><th>Tag 1</th><th>Tag 2</th><th>Maiden Drops</th><th>Princess Drops</th></tr></thead><tbody>`;
+  let html = `<table><thead><tr><th>Vol.</th><th>Stage</th><th>Name</th><th>Attributes</th><th>Tag 1</th><th>Tag 2</th><th>Item Requirements</th><th>Maiden Drops</th><th>Princess Drops</th></tr></thead><tbody>`;
   
   pageData.forEach(row => {
     // Format Attributes
@@ -997,7 +997,11 @@ function renderChapterTable() {
       .filter(Boolean)
       .map(tag => getTagBadge(tag))
       .join(' ');
-
+    
+    let itemRequirements = [row['item requirements']]
+      .filter(Boolean)
+      .map(req => `<span class="tag-badge" style="background-color: #6c757d; color: white; border: none;">${req}</span>`)
+      .join(' ');
     // Format Maiden Drops (Injects the image next to the text)
     let maidenDrops = [row['maiden drops 1'], row['maiden drops 2']]
       .filter(Boolean)
@@ -1017,6 +1021,7 @@ function renderChapterTable() {
       <td>${attributes || '-'}</td>
       <td>${row['tags 1'] || '-'}</td>
       <td>${row['tags 2'] || '-'}</td>
+      <td>${row['item requirements'] || '-'}</td>
       <td>${maidenDrops || '-'}</td>
       <td>${princessDrops || '-'}</td>
     </tr>`;
