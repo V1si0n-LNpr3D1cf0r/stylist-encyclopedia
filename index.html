@@ -7,60 +7,158 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="header">
-    <h1>Stylist Encyclopedia</h1>
-<div class="top-buttons">
-  <button id="darkModeBtn" onclick="toggleDarkMode()">⏾</button>
-  <button onclick="toggleInfo()">ⓘ</button>
-</div>
-  </div>
-  
-  <div class="save-counter">
-  <div class="save-fill" id="saveFill"></div>
-  <span id="saveText">0%</span>
-    <div class="save-buttons">
-  <button onclick="saveAllFavorites()" class="save-btn">💾 Save All</button>
-  <button onclick="removeAllFavorites()" class="remove-btn">🗑️ Remove Selection</button>
-  <button onclick="document.getElementById('fileInput').click()" class="import-btn">📂 Import</button>
-  <button onclick="exportWbakFile()" class="export-btn">📤 Export</button>
-  <input type="file" id="fileInput" style="display:none" accept=".wbak" onchange="importWbakFile(event)">
-</div>
-  </div>
-  
-  <div class="controls">
-    <div class="save-status-filters">
-      <button onclick="filterSavedItems()" id="savedFilterBtn" class="filter-btn saved-filter">⭐ Owned Items</button>
-      <button onclick="filterUnsavedItems()" id="unsavedFilterBtn" class="filter-btn unsaved-filter">➕ Unowned Items</button>
-      <button onclick="filterAllItems()" id="allFilterBtn" class="filter-btn all-filter active">📋 All Items</button>
+
+  <div id="mySidebar" class="sidebar-container">
+    <div class="sidebar-header">
+      <h3>Menu</h3>
+      <span class="close-sidebar" onclick="toggleSidebar()">&times;</span>
     </div>
     
-    <input type="text" id="search" placeholder="Search items...">
-    <select id="typeFilter"><option value="">All Types</option></select>
-    <select id="rarityFilter">
-      <option value="">All Rarity</option><option value="1">1♥</option><option value="2">2♥</option>
-      <option value="3">3♥</option><option value="4">4♥</option><option value="5">5♥</option><option value="6">6♥</option>
-    </select>
-    <select id="categoryFilter"><option value="">All Category</option></select>
-    <select id="mainColorFilter"><option value="">All Main Colors</option></select>
-    <select id="otherColorFilter">
-  <option value="">All Other Colors</option>
-</select>
-
-<select id="tertiaryColorFilter">
-  <option value="">All Tertiary Colors</option>
-</select>
-
-<select id="tag1Filter">
-  <option value="">All Tag 1</option>
-</select>
-
-<select id="tag2Filter">
-  <option value="">All Tag 2</option>
-</select>
-
-    <button onclick="toggleView()">Table/Card</button>
-    <button onclick="clearAllFilters()">Clear Filters</button>
+    <div class="sidebar-tabs">
+      <button class="tab-btn active" onclick="switchView('encyclopediaView', this)">
+        ✦ Encyclopedia
+      </button>
+      <button class="tab-btn" onclick="switchView('craftingView', this)">
+        ✦ Crafting
+      </button>
+      <button class="tab-btn" onclick="switchView('chaptersView', this)">
+        ✦ Chapters
+      </button>
+      <!--
+      <button class="tab-btn" onclick="switchView('taskSuitsView', this)">
+        ✦ Task Suits
+      </button>
+      -->
+      <button class="tab-btn" onclick="switchView('breakdownView', this)">
+        ✦ Breakdown
+      </button>
+    </div>
   </div>
+
+  <div id="mainWrapper">
+    <button id="sidebarToggle" onclick="toggleSidebar()" class="sidebar-toggle-btn">
+      ☰ Menu
+    </button>
+
+    <div id="encyclopediaView" class="main-view" style="display: block;">
+
+      <div class="header">
+        <h1>Stylist Encyclopedia</h1>
+        <div class="top-buttons">
+          <button id="darkModeBtn" onclick="toggleDarkMode()">⏾</button>
+          <button onclick="toggleInfo()">ⓘ</button>
+        </div>
+      </div>
+      
+      <div class="save-counter">
+        <div class="save-fill" id="saveFill"></div>
+        <span id="saveText">0%</span>
+        <div class="save-buttons">
+          <button onclick="saveAllFavorites()" class="save-btn">💾 Save All</button>
+          <button onclick="removeAllFavorites()" class="remove-btn">🗑️ Remove Selection</button>
+          <button onclick="document.getElementById('fileInput').click()" class="import-btn">📂 Import</button>
+          <button onclick="exportWbakFile()" class="export-btn">📤 Export</button>
+          <input type="file" id="fileInput" style="display:none" accept=".wbak" onchange="importWbakFile(event)">
+        </div>
+      </div>
+      
+      <div class="controls">
+        <div class="save-status-filters">
+          <button onclick="filterSavedItems()" id="savedFilterBtn" class="filter-btn saved-filter">⭐ Owned Items</button>
+          <button onclick="filterUnsavedItems()" id="unsavedFilterBtn" class="filter-btn unsaved-filter">➕ Unowned Items</button>
+          <button onclick="filterAllItems()" id="allFilterBtn" class="filter-btn all-filter active">📋 All Items</button>
+        </div>
+
+        <!-- Search and Filters are now safely inside the controls! -->
+        <input type="text" id="search" placeholder="Search anything...">
+        <select id="typeFilter"><option value="">All Types</option></select>
+        <select id="rarityFilter">
+          <option value="">All Rarity</option><option value="1">1♥</option><option value="2">2♥</option>
+          <option value="3">3♥</option><option value="4">4♥</option><option value="5">5♥</option><option value="6">6♥</option>
+        </select>
+        <select id="categoryFilter"><option value="">All Category</option></select>
+        <select id="mainColorFilter"><option value="">All Main Colors</option></select>
+        <select id="otherColorFilter"><option value="">All Other Colors</option></select>
+        <select id="tertiaryColorFilter"><option value="">All Tertiary Colors</option></select>
+        <select id="tag1Filter"><option value="">All Tag 1</option></select>
+        <select id="tag2Filter"><option value="">All Tag 2</option></select>
+
+        <button onclick="toggleView()">Table/Card</button>
+        <button onclick="clearAllFilters()">Clear Filters</button>
+      </div>
+
+      <div id="loading">Loading items...</div>
+      <div id="results"></div>
+
+    </div>
+
+    <div id="craftingView" class="main-view" style="display: none;">
+      <div class="header"><h1>Crafting Guides</h1></div>
+      <div class="controls">
+        <input type="text" id="craftingSearch" placeholder="Search craftable items..." oninput="filterCrafting()">
+        <select id="obtainFilter" onchange="filterCrafting()">
+          <option value="">All Obtainment Methods</option>
+        </select>
+      </div>
+      <div id="craftingResults" class="list-container"></div>
+      <div class="pagination" id="craftingPagination"></div>
+    </div>
+
+    <div id="chaptersView" class="main-view" style="display: none;">
+      <div class="header"><h1>Chapters</h1></div>
+      <div class="controls">
+        <input type="text" id="chapterSearch" placeholder="Search stages..." oninput="filterChapters()">
+        <select id="volumeFilter" onchange="filterChapters()">
+          <option value="">All Volumes</option>
+          <option value="1">Volume 1</option>
+          <option value="2">Volume 2</option>
+          <option value="3">Volume 3</option>
+        </select>
+        <select id="chapterFilter" onchange="filterChapters()">
+          <option value="">All Chapters</option>
+        </select>
+      </div>
+      <div id="chapterResults" class="list-container"></div>
+      <div class="pagination" id="chapterPagination"></div>
+    </div>
+
+    <div id="breakdownView" class="main-view" style="display: none;">
+      <div class="header"><h1>Suit Breakdowns</h1></div>
+      <div class="controls">
+        <p>Tap a suit to expand and view its individual pieces</p>
+      </div>
+      
+      <!-- Container for the collapsible accordion items -->
+      <div id="suitGalleryList" style="display: flex; flex-direction: column; gap: 12px; padding: 20px;">
+      </div>
+    </div>
+
+    <!-- CRAFTING MODAL -->
+    <div id="craftingModal" class="modal" style="display: none;">
+      <div class="modal-content recipe-modal">
+        <span onclick="closeCraftingModal()" style="position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #4b4b4b; font-weight: bold; line-height: 1; z-index: 10;">&times;</span>
+        
+        <div class="recipe-header-container">
+          <img id="recipeMainImg" src="" alt="Item" class="recipe-main-img" onerror="this.style.display='none'">
+          <div class="recipe-header-text">
+            <h2 id="recipeTitle">Item Name</h2>
+            <p class="recipe-obtain"><strong>Obtain:</strong> <span id="recipeObtain">Store</span></p>
+          </div>
+        </div>
+
+        <div class="recipe-materials" id="recipeMaterials">
+        </div>
+      </div>
+    </div>
+
+    <!--
+    <div id="taskSuitsView" class="main-view" style="display: none;">
+      <div class="header"><h1>Task Suits</h1></div>
+      <div class="controls">
+        <p>Inject your Google Sheets iframe here!</p>
+      </div>
+    </div>
+    -->
 
   <div id="itemDetailModal" class="modal">
     <div class="modal-content item-detail-modal">
@@ -76,6 +174,10 @@
     </div>
   </div>
 
+  <div id="fullImageModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; cursor: pointer;" onclick="this.style.display='none'">
+  <img id="fullImageDisplay" src="" style="max-width: 90%; max-height: 90%; border-radius: 10px; border: 2px solid #fff;">
+</div>
+
   <div id="infoModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="toggleInfo()">&times;</span>
@@ -85,15 +187,15 @@
         <li>Filled with stats, rarity, color, etc. (data and images to be placed later)</li>
         <li>Images aren't mine. Someone provided it to me (and they prefer to be not named/credited)
         <li>Search and filter by type, rarity , nation, color, and tags (Mix and match stuff, anyone? HEHE)</li>
-        <li>Q: Will this be Nikki's Info alternative? A: Ain't no way this will be NI alternative/replacement (fam I don't have the power of god 💔) Edit: BUT... You can use the checkboxes to list all of your wardrobe items and export a .wbak to use in Nikki's Info!</li>
+        <li>Q: Will this be Nikki's Info alternative? A: Ain't no way this will be NI alternative/replacement (fam I don't have the power of god 💔)</li>
         <li>Mobile: Best used with "Desktop Site" on.</li>
+        <li>Want to help? Contact me below ⬇️</li>
+        <li>Made by Manami (@ramunesakura at Discord, u/OkTumbleweed8362 at Reddit, Margielyn Pascua (Main FB)/Manami Naomi (My Page) at Facebook, ramunesakura.ln at Instagram, @ramunesakura4 at Tiktok)(Is this enough for contact?? wkwkwkwkwk)</li>
         <li>Helpers: mikachuu (@mikachuu#0493) provided info for missing items up to Daybreak Blade suit, lynndeeznuts (@LynnD#6271) provided info for items on JP server, krichur (@krichur) and Viv (@vivly) for the data of the colors</li>
         <li>Testers (and my source of opinions): Lydia (@Lydia#0675), Pearl (@Ederne#4620), Viv (@vivly), mikachuu (@mikachuu#0493), Sinthu (FB)</li>
       </ul>
     </div>
   </div>
 
-  <div id="loading">Loading items...</div>
-  <div id="results"></div>
-  
   <script src="script.js"></script>
+</body>

@@ -39,6 +39,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   loadSavedItems();
   startLoadingWithTimeout();
+  loadCraftingData();
+  loadChapterData();
+  loadBreakdownData();
 });
 
 function getImageUrl(item) {
@@ -274,10 +277,8 @@ function filter() {
     if (type && item.type !== type && item.subtype !== type) return false;
     if (rarity && Number(item.rarity) !== Number(rarity)) return false;
     if (category && (item.category || "") !== category) return false;
-
     if (tag1 && item.tag1 !== tag1 && item.tag2 !== tag1) return false;
     if (tag2 && item.tag1 !== tag2 && item.tag2 !== tag2) return false;
-
     if (mainColor && item.maincolor !== mainColor && item.othercolor !== mainColor && item.tertiary !== mainColor) return false;
     if (otherColor && item.maincolor !== otherColor && item.othercolor !== otherColor && item.tertiary !== otherColor) return false;
     if (tertiaryColor && item.maincolor !== tertiaryColor && item.othercolor !== tertiaryColor && item.tertiary !== tertiaryColor) return false;
@@ -286,13 +287,11 @@ function filter() {
       if (isNumberSearch) {
         if (!(String(item.id).includes(search) || (item.niid && String(item.niid).includes(search)))) return false;
       } else {
-        const matchName = item.name && item.name.toLowerCase().includes(search);
-        const matchSuit = item.suit && item.suit.toLowerCase().includes(search);
-        const matchCat = item.category && item.category.toLowerCase().includes(search);
-        const matchTag1 = item.tag1 && item.tag1.toLowerCase().includes(search);
-        const matchTag2 = item.tag2 && item.tag2.toLowerCase().includes(search);
+        const searchTerms = search.split(' ').filter(word => word.trim() !== '');
+        const allRowText = Object.values(item).join(' ').toLowerCase();
         
-        if (!(matchName || matchSuit || matchCat || matchTag1 || matchTag2)) return false;
+        const matchesSearch = searchTerms.every(word => allRowText.includes(word));
+        if (!matchesSearch) return false;
       }
     }
 
@@ -320,8 +319,6 @@ function filter() {
 
 function showItemDetail(item) {
   const content = document.getElementById('itemDetailContent');
-  
-  // Gamitin natin ang helper function natin para ma-check kung saved
   const isSaved = isItemSaved(item); 
   
   const stats = [];
@@ -354,7 +351,7 @@ function showItemDetail(item) {
           <div style="margin-bottom: 20px;">
             <label style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 15px; background: white; padding: 10px 20px; border-radius: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 2px solid #ffd6e7; transition: 0.2s;">
               <input type="checkbox" ${isSaved ? 'checked' : ''} onchange="toggleFavorite('${item.id}'); showItemDetail(${JSON.stringify(item).replace(/"/g, '&quot;')})" style="width: 18px; height: 18px; accent-color: #ff69b4;">
-              <span style="color: #333; font-weight: 600;">${isSaved ? '⭐ Saved' : '💾 Save Item'}</span>
+              <span style="color: #333; font-weight: 600;">${isSaved ? '⭐ Owned' : '💾 Save Item'}</span>
             </label>
           </div>
 
@@ -680,9 +677,9 @@ function importWbakFile(event) {
       console.log("Imported items count:", savedItems.size);
       console.log("Sample ID from Saved:", [...savedItems][0]);
       
-      alert(`Success! ${savedItems.size} items was imported!`);
+      alert(`Success! Na-import ang ${savedItems.size} items.`);
     } catch (err) {
-      alert("Error");
+      alert("Error: Hindi mabasa ang file.");
       console.error(err);
     }
     event.target.value = '';
@@ -720,4 +717,449 @@ function updateCheckboxes() {
       cb.closest('.card')?.classList.remove('selected');
     }
   });
+}
+
+function toggleSidebar() {
+  const sidebar = document.getElementById("mySidebar");
+  sidebar.classList.toggle("open");
+}
+
+function openTab(evt, tabName) {
+  const tabContents = document.getElementsByClassName("tab-content");
+  for (let i = 0; i < tabContents.length; i++) {
+    tabContents[i].style.display = "none";
+  }
+
+  const tabBtns = document.getElementsByClassName("tab-btn");
+  for (let i = 0; i < tabBtns.length; i++) {
+    tabBtns[i].classList.remove("active");
+  }
+
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.classList.add("active");
+}
+
+function toggleSidebar() {
+  const sidebar = document.getElementById("mySidebar");
+  sidebar.classList.toggle("open");
+  
+  document.body.classList.toggle("sidebar-open");
+}
+
+function switchView(viewId, btnElement) {
+  const views = document.querySelectorAll('.main-view');
+  views.forEach(view => {
+    view.style.display = 'none';
+  });
+  
+  const tabs = document.querySelectorAll('.tab-btn');
+  tabs.forEach(tab => {
+    tab.classList.remove('active');
+  });
+  
+  document.getElementById(viewId).style.display = 'block';
+  
+  if (btnElement) {
+    btnElement.classList.add('active');
+  }
+
+  if (window.innerWidth <= 900) {
+    toggleSidebar();
+  }
+}
+
+let craftingData = [];
+let filteredCraftingData = [];
+let currentCraftingPage = 1;
+
+let chapterData = [];
+let filteredChapterData = [];
+let currentChapterPage = 1;
+
+const ITEMS_PER_TAB_PAGE = 50;
+
+function loadCraftingData() {
+  const craftingUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=1432725843&single=true&output=csv'; 
+  fetch(craftingUrl)
+    .then(res => res.ok ? res.text() : '')
+    .then(text => {
+      if (text) {
+        craftingData = parseCSV(text).filter(row => row['item name'] || row['item']);
+        filteredCraftingData = [...craftingData];
+
+        const obtainTypes = [...new Set(craftingData.map(r => r['obtain'] || r['recipe obtainment']).filter(Boolean))].sort();
+        const select = document.getElementById('obtainFilter');
+        obtainTypes.forEach(opt => select.innerHTML += `<option value="${opt}">${opt}</option>`);
+        
+        renderCraftingTable();
+      }
+    });
+}
+
+function filterCrafting() {
+  const search = document.getElementById('craftingSearch').value.toLowerCase();
+  const obtain = document.getElementById('obtainFilter').value;
+  
+  filteredCraftingData = craftingData.filter(row => {
+    const name = (row['item name'] || row['item'] || '').toLowerCase();
+    const rowObtain = (row['obtain'] || row['recipe obtainment'] || '');
+    return name.includes(search) && (obtain === "" || rowObtain === obtain);
+  });
+  
+  currentCraftingPage = 1;
+  renderCraftingTable();
+}
+
+function renderCraftingTable() {
+  const container = document.getElementById('craftingResults');
+  if (!filteredCraftingData.length) { container.innerHTML = '<p>No items found.</p>'; return; }
+
+  const start = (currentCraftingPage - 1) * ITEMS_PER_TAB_PAGE;
+  const pageData = filteredCraftingData.slice(start, start + ITEMS_PER_TAB_PAGE);
+
+  let html = `<table><thead><tr><th>Item Name</th><th>Design Obtainment</th><th>Crafting Method</th></tr></thead><tbody>`;
+  
+  pageData.forEach((row, index) => {
+    const itemName = row['item name'] || row['item'] || '-';
+    const obtain = row['obtain'] || row['recipe obtainment'] || '-';
+    const globalIndex = craftingData.indexOf(row); 
+    
+    html += `<tr>
+      <td style="font-weight: bold; color: var(--text-title);">${itemName}</td>
+      <td>${obtain}</td>
+      <td><button class="recipe-btn" onclick="openCraftingModal(${globalIndex})">View Crafting</button></td>
+    </tr>`;
+  });
+  
+  html += `</tbody></table>`;
+  container.innerHTML = html;
+  
+  const totalPages = Math.ceil(filteredCraftingData.length / ITEMS_PER_TAB_PAGE);
+  document.getElementById('craftingPagination').innerHTML = `
+    <button onclick="currentCraftingPage--; renderCraftingTable()" ${currentCraftingPage === 1 ? 'disabled' : ''}>&laquo; Prev</button>
+    <span>Page ${currentCraftingPage} of ${totalPages}</span>
+    <button onclick="currentCraftingPage++; renderCraftingTable()" ${currentCraftingPage === totalPages ? 'disabled' : ''}>Next &raquo;</button>
+  `;
+}
+
+function openCraftingModal(index) {
+  const row = craftingData[index];
+  
+  document.getElementById('recipeTitle').innerText = row['item name'] || row['item'] || 'Unknown Item';
+  document.getElementById('recipeObtain').innerText = row['obtain'] || row['recipe obtainment'] || 'Unknown';
+  
+  const mainImg = document.getElementById('recipeMainImg');
+  const mainId = row['id'] || row['item id'] || ''; 
+  
+  if (mainId) {
+    mainImg.src = `https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-craftables/main/${mainId}.png`;
+    mainImg.style.display = 'block';
+  } else {
+    mainImg.style.display = 'none';
+  }
+
+  let materialsHtml = '';
+  for(let i=1; i<=4; i++) {
+    const matName = row[`cloth${i}`] || row[`required ${i}`];
+    const matAmt = row[`amount needed ${i}`] || row[`amount${i}`];
+    const matId = row[`material id ${i}`] || row[`id ${i}`] || '';
+
+    if (matName) {
+      let iconUrl = matId ? `https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-icons/main/icon${matId}.png` : '';
+      if (!iconUrl) {
+          const found = allItems.find(item => item.name === matName);
+          if (found && found.id) {
+              iconUrl = `https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-icons/main/icon${found.id}.png`;
+          }
+      }
+      
+      materialsHtml += `
+        <div class="material-row" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <div class="material-left" style="display: flex; align-items: center;">
+            <img src="${iconUrl}" class="material-icon" style="width: 30px; height: 30px; margin-right: 10px; border-radius: 5px;" onerror="this.style.display='none'">
+            <span class="material-name">${matName}</span>
+          </div>
+          <span class="material-amt">x${matAmt || 1}</span>
+        </div>`;
+    }
+  }
+  
+  if(!materialsHtml) materialsHtml = '<p>No materials required.</p>';
+  document.getElementById('recipeMaterials').innerHTML = materialsHtml;
+  document.getElementById('craftingModal').style.display = 'flex';
+}
+
+function closeCraftingModal() {
+  document.getElementById('craftingModal').style.display = 'none';
+}
+
+function loadChapterData() {
+  const chapterUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=563709766&single=true&output=csv'; 
+  fetch(chapterUrl)
+    .then(res => res.ok ? res.text() : '')
+    .then(text => {
+      if (text) {
+        chapterData = parseCSV(text).filter(row => row['stage']);
+        filteredChapterData = [...chapterData];
+        
+        populateChapterDropdowns();
+        
+        renderChapterTable();
+      }
+    });
+}
+
+function populateChapterDropdowns() {
+  const chapterSelect = document.getElementById('chapterFilter');
+  if (chapterSelect) {
+     const chapters = [...new Set(chapterData.map(r => {
+         const stage = r['stage'] || '';
+         return stage.split('-')[0]; 
+     }).filter(Boolean))].sort((a,b) => parseInt(a.replace(/\D/g, '')) - parseInt(b.replace(/\D/g, '')));
+
+     chapterSelect.innerHTML = '<option value="">All Chapters</option>';
+     chapters.forEach(c => chapterSelect.innerHTML += `<option value="${c}">Chapter ${c}</option>`);
+  }
+}
+
+function filterChapters() {
+  const search = document.getElementById('chapterSearch').value.toLowerCase();
+  const volumeSelect = document.getElementById('volumeFilter');
+  const volume = volumeSelect ? volumeSelect.value : "";
+  const chapterSelect = document.getElementById('chapterFilter');
+  const chapter = chapterSelect ? chapterSelect.value : "";
+  
+  filteredChapterData = chapterData.filter(row => {
+    const stage = (row['stage'] || '').toLowerCase();
+    const name = (row['name'] || '').toLowerCase();
+    const vol = String(row['volume no.'] || row['volume'] || '');
+    
+    const matchesSearch = stage.includes(search) || name.includes(search);
+    const matchesVol = (volume === "" || vol === volume);
+    
+    let matchesChap = true;
+    if (chapter !== "") {
+        matchesChap = stage.startsWith(chapter.toLowerCase() + '-');
+    }
+    
+    return matchesSearch && matchesVol && matchesChap;
+  });
+  
+  currentChapterPage = 1;
+  renderChapterTable();
+}
+
+const attributeColors = {
+  'simple': '#8091a1',
+  'gorgeous': '#eeb362',
+  'lively': '#ff9776',
+  'elegant': '#aa93c3',
+  'cute': '#ff7186',
+  'mature': '#ff7878',
+  'pure': '#53babf',
+  'sexy': '#aaa3ca',
+  'cool': '#69accc',
+  'warm': '#fd764c'
+};
+
+function renderChapterTable() {
+  const container = document.getElementById('chapterResults');
+  if (!filteredChapterData.length) { container.innerHTML = '<p>No stages found.</p>'; return; }
+
+  const start = (currentChapterPage - 1) * ITEMS_PER_TAB_PAGE;
+  const pageData = filteredChapterData.slice(start, start + ITEMS_PER_TAB_PAGE);
+
+  let html = `<table><thead><tr><th>Vol.</th><th>Stage</th><th>Name</th><th>Attributes</th><th>Maiden Drops</th><th>Princess Drops</th></tr></thead><tbody>`;
+  
+  pageData.forEach(row => {
+    let attributes = [row['attributes 1'], row['attributes 2'], row['attributes 3'], row['attributes 4'], row['attributes 5']]
+      .filter(Boolean)
+      .map(attr => {
+        let cleanAttr = attr.trim();
+        if (cleanAttr.toLowerCase() === 'elegance') cleanAttr = 'Elegant';
+        const color = attributeColors[cleanAttr.toLowerCase()] || 'var(--accent)';
+        return `<span class="tag-badge" style="background-color: ${color}; color: white; border: none;">${cleanAttr}</span>`;
+      }).join(' ');
+
+    // 🔴 FIX: Added the icon helper to the drops!
+    let maidenDrops = [row['maiden drops 1'], row['maiden drops 2']]
+      .filter(Boolean)
+      .map(drop => `<div style="display:flex; align-items:center; margin-bottom:4px;">${getDropIconUrl(drop)}${drop}</div>`)
+      .join('');
+      
+    let princessDrops = [row['princess drops 1'], row['princess drops 2']]
+      .filter(Boolean)
+      .map(drop => `<div style="display:flex; align-items:center; margin-bottom:4px;">${getDropIconUrl(drop)}${drop}</div>`)
+      .join('');
+
+    html += `<tr>
+      <td>${row['volume no.'] || row['volume'] || '-'}</td>
+      <td>${row['stage'] || '-'}</td>
+      <td style="font-weight: bold; color: var(--text-title);">${row['name'] || '-'}</td>
+      <td>${attributes || '-'}</td>
+      <td>${maidenDrops || '-'}</td>
+      <td>${princessDrops || '-'}</td>
+    </tr>`;
+  });
+  
+  html += `</tbody></table>`;
+  container.innerHTML = html;
+  
+  const totalPages = Math.ceil(filteredChapterData.length / ITEMS_PER_TAB_PAGE);
+  document.getElementById('chapterPagination').innerHTML = `
+    <button onclick="currentChapterPage--; renderChapterTable()" ${currentChapterPage === 1 ? 'disabled' : ''}>&laquo; Prev</button>
+    <span>Page ${currentChapterPage} of ${totalPages}</span>
+    <button onclick="currentChapterPage++; renderChapterTable()" ${currentChapterPage === totalPages ? 'disabled' : ''}>Next &raquo;</button>
+  `;
+}
+
+window.onclick = function(event) {
+  const modal = document.getElementById('craftingModal');
+  if (event.target == modal) closeCraftingModal();
+}
+
+function getDropIconUrl(dropName) {
+  if (!dropName) return '';
+  const found = allItems.find(i => i.name === dropName);
+  if (found && found.id) {
+    return `<img src="https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-icons/main/icon${found.id}.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px; border-radius: 4px;" onerror="this.style.display='none'">`;
+  }
+  return '';
+}
+
+function filterEncyclopedia() {
+  const rawSearch = document.getElementById('search').value.toLowerCase();
+  
+  const searchTerms = rawSearch.split(' ').filter(word => word.trim() !== '');
+
+  const typeVal = document.getElementById('typeFilter').value;
+  const rarityVal = document.getElementById('rarityFilter').value;
+  const catVal = document.getElementById('categoryFilter').value;
+
+  filteredData = encyclopediaData.filter(row => {
+    
+    const allRowText = Object.values(row).join(' ').toLowerCase();
+
+    const matchesSearch = searchTerms.every(word => allRowText.includes(word));
+
+    const matchesType = (typeVal === "" || row['type'] === typeVal);
+    const matchesRarity = (rarityVal === "" || row['rarity'] === rarityVal);
+    const matchesCat = (catVal === "" || row['category'] === catVal);
+    return matchesSearch && matchesType && matchesRarity && matchesCat; 
+  });
+
+  currentEncyclopediaPage = 1;
+  renderEncyclopediaView(); 
+}
+
+let breakdownData = [];
+
+function loadBreakdownData() {
+  const breakdownUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=333774526&single=true&output=csv'; 
+  
+  fetch(breakdownUrl)
+    .then(res => res.ok ? res.text() : '')
+    .then(text => {
+      if (text) {
+        breakdownData = parseCSV(text);
+        renderBreakdownGallery();
+      }
+    })
+    .catch(err => console.error('Error loading breakdowns:', err));
+}
+
+function renderBreakdownGallery() {
+  const container = document.getElementById('suitGalleryList');
+  container.innerHTML = ''; // Clear container on load
+  
+  breakdownData.forEach((suit, index) => {
+    if (!suit['suit name']) return; // Skip empty rows
+    
+    // Create a wrapper for the accordion
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = "background: var(--bg-color, #ffffff); border: 2px solid #ffb6c1; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);";
+
+    // Create the clickable header/button
+    const btn = document.createElement('button');
+    btn.className = 'suit-gallery-btn'; 
+    btn.style.cssText = "width: 100%; padding: 15px 20px; background: rgba(255, 182, 193, 0.15); border: none; cursor: pointer; font-weight: bold; font-size: 1.1em; color: #d63384; text-align: left; display: flex; justify-content: space-between; align-items: center; transition: background 0.3s;";
+    
+    // Add hover effect
+    btn.onmouseover = () => btn.style.background = 'rgba(255, 182, 193, 0.3)';
+    btn.onmouseout = () => btn.style.background = 'rgba(255, 182, 193, 0.15)';
+    
+    btn.innerHTML = `<span>${suit['suit name']}</span> <span id="arrow-${index}" style="font-size: 0.8em;">▼</span>`;
+    
+    // Create the content container (hidden by default)
+    const content = document.createElement('div');
+    content.id = `suit-content-${index}`;
+    content.style.cssText = "display: none; padding: 15px; border-top: 2px solid #ffb6c1; gap: 15px; overflow-x: auto; background: var(--bg-color, #fafafa);";
+    
+    // Trigger the toggle function when the button is clicked
+    btn.onclick = () => toggleSuitGallery(index, suit);
+
+    wrapper.appendChild(btn);
+    wrapper.appendChild(content);
+    container.appendChild(wrapper);
+  });
+}
+
+function toggleSuitGallery(index, suit) {
+  const content = document.getElementById(`suit-content-${index}`);
+  const arrow = document.getElementById(`arrow-${index}`);
+  
+  // If it's currently closed, open it
+  if (content.style.display === 'none') {
+    
+    // LAZY LOADING: Only generate images if the container is empty.
+    if (content.innerHTML === '') {
+      const itemIds = suit['item ids'] ? String(suit['item ids']).split(',') : [];
+      
+      // Grab the suit's ID from the sheet (handles variations in column naming)
+      const suitId = suit['suit id'] || suit['id'] || ''; 
+      
+      if (itemIds.length === 0) {
+          content.innerHTML = '<p style="color: var(--text-color, #666);">No images available for this suit.</p>';
+      } else {
+          itemIds.forEach(id => {
+            const cleanId = id.trim();
+            if (!cleanId) return;
+            
+            // Format the filename! 
+            // If the ID from the sheet doesn't already have a hyphen, attach the suit ID.
+            let filename = cleanId;
+            if (suitId && !cleanId.includes('-')) {
+               filename = `${suitId}-${cleanId}`;
+            }
+            
+            const img = document.createElement('img');
+            img.src = `https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-breakdown/main/${filename}.png`;
+            img.style.cssText = "height: 250px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); border: 1px solid #ffd6e7; object-fit: contain; flex-shrink: 0; background: var(--glass-bg);";
+            
+            img.onclick = function() {
+            const modal = document.getElementById('fullImageModal');
+            const fullImg = document.getElementById('fullImageDisplay');
+            fullImg.src = this.src; // Set the modal image to the one you just tapped
+            modal.style.display = 'flex'; // Show the modal
+           };
+
+            img.alt = `Loading ${filename}...`;
+            
+            // If the image fails to load, hide it so broken image icons don't show
+            img.onerror = () => { img.style.display = 'none'; };
+            
+            content.appendChild(img);
+          });
+      }
+    }
+    
+    // Show the container as a flex row
+    content.style.display = 'flex';
+    arrow.textContent = '▲'; 
+    
+  } else {
+    // If it's open, hide it
+    content.style.display = 'none';
+    arrow.textContent = '▼';
+  }
 }

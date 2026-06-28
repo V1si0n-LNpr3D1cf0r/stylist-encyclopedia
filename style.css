@@ -422,3 +422,326 @@ button[onclick*="remove"] {
   padding: 10px;
   background: transparent;
 }
+
+/* Sidebar Main Container */
+.sidebar-container {
+  position: fixed;
+  top: 0;
+  left: -350px; /* Hidden off-screen by default */
+  width: 320px;
+  height: 100vh;
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-right: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
+  z-index: 2000; /* Keeps it above your modals */
+  transition: left 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Class to trigger opening the sidebar */
+.sidebar-container.open {
+  left: 0;
+}
+
+/* Sidebar Header */
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px dashed var(--accent);
+  padding-bottom: 10px;
+}
+
+.sidebar-header h3 {
+  color: var(--text-title);
+  font-family: "Fredoka", sans-serif;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.close-sidebar {
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  color: var(--text-title);
+  transition: color 0.3s ease;
+}
+
+.close-sidebar:hover {
+  color: var(--accent);
+}
+
+/* Tab Buttons Setup */
+.sidebar-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-start;
+  background: var(--input-bg);
+  padding: 12px 15px;
+}
+
+/* Icon Images Inside Tabs */
+.tab-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Tab Content Box */
+.tab-content {
+  background: var(--input-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 15px;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.tab-content h4 {
+  color: var(--text-title);
+  font-family: "Fredoka", sans-serif;
+  margin-top: 0;
+}
+
+/* Sidebar Main Container */
+.sidebar-container {
+  position: fixed;
+  top: 0;
+  left: -280px; /* Hidden off-screen */
+  width: 280px;
+  height: 100vh;
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-right: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
+  z-index: 2000;
+  transition: left 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Sidebar Open State */
+.sidebar-container.open {
+  left: 0;
+}
+
+/* MAIN WRAPPER (This is the red box from your drawing) */
+#mainWrapper {
+  transition: margin-left 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  width: 100%;
+}
+
+/* Push the main content to the right when sidebar is open */
+body.sidebar-open #mainWrapper {
+  margin-left: 280px;
+  width: calc(100% - 280px); /* Prevents horizontal scrolling */
+}
+
+/* Menu Toggle Button */
+.sidebar-toggle-btn {
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  z-index: 1000;
+}
+
+/* Hide the toggle button when sidebar is open */
+body.sidebar-open .sidebar-toggle-btn {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Sidebar Header */
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 1px dashed var(--accent);
+  padding-bottom: 10px;
+}
+
+.sidebar-header h3 {
+  color: var(--text-title);
+  font-family: "Fredoka", sans-serif;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.close-sidebar {
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  color: var(--text-title);
+}
+
+/* Tab Buttons */
+.sidebar-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-start;
+  background: transparent;
+  border: 1px solid transparent;
+  box-shadow: none;
+  font-size: 1.05em;
+}
+
+.tab-btn:hover {
+  background: var(--input-bg);
+}
+
+.tab-btn.active {
+  background: var(--input-bg);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+}
+
+/* Main Views */
+.main-view {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+/* --- Crafting List & Modal Styles --- */
+.list-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.recipe-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.recipe-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(214, 51, 132, 0.3);
+}
+
+.recipe-modal {
+  max-width: 400px; /* Thinner mobile-friendly card */
+  text-align: center;
+}
+
+.recipe-obtain {
+  color: var(--text-main);
+  font-size: 0.9em;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--accent);
+}
+
+.recipe-materials {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.material-row {
+  display: flex;
+  justify-content: space-between;
+  background: var(--glass-bg);
+  padding: 10px 15px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+}
+
+.material-name {
+  font-weight: 600;
+  color: var(--text-title);
+}
+
+.material-amt {
+  font-weight: bold;
+  color: var(--text-main);
+}
+
+/* --- Modal Image Layout --- */
+.recipe-header-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px dashed var(--accent);
+  text-align: left;
+}
+
+.recipe-header-text h2 {
+  margin: 0 0 5px 0;
+  font-size: 1.4em;
+}
+
+.recipe-header-text p {
+  margin: 0;
+}
+
+.recipe-main-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 2px solid var(--accent);
+  background: var(--glass-bg);
+  display: block; /* Ensures it shows up when src is valid */
+}
+
+.material-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--glass-bg);
+  padding: 8px 15px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+}
+
+.material-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.material-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.4);
+}
+
+#galleryImagesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
