@@ -70,6 +70,34 @@ function getImageUrl(item) {
   return `${base}${repo}/${item.id}.png`;
 }
 
+function getRepo(type) {
+
+    const repoMap = {
+        hair: "mn-dump-hair-b1",
+        dress: "mn-dump-dress-b1",
+        coat: "mn-dump-coat-b1",
+        top: "mn-dump-top-b1",
+        bottom: "mn-dump-bottom-b1",
+        hosiery: "mn-dump-hosiery-b1",
+        shoes: "mn-dump-shoes-b1",
+        accessory: "mn-dump-accessory-b1",
+        makeup: "mn-dump-makeup-b1",
+        soul: "mn-dump-soul-b1"
+    };
+
+    return repoMap[type] || null;
+}
+
+function getImageUrl(item) {
+
+    const repo = getRepo(item.type);
+
+    if (!repo || !item.id)
+        return "https://placehold.co/400x400?text=No+Image";
+
+    return `https://V1si0n-LNpr3D1cf0r.github.io/${repo}/${item.id}.png`;
+}
+
 function loadSavedItems() {
   try {
     const saved = localStorage.getItem('stylistFavorites');
@@ -1153,15 +1181,12 @@ function toggleSuitGallery(index, suit) {
   const content = document.getElementById(`suit-content-${index}`);
   const arrow = document.getElementById(`arrow-${index}`);
   
-  // If it's currently closed, open it
   if (content.style.display === 'none') {
     
-    // LAZY LOADING: Only generate images if the container is empty.
     if (content.innerHTML === '') {
       const itemIds = suit['item ids'] ? String(suit['item ids']).split(',') : [];
       
-      // Grab the suit's ID from the sheet (handles variations in column naming)
-      const suitId = suit['suit id'] || suit['id'] || ''; 
+      const suitName = suit['suit name'] || suit['name'] || ''; 
       
       if (itemIds.length === 0) {
           content.innerHTML = '<p style="color: var(--text-color, #666);">No images available for this suit.</p>';
@@ -1170,11 +1195,9 @@ function toggleSuitGallery(index, suit) {
             const cleanId = id.trim();
             if (!cleanId) return;
             
-            // Format the filename! 
-            // If the ID from the sheet doesn't already have a hyphen, attach the suit ID.
             let filename = cleanId;
-            if (suitId && !cleanId.includes('-')) {
-               filename = `${suitId}-${cleanId}`;
+            if (suitName && !cleanId.includes('-')) {
+               filename = `${suitName}-${cleanId}`;
             }
             
             const img = document.createElement('img');
