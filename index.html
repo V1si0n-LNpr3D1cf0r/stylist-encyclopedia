@@ -174,9 +174,12 @@
     </div>
   </div>
 
-  <div id="fullImageModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; cursor: pointer;" onclick="this.style.display='none'">
-  <img id="fullImageDisplay" src="" style="max-width: 90%; max-height: 90%; border-radius: 10px; border: 2px solid #fff;">
-</div>
+  <div id="fullImageModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; flex-direction: column;" onclick="closeFullImageModal()">
+    <span class="close" onclick="closeFullImageModal()" style="position: absolute; top: 20px; right: 30px; font-size: 40px; color: white; cursor: pointer; z-index: 10000;">&times;</span>
+    <button class="gallery-nav left-nav" onclick="changeModalImage(-1, event)">&#10094;</button>
+    <img id="fullImageDisplay" src="" onclick="event.stopPropagation()" style="max-width: 90%; max-height: 80%; border-radius: 10px; border: 2px solid #fff; user-select: none; z-index: 9999;">
+    <button class="gallery-nav right-nav" onclick="changeModalImage(1, event)">&#10095;</button>
+  </div>
 
   <div id="infoModal" class="modal">
     <div class="modal-content">
@@ -192,7 +195,6 @@
         <li>Want to help? Contact me below ⬇️</li>
         <li>Made by Manami (@ramunesakura at Discord, u/OkTumbleweed8362 at Reddit, Margielyn Pascua (Main FB)/Manami Naomi (My Page) at Facebook, ramunesakura.ln at Instagram, @ramunesakura4 at Tiktok)(Is this enough for contact?? wkwkwkwkwk)</li>
         <li>Helpers: mikachuu (@mikachuu#0493) provided info for missing items up to Daybreak Blade suit, lynndeeznuts (@LynnD#6271) provided info for items on JP server, krichur (@krichur) and Viv (@vivly) for the data of the colors</li>
-        <li>Credits to @danc12321 for crafting data</li>
         <li>Testers (and my source of opinions): Lydia (@Lydia#0675), Pearl (@Ederne#4620), Viv (@vivly), mikachuu (@mikachuu#0493), Sinthu (FB)</li>
       </ul>
     </div>

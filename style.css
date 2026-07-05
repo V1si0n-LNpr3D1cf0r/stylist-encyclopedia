@@ -745,3 +745,40 @@ body.sidebar-open .sidebar-toggle-btn {
   gap: 10px;
   justify-content: center;
 }
+
+/* Gallery Modal Navigation Buttons */
+.gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  font-size: 40px;
+  padding: 15px 20px;
+  cursor: pointer;
+  z-index: 10000;
+  border-radius: 10px;
+  transition: background 0.3s ease;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.gallery-nav:hover {
+  background: var(--accent);
+}
+
+.left-nav {
+  left: 20px;
+}
+
+.right-nav {
+  right: 20px;
+}
+
+/* Hide arrows on very small mobile screens to rely on swipe */
+@media (max-width: 600px) {
+  .gallery-nav {
+    display: none;
+  }
+}

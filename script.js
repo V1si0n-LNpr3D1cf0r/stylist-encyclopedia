@@ -7,6 +7,8 @@ const ITEMS_PER_PAGE = 42;
 let isCardView = false;
 let loadingTimeout = null;
 let searchTimeout = null;
+let currentGalleryImages = [];
+let currentGalleryIndex = 0;
 
 function isItemSaved(item) {
   const idSaved = savedItems.has(String(item.id));
@@ -1200,16 +1202,24 @@ function toggleSuitGallery(index, suit) {
                filename = `${suitName}-${cleanId}`;
             }
             
+            const imgSrc = `https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-breakdown/main/${filename}.png`;
             const img = document.createElement('img');
-            img.src = `https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-breakdown/main/${filename}.png`;
+            img.src = imgSrc;
             img.style.cssText = "height: 250px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); border: 1px solid #ffd6e7; object-fit: contain; flex-shrink: 0; background: var(--glass-bg);";
             
-            img.onclick = function() {
-            const modal = document.getElementById('fullImageModal');
-            const fullImg = document.getElementById('fullImageDisplay');
-            fullImg.src = this.src; // Set the modal image to the one you just tapped
-            modal.style.display = 'flex'; // Show the modal
-           };
+            // Build the array of image URLs dynamically
+            const imageUrls = itemIds.map(id => {
+                let fName = id.trim();
+                if (suitName && !fName.includes('-')) {
+                    fName = `${suitName}-${fName}`;
+                }
+                return `https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-breakdown/main/${fName}.png`;
+            });
+
+            img.onclick = function(event) {
+                event.stopPropagation();
+                openFullGallery(imageUrls, imageUrls.indexOf(imgSrc));
+            };
 
             img.alt = `Loading ${filename}...`;
             
@@ -1229,5 +1239,62 @@ function toggleSuitGallery(index, suit) {
     // If it's open, hide it
     content.style.display = 'none';
     arrow.textContent = '▼';
+  }
+}
+
+// --- Breakdowns Gallery Navigation Logic ---
+function openFullGallery(urls, startIndex) {
+  currentGalleryImages = urls;
+  currentGalleryIndex = startIndex;
+  updateModalImage();
+  document.getElementById('fullImageModal').style.display = 'flex';
+}
+
+function updateModalImage() {
+  const fullImg = document.getElementById('fullImageDisplay');
+  fullImg.src = currentGalleryImages[currentGalleryIndex];
+}
+
+function changeModalImage(direction, event) {
+  if (event) event.stopPropagation(); // Prevents clicking the button from closing the modal
+  
+  currentGalleryIndex += direction;
+  
+  // Loop around if we go past the end or beginning
+  if (currentGalleryIndex < 0) {
+    currentGalleryIndex = currentGalleryImages.length - 1;
+  } else if (currentGalleryIndex >= currentGalleryImages.length) {
+    currentGalleryIndex = 0;
+  }
+  
+  updateModalImage();
+}
+
+function closeFullImageModal() {
+  document.getElementById('fullImageModal').style.display = 'none';
+}
+
+// --- Mobile Swipe Logic ---
+let touchStartX = 0;
+let touchEndX = 0;
+
+const galleryModal = document.getElementById('fullImageModal');
+
+galleryModal.addEventListener('touchstart', e => {
+  touchStartX = e.changedTouches[0].screenX;
+});
+
+galleryModal.addEventListener('touchend', e => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleGallerySwipe();
+});
+
+function handleGallerySwipe() {
+  const threshold = 50; // Minimum pixel distance to register a swipe
+  if (touchEndX < touchStartX - threshold) {
+    changeModalImage(1); // Swipe left -> Next Image
+  }
+  if (touchEndX > touchStartX + threshold) {
+    changeModalImage(-1); // Swipe right -> Prev Image
   }
 }
