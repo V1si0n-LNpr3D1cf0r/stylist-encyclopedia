@@ -32,6 +32,9 @@
       <button class="tab-btn" onclick="switchView('breakdownView', this)">
         ✦ Breakdown
       </button>
+      <button class="tab-btn" onclick="switchView('themeGeneratorView', this)">
+        ✦ Theme Generator
+      </button>
     </div>
   </div>
 
@@ -127,13 +130,46 @@
       <div class="controls">
         <p>Tap a suit to expand and view its individual pieces</p>
       </div>
-      
-      <!-- Container for the collapsible accordion items -->
       <div id="suitGalleryList" style="display: flex; flex-direction: column; gap: 12px; padding: 20px;">
       </div>
     </div>
 
-    <!-- CRAFTING MODAL -->
+<div id="themeGeneratorView" class="main-view" style="display: none;">
+  
+  <div class="generator-title-block">
+    <h1 class="generator-main-title">Theme Generator</h1>
+    <p class="generator-subtitle">✨ Style your perfect outfit ✨</p>
+  </div>
+  
+  <div class="nikki-generator-card">
+    <p class="nikki-mode-display">Mode: <span id="modeText">SIMPLE</span></p>
+
+    <div id="themeModeButtons" class="nikki-mode-grid">
+      <button class="active" onclick="setMode('simple', event)">Simple</button>
+      <button onclick="setMode('with a twist', event)">With a Twist</button>
+      <button onclick="setMode('series', event)">Series</button>
+      <button onclick="setMode('characters', event)">Cosplay!</button>
+      <button onclick="setMode('colors', event)">Colors</button>
+      <button onclick="setMode('single rarity', event)">Rarity</button>
+      <button onclick="setMode('rarity combination', event)">Rarity Combo</button>
+      <button onclick="setMode('nation', event)">Nation</button>
+      <button onclick="setMode('nation + nation', event)">Nation + Nation</button>
+      <button onclick="setMode('attribute', event)">Attribute</button>
+      <button onclick="setMode('nation + tag', event)">Nation + Tag</button>
+      <button onclick="setMode('tag + attribute', event)">Tag + Attribute</button>
+      <button onclick="setMode('special', event)">Special</button>
+      <button onclick="setMode('love nikki competition', event)">Love Nikki Competition</button>
+    </div>
+
+    <div class="nikki-theme-box">
+      <p class="nikki-box-label">STYLING THEME</p>
+      <div class="nikki-theme-display" id="theme">Click generate to get a theme!</div>
+    </div>
+
+    <button class="nikki-generate-btn" onclick="generateTheme()">Generate!</button>
+  </div>
+</div>
+
     <div id="craftingModal" class="modal" style="display: none;">
       <div class="modal-content recipe-modal">
         <span onclick="closeCraftingModal()" style="position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #4b4b4b; font-weight: bold; line-height: 1; z-index: 10;">&times;</span>

@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
   loadCraftingData();
   loadChapterData();
   loadBreakdownData();
+  loadThemeGeneratorData();
 });
 
 function getImageUrl(item) {
@@ -1180,69 +1181,74 @@ function renderBreakdownGallery() {
 }
 
 function toggleSuitGallery(index, suit) {
-  const content = document.getElementById(`suit-content-${index}`);
-  const arrow = document.getElementById(`arrow-${index}`);
-  
-  if (content.style.display === 'none') {
-    
-    if (content.innerHTML === '') {
-      const itemIds = suit['item ids'] ? String(suit['item ids']).split(',') : [];
-      
-      const suitName = suit['suit name'] || suit['name'] || ''; 
-      
-      if (itemIds.length === 0) {
-          content.innerHTML = '<p style="color: var(--text-color, #666);">No images available for this suit.</p>';
-      } else {
-          itemIds.forEach(id => {
-            const cleanId = id.trim();
-            if (!cleanId) return;
-            
-            let filename = cleanId;
-            if (suitName && !cleanId.includes('-')) {
-               filename = `${suitName}-${cleanId}`;
+    const content = document.getElementById(`suit-content-${index}`);
+    const arrow = document.getElementById(`arrow-${index}`);
+
+    if (content.style.display === "none") {
+        if (content.innerHTML === "") {
+            const itemIds = suit["item ids"] ? String(suit["item ids"]).split(",") : [];
+            const suitName = (suit["suit name"] || suit["name"] || "").trim();
+            const base = "https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-breakdown/main/";
+
+            if (itemIds.length === 0) {
+                content.innerHTML = '<p style="color:var(--text-color,#666)">No images available.</p>';
+            } else {
+                const loadedUrls = [];
+
+                itemIds.forEach(clean => {
+                    const cleanId = clean.trim();
+                    if (!cleanId) return;
+
+                    // 1. Isolate the base ID regardless of how the spreadsheet writes it
+                    let baseId = cleanId;
+                    if (suitName && cleanId.startsWith(`${suitName}-`)) {
+                        baseId = cleanId.replace(`${suitName}-`, '');
+                    } else if (cleanId.includes('-')) {
+                        const parts = cleanId.split('-');
+                        baseId = parts[parts.length - 1]; // Grabs 'accessory18657' from any custom prefix
+                    }
+
+                    // 2. Map out both target file naming paths
+                    const suitUrl = suitName ? `${base}${suitName}-${baseId}.png` : `${base}${baseId}.png`;
+                    const plainUrl = `${base}${baseId}.png`;
+
+                    // 3. Set the first guess based on whether the string already has a hyphen
+                    const primaryUrl = cleanId.includes('-') ? `${base}${cleanId}.png` : suitUrl;
+
+                    const img = document.createElement("img");
+                    img.style.cssText = "height:250px;border-radius:8px;box-shadow:0 4px 10px rgba(0,0,0,.15);border:1px solid #ffd6e7;object-fit:contain;flex-shrink:0;background:var(--glass-bg);cursor:pointer;";
+                    img.src = primaryUrl;
+
+                    img.onload = function () {
+                        loadedUrls.push(this.currentSrc);
+                        this.onclick = (event) => {
+                            event.stopPropagation();
+                            openFullGallery(loadedUrls, loadedUrls.indexOf(this.currentSrc));
+                        };
+                    };
+
+                    img.onerror = function () {
+                        // 4. Intelligent fallback: Try the plain variant if first attempt hits 404
+                        if (!this.dataset.fallback) {
+                            this.dataset.fallback = "1";
+                            this.src = plainUrl;
+                            return;
+                        }
+                        this.remove(); // Remove missing image slot if both alternatives fail
+                    };
+
+                    content.appendChild(img);
+                });
             }
-            
-            const imgSrc = `https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-breakdown/main/${filename}.png`;
-            const img = document.createElement('img');
-            img.src = imgSrc;
-            img.style.cssText = "height: 250px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); border: 1px solid #ffd6e7; object-fit: contain; flex-shrink: 0; background: var(--glass-bg);";
-            
-            // Build the array of image URLs dynamically
-            const imageUrls = itemIds.map(id => {
-                let fName = id.trim();
-                if (suitName && !fName.includes('-')) {
-                    fName = `${suitName}-${fName}`;
-                }
-                return `https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-breakdown/main/${fName}.png`;
-            });
-
-            img.onclick = function(event) {
-                event.stopPropagation();
-                openFullGallery(imageUrls, imageUrls.indexOf(imgSrc));
-            };
-
-            img.alt = `Loading ${filename}...`;
-            
-            // If the image fails to load, hide it so broken image icons don't show
-            img.onerror = () => { img.style.display = 'none'; };
-            
-            content.appendChild(img);
-          });
-      }
+        }
+        content.style.display = "flex";
+        arrow.textContent = "▲";
+    } else {
+        content.style.display = "none";
+        arrow.textContent = "▼";
     }
-    
-    // Show the container as a flex row
-    content.style.display = 'flex';
-    arrow.textContent = '▲'; 
-    
-  } else {
-    // If it's open, hide it
-    content.style.display = 'none';
-    arrow.textContent = '▼';
-  }
 }
 
-// --- Breakdowns Gallery Navigation Logic ---
 function openFullGallery(urls, startIndex) {
   currentGalleryImages = urls;
   currentGalleryIndex = startIndex;
@@ -1256,11 +1262,10 @@ function updateModalImage() {
 }
 
 function changeModalImage(direction, event) {
-  if (event) event.stopPropagation(); // Prevents clicking the button from closing the modal
+  if (event) event.stopPropagation();
   
   currentGalleryIndex += direction;
   
-  // Loop around if we go past the end or beginning
   if (currentGalleryIndex < 0) {
     currentGalleryIndex = currentGalleryImages.length - 1;
   } else if (currentGalleryIndex >= currentGalleryImages.length) {
@@ -1274,7 +1279,6 @@ function closeFullImageModal() {
   document.getElementById('fullImageModal').style.display = 'none';
 }
 
-// --- Mobile Swipe Logic ---
 let touchStartX = 0;
 let touchEndX = 0;
 
@@ -1290,11 +1294,202 @@ galleryModal.addEventListener('touchend', e => {
 });
 
 function handleGallerySwipe() {
-  const threshold = 50; // Minimum pixel distance to register a swipe
+  const threshold = 50;
   if (touchEndX < touchStartX - threshold) {
-    changeModalImage(1); // Swipe left -> Next Image
+    changeModalImage(1);
   }
   if (touchEndX > touchStartX + threshold) {
-    changeModalImage(-1); // Swipe right -> Prev Image
+    changeModalImage(-1);
   }
 }
+
+let generatorMode = "simple";
+
+function rand(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function setMode(m, e) {
+  generatorMode = m;
+  document.getElementById("modeText").innerText = m.toUpperCase();
+  
+  document.querySelectorAll("#themeModeButtons button").forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  if (e && e.target) {
+    e.target.classList.add("active");
+  }
+}
+
+function generateTheme() {
+  let result = "";
+
+  if (generatorMode === "simple") {
+    result = `${rand(categories)} ${rand(roles)}`;
+  } else if (generatorMode === "with a twist") {
+    result = `${rand(categories)} ${rand(roles)} ${rand(twists)}`;
+  } else if (generatorMode === "series") {
+    const base = rand(categories);
+    result = `${base} ${rand(roles)}\n${base} ${rand(roles)}\n${base} Queen/King`;
+  } else if (generatorMode === "characters") {
+    result = `${rand(characters)} ${rand(twists)}`;
+  } else if (generatorMode === "colors") {
+    result = `${rand(colorsPool)} + ${rand(colorsPool)}`;
+  } else if (generatorMode === "single rarity") {
+    result = `${rand(rarity)}`;
+  } else if (generatorMode === "rarity combination") {
+    result = `${rand(rarity)} - ${rand(rarity)}`;
+  } else if (generatorMode === "nation") {
+    result = `${rand(nations)} ${rand(categories)} ${rand(roles)}`;
+  } else if (generatorMode === "nation + nation") {
+    result = `${rand(nations)} + ${rand(nations)}`;
+  } else if (generatorMode === "attribute") {
+    result = `${rand(attribute)} + ${rand(attribute)}`;
+  } else if (generatorMode === "nation + tag") {
+    result = `${rand(nations)} + ${rand(tags)}`;
+  } else if (generatorMode === "tag + attribute") {
+    result = `${rand(tags)} + ${rand(attribute)}`;
+  } else if (generatorMode === "special") {
+    result = rand(specialThemes);
+  } else if (generatorMode === "love nikki competition") {
+    result = rand(lovenikkicompetitionThemes);
+  }
+
+  const themeEl = document.getElementById("theme");
+  if (themeEl) {
+    themeEl.innerText = result;
+    applyThemeVibe();
+  }
+}
+
+function applyThemeVibe() {
+  const aestheticColors = ["#62d5ff", "#c399ff", "#ff73b9", "#ff9671", "#2ca58d"];
+  const chosenColor = aestheticColors[Math.floor(Math.random() * aestheticColors.length)];
+  const themeEl = document.getElementById("theme");
+  if (themeEl) {
+    themeEl.style.color = chosenColor;
+    themeEl.style.textShadow = `0 2px 10px rgba(0,0,0,0.05)`;
+  }
+}
+
+const collectibleAssets = [
+  "https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/love-nikki-theme-generator/main/heartwing.png",
+  "https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/love-nikki-theme-generator/main/rabbit.png",
+  "https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/love-nikki-theme-generator/main/yellowbear.png"
+];
+
+function spawnCollectible() {
+  const genView = document.getElementById("themeGeneratorView");
+  if (!genView || genView.style.display === "none") return;
+  if (document.querySelectorAll(".sakura").length > 18) return;
+
+  const item = document.createElement("img");
+  item.src = collectibleAssets[Math.floor(Math.random() * collectibleAssets.length)];
+  item.className = "sakura";
+
+  const layerWeight = Math.random();
+  if (layerWeight < 0.3) {
+    item.classList.add("far");
+    item.style.animationDuration = (10 + Math.random() * 4) + "s";
+  } else if (layerWeight < 0.7) {
+    item.classList.add("mid");
+    item.style.animationDuration = (8 + Math.random() * 3) + "s";
+  } else {
+    item.classList.add("near");
+    item.style.animationDuration = (6 + Math.random() * 2) + "s";
+  }
+
+  item.style.left = (Math.random() * 90) + "vw";
+  document.body.appendChild(item);
+  
+  setTimeout(() => item.remove(), 14000);
+}
+
+setInterval(spawnCollectible, 900);
+
+let categories = [];
+let roles = [];
+let twists = [];
+let characters = [];
+let colorsPool = [];
+let rarity = [];
+let nations = [];
+let attribute = [];
+let tags = [];
+let specialThemes = [];
+let lovenikkicompetitionThemes = [];
+
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=1701381424&single=true&output=csv";
+
+async function fetchSpreadsheetThemes() {
+  try {
+    const response = await fetch(SHEET_CSV_URL);
+    if (!response.ok) throw new Error("Network issue fetching sheet");
+    const csvText = await response.text();
+    
+    parseSheetCSV(csvText);
+  } catch (error) {
+    console.warn("Using local backup theme arrays. Reason:", error.message);
+  }
+}
+
+function parseSheetCSV(text) {
+  const lines = text.split(/\r?\n/);
+  if (lines.length < 2) return;
+
+  const parseCSVRow = (rowText) => {
+    let fields = [];
+    let currentField = '';
+    let insideQuotes = false;
+    for (let i = 0; i < rowText.length; i++) {
+      let char = rowText[i];
+      if (char === '"') {
+        insideQuotes = !insideQuotes;
+      } else if (char === ',' && !insideQuotes) {
+        fields.push(currentField.trim());
+        currentField = '';
+      } else {
+        currentField += char;
+      }
+    }
+    fields.push(currentField.trim());
+    return fields;
+  };
+
+  const headers = parseCSVRow(lines[0]);
+
+  const parsedData = {
+    "Categories": [], "Roles": [], "Twists": [], "Characters": [], "Colors": [],
+    "Rarity": [], "Nations": [], "Attribute": [], "Tags": [], "Special Themes": [],
+    "Love Nikki Competition Themes": []
+  };
+
+  for (let i = 1; i < lines.length; i++) {
+    if (!lines[i].trim()) continue;
+    const columns = parseCSVRow(lines[i]);
+    
+    headers.forEach((header, index) => {
+      if (parsedData[header] && columns[index]) {
+        let cleanValue = columns[index].replace(/^"|"$/g, '').trim();
+        if (cleanValue) parsedData[header].push(cleanValue);
+      }
+    });
+  }
+
+  if (parsedData["Categories"].length) categories = parsedData["Categories"];
+  if (parsedData["Roles"].length) roles = parsedData["Roles"];
+  if (parsedData["Twists"].length) twists = parsedData["Twists"];
+  if (parsedData["Characters"].length) characters = parsedData["Characters"];
+  if (parsedData["Colors"].length) colorsPool = parsedData["Colors"];
+  if (parsedData["Rarity"].length) rarity = parsedData["Rarity"];
+  if (parsedData["Nations"].length) nations = parsedData["Nations"];
+  if (parsedData["Attribute"].length) attribute = parsedData["Attribute"];
+  if (parsedData["Tags"].length) tags = parsedData["Tags"];
+  if (parsedData["Special Themes"].length) specialThemes = parsedData["Special Themes"];
+  if (parsedData["Love Nikki Competition Themes"].length) lovenikkicompetitionThemes = parsedData["Love Nikki Competition Themes"];
+
+  console.log("🎯 Live Sheet Themes Synced Successfully!");
+}
+
+fetchSpreadsheetThemes();
