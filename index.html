@@ -1,240 +1,913 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <title>Stylist Encyclopedia</title>
-  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/stylist-encyclopedia/main/head_22.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4a7c6">
+<title>Love Nikki • Stylist Encyclopedia</title>
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/stylist-encyclopedia/main/head_22.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Nunito:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --bg:#fff8fb;--bg2:#f9edf4;--panel:rgba(255,255,255,.86);--panel2:#fff;
+  --ink:#493d45;--muted:#887681;--accent:#df77a6;--accent2:#a77bd6;
+  --line:#efd8e3;--shadow:0 14px 40px rgba(129,76,104,.12);
+  --radius:20px;--sidebar:250px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font-family:Nunito,system-ui,sans-serif;background:
+ radial-gradient(circle at 8% 0%,#fff 0 18%,transparent 38%),
+ linear-gradient(135deg,var(--bg),var(--bg2));min-height:100vh}
+button,input,select{font:inherit}
+button{border:0;cursor:pointer}
+a{color:inherit}
+.app{display:flex;min-height:100vh}
+.sidebar{position:fixed;inset:0 auto 0 0;width:var(--sidebar);padding:18px 14px;background:rgba(255,250,253,.92);
+backdrop-filter:blur(18px);border-right:1px solid var(--line);z-index:50;overflow:auto}
+.brand{padding:8px 12px 20px;text-align:center}.brand-mark{font-size:30px}.brand h1{font-family:"DM Serif Display",serif;font-size:25px;margin:4px 0;color:#bd5f8d}.brand p{margin:0;color:var(--muted);font-size:12px}
+.nav{display:grid;gap:7px}.nav button{padding:12px 13px;text-align:left;background:transparent;color:var(--ink);border-radius:14px;font-weight:800}
+.nav button:hover{background:#fff0f6}.nav button.active{background:linear-gradient(135deg,#f3b2cd,#d8b9ef);color:#fff;box-shadow:0 8px 20px rgba(196,111,153,.2)}
+.side-note{margin:20px 7px 0;padding:13px;border:1px dashed #e5c4d3;border-radius:15px;color:var(--muted);font-size:12px;line-height:1.55;background:#fff9fc}
+.main{margin-left:var(--sidebar);width:calc(100% - var(--sidebar));padding:24px;min-width:0}
+.topbar{display:flex;align-items:center;gap:12px;position:sticky;top:12px;z-index:20;margin-bottom:18px}
+.menu-btn{display:none}.top-search{flex:1;position:relative}.top-search input{width:100%;padding:14px 18px 14px 44px;border:1px solid var(--line);border-radius:999px;background:var(--panel);outline:none;box-shadow:var(--shadow)}
+.top-search span{position:absolute;left:17px;top:11px;font-size:20px}.icon-btn{width:46px;height:46px;border-radius:50%;background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow);font-size:19px}
+.view{display:none}.view.active{display:block}
+.hero{padding:30px 8px 18px}.eyebrow{color:var(--accent);font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-size:12px}
+.hero h2{font-family:"DM Serif Display",serif;font-size:46px;line-height:1;margin:8px 0 12px;color:#6f5261}
+.hero p{color:var(--muted);max-width:720px;line-height:1.7;margin:0}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{padding:11px 16px;border-radius:13px;background:#fff;border:1px solid var(--line);color:var(--ink);font-weight:800}
+.btn.primary{background:linear-gradient(135deg,#df77a6,#ad82d8);color:#fff;border-color:transparent}.btn.danger{color:#bd526d}.btn.small{padding:8px 11px;font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:12px 0 22px}
+.stat{padding:17px;border:1px solid var(--line);background:var(--panel);border-radius:18px;box-shadow:var(--shadow)}
+.stat b{display:block;font-size:23px;color:#b45c89}.stat span{font-size:12px;color:var(--muted)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-bottom:18px}
+.panel-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.panel-title h3{margin:0;font-family:"DM Serif Display",serif;font-size:25px;color:#735565}.panel-title p{margin:0;color:var(--muted);font-size:12px}
+.filters{display:grid;grid-template-columns:2fr repeat(5,1fr);gap:9px}
+.filters input, .filters select, .field, .filter-field select {
+  width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;
+  background:#fff;color:var(--ink);outline:none;font-size:13px;font-family:inherit;
+}
+.filters select, .filter-field select, select.field {
+  appearance:none;
+  background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23887681' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat:no-repeat;background-position:right 12px center;background-size:14px;
+}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chip{padding:8px 11px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:12px;font-weight:800}.chip.active{background:#f2bfd4;color:#7d4260;border-color:#e7a7c3}
+.result-meta{display:flex;justify-content:space-between;align-items:center;margin:14px 2px;color:var(--muted);font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+.card{position:relative;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 7px 22px rgba(122,73,101,.08);transition:.2s}
+.card.missing-data{border-color:#ffb3c6;background:#fffafb}
+.card:hover{transform:translateY(-3px);box-shadow:0 13px 30px rgba(122,73,101,.13)}
+.card.owned{border-color:#d98db1;box-shadow:0 0 0 2px rgba(217,141,177,.13)}
+.card-img{height:185px;background:linear-gradient(145deg,#fff8fb,#f8edf4);display:flex;align-items:center;justify-content:center;padding:10px;cursor:pointer}
+.card-img img{width:100%;height:100%;object-fit:contain}.noimg{font-size:42px;opacity:.3}
+.card-body{padding:12px;cursor:pointer}.card-name{font-weight:900;color:#694c5b;line-height:1.25;min-height:32px}.card-sub{font-size:11px;color:var(--muted);margin-top:5px}.badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}.badge{font-size:9px;padding:4px 7px;border-radius:999px;background:#f8e4ed;color:#8c5470;font-weight:900}
+.heart{position:absolute;right:9px;top:9px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.92);border:1px solid var(--line);color:#d57ca2;font-size:17px;z-index:2}.heart.on{background:#d97ea6;color:#fff}
+.pagination{display:flex;justify-content:center;align-items:center;gap:8px;margin:18px 0}.pagination button{padding:9px 12px;border-radius:10px;background:#fff;border:1px solid var(--line)}.pagination button:disabled{opacity:.4;cursor:not-allowed}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:15px;display:block;width:100%}.table{width:100%;border-collapse:collapse;min-width:850px}.table th{background:#f7d9e6;color:#7d4c63;padding:11px;text-align:left;font-size:12px;position:sticky;top:0}.table td{padding:9px;border-top:1px solid #f3e3ea;font-size:12px}.table tr:hover td{background:#fff7fa}
+.view-toggle{display:flex;gap:6px}.view-toggle button.active{background:#df77a6;color:#fff}
+.progress{height:10px;background:#f1e2e9;border-radius:999px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,#e184ad,#a886d7);width:0}
+.owned-toolbar{display:flex;gap:8px;flex-wrap:wrap}.owned-empty{text-align:center;padding:50px;color:var(--muted)}
+.detail{display:grid;grid-template-columns:260px 1fr;gap:22px}.detail-img{min-height:260px;border-radius:18px;background:#fff4f8;display:flex;align-items:center;justify-content:center;padding:12px}.detail-img img{max-width:100%;max-height:290px;object-fit:contain}.detail h2{font-family:"DM Serif Display",serif;font-size:34px;margin:0 0 6px;color:#6d5060}.detail p{color:var(--muted);line-height:1.65}.info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:14px}.info{padding:10px 12px;border-radius:12px;background:#fff;border:1px solid var(--line);font-size:12px}.info b{display:block;color:#a65b80;margin-bottom:3px}.score-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:12px}.score{padding:9px;border-radius:10px;background:#fff0f6;text-align:center}.score b{display:block;color:#b55e89}.score span{font-size:10px;color:var(--muted)}
+.overlay{position:fixed;inset:0;background:rgba(55,34,46,.48);backdrop-filter:blur(7px);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}.overlay.open{display:flex}.modal{width:min(900px,100%);max-height:90vh;overflow:auto;background:#fffafc;border:1px solid var(--line);border-radius:24px;box-shadow:0 25px 80px rgba(60,30,50,.25);padding:20px}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.modal-head h3{margin:0;font-family:"DM Serif Display",serif;font-size:28px;color:#6f5261}.close{width:38px;height:38px;border-radius:50%;background:#f7e4ed;color:#8b526b;font-size:20px}
+.suit-list{display:grid;gap:10px}.suit{border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden}.suit-head{width:100%;display:flex;justify-content:space-between;padding:14px 16px;background:#fff7fa;color:#754f61;font-weight:900;text-align:left}.suit-body{display:none;padding:13px;border-top:1px solid var(--line)}.suit.open .suit-body{display:flex;gap:12px;overflow:auto}.suit-piece{min-width:125px;text-align:center}.suit-piece img{width:115px;height:115px;object-fit:contain;background:#fff4f8;border-radius:12px}.suit-piece span{display:block;font-size:11px;margin-top:5px}
+.theme-layout{display:grid;grid-template-columns:280px 1fr;gap:18px}.mode-list{display:grid;gap:7px}.mode-list button{text-align:left;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:#6d5260;font-weight:800}.mode-list button.active{background:#f1c1d6;border-color:#e5a8c1}.theme-box{min-height:300px;border-radius:24px;padding:30px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:
+ radial-gradient(circle at 20% 15%,rgba(255,255,255,.95),transparent 30%),linear-gradient(135deg,#fff0f7,#f0e9ff);border:1px solid var(--line)}
+.theme-label{font-size:11px;letter-spacing:.18em;color:#a35d80;font-weight:900}.theme-text{font-family:"DM Serif Display",serif;font-size:38px;color:#6d5060;white-space:pre-line;margin:25px 0}.theme-sparkle{font-size:40px}
+.stage-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}.stage-card{padding:15px;background:#fff;border:1px solid var(--line);border-radius:16px}.stage-card b{color:#765466}.stage-card small{display:block;color:var(--muted);margin-top:5px}.drop{display:inline-flex;align-items:center;gap:5px;margin:3px 3px 0 0;padding:4px 7px;border-radius:999px;background:#f9e8ef;font-size:9px}.drop img{width:22px;height:22px;object-fit:contain}
+.crafting-list{display:grid;gap:10px}.craft{padding:14px;background:#fff;border:1px solid var(--line);border-radius:15px;display:flex;align-items:center;justify-content:space-between;gap:12px}.craft h4{margin:0;color:#765365}.craft p{margin:4px 0 0;color:var(--muted);font-size:11px}
+.loading{padding:50px;text-align:center;color:var(--muted)}.notice{padding:12px 14px;border-radius:13px;background:#fff5da;border:1px solid #f0ddb1;color:#80651f;font-size:12px}
+.footer{text-align:center;color:#9a808c;font-size:11px;padding:25px}
+.advanced-filters{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:9px}.advanced-filters summary{grid-column:1/-1;cursor:pointer;color:#9a5a79;font-weight:900;padding:8px 2px}.save-meter{display:flex;align-items:center;gap:10px;margin:0 0 14px}.save-meter .progress{flex:1}.save-percent{font-weight:900;color:#ad5c83;min-width:48px;text-align:right}.stage-detail{display:grid;grid-template-columns:1.1fr .9fr;gap:15px}.recommend-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px}.recommend-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:9px;cursor:pointer}.recommend-card img{width:100%;height:115px;object-fit:contain;background:#fff5f9;border-radius:10px}.recommend-card b{display:block;font-size:11px;margin-top:5px}.recommend-card small{color:var(--muted);font-size:9px}.material-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px;margin-top:12px}.material-card{padding:10px;background:#fff;border:1px solid var(--line);border-radius:13px;text-align:center}.material-card img{width:80px;height:80px;object-fit:contain;background:#fff5f9;border-radius:10px}.material-card b{display:block;font-size:11px;margin-top:4px}.material-card small{color:var(--muted)}.breakdown-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.suit-piece{cursor:pointer}.suit-piece img{transition:.15s}.suit-piece:hover img{transform:scale(1.04)}.gallery-modal{position:relative;display:flex;align-items:center;justify-content:center;min-height:55vh}.gallery-modal img{max-width:82%;max-height:65vh;object-fit:contain}.gallery-arrow{position:absolute;width:44px;height:44px;border-radius:50%;background:#f5dce7;color:#814f67;font-size:25px}.gallery-arrow.left{left:5px}.gallery-arrow.right{right:5px}.check-row{display:flex;gap:7px;align-items:center;margin-top:8px;font-size:12px}.check-row input{accent-color:#d979a5}
+@media(max-width:760px){.advanced-filters{grid-template-columns:1fr 1fr}.stage-detail{grid-template-columns:1fr}.recommend-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:1000px){:root{--sidebar:225px}.filters{grid-template-columns:1fr 1fr 1fr}.filters input{grid-column:1/-1}.stats{grid-template-columns:repeat(2,1fr)}.detail{grid-template-columns:1fr}.theme-layout{grid-template-columns:1fr}}
+@media(max-width:760px){.sidebar{transform:translateX(-100%);transition:.25s}.sidebar.open{transform:translateX(0)}.main{margin:0;width:100%;padding:12px}.menu-btn{display:block}.hero h2{font-size:36px}.topbar{top:6px}.filters{grid-template-columns:1fr 1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.card-img{height:145px}.card-body{padding:9px}.stats{gap:8px}.theme-text{font-size:30px}}
+@media(max-width:480px){.filters{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding-top:18px}.panel{padding:12px}.stat{padding:12px}.stat b{font-size:18px}}
+
+body.dark{--bg:#17121a;--bg2:#211823;--panel:rgba(38,28,39,.9);--panel2:#2a202c;--ink:#f0e7ed;--muted:#b9a6b2;--line:#4b3846;
+  background: radial-gradient(circle at 8% 0%,#2c202a 0 18%,transparent 38%), linear-gradient(135deg,var(--bg),var(--bg2));}
+body.dark .sidebar{background:rgba(29,21,31,.94)}
+body.dark .card, body.dark .table td, body.dark .table th, body.dark .modal, body.dark .craft, body.dark .stage-card, body.dark .suit, body.dark .info, body.dark .detail-img, body.dark .field, body.dark .mode-list button, body.dark .btn, body.dark .advanced-checks .check-row, body.dark .material-card {background:var(--panel2);color:var(--ink);border-color:var(--line);}
+body.dark .filters input, body.dark .filters select, body.dark .filter-field select, body.dark select.field {background-color:#2b222d;color:var(--ink);border-color:var(--line);}
+body.dark .filters select, body.dark .filter-field select, body.dark select.field {background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b9a6b2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");}
+body.dark .notice {background:#36291a;border-color:#55442e;color:#dcb888;}
+
+.advanced-filters{margin-top:10px}
+.advanced-filters>summary{padding:7px 4px;color:#8f5576;font-weight:800}
+.advanced-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:12px 4px 2px}
+.filter-field{display:flex;flex-direction:column;gap:5px}
+.filter-field>span{font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#9b6582}
+.advanced-checks{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap;padding-top:2px}
+.advanced-checks .check-row{display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 11px;font-size:11px;font-weight:800}
+.advanced-checks input{margin:0}
+.wardrobe-table{min-width:2050px}
+.wardrobe-table th{position:sticky;top:0;z-index:2;white-space:nowrap}
+.wardrobe-table td,.wardrobe-table th{padding:9px 10px;white-space:nowrap}
+.wardrobe-table .name-cell{position:sticky;left:42px;z-index:1;background:rgba(255,255,255,.96);min-width:180px}
+.wardrobe-table th:first-child,.wardrobe-table td:first-child{position:sticky;left:0;z-index:3;background:var(--panel)}
+.wardrobe-table .suit-cell{max-width:220px;overflow:hidden;text-overflow:ellipsis}
+.table-img{width:52px;height:52px;object-fit:contain;display:block}
+.color-value{display:inline-flex;align-items:center;gap:6px}
+.color-swatch{width:10px;height:10px;border-radius:50%;display:inline-block;border:1px solid rgba(0,0,0,.12)}
+@media(max-width:760px){.advanced-grid{grid-template-columns:1fr}.advanced-checks{grid-column:auto}}
+.suit-piece img{height:250px;width:164px;border-radius:8px;border:1px solid #ffd6e7;object-fit:contain;flex-shrink:0;background:var(--glass-bg);cursor:pointer;display:block}
+.suit-piece img[title]{background:rgba(255,220,235,.35)}
+.suit-piece span{display:block;max-width:164px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+.drop{display:flex;align-items:center;gap:6px}.stage-drop-icon{width:42px;height:42px;object-fit:contain;background:#fff5f9;border-radius:8px;flex:none}
+</style>
 </head>
 <body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><div class="brand-mark">✦</div><h1>Stylist Encyclopedia</h1><p>Love Nikki Wardrobe Organizer</p></div>
+  <nav class="nav">
+    <button class="active" data-view="home">⌂ Overview</button>
+    <button data-view="encyclopedia">✦ Wardrobe</button>
+    <button data-view="closet">♡ My Wardrobe</button>
+    <button data-view="stages">⚔ Stage Guide</button>
+    <button data-view="crafting">✧ Crafting</button>
+    <!-- <button data-view="tasksuits">✦ Task Suits</button> -->
+    <button data-view="breakdown">◈ Suit Breakdowns</button>
+    <button data-view="themes">☾ Theme Generator</button>
+  </nav>
+  <div class="side-note">
+    <b>Stylist Encyclopedia</b>
+    <br>A website with multiple functions and features.
+  </div>
+</aside>
 
-  <div id="mySidebar" class="sidebar-container">
-    <div class="sidebar-header">
-      <h3>Menu</h3>
-      <span class="close-sidebar" onclick="toggleSidebar()">&times;</span>
-    </div>
-    
-    <div class="sidebar-tabs">
-      <button class="tab-btn active" onclick="switchView('encyclopediaView', this)">
-        ✦ Encyclopedia
-      </button>
-      <button class="tab-btn" onclick="switchView('craftingView', this)">
-        ✦ Crafting
-      </button>
-      <button class="tab-btn" onclick="switchView('chaptersView', this)">
-        ✦ Chapters
-      </button>
-      <!--
-      <button class="tab-btn" onclick="switchView('taskSuitsView', this)">
-        ✦ Task Suits
-      </button>
-      -->
-      <button class="tab-btn" onclick="switchView('breakdownView', this)">
-        ✦ Breakdown
-      </button>
-      <button class="tab-btn" onclick="switchView('themeGeneratorView', this)">
-        ✦ Theme Generator
-      </button>
-    </div>
+<main class="main">
+  <div class="topbar">
+    <button class="icon-btn menu-btn" id="menuBtn">☰</button>
+    <div class="top-search"><span>⌕</span><input id="globalSearch" placeholder="Search wardrobe, suits, stages..."></div>
+    <button class="icon-btn" id="darkBtn" title="Dark mode">☾</button>
+    <button class="icon-btn" id="infoBtn" title="About">ⓘ</button>
   </div>
 
-  <div id="mainWrapper">
-    <button id="sidebarToggle" onclick="toggleSidebar()" class="sidebar-toggle-btn">
-      ☰ Menu
-    </button>
-
-    <div id="encyclopediaView" class="main-view" style="display: block;">
-
-      <div class="header">
-        <h1>Stylist Encyclopedia</h1>
-        <div class="top-buttons">
-          <button id="darkModeBtn" onclick="toggleDarkMode()">⏾</button>
-          <button onclick="toggleInfo()">ⓘ</button>
-        </div>
+  <section class="view active" id="view-home">
+    <div class="hero">
+      <div class="eyebrow">Love Nikki • Fan-made database</div>
+      <h2>Your wardrobe, organized.</h2>
+      <p>An encyclopedia combining a searchable item database, checklist of your owned items, stages, crafting, suit breakdowns and a theme generator in one interface.</p>
+      <div class="hero-actions">
+        <button class="btn primary" data-go="encyclopedia">Browse Wardrobe</button>
+        <button class="btn" data-go="themes">Generate a Theme</button>
+        <button class="btn" data-go="closet">Open Owned Items</button>
       </div>
-      
-      <div class="save-counter">
-        <div class="save-fill" id="saveFill"></div>
-        <span id="saveText">0%</span>
-        <div class="save-buttons">
-          <button onclick="saveAllFavorites()" class="save-btn">💾 Save All</button>
-          <button onclick="removeAllFavorites()" class="remove-btn">🗑️ Remove Selection</button>
-          <button onclick="document.getElementById('fileInput').click()" class="import-btn">📂 Import</button>
-          <button onclick="exportWbakFile()" class="export-btn">📤 Export</button>
-          <input type="file" id="fileInput" style="display:none" accept=".wbak" onchange="importWbakFile(event)">
-        </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="statItems">—</b><span>Wardrobe Items</span></div>
+      <div class="stat"><b id="statOwned">0</b><span>Owned Items</span></div>
+      <div class="stat"><b id="statStages">—</b><span>Stage Info</span></div>
+      <div class="stat"><b id="statSuits">—</b><span>Suit Breakdowns</span></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><div><h3>Quick start</h3></div></div>
+      <div class="stage-grid">
+        <div class="stage-card"><b>✦ Wardrobe</b><small>Search by name, ID, type, rarity, nation, colors and tags.</small></div>
+        <div class="stage-card"><b>♡ My Wardrobe</b><small>See owned pieces and import/export a tiny .wbak file which then can be imported to Nikki's Info.</small></div>
+        <div class="stage-card"><b>⚔ Stage Guide</b><small>Browse chapter/stage info.</small></div>
+        <div class="stage-card"><b>◈ Breakdown</b><small>See upcoming suits and showcase of its items one by one.</small></div>
       </div>
-      
-      <div class="controls">
-        <div class="save-status-filters">
-          <button onclick="filterSavedItems()" id="savedFilterBtn" class="filter-btn saved-filter">⭐ Owned Items</button>
-          <button onclick="filterUnsavedItems()" id="unsavedFilterBtn" class="filter-btn unsaved-filter">➕ Unowned Items</button>
-          <button onclick="filterAllItems()" id="allFilterBtn" class="filter-btn all-filter active">📋 All Items</button>
-        </div>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><div><h3>Data Status</h3><p id="dataStatus">Connecting to Google Sheets…</p></div></div>
+      <div class="notice">Not updated yet with the current game data. Current items: 33,292/33,621 - Missing: 329 items.</div>
+    </div>
+  </section>
 
-        <!-- Search and Filters are now safely inside the controls! -->
-        <input type="text" id="search" placeholder="Search anything...">
+  <section class="view" id="view-encyclopedia">
+    <div class="hero"><div class="eyebrow">Wardrobe Database</div><h2>Encyclopedia</h2><p>See current items in the game.</p></div>
+    <div class="panel">
+      <div class="save-meter"><div class="progress"><i id="encyclopediaSaveBar"></i></div><span class="save-percent" id="encyclopediaSavePercent">0%</span></div>
+      <div class="filters">
+        <input id="itemSearch" placeholder="Search name, description, suit…">
         <select id="typeFilter"><option value="">All Types</option></select>
-        <select id="rarityFilter">
-          <option value="">All Rarity</option><option value="1">1♥</option><option value="2">2♥</option>
-          <option value="3">3♥</option><option value="4">4♥</option><option value="5">5♥</option><option value="6">6♥</option>
-        </select>
-        <select id="categoryFilter"><option value="">All Category</option></select>
-        <select id="mainColorFilter"><option value="">All Main Colors</option></select>
-        <select id="otherColorFilter"><option value="">All Other Colors</option></select>
-        <select id="tertiaryColorFilter"><option value="">All Tertiary Colors</option></select>
-        <select id="tag1Filter"><option value="">All Tag 1</option></select>
-        <select id="tag2Filter"><option value="">All Tag 2</option></select>
-
-        <button onclick="toggleView()">Table/Card</button>
-        <button onclick="clearAllFilters()">Clear Filters</button>
+        <select id="rarityFilter"><option value="">All Rarity</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
+        <select id="categoryFilter"><option value="">All Category / Nation</option></select>
+        <select id="colorFilter"><option value="">All Colors</option></select>
+        <select id="tagFilter"><option value="">All Tags</option></select>
       </div>
-
-      <div id="loading">Loading items...</div>
-      <div id="results"></div>
-
-    </div>
-
-    <div id="craftingView" class="main-view" style="display: none;">
-      <div class="header"><h1>Crafting Guides</h1></div>
-      <div class="controls">
-        <input type="text" id="craftingSearch" placeholder="Search craftable items..." oninput="filterCrafting()">
-        <select id="obtainFilter" onchange="filterCrafting()">
-          <option value="">All Obtainment Methods</option>
-        </select>
-      </div>
-      <div id="craftingResults" class="list-container"></div>
-      <div class="pagination" id="craftingPagination"></div>
-    </div>
-
-    <div id="chaptersView" class="main-view" style="display: none;">
-      <div class="header"><h1>Chapters</h1></div>
-      <div class="controls">
-        <input type="text" id="chapterSearch" placeholder="Search stages..." oninput="filterChapters()">
-        <select id="volumeFilter" onchange="filterChapters()">
-          <option value="">All Volumes</option>
-          <option value="1">Volume 1</option>
-          <option value="2">Volume 2</option>
-          <option value="3">Volume 3</option>
-        </select>
-        <select id="chapterFilter" onchange="filterChapters()">
-          <option value="">All Chapters</option>
-        </select>
-      </div>
-      <div id="chapterResults" class="list-container"></div>
-      <div class="pagination" id="chapterPagination"></div>
-    </div>
-
-    <div id="breakdownView" class="main-view" style="display: none;">
-      <div class="header"><h1>Suit Breakdowns</h1></div>
-      <div class="controls">
-        <p>Tap a suit to expand and view its individual pieces</p>
-      </div>
-      <div id="suitGalleryList" style="display: flex; flex-direction: column; gap: 12px; padding: 20px;">
-      </div>
-    </div>
-
-<div id="themeGeneratorView" class="main-view" style="display: none;">
-  
-  <div class="generator-title-block">
-    <h1 class="generator-main-title">Theme Generator</h1>
-    <p class="generator-subtitle">✨ Style your perfect outfit ✨</p>
-  </div>
-  
-  <div class="nikki-generator-card">
-    <p class="nikki-mode-display">Mode: <span id="modeText">SIMPLE</span></p>
-
-    <div id="themeModeButtons" class="nikki-mode-grid">
-      <button class="active" onclick="setMode('simple', event)">Simple</button>
-      <button onclick="setMode('with a twist', event)">With a Twist</button>
-      <button onclick="setMode('series', event)">Series</button>
-      <button onclick="setMode('characters', event)">Cosplay!</button>
-      <button onclick="setMode('colors', event)">Colors</button>
-      <button onclick="setMode('single rarity', event)">Rarity</button>
-      <button onclick="setMode('rarity combination', event)">Rarity Combo</button>
-      <button onclick="setMode('nation', event)">Nation</button>
-      <button onclick="setMode('nation + nation', event)">Nation + Nation</button>
-      <button onclick="setMode('attribute', event)">Attribute</button>
-      <button onclick="setMode('nation + tag', event)">Nation + Tag</button>
-      <button onclick="setMode('tag + attribute', event)">Tag + Attribute</button>
-      <button onclick="setMode('special', event)">Special</button>
-      <button onclick="setMode('love nikki competition', event)">Love Nikki Competition</button>
-    </div>
-
-    <div class="nikki-theme-box">
-      <p class="nikki-box-label">STYLING THEME</p>
-      <div class="nikki-theme-display" id="theme">Click generate to get a theme!</div>
-    </div>
-
-    <button class="nikki-generate-btn" onclick="generateTheme()">Generate!</button>
-  </div>
-</div>
-
-    <div id="craftingModal" class="modal" style="display: none;">
-      <div class="modal-content recipe-modal">
-        <span onclick="closeCraftingModal()" style="position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #4b4b4b; font-weight: bold; line-height: 1; z-index: 10;">&times;</span>
-        
-        <div class="recipe-header-container">
-          <img id="recipeMainImg" src="" alt="Item" class="recipe-main-img" onerror="this.style.display='none'">
-          <div class="recipe-header-text">
-            <h2 id="recipeTitle">Item Name</h2>
-            <p class="recipe-obtain"><strong>Obtain:</strong> <span id="recipeObtain">Store</span></p>
+      <details class="advanced-filters">
+        <summary>＋ Advanced filters</summary>
+        <div class="advanced-grid">
+          <label class="filter-field"><span>Other Color</span><select id="otherColorFilter"><option value="">All Other Colors</option></select></label>
+          <label class="filter-field"><span>Tertiary Color</span><select id="tertiaryColorFilter"><option value="">All Tertiary Colors</option></select></label>
+          <label class="filter-field"><span>Tag 1</span><select id="tag1Filter"><option value="">All Tag 1</option></select></label>
+          <label class="filter-field"><span>Tag 2</span><select id="tag2Filter"><option value="">All Tag 2</option></select></label>
+          <div class="advanced-checks">
+            <label class="check-row"><input type="checkbox" id="poseFilter"> <span>Pose</span></label>
+            <label class="check-row"><input type="checkbox" id="animatedFilter"> <span>Animated</span></label>
+            <label class="check-row"><input type="checkbox" id="inSuitFilter"> <span>In a suit</span></label>
           </div>
         </div>
+      </details>
+      <div class="filter-row">
+        <button class="chip active" data-owned="all">📋 All</button><button class="chip" data-owned="owned">⭐ Owned</button><button class="chip" data-owned="unowned">＋ Unowned</button>
+        <button class="chip" id="clearFilters">Clear filters</button><span style="flex:1"></span>
+        <div class="view-toggle"><button class="chip active" id="cardsBtn">Cards</button><button class="chip" id="tableBtn">Table</button></div>
+      </div>
+      <div class="filter-row"><button class="btn small primary" id="saveFilteredEncyclopedia">💾 Save filtered</button><button class="btn small danger" id="removeFilteredEncyclopedia">🗑 Remove filtered</button><button class="btn small" id="randomItem">✦ Random item</button></div>
+    </div>
+    <div class="result-meta"><span id="itemCount">Loading…</span><span id="pageInfo"></span></div>
+    <div id="itemResults" class="grid"><div class="loading">Loading items…</div></div>
+    <div id="itemPagination" class="pagination"></div>
+  </section>
 
-        <div class="recipe-materials" id="recipeMaterials">
+  <section class="view" id="view-closet">
+    <div class="hero"><div class="eyebrow">Personal wardrobe</div><h2>Owned Items</h2><p>See the items you own, keep the list locally in your browser, and export/import it when needed in Nikki's Info.</p></div>
+    <div class="panel">
+      <div class="owned-toolbar">
+        <!--- <button class="btn primary" id="saveFiltered">♡ Save filtered</button>
+        <button class="btn danger" id="removeFiltered">Remove filtered</button> --->
+        <button class="btn" id="exportBtn">Export .wbak</button>
+        <button class="btn" id="importBtn">Import .wbak</button><input type="file" id="fileInput" accept=".wbak" hidden>
+        <button class="btn" id="clearOwned">Clear Owned Items</button>
+      </div>
+      <div style="margin-top:14px"><div class="result-meta"><span>Collection progress</span><b id="ownedText">0 / 0</b></div><div class="progress"><i id="ownedBar"></i></div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">
+        <div><h3>Owned items</h3><p>Your saved collection items.</p></div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <select id="closetCategoryFilter" class="field" style="width: auto; padding: 6px 10px;">
+            <option value="">All Categories</option>
+            <option value="Hair">Hair</option>
+            <option value="Dress">Dress</option>
+            <option value="Coat">Coat</option>
+            <option value="Top">Top</option>
+            <option value="Bottom">Bottom</option>
+            <option value="Hosiery">Hosiery</option>
+            <option value="Shoes">Shoes</option>
+            <option value="Makeup">Makeup</option>
+            <option value="Accessory">Accessory</option>
+          </select>
+          <button class="btn small" data-go="encyclopedia">Go to wardrobe</button>
         </div>
       </div>
+      <div id="closetResults" class="grid"></div>
+      <div id="closetPagination" class="pagination"></div>
     </div>
+  </section>
 
-    <!--
-    <div id="taskSuitsView" class="main-view" style="display: none;">
-      <div class="header"><h1>Task Suits</h1></div>
-      <div class="controls">
-        <p>Inject your Google Sheets iframe here!</p>
-      </div>
+  <section class="view" id="view-stages">
+    <div class="hero"><div class="eyebrow">Journey reference</div><h2>Stage Guide</h2><p>Stage/chapter records from the game.</p></div>
+    <div class="panel"><div class="filters" style="grid-template-columns:2fr 1fr 1fr"><input id="stageSearch" placeholder="Search stage or name…"><select id="volumeFilter"><option value="">All Volumes</option></select><select id="chapterFilter"><option value="">All Chapters</option></select></div></div>
+    <div id="stageResults" class="stage-grid"><div class="loading">Loading stages…</div></div>
+    <div id="stagePagination" class="pagination"></div>
+  </section>
+
+  <section class="view" id="view-crafting">
+    <div class="hero"><div class="eyebrow">Recipes & Crafting</div><h2>Crafting</h2><p>Crafting data from the game.</p></div>
+    <div class="panel"><div class="filters" style="grid-template-columns:2fr 1fr"><input id="craftSearch" placeholder="Search craftable item…"><select id="obtainFilter"><option value="">All obtainment methods</option></select></div></div>
+    <div id="craftResults" class="crafting-list"><div class="loading">Loading crafting data…</div></div>
+    <div id="craftPagination" class="pagination"></div>
+  </section>
+  
+  <section class="view" id="view-tasksuits">
+    <div class="hero"><div class="eyebrow">Upcoming Content</div><h2>Task Suits</h2><p>Future task suits data and requirements.</p></div>
+    <div class="panel">
+      <div class="loading">Loading task suits data…</div>
     </div>
-    -->
+  </section>
 
-  <div id="itemDetailModal" class="modal">
-    <div class="modal-content item-detail-modal">
-      <span class="close" onclick="closeItemDetail()">&times;</span>
-      <div id="itemDetailContent"></div>
+  <section class="view" id="view-breakdown">
+    <div class="hero"><div class="eyebrow">Suit gallery</div><h2>Suit Breakdowns</h2><p>Search suits and open pieces in a full gallery viewer.</p></div>
+    <div class="panel"><div class="breakdown-toolbar"><input class="field suit-search" id="suitSearch" placeholder="Search suit name…"><button class="btn small" id="expandAllSuits">Expand all</button><button class="btn small" id="collapseAllSuits">Collapse all</button></div></div>
+    <div id="suitResults" class="suit-list"><div class="loading">Loading breakdowns…</div></div>
+  </section>
+
+  <section class="view" id="view-themes">
+    <div class="hero"><div class="eyebrow">Creative tool</div><h2>Theme Generator</h2><p>Choose a generator mode and style!</p></div>
+    <div class="panel theme-layout">
+      <div><div class="panel-title"><div><h3>Mode</h3><p id="modeLabel">Simple</p></div></div><div class="mode-list" id="themeModes"></div></div>
+      <div class="theme-box"><div class="theme-sparkle">✦</div><div class="theme-label">STYLING THEME</div><div class="theme-text" id="themeText">Click Generate</div><button class="btn primary" id="generateBtn">Generate ✦</button></div>
     </div>
-  </div>
+  </section>
 
-  <div id="imageModal" class="modal">
-    <div class="modal-content image-modal">
-      <span class="close" onclick="closeImageModal()">&times;</span>
-      <img src="${item.img}" loading="lazy">
-    </div>
-  </div>
+  <div class="footer">Fan-made Love Nikki tool • Not affiliated with the game publisher</div>
+</main>
+</div>
 
-  <div id="fullImageModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; flex-direction: column;" onclick="closeFullImageModal()">
-    <span class="close" onclick="closeFullImageModal()" style="position: absolute; top: 20px; right: 30px; font-size: 40px; color: white; cursor: pointer; z-index: 10000;">&times;</span>
-    <button class="gallery-nav left-nav" onclick="changeModalImage(-1, event)">&#10094;</button>
-    <img id="fullImageDisplay" src="" onclick="event.stopPropagation()" style="max-width: 90%; max-height: 80%; border-radius: 10px; border: 2px solid #fff; user-select: none; z-index: 9999;">
-    <button class="gallery-nav right-nav" onclick="changeModalImage(1, event)">&#10095;</button>
-  </div>
+<div class="overlay" id="modalOverlay"><div class="modal" id="modal"></div></div>
 
-  <div id="infoModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="toggleInfo()">&times;</span>
-      <h2>Stylist Encyclopedia</h2>
-      <p><strong>Stylist Encyclopedia</strong> is an info catalog of wardrobe items from the game. (Will soon be cross-server catalog)</p>
-        <li>Inspired from <a href="https://lovenikki.fandom.com/">LN Wiki</a>, <a href="https://seal100x.github.io/nikkiup2u3">Seal</a>, <a href="https://docs.google.com/spreadsheets/d/1OhAgfzk0pCY9TG5PDPaSFjnv7ZHevxxJtlvfKm16ykg/edit?gid=602775022#gid=602775022">Ultimate LN Style Search Sheet</a>, and <a href="ln.nikkis.info">Nikki's Info</a>.</li>
-        <li>Filled with stats, rarity, color, etc. (data and images to be placed later)</li>
-        <li>Images aren't mine. Someone provided it to me (and they prefer to be not named/credited)
-        <li>Search and filter by type, rarity , nation, color, and tags (Mix and match stuff, anyone? HEHE)</li>
-        <li>Q: Will this be Nikki's Info alternative? A: Ain't no way this will be NI alternative/replacement (fam I don't have the power of god 💔)</li>
-        <li>Mobile: Best used with "Desktop Site" on.</li>
-        <li>Want to help? Contact me below ⬇️</li>
-        <li>Made by Manami (@ramunesakura at Discord, u/OkTumbleweed8362 at Reddit, Margielyn Pascua (Main FB)/Manami Naomi (My Page) at Facebook, ramunesakura.ln at Instagram, @ramunesakura4 at Tiktok)(Is this enough for contact?? wkwkwkwkwk)</li>
-        <li>Helpers: mikachuu (@mikachuu#0493) provided info for missing items up to Daybreak Blade suit, lynndeeznuts (@LynnD#6271) provided info for items on JP server, krichur (@krichur) and Viv (@vivly) for the data of the colors</li>
-        <li>Testers (and my source of opinions): Lydia (@Lydia#0675), Pearl (@Ederne#4620), Viv (@vivly), mikachuu (@mikachuu#0493), Sinthu (FB)</li>
-      </ul>
-    </div>
-  </div>
+<script>
+const DATA = {
+  items: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?output=csv",
+  crafting: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=1432725843&single=true&output=csv",
+  chapters: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=563709766&single=true&output=csv",
+  breakdowns: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=333774526&single=true&output=csv",
+  themes: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=1701381424&single=true&output=csv",
+  serverNames: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=1044161109&single=true&output=csv" 
+};
 
-  <script src="script.js"></script>
+const PLACEHOLDER = "https://placehold.co/400x400/fff8fb/d57ca2?text=No+Image";
+
+function getBestId(item) {
+    if (!item) return "";
+    let id = val(item, "id", "niid");
+    if (!id || String(id).startsWith("item_")) {
+        const name = val(item, "name").toLowerCase();
+        const serverMatch = state.serverNames.find(r => val(r, "en name", "name").toLowerCase() === name);
+        if (serverMatch && val(serverMatch, "id", "internal_id")) {
+            id = val(serverMatch, "id", "internal_id");
+        }
+    }
+    return id;
+}
+
+function getIconId(item) {
+    if (!item) return "";
+    let id = val(item, "id"); 
+    if (!id) id = val(item, "id");
+    
+    if (!id || String(id).startsWith("item_")) {
+        const name = val(item, "name").toLowerCase();
+        const serverMatch = state.serverNames.find(r => val(r, "en name", "name").toLowerCase() === name);
+        if (serverMatch && val(serverMatch, "internal_id", "id")) {
+            id = val(serverMatch, "internal_id", "id");
+        }
+    }
+    return id;
+}
+
+function imageRepoFromId(id){
+  const s=String(id||"").trim().toLowerCase();
+  const types=["hair","dress","coat","top","bottom","hosiery","shoes","makeup","accessory","soul"];
+  const type=types.find(t=>s.startsWith(t));
+  return type ? IMAGE.itemRepos[type] : "";
+}
+function wardrobeImageFromId(id){
+  const clean=String(id||"").trim();
+  const repo=imageRepoFromId(clean);
+  return repo && clean ? `https://V1si0n-LNpr3D1cf0r.github.io/${repo}/${encodeURIComponent(clean)}.png` : PLACEHOLDER;
+}
+
+const IMAGE = {
+  icon: id => {
+    const cleanId = String(id).trim().replace(/\s*\([sS]\)$/, "");
+    const encodedId = encodeURIComponent(cleanId);
+    return encodedId && !encodedId.startsWith("item_") ? `https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-icons/main/${encodedId}.png` : PLACEHOLDER;
+  },
+  itemRepos: {
+    hair:"mn-dump-hair-b1", dress:"mn-dump-dress-b1", coat:"mn-dump-coat-b1",
+    top:"mn-dump-top-b1", bottom:"mn-dump-bottom-b1", hosiery:"mn-dump-hosiery-b1",
+    shoes:"mn-dump-shoes-b1", makeup:"mn-dump-makeup-b1", accessory:"mn-dump-accessory-b1", soul:"mn-dump-soul-b1"
+  },
+  item: item => {
+    if(item.img) return item.img;
+    const bestId = getBestId(item);
+    if(!bestId || String(bestId).startsWith("item_")) return PLACEHOLDER;
+
+    const explicitType=(item.type||item.subtype||"").toLowerCase().trim();
+    const repo=IMAGE.itemRepos[explicitType] || imageRepoFromId(bestId);
+    return repo
+      ? `https://V1si0n-LNpr3D1cf0r.github.io/${repo}/${encodeURIComponent(String(bestId).trim())}.png`
+      : PLACEHOLDER;
+  },
+  breakdown: (suit,id) => {
+    const base="https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-breakdown/main/";
+    const cleanId=String(id||"").trim();
+    const suitName=String(suit||"").trim();
+    if(!cleanId) return PLACEHOLDER;
+    if(cleanId.includes("-")) return base+encodeURIComponent(cleanId)+".png";
+    if(!suitName) return base+encodeURIComponent(cleanId)+".png";
+    return base+encodeURIComponent(`${suitName}-${cleanId}`)+".png";
+  }
+};
+
+const state = {
+  items:[],filtered:[],owned:new Set(JSON.parse(localStorage.getItem("lnOwned")||"[]")),
+  itemMode: "cards",
+  view: "home",
+  serverNames:[],
+  itemPage:1,itemPerPage:48,view:"cards",ownedFilter:"all",
+  crafting:[],craftFiltered:[],craftPage:1,
+  stages:[],stageFiltered:[],stagePage:1,
+  breakdowns:[],themes:{},themeMode:"Simple",
+  closetPage: 1, closetPerPage: 48
+};
+
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const val = (o,...keys) => { for(const k of keys){ if(o[k]!==undefined && o[k]!==null && String(o[k]).trim()!=="") return String(o[k]).trim(); } return ""; };
+const formatBool = v => { const s = String(v||"").trim().toLowerCase(); return ["true","yes","1"].includes(s)?"Yes":["false","no","0"].includes(s)?"No":v; };
+
+function parseCSV(text){
+  const rows=[];let row=[],cell="",quoted=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i],n=text[i+1];
+    if(c==='"'){if(quoted&&n==='"'){cell+='"';i++;}else quoted=!quoted}
+    else if(c===','&&!quoted){row.push(cell);cell=""}
+    else if((c==='\n'||c==='\r')&&!quoted){if(c==='\r'&&n==='\n')i++;row.push(cell);if(row.some(x=>x.trim()!==""))rows.push(row);row=[];cell=""}
+    else cell+=c;
+  }
+  if(cell!==""||row.length){row.push(cell);if(row.some(x=>x.trim()!==""))rows.push(row)}
+  if(!rows.length)return[];
+  const headers=rows.shift().map(x=>x.trim().toLowerCase());
+  return rows.map(r=>Object.fromEntries(headers.map((h,i)=>[h,(r[i]??"").trim()])));  
+}
+async function fetchCSV(url){
+  const r=await fetch(url,{cache:"no-store"});
+  if(!r.ok) throw new Error("HTTP "+r.status);
+  return parseCSV(await r.text());
+}
+function saveOwned(){localStorage.setItem("lnOwned",JSON.stringify([...state.owned]));updateOwnedUI()}
+function keyFor(item){return String(item.id||item.niid||"")}
+function isOwned(item){return state.owned.has(String(item.id))|| (item.niid&&state.owned.has(String(item.niid)))}
+function toggleOwned(item){
+  const id=String(item.id||item.niid||""); if(!id)return;
+  if(isOwned(item)){state.owned.delete(String(item.id));if(item.niid)state.owned.delete(String(item.niid))}
+  else {state.owned.add(id);if(item.niid)state.owned.add(String(item.niid))}
+  saveOwned();renderItems();renderCloset();
+}
+function updateOwnedUI(){
+  const count=state.owned.size;
+  document.getElementById("statOwned").textContent=count;
+  const pct=state.items.length?Math.min(100,count/state.items.length*100):0; const bar=document.getElementById("encyclopediaSaveBar"); const pctEl=document.getElementById("encyclopediaSavePercent"); if(bar)bar.style.width=pct+"%"; if(pctEl)pctEl.textContent=pct.toFixed(1)+"%";
+  document.getElementById("ownedText").textContent=`${count} / ${state.items.length}`;
+  document.getElementById("ownedBar").style.width=(state.items.length?Math.min(100,count/state.items.length*100):0)+"%";
+}
+function setView(name){
+  document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id==="view-"+name));
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===name));
+  state.view=name;window.scrollTo({top:0,behavior:"smooth"});
+  if(name==="closet")renderCloset();
+}
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{setView(b.dataset.view);if(innerWidth<760)sidebar.classList.remove("open")});
+document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>setView(b.dataset.go));
+document.getElementById("menuBtn").onclick=()=>sidebar.classList.toggle("open");
+document.getElementById("darkBtn").onclick=()=>{document.body.classList.toggle("dark");localStorage.setItem("lnDark",document.body.classList.contains("dark")?"1":"0")};
+if(localStorage.getItem("lnDark")==="1")document.body.classList.add("dark");
+
+function populateSelect(id,values,label){
+  const s=document.getElementById(id); if(!s)return;
+  const old=s.value; s.innerHTML=`<option value="">${esc(label)}</option>`;
+  [...new Set(values.filter(Boolean).map(String))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})).forEach(v=>{
+    const o=document.createElement("option");o.value=v;o.textContent=v;s.appendChild(o)
+  }); if([...s.options].some(o=>o.value===old))s.value=old;
+}
+function initItemFilters(){
+  populateSelect("typeFilter",["Hair","Dress","Coat","Top","Bottom","Hosiery","Shoes","Makeup","Accessory","Soul"],"All Types");
+  const cats = [...state.items.map(i=>val(i,"category")),"Apple","Lilith","Cloud","Pigeon","North","Wasteland","Ruin","Story Suits","Classic","Luxury","Festivals","Troupe","4 Seasons","Stars","Happiness","Wonder Museum","Fairytale","Gallery"];
+  populateSelect("categoryFilter",cats,"All Category");
+  populateSelect("closetCatFilter",cats,"All Categories");
+  populateSelect("colorFilter",state.items.map(i=>val(i,"maincolor","main color")),"All Main Colors");
+  populateSelect("tagFilter",[...state.items.map(i=>val(i,"tag1")), ...state.items.map(i=>val(i,"tag2"))],"All Tags");
+  populateSelect("otherColorFilter",state.items.map(i=>val(i,"othercolor","other color")),"All Other Colors");
+  populateSelect("tertiaryColorFilter",state.items.map(i=>val(i,"tertiary")),"All Tertiary Colors");
+  populateSelect("tag1Filter",state.items.map(i=>val(i,"tag1")),"All Tag 1");
+  populateSelect("tag2Filter",state.items.map(i=>val(i,"tag2")),"All Tag 2");
+}
+function itemMatches(item){
+  const q=document.getElementById("itemSearch").value.toLowerCase().trim();
+  const type=document.getElementById("typeFilter").value.toLowerCase(), rarity=document.getElementById("rarityFilter").value;
+  const cat=document.getElementById("categoryFilter").value, color=document.getElementById("colorFilter").value;
+  const tag=document.getElementById("tagFilter").value;
+  const other=document.getElementById("otherColorFilter").value, tertiary=document.getElementById("tertiaryColorFilter").value;
+  const tag1=document.getElementById("tag1Filter").value, tag2=document.getElementById("tag2Filter").value;
+  const pose=document.getElementById("poseFilter").checked, animated=document.getElementById("animatedFilter").checked, inSuit=document.getElementById("inSuitFilter").checked;
+  const colors=[val(item,"maincolor","main color"),val(item,"othercolor","other color"),val(item,"tertiary")];
+  if(type && val(item,"type","subtype").toLowerCase()!==type)return false; if(rarity && String(item.rarity)!==rarity)return false; if(cat && val(item,"category")!==cat)return false;
+  if(color && !colors.includes(color))return false; if(other && !colors.includes(other))return false; if(tertiary && !colors.includes(tertiary))return false;
+  if(tag && ![val(item,"tag1"),val(item,"tag2")].includes(tag))return false; if(tag1 && val(item,"tag1")!==tag1)return false; if(tag2 && val(item,"tag2")!==tag2)return false;
+  if(pose && !/^(yes|true|1)$/i.test(val(item,"pose")))return false; if(animated && !/^(yes|true|1)$/i.test(val(item,"animated")))return false; if(inSuit && !/^(yes|true|1)$/i.test(val(item,"inasuit","in a suit")))return false;
+  if(state.ownedFilter==="owned"&&!isOwned(item))return false; if(state.ownedFilter==="unowned"&&isOwned(item))return false;
+  if(q){
+    const numeric=/^\d+$/.test(q);
+    if(numeric){
+      if(!(String(item.id||"").includes(q)||String(item.niid||"").includes(q)))return false;
+    }else{
+      const terms=q.split(/\s+/).filter(Boolean),text=Object.values(item).join(" ").toLowerCase();
+      if(!terms.every(t=>text.includes(t)))return false;
+    }
+  }
+  return true;
+}
+function filterItems(){state.itemPage=1;state.filtered=state.items.filter(itemMatches);renderItems()}
+
+function getBadgeStyle(tagName) {
+  if (!tagName) return '';
+  const tagColors = {
+    "Sun Care": "#f28c3a", "Dancer": "#f26c6c", "Floral": "#e38b84", "Winter": "#7b9ca6",
+    "Sailor": "#4f7fd8", "Traditional": "#df6b4f", "Bunny": "#f47cc6", "Lady": "#d9a23b",
+    "Britain": "#5b74c9", "Swimsuit": "#54b6dc", "Shower": "#62c8cb", "Kimono": "#d98b78",
+    "Lolita": "#f35fa8", "Gothic": "#6b5b5b", "Sports": "#5aa9df", "Street": "#6d6ab3",
+    "Pajamas": "#b28acb", "Wedding": "#b99b9b", "Army": "#73863d", "Chic": "#757575",
+    "Preppy": "#a94a4a", "Unisex": "#6a9556", "Future": "#6d9dc5", "Fairy": "#ff6f9f",
+    "Apron": "#c95d5d", "Cheongsam": "#d66a6a", "Maiden": "#666666", "Evening Gown": "#7261b6",
+    "Musician": "#cf5a5a", "Workwear": "#5f93c6", "Animal": "#bf8b78", "Goddess": "#c887db",
+    "POP": "#f15b5b", "Homewear": "#e6a27b", "Chinese Classical": "#6b5252", "Multicultural": "#d6ad2e",
+    "Republic of China": "#6c79a8", "European": "#5d5d5d", "Swordsman": "#5c8fd8", "Rain": "#6ab37c",
+    "Modern China": "#8a7070", "Dryad": "#7b6666", "Bohemia": "#f38a34", "Paramedics": "#6bc7c7"
+  };
+  
+  const color = tagColors[tagName] || "#757575";
+  return `background-color: ${color}; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; margin: 2px;`;
+}
+
+function itemCard(item){
+  const owned=isOwned(item);
+  
+  const iconId = getIconId(item);
+  const img = IMAGE.icon(iconId); 
+  
+  const name=val(item,"name")||"Unknown Item",type=val(item,"type","subtype")||"Item";
+  const tags=[val(item,"tag1"),val(item,"tag2")].filter(Boolean);
+  const missingData = (!val(item,"name") || !item.rarity || !val(item,"type")) ? "missing-data" : "";
+  
+  return `<article class="card ${owned?"owned":""} ${missingData}">
+    <button class="heart ${owned?"on":""}" title="${owned?"Remove from owned items":"Add to owned items"}" data-id="${esc(item.id||item.niid)}">${owned?"♥":"♡"}</button>
+    <div class="card-img" data-open="${esc(item.id||item.niid)}"><img src="${esc(img)}" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER}'"></div>
+    <div class="card-body" data-open="${esc(item.id||item.niid)}"><div class="card-name">${esc(name)}</div><div class="card-sub">${esc(type)} • ${esc(item.rarity||"0")}♥</div>
+    <div class="badges">${tags.slice(0,2).map(t=>`<span class="badge" style="${getBadgeStyle(t)}">${esc(t)}</span>`).join("")}</div></div>
+  </article>`
+}
+
+function tableRow(item){
+  const img=IMAGE.item(item), owned=isOwned(item);
+  const tag=(x)=>x?`<span class="badge" style="${getBadgeStyle(x)}">${esc(x)}</span>`:"-";
+  const colorMap={
+    White:"#fff",Black:"#222",Pink:"#ffc0cb",Red:"#e74c3c",Orange:"#f39c12",
+    Yellow:"#f1c40f",Green:"#55b96b",Blue:"#4b8ed8",Purple:"#9b6acb",
+    Brown:"#9a6b45",Gray:"#999",Grey:"#999",Gold:"#d8ae45",Silver:"#bfc7d5"
+  };
+  const color=(x)=>x?`<span class="color-value"><i class="color-swatch" style="background:${colorMap[x]||"#ddd"}"></i>${esc(x)}</span>`:"-";
+  return `<tr>
+    <td class="sticky-save"><input type="checkbox" ${owned?"checked":""} data-row-own="${esc(item.id||item.niid)}"></td>
+    <td class="name-cell"><b>${esc(val(item,"name")||"Unknown")}</b></td>
+    <td>${esc(val(item,"type")||"-")}</td>
+    <td>${esc(val(item,"subtype")||"-")}</td>
+    <td>${esc(item.rarity||"0")}♥</td>
+    <td>${esc(item.gorgeous||"-")}</td><td>${esc(item.simple||"-")}</td><td>${esc(item.elegant||"-")}</td>
+    <td>${esc(item.lively||"-")}</td><td>${esc(item.mature||"-")}</td><td>${esc(item.cute||"-")}</td>
+    <td>${esc(item.sexy||"-")}</td><td>${esc(item.pure||"-")}</td><td>${esc(item.warm||"-")}</td><td>${esc(item.cool||"-")}</td>
+    <td>${color(val(item,"maincolor","main color"))}</td>
+    <td>${color(val(item,"othercolor","other color"))}</td>
+    <td>${color(val(item,"tertiary"))}</td>
+    <td>${esc(val(item,"category")||"-")}</td>
+    <td class="suit-cell">${esc(val(item,"suit")||"-")}</td>
+    <td>${tag(val(item,"tag1"))}</td><td>${tag(val(item,"tag2"))}</td>
+    <td>${formatBool(val(item,"inasuit","in a suit"))}</td><td>${formatBool(item.pose)}</td><td>${formatBool(item.animated)}</td>
+    <td><img class="table-img" src="${esc(img)}" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER}'"></td>
+    <td><button class="btn small" data-open="${esc(item.id||item.niid)}">Details</button></td>
+  </tr>`
+}
+function renderItems(){
+  const container=document.getElementById("itemResults"), total=state.filtered.length;
+  document.getElementById("itemCount").textContent=`${total.toLocaleString()} items`;
+  const pages=Math.max(1,Math.ceil(total/state.itemPerPage));state.itemPage=Math.min(state.itemPage,pages);
+  const start=(state.itemPage-1)*state.itemPerPage, page=state.filtered.slice(start,start+state.itemPerPage);
+  document.getElementById("pageInfo").textContent=`Page ${state.itemPage} / ${pages}`;
+  if(!page.length){container.className="grid";container.innerHTML='<div class="loading">No items match these filters.</div>';renderPagination("itemPagination",0,1,()=>{});return}
+  
+  if(state.view==="cards"){
+    container.className="grid";
+    container.innerHTML=page.map(itemCard).join("");
+  }else {
+    container.className="table-wrap";
+    container.innerHTML=`<table class="table wardrobe-table"><thead><tr>
+      <th>Save</th><th>Name</th><th>Type</th><th>Sub Type</th><th>Rarity</th>
+      <th>Gorgeous</th><th>Simple</th><th>Elegant</th><th>Lively</th><th>Mature</th>
+      <th>Cute</th><th>Sexy</th><th>Pure</th><th>Warm</th><th>Cool</th>
+      <th>Main Color</th><th>Other Color</th><th>Tertiary Color</th>
+      <th>Category</th><th>Suit</th><th>Tag 1</th><th>Tag 2</th>
+      <th>In Suit</th><th>Pose</th><th>Animated</th><th>Image</th><th></th>
+      </tr></thead><tbody>${page.map(tableRow).join("")}</tbody></table>`
+  }
+  container.querySelectorAll(".heart").forEach(b=>b.onclick=e=>{e.stopPropagation();const item=state.items.find(x=>String(x.id||x.niid)===String(b.dataset.id));if(item)toggleOwned(item)});
+  container.querySelectorAll("[data-row-own]").forEach(b=>b.onchange=()=>{const item=state.items.find(x=>String(x.id||x.niid)===String(b.dataset.rowOwn));if(item)toggleOwned(item)});
+  container.querySelectorAll("[data-open]").forEach(el=>el.onclick=()=>{const item=state.items.find(x=>String(x.id||x.niid)===String(el.dataset.open));if(item)openItem(item)});
+  renderPagination("itemPagination",pages,state.itemPage,p=>{state.itemPage=p;renderItems()});
+}
+function renderPagination(id,total,current,go){
+  const el=document.getElementById(id);if(!el)return;
+  if(total<=1){el.innerHTML="";return}
+  let h=`<button ${current===1?"disabled":""} data-p="${current-1}">‹</button>`;
+  const from=Math.max(1,current-2),to=Math.min(total,current+2);for(let p=from;p<=to;p++)h+=`<button data-p="${p}" ${p===current?"disabled":""}>${p}</button>`;
+  h+=`<button ${current===total?"disabled":""} data-p="${current+1}">›</button>`;el.innerHTML=h;
+  el.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>go(Number(b.dataset.p)));
+}
+function openItem(item){
+  const stats=["gorgeous","simple","elegant","lively","mature","cute","sexy","pure","warm","cool"].filter(k=>item[k]!==undefined&&item[k]!=="");
+  const img=IMAGE.item(item),owned=isOwned(item);
+  
+  const tag=(x)=>x?`<span class="badge" style="${getBadgeStyle(x)}">${esc(x)}</span>`:"";
+  
+  let serverHTML = "";
+  const serverMatch = state.serverNames.find(r => val(r, "en name").toLowerCase() === val(item, "name").toLowerCase() || val(r, "internal_id", "id") === val(item, "id"));
+  if (serverMatch) {
+      const servers = ["FR Name", "CN Name", "TW Name", "JP Name", "VN Name", "KR Name", "IN Name", "TH Name", "SEA Name"];
+      const serverTags = servers.map(k => serverMatch[k.toLowerCase()] ? `<div class="info"><b>${k.replace(' Name','')}</b>${esc(serverMatch[k.toLowerCase()])}</div>` : "").filter(Boolean).join("");
+      if (serverTags) {
+          serverHTML = `<h4 style="margin: 22px 0 8px; color: #6d5060; font-size: 16px; border-bottom: 1px solid var(--line); padding-bottom: 6px;">Name by Server</h4>
+                        <div class="info-grid" style="grid-template-columns: repeat(3, minmax(0,1fr))">${serverTags}</div>`;
+      }
+  }
+
+  document.getElementById("modal").innerHTML=`<div class="modal-head"><h3>Item Details</h3><button class="close" onclick="closeModal()">×</button></div>
+  <div class="detail"><div class="detail-img"><img src="${esc(img)}" onerror="this.onerror=null;this.src='${PLACEHOLDER}'"></div>
+  <div><h2>${esc(val(item,"name")||"Unknown Item")}</h2><div class="badges"><span class="badge">${esc(val(item,"type","subtype")||"Item")}</span><span class="badge">${esc(item.rarity||0)}♥</span></div>
+  <p>${esc(val(item,"desc","description"))}</p><button class="btn ${owned?"danger":"primary"}" id="modalOwn">${owned?"♥ Remove from closet":"♡ Add to closet"}</button>
+  <div class="info-grid">
+  ${[["Type",val(item,"type")],["Sub Type",val(item,"subtype")],["Category / Nation",val(item,"category")],["Suit",val(item,"suit")],["Main Color",val(item,"maincolor","main color")],["Other Color",val(item,"othercolor","other color")],["Tertiary",val(item,"tertiary")],["Tag 1",tag(val(item,"tag1"))],["Tag 2",tag(val(item,"tag2"))],["Pose",formatBool(val(item,"pose"))],["Animated",formatBool(val(item,"animated"))],["In Suit",formatBool(val(item,"inasuit","in a suit"))]].filter(x=>x[1] && x[1]!=="-" && x[1]!=="").map(x=>`<div class="info"><b>${esc(x[0])}</b>${x[0].includes("Tag")?x[1]:esc(x[1])}</div>`).join("")}</div>
+  ${stats.length?`<div class="score-grid">${stats.map(k=>`<div class="score"><b>${esc(item[k])}</b><span>${esc(k)}</span></div>`).join("")}</div>`:""}
+  ${serverHTML}
+  </div></div>`;
+  document.getElementById("modalOwn").onclick=()=>{toggleOwned(item);openItem(item)};
+  openModal()
+}
+function openModal(){document.getElementById("modalOverlay").classList.add("open")}
+function closeModal(){document.getElementById("modalOverlay").classList.remove("open")}
+document.getElementById("modalOverlay").onclick=e=>{if(e.target.id==="modalOverlay")closeModal()};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+
+function renderCloset(){
+  const selectedCat = document.getElementById("closetCategoryFilter")?.value || "";
+  const items = state.items.filter(isOwned).filter(item => {
+    if (!selectedCat) return true;
+    return val(item, "type", "subtype").toLowerCase() === selectedCat.toLowerCase();
+  });
+  
+  const c = document.getElementById("closetResults");
+  const total = items.length;
+  const pages = Math.max(1, Math.ceil(total / state.closetPerPage));
+  state.closetPage = Math.min(state.closetPage, pages);
+  
+  if(!total){
+    c.innerHTML = '<div class="owned-empty">No items match this category in your closet.</div>';
+    renderPagination("closetPagination", 0, 1, ()=>{});
+    return;
+  }
+  
+  const start = (state.closetPage - 1) * state.closetPerPage;
+  const pageItems = items.slice(start, start + state.closetPerPage);
+  
+  c.innerHTML = pageItems.map(itemCard).join("");
+  c.querySelectorAll(".heart").forEach(b => b.onclick = e => { e.stopPropagation(); const item = state.items.find(x => String(x.id||x.niid) === String(b.dataset.id)); if(item) toggleOwned(item); });
+  c.querySelectorAll("[data-open]").forEach(el => el.onclick = () => { const item = state.items.find(x => String(x.id||x.niid) === String(el.dataset.open)); if(item) openItem(item); });
+  
+  renderPagination("closetPagination", pages, state.closetPage, p => {
+    state.closetPage = p;
+    renderCloset();
+  });
+}
+
+// Reset page to 1 when category changes
+document.getElementById("closetCategoryFilter")?.addEventListener("change", () => { state.closetPage = 1; renderCloset(); });
+document.getElementById("closetCatFilter")?.addEventListener("change", () => { state.closetPage = 1; renderCloset(); });
+
+document.getElementById("closetCategoryFilter")?.addEventListener("change", renderCloset);
+document.getElementById("closetCatFilter")?.addEventListener("change", renderCloset);
+document.querySelectorAll("[data-owned]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-owned]").forEach(x=>x.classList.remove("active"));b.classList.add("active");state.ownedFilter=b.dataset.owned;filterItems()});
+document.getElementById("cardsBtn").onclick = () => {
+  state.itemMode = "cards";
+  document.getElementById("cardsBtn").classList.add("active");
+  document.getElementById("tableBtn").classList.remove("active");
+  renderItems();
+};
+
+document.getElementById("tableBtn").onclick = () => {
+  state.itemMode = "table";
+  document.getElementById("tableBtn").classList.add("active");
+  document.getElementById("cardsBtn").classList.remove("active");
+  renderItems();
+};
+document.getElementById("clearFilters").onclick=()=>{document.getElementById("itemSearch").value="";["typeFilter","rarityFilter","categoryFilter","colorFilter","tagFilter","otherColorFilter","tertiaryColorFilter","tag1Filter","tag2Filter"].forEach(id=>document.getElementById(id).value="");["poseFilter","animatedFilter","inSuitFilter"].forEach(id=>document.getElementById(id).checked=false);state.ownedFilter="all";document.querySelectorAll("[data-owned]").forEach(x=>x.classList.toggle("active",x.dataset.owned==="all"));filterItems()};
+["itemSearch","typeFilter","rarityFilter","categoryFilter","colorFilter","tagFilter","otherColorFilter","tertiaryColorFilter","tag1Filter","tag2Filter","poseFilter","animatedFilter","inSuitFilter"].forEach(id=>document.getElementById(id).addEventListener(id==="itemSearch"?"input":"change",()=>filterItems()));
+document.getElementById("globalSearch").addEventListener("input",e=>{if(state.itemMode==="cards"){document.getElementById("itemSearch").value=e.target.value;filterItems()}else if(e.target.value.trim()){setView("encyclopedia");document.getElementById("itemSearch").value=e.target.value;filterItems()}});
+
+document.getElementById("saveFilteredEncyclopedia").onclick=()=>{state.filtered.forEach(i=>{if(i.id)state.owned.add(String(i.id));if(i.niid)state.owned.add(String(i.niid))});saveOwned();renderItems();renderCloset()};
+document.getElementById("removeFilteredEncyclopedia").onclick=()=>{state.filtered.forEach(i=>{state.owned.delete(String(i.id));if(i.niid)state.owned.delete(String(i.niid))});saveOwned();renderItems();renderCloset()};
+document.getElementById("randomItem").onclick=()=>{if(state.items.length)openItem(state.items[Math.floor(Math.random()*state.items.length)])};
+// document.getElementById("saveFiltered").onclick=()=>{state.filtered.forEach(i=>{if(i.id)state.owned.add(String(i.id));if(i.niid)state.owned.add(String(i.niid))});saveOwned();renderItems();renderCloset()};
+// document.getElementById("removeFiltered").onclick=()=>{state.filtered.forEach(i=>{state.owned.delete(String(i.id));if(i.niid)state.owned.delete(String(i.niid))});saveOwned();renderItems();renderCloset()};
+document.getElementById("clearOwned").onclick=()=>{if(confirm("Clear your entire closet?")){state.owned.clear();saveOwned();renderItems();renderCloset()}};
+document.getElementById("exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify([...state.owned])],{type:"application/octet-stream"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="my_wardrobe.wbak";a.click();URL.revokeObjectURL(a.href)};
+document.getElementById("importBtn").onclick=()=>document.getElementById("fileInput").click();
+document.getElementById("fileInput").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(Array.isArray(data)){state.owned=new Set(data.map(String));saveOwned();renderItems();renderCloset();alert("Closet imported!");}}catch{alert("That .wbak file could not be read.")}e.target.value=""};
+async function loadItems(){
+  try{
+    state.items=await fetchCSV(DATA.items);
+    state.items.forEach((item, i) => { if (!item.id) item.id = `item_${i}`; });
+    const exactOrder = ['hair', 'dress', 'coat', 'top', 'bottom', 'hosiery', 'shoes', 'makeup', 'accessory', 'soul'];
+    state.items.sort((a, b) => {
+      const aIndex = exactOrder.indexOf((a.type || a.subtype || '').toLowerCase().trim());
+      const bIndex = exactOrder.indexOf((b.type || b.subtype || '').toLowerCase().trim());
+      return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
+    });
+
+    state.filtered=[...state.items];
+    initItemFilters();
+    renderItems();
+    updateOwnedUI();
+    document.getElementById("statItems").textContent=state.items.length.toLocaleString();
+    status(`Wardrobe loaded ✓ • ${state.items.length.toLocaleString()} items` )
+  }
+  catch(e){console.error(e);document.getElementById("itemResults").innerHTML='<div class="loading">Could not load the wardrobe sheet.</div>';status("Wardrobe sheet unavailable")}
+}
+function status(s){document.getElementById("dataStatus").textContent=s}
+function loadStages(){
+  fetchCSV(DATA.chapters).then(rows=>{state.stages=rows.filter(r=>val(r,"stage"));state.stageFiltered=[...state.stages];
+    document.getElementById("statStages").textContent=state.stages.length.toLocaleString();
+    populateSelect("volumeFilter",state.stages.map(r=>val(r,"volume no.","volume")),"All Volumes");
+    populateSelect("chapterFilter",state.stages.map(r=>(val(r,"stage")||"").split("-")[0]),"All Chapters");renderStages()
+  }).catch(()=>{document.getElementById("stageResults").innerHTML='<div class="loading">Could not load stage data.</div>'})
+}
+function filterStages(){const q=document.getElementById("stageSearch").value.toLowerCase(),v=document.getElementById("volumeFilter").value,c=document.getElementById("chapterFilter").value;
+ state.stagePage=1;state.stageFiltered=state.stages.filter(r=>{const s=val(r,"stage").toLowerCase(),n=val(r,"name").toLowerCase(),rv=val(r,"volume no.","volume"),ch=s.split("-")[0];return(!q||s.includes(q)||n.includes(q))&&(!v||rv===v)&&(!c||ch===c)});renderStages()}
+["stageSearch","volumeFilter","chapterFilter"].forEach(id=>document.getElementById(id).addEventListener(id==="stageSearch"?"input":"change",filterStages));
+
+function stageDropIcon(dropName) {
+  return "";
+}
+
+function renderStages(){
+  const total=state.stageFiltered.length,pages=Math.max(1,Math.ceil(total/50));
+  state.stagePage=Math.min(state.stagePage,pages);
+  const rows=state.stageFiltered.slice((state.stagePage-1)*50,state.stagePage*50),c=document.getElementById("stageResults");
+  const badge=(x)=>x?`<span class="badge" style="${getBadgeStyle(x)}">${esc(x)}</span>`:"-";
+  const drops=(r,prefix)=>{
+    const vals=[val(r,`${prefix} drops 1`),val(r,`${prefix} drops 2`)].filter(Boolean);
+    return vals.length?vals.map(x=>`<div class="drop">${stageDropIcon(x)}<span>${esc(x)}</span></div>`).join(""):"-";
+  };
+  c.className="table-wrap";
+  c.innerHTML=rows.length?`<table class="table stage-table"><thead><tr>
+    <th>Vol.</th><th>Stage</th><th>Name</th><th>Attributes</th><th>Tag 1</th><th>Tag 2</th>
+    <th>Item Requirements</th><th>Maiden Drops</th><th>Princess Drops</th>
+  </tr></thead><tbody>${rows.map(r=>{
+    const attrs=[1,2,3,4,5].map(i=>val(r,`attributes ${i}`)).filter(Boolean).map(x=>`<span class="badge">${esc(x)}</span>`).join(" ");
+    return `<tr>
+      <td>${esc(val(r,"volume no.","volume")||"-")}</td><td><b>${esc(val(r,"stage")||"-")}</b></td>
+      <td>${esc(val(r,"name")||"-")}</td><td>${attrs||"-"}</td>
+      <td>${badge(val(r,"tags 1"))}</td><td>${badge(val(r,"tags 2"))}</td>
+      <td>${badge(val(r,"item requirements"))}</td>
+      <td>${drops(r,"maiden")}</td><td>${drops(r,"princess")}</td>
+    </tr>`
+  }).join("")}</tbody></table>`:'<div class="loading">No stages found.</div>';
+  renderPagination("stagePagination",pages,state.stagePage,p=>{state.stagePage=p;renderStages()})
+}
+
+function loadCrafting(){
+  fetchCSV(DATA.crafting).then(rows=>{state.crafting=rows.filter(r=>val(r,"item name","item"));state.craftFiltered=[...state.crafting];
+    const methods=state.crafting.map(r=>val(r,"obtain","recipe obtainment"));populateSelect("obtainFilter",methods,"All obtainment methods");renderCrafting()
+  }).catch(()=>document.getElementById("craftResults").innerHTML='<div class="loading">Could not load crafting data.</div>')
+}
+function filterCrafting(){const q=document.getElementById("craftSearch").value.toLowerCase(),o=document.getElementById("obtainFilter").value;state.craftPage=1;state.craftFiltered=state.crafting.filter(r=>val(r,"item name","item").toLowerCase().includes(q)&&(!o||val(r,"obtain","recipe obtainment")===o));renderCrafting()}
+document.getElementById("craftSearch").addEventListener("input",filterCrafting);document.getElementById("obtainFilter").addEventListener("change",filterCrafting);
+function renderCrafting(){const total=state.craftFiltered.length,pages=Math.max(1,Math.ceil(total/40));state.craftPage=Math.min(state.craftPage,pages);const rows=state.craftFiltered.slice((state.craftPage-1)*40,state.craftPage*40),c=document.getElementById("craftResults");
+ c.innerHTML=rows.length?rows.map(r=>`<article class="craft"><div><h4>${esc(val(r,"item name","item")||"Unnamed")}</h4><p>${esc(val(r,"obtain","recipe obtainment")||"")}</p></div><button class="btn small primary" data-craft="${esc(state.crafting.indexOf(r))}">View recipe</button></article>`).join(""):'<div class="loading">No crafting records found.</div>';
+ c.querySelectorAll("[data-craft]").forEach(b=>b.onclick=()=>openCraft(state.crafting[Number(b.dataset.craft)]));renderPagination("craftPagination",pages,state.craftPage,p=>{state.craftPage=p;renderCrafting()})
+}
+function openCraft(r){
+  const mainName = val(r,"item name","item") || "Crafting Recipe";
+  let mainId = val(r,"id","item id");
+  
+  if (!mainId) {
+      const foundMain = state.items.find(i=>val(i,"name").toLowerCase() === mainName.toLowerCase());
+      if (foundMain) mainId = getBestId(foundMain);
+  }
+  const obtain=val(r,"obtain","recipe obtainment")||"—";
+  const mats=[];
+  for(let i=1;i<=8;i++){
+    const n=val(r,`cloth${i}`,`required ${i}`,`material ${i}`);
+    const a=val(r,`amount needed ${i}`,`amount${i}`,`quantity ${i}`),id=val(r,`material id ${i}`,`id ${i}`);
+    if(n){
+      const normalizedName=n.trim().toLowerCase();
+      const materialId = String(id || "").trim().toLowerCase();
+      const outputId = String(mainId || "").trim().toLowerCase();
+      const sameAsOutput =
+        normalizedName === mainName.trim().toLowerCase() ||
+        (!!materialId && !!outputId && materialId === outputId);
+      if(!sameAsOutput) mats.push({n,a,id});
+    }
+  }
+  const mainImg = mainId ? wardrobeImageFromId(mainId) : "";
+  document.getElementById("modal").innerHTML=`<div class="modal-head"><h3>${esc(mainName)}</h3><button class="close" onclick="closeModal()">×</button></div>
+  <div class="detail"><div class="detail-img"><img src="${esc(mainImg)}" onerror="this.onerror=null;this.src='${PLACEHOLDER}'"></div><div>
+  <div class="info"><b>Design Obtainment</b>${esc(obtain)}</div>
+  <div class="material-grid">${mats.length?mats.map(m=>{
+    let iconId = m.id;
+    if (!iconId) {
+       let found = state.items.find(i=>val(i,"name").toLowerCase()===m.n.toLowerCase());
+       
+       if (found) iconId = getIconId(found);
+       
+       if (!iconId) {
+           const sMatch = state.serverNames.find(row => val(row, "en name").toLowerCase() === m.n.toLowerCase());
+           if (sMatch) iconId = val(sMatch, "internal_id", "id");
+       }
+    }
+    const img=iconId?IMAGE.icon(iconId):"";
+    return `<div class="material-card"><img src="${esc(img)}" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER}'"><b>${esc(m.n)}</b><small>x${esc(m.a||1)}</small></div>`
+  }).join(""):'<div class="loading">No materials required.</div>'}</div>
+  </div></div>`;openModal()
+}
+
+function loadBreakdowns(){
+  fetchCSV(DATA.breakdowns).then(rows=>{state.breakdowns=rows.filter(r=>val(r,"suit name","name"));document.getElementById("statSuits").textContent=state.breakdowns.length.toLocaleString();renderBreakdowns()})
+  .catch(()=>document.getElementById("suitResults").innerHTML='<div class="loading">Could not load breakdown data.</div>')
+}
+function renderBreakdowns(){
+  const q=(document.getElementById("suitSearch")?.value||"").toLowerCase();
+  const rows=state.breakdowns.map((s,i)=>({s,i})).filter(x=>val(x.s,"suit name","name").toLowerCase().includes(q));
+  document.getElementById("suitResults").innerHTML=rows.length?rows.map(x=>`<article class="suit" data-suit="${x.i}"><button class="suit-head"><span>${esc(val(x.s,"suit name","name"))}</span><span>⌄</span></button><div class="suit-body"></div></article>`).join(""):'<div class="loading">No suits found.</div>';
+  document.querySelectorAll(".suit").forEach(el=>el.querySelector(".suit-head").onclick=()=>toggleSuit(el,Number(el.dataset.suit)));
+}
+function toggleSuit(el,i){
+  const body=el.querySelector(".suit-body");
+  if(el.classList.contains("open")){el.classList.remove("open");return;}
+  el.classList.add("open");if(body.dataset.loaded)return;body.dataset.loaded="1";
+
+  const s=state.breakdowns[i];
+  const suitName=val(s,"suit name","name").trim();
+  const ids=val(s,"item ids").split(",").map(x=>x.trim()).filter(Boolean);
+
+  if(!ids.length){body.innerHTML='<span style="color:var(--muted)">No images available.</span>';return;}
+
+  const loadedUrls=[];
+  ids.forEach((rawId,j)=>{
+    const cleanId=rawId.trim();if(!cleanId)return;
+    let baseId=cleanId;
+    if(suitName && cleanId.startsWith(`${suitName}-`)) baseId=cleanId.slice(suitName.length+1);
+    else if(cleanId.includes("-")) baseId=cleanId.split("-").pop();
+
+    const primaryUrl=cleanId.includes("-")?IMAGE.breakdown("",cleanId):IMAGE.breakdown(suitName,baseId);
+    const plainUrl=IMAGE.breakdown("",baseId);
+
+    const piece=document.createElement("div");piece.className="suit-piece";
+    const img=document.createElement("img");img.loading="lazy";img.alt=cleanId;img.dataset.stage="primary";img.src=primaryUrl;
+    const label=document.createElement("span");label.textContent=cleanId;
+
+    img.addEventListener("load",function(){
+      if(!loadedUrls.includes(this.currentSrc))loadedUrls.push(this.currentSrc);
+      this.onclick=(event)=>{event.stopPropagation();openGallery(loadedUrls,Math.max(0,loadedUrls.indexOf(this.currentSrc)),suitName);};
+    });
+    img.addEventListener("error",function(){
+      if(this.dataset.stage==="primary"){this.dataset.stage="plain";this.src=plainUrl;return;}
+      this.style.opacity=".12";this.title=`Image not found: ${cleanId}`;this.src=PLACEHOLDER;
+    });
+
+    piece.appendChild(img);piece.appendChild(label);body.appendChild(piece);
+  });
+}
+function openGallery(images,index,title){let i=index;const render=()=>{document.getElementById("modal").innerHTML=`<div class="modal-head"><h3>${esc(title||"Suit gallery")}</h3><button class="close" onclick="closeModal()">×</button></div><div class="gallery-modal"><button class="gallery-arrow left" id="galleryPrev">‹</button><img src="${esc(images[i])}" onerror="this.style.opacity='.35'"><button class="gallery-arrow right" id="galleryNext">›</button></div><div class="source-note">Piece ${i+1} of ${images.length}</div>`;document.getElementById("galleryPrev").onclick=()=>{i=(i-1+images.length)%images.length;render()};document.getElementById("galleryNext").onclick=()=>{i=(i+1)%images.length;render()};openModal()};render()}
+document.getElementById("suitSearch").addEventListener("input",renderBreakdowns);document.getElementById("expandAllSuits").onclick=()=>document.querySelectorAll(".suit").forEach(el=>{if(!el.classList.contains("open"))toggleSuit(el,Number(el.dataset.suit))});document.getElementById("collapseAllSuits").onclick=()=>document.querySelectorAll(".suit.open").forEach(el=>el.classList.remove("open"));
+
+const MODE_LABELS=["Simple","With a Twist","Series","Cosplay!","Colors","Rarity","Rarity Combo","Nation","Nation + Nation","Attribute","Nation + Tag","Tag + Attribute","Special","Love Nikki Competition"];
+document.getElementById("themeModes").innerHTML=MODE_LABELS.map(m=>`<button class="${m==="Simple"?"active":""}" data-mode="${esc(m)}">${esc(m)}</button>`).join("");
+document.querySelectorAll("#themeModes button").forEach(b=>b.onclick=()=>{document.querySelectorAll("#themeModes button").forEach(x=>x.classList.remove("active"));b.classList.add("active");state.themeMode=b.dataset.mode;document.getElementById("modeLabel").textContent=state.themeMode});
+function pick(a){return a&&a.length?a[Math.floor(Math.random()*a.length)]:"—"}
+function generateTheme(){
+  const t=state.themes,m=state.themeMode,cat=t.Categories||[],role=t.Roles||[],twist=t.Twists||[],char=t.Characters||[],colors=t.Colors||[],rar=t.Rarity||[],nation=t.Nations||[],attr=t.Attribute||[],tags=t.Tags||[],special=t["Special Themes"]||[],comp=t["Love Nikki Competition Themes"]||[];
+  let r="No theme data loaded.";
+  if(m==="Simple")r=`${pick(cat)} ${pick(role)}`;else if(m==="With a Twist")r=`${pick(cat)} ${pick(role)} ${pick(twist)}`;
+  else if(m==="Series"){const x=pick(cat);r=`${x} ${pick(role)}\n${x} ${pick(role)}\n${x} Queen/King`}
+  else if(m==="Cosplay!")r=`${pick(char)} ${pick(twist)}`;else if(m==="Colors")r=`${pick(colors)} + ${pick(colors)}`;
+  else if(m==="Rarity")r=pick(rar);else if(m==="Rarity Combo")r=`${pick(rar)} — ${pick(rar)}`;else if(m==="Nation")r=`${pick(nation)} ${pick(cat)} ${pick(role)}`;
+  else if(m==="Nation + Nation")r=`${pick(nation)} + ${pick(nation)}`;else if(m==="Attribute")r=`${pick(attr)} + ${pick(attr)}`;
+  else if(m==="Nation + Tag")r=`${pick(nation)} + ${pick(tags)}`;else if(m==="Tag + Attribute")r=`${pick(tags)} + ${pick(attr)}`;
+  else if(m==="Special")r=pick(special);else if(m==="Love Nikki Competition")r=pick(comp);
+  document.getElementById("themeText").textContent=r;applyThemeVibe()
+}
+document.getElementById("generateBtn").onclick=generateTheme;
+function applyThemeVibe(){
+  const colors=["#62d5ff","#c399ff","#ff73b9","#ff9671","#2ca58d"];
+  const c=colors[Math.floor(Math.random()*colors.length)];
+  document.getElementById("themeText").style.color=c;
+  document.getElementById("themeText").style.textShadow="0 2px 10px rgba(0,0,0,.05)";
+}
+async function loadThemes(){
+  try{
+    const rows=await fetchCSV(DATA.themes),keys=["Categories","Roles","Twists","Characters","Colors","Rarity","Nations","Attribute","Tags","Special Themes","Love Nikki Competition Themes"];
+    state.themes=Object.fromEntries(keys.map(k=>[k,[]]));
+    rows.forEach(r=>keys.forEach(k=>{const v=val(r,k.toLowerCase(),k);if(v)state.themes[k].push(v)}));
+  }catch(e){console.warn("Theme sheet unavailable",e)}
+}
+async function loadServerNames() {
+  try {
+    if (DATA.serverNames) {
+      state.serverNames = await fetchCSV(DATA.serverNames);
+    }
+  } catch(e) { console.warn("Server Names sheet unavailable",e) }
+}
+document.getElementById("infoBtn").onclick=()=>{document.getElementById("modal").innerHTML=`<div class="modal-head"><h3>About this Website</h3><button class="close" onclick="closeModal()">×</button></div>
+<p>Stylist Encyclopedia is an info catalog of wardrobe items from the game. (Will soon be cross-server catalog)</p>
+<div class="info-grid"><div class="info"><b>Inspirations</b><a href="https://lovenikki.fandom.com/">LN Wiki</a>, <a href="https://seal100x.github.io/nikkiup2u3">Seal</a>, <a href="https://docs.google.com/spreadsheets/d/1OhAgfzk0pCY9TG5PDPaSFjnv7ZHevxxJtlvfKm16ykg/edit?gid=602775022#gid=602775022">Ultimate LN Style Search Sheet</a>, and <a href="ln.nikkis.info">Nikki's Info</a></div><div class="info"><b>Features</b>Filled with stats, rarity, color, etc. (data and images to be placed later). Search and filter by type, rarity , nation, color, and tags</div><div class="info"><b>Credits/Helpers/Testers (Feedback Giver)</b>danc (@danc12321) for crafting data. mikachuu (@mikachuu#0493) provided info for missing items up to Daybreak Blade suit, lynndeeznuts (@LynnD#6271) provided info for items on JP server, krichur (@krichur) and Viv (@vivly) for the data of the colors. Lydia (@Lydia#0675), Pearl (@Ederne#4620), Viv (@vivly), mikachuu (@mikachuu#0493), Sinthu (FB)</div><div class="info"><b>Contact</b>Manami (@manami_naomi at Discord, u/OkTumbleweed8362 at Reddit, Margielyn Pascua (Main FB)/Manami Naomi (My Page) at Facebook, ramunesakura.ln at Instagram, @ramunesakura4 at Tiktok)</div></div>`;openModal()};
+
+async function boot(){
+  updateOwnedUI();
+  state.view = "cards";
+  
+  await Promise.allSettled([loadServerNames(),loadItems(),loadStages(),loadCrafting(),loadBreakdowns(),loadThemes()]);
+  updateOwnedUI();
+  
+  if(state.view === "closet") renderCloset();
+}
+boot();
+</script>
 </body>
+</html>
