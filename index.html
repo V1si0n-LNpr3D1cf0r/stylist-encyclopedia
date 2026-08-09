@@ -312,7 +312,7 @@ function getBestId(item) {
     let id = val(item, "id", "niid");
     if (!id || String(id).startsWith("item_")) {
         const name = val(item, "name").toLowerCase();
-        const serverMatch = state.serverNames.find(r => val(r, "en name", "name").toLowerCase() === name);
+        const serverMatch = serverMap[name];
         if (serverMatch && val(serverMatch, "id", "internal_id")) {
             id = val(serverMatch, "id", "internal_id");
         }
@@ -322,12 +322,10 @@ function getBestId(item) {
 
 function getIconId(item) {
     if (!item) return "";
-    let id = val(item, "id"); 
-    if (!id) id = val(item, "id");
-    
+    let id = val(item, "id");
     if (!id || String(id).startsWith("item_")) {
         const name = val(item, "name").toLowerCase();
-        const serverMatch = state.serverNames.find(r => val(r, "en name", "name").toLowerCase() === name);
+        const serverMatch = serverMap[name];
         if (serverMatch && val(serverMatch, "internal_id", "id")) {
             id = val(serverMatch, "internal_id", "id");
         }
@@ -385,7 +383,7 @@ const state = {
   itemMode: "cards",
   view: "home",
   serverNames:[],
-  itemPage:1,itemPerPage:48,view:"cards",ownedFilter:"all",
+  itemPage:1,itemPerPage:48, ownedFilter:"all",
   crafting:[],craftFiltered:[],craftPage:1,
   stages:[],stageFiltered:[],stagePage:1,
   breakdowns:[],themes:{},themeMode:"Simple",
@@ -395,6 +393,37 @@ const state = {
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const val = (o,...keys) => { for(const k of keys){ if(o[k]!==undefined && o[k]!==null && String(o[k]).trim()!=="") return String(o[k]).trim(); } return ""; };
 const formatBool = v => { const s = String(v||"").trim().toLowerCase(); return ["true","yes","1"].includes(s)?"Yes":["false","no","0"].includes(s)?"No":v; };
+
+let serverMap = {};
+
+async function loadServerNames() {
+  try {
+    let rows = [];
+    
+    const cached = localStorage.getItem("lnServerMap");
+    if (cached) {
+      serverMap = JSON.parse(cached);
+      return;
+    }
+
+    if (DATA.serverNames) {
+      rows = await fetchCSV(DATA.serverNames);
+      state.serverNames = rows;
+
+      serverMap = {};
+      rows.forEach(row => {
+        const id = val(row, "internal_id", "id");
+        const name = val(row, "en name", "name").toLowerCase().trim();
+        if (id) serverMap[id] = row;
+        if (name) serverMap[name] = row;
+      });
+
+      localStorage.setItem("lnServerMap", JSON.stringify(serverMap));
+    }
+  } catch (e) {
+    console.warn("Server Names sheet unavailable", e);
+  }
+}
 
 function parseCSV(text){
   const rows=[];let row=[],cell="",quoted=false;
@@ -563,8 +592,8 @@ function renderItems(){
   const start=(state.itemPage-1)*state.itemPerPage, page=state.filtered.slice(start,start+state.itemPerPage);
   document.getElementById("pageInfo").textContent=`Page ${state.itemPage} / ${pages}`;
   if(!page.length){container.className="grid";container.innerHTML='<div class="loading">No items match these filters.</div>';renderPagination("itemPagination",0,1,()=>{});return}
-  
-  if(state.view==="cards"){
+
+  if(state.itemMode==="cards"){
     container.className="grid";
     container.innerHTML=page.map(itemCard).join("");
   }else {
@@ -594,11 +623,13 @@ function renderPagination(id,total,current,go){
 function openItem(item){
   const stats=["gorgeous","simple","elegant","lively","mature","cute","sexy","pure","warm","cool"].filter(k=>item[k]!==undefined&&item[k]!=="");
   const img=IMAGE.item(item),owned=isOwned(item);
-  
   const tag=(x)=>x?`<span class="badge" style="${getBadgeStyle(x)}">${esc(x)}</span>`:"";
   
   let serverHTML = "";
-  const serverMatch = state.serverNames.find(r => val(r, "en name").toLowerCase() === val(item, "name").toLowerCase() || val(r, "internal_id", "id") === val(item, "id"));
+  const itemNameKey = val(item, "name").toLowerCase();
+  const itemIdKey = val(item, "id");
+  const serverMatch = serverMap[itemNameKey] || serverMap[itemIdKey];
+
   if (serverMatch) {
       const servers = ["FR Name", "CN Name", "TW Name", "JP Name", "VN Name", "KR Name", "IN Name", "TH Name", "SEA Name"];
       const serverTags = servers.map(k => serverMatch[k.toLowerCase()] ? `<div class="info"><b>${k.replace(' Name','')}</b>${esc(serverMatch[k.toLowerCase()])}</div>` : "").filter(Boolean).join("");
@@ -618,8 +649,9 @@ function openItem(item){
   ${serverHTML}
   </div></div>`;
   document.getElementById("modalOwn").onclick=()=>{toggleOwned(item);openItem(item)};
-  openModal()
+  openModal();
 }
+
 function openModal(){document.getElementById("modalOverlay").classList.add("open")}
 function closeModal(){document.getElementById("modalOverlay").classList.remove("open")}
 document.getElementById("modalOverlay").onclick=e=>{if(e.target.id==="modalOverlay")closeModal()};
@@ -656,7 +688,6 @@ function renderCloset(){
   });
 }
 
-// Reset page to 1 when category changes
 document.getElementById("closetCategoryFilter")?.addEventListener("change", () => { state.closetPage = 1; renderCloset(); });
 document.getElementById("closetCatFilter")?.addEventListener("change", () => { state.closetPage = 1; renderCloset(); });
 
@@ -678,7 +709,11 @@ document.getElementById("tableBtn").onclick = () => {
 };
 document.getElementById("clearFilters").onclick=()=>{document.getElementById("itemSearch").value="";["typeFilter","rarityFilter","categoryFilter","colorFilter","tagFilter","otherColorFilter","tertiaryColorFilter","tag1Filter","tag2Filter"].forEach(id=>document.getElementById(id).value="");["poseFilter","animatedFilter","inSuitFilter"].forEach(id=>document.getElementById(id).checked=false);state.ownedFilter="all";document.querySelectorAll("[data-owned]").forEach(x=>x.classList.toggle("active",x.dataset.owned==="all"));filterItems()};
 ["itemSearch","typeFilter","rarityFilter","categoryFilter","colorFilter","tagFilter","otherColorFilter","tertiaryColorFilter","tag1Filter","tag2Filter","poseFilter","animatedFilter","inSuitFilter"].forEach(id=>document.getElementById(id).addEventListener(id==="itemSearch"?"input":"change",()=>filterItems()));
-document.getElementById("globalSearch").addEventListener("input",e=>{if(state.itemMode==="cards"){document.getElementById("itemSearch").value=e.target.value;filterItems()}else if(e.target.value.trim()){setView("encyclopedia");document.getElementById("itemSearch").value=e.target.value;filterItems()}});
+document.getElementById("globalSearch").addEventListener("input", e => {
+  setView("encyclopedia");
+  document.getElementById("itemSearch").value = e.target.value;
+  filterItems();
+});
 
 document.getElementById("saveFilteredEncyclopedia").onclick=()=>{state.filtered.forEach(i=>{if(i.id)state.owned.add(String(i.id));if(i.niid)state.owned.add(String(i.niid))});saveOwned();renderItems();renderCloset()};
 document.getElementById("removeFilteredEncyclopedia").onclick=()=>{state.filtered.forEach(i=>{state.owned.delete(String(i.id));if(i.niid)state.owned.delete(String(i.niid))});saveOwned();renderItems();renderCloset()};
@@ -887,13 +922,7 @@ async function loadThemes(){
     rows.forEach(r=>keys.forEach(k=>{const v=val(r,k.toLowerCase(),k);if(v)state.themes[k].push(v)}));
   }catch(e){console.warn("Theme sheet unavailable",e)}
 }
-async function loadServerNames() {
-  try {
-    if (DATA.serverNames) {
-      state.serverNames = await fetchCSV(DATA.serverNames);
-    }
-  } catch(e) { console.warn("Server Names sheet unavailable",e) }
-}
+
 document.getElementById("infoBtn").onclick=()=>{document.getElementById("modal").innerHTML=`<div class="modal-head"><h3>About this Website</h3><button class="close" onclick="closeModal()">×</button></div>
 <p>Stylist Encyclopedia is an info catalog of wardrobe items from the game. (Will soon be cross-server catalog)</p>
 <div class="info-grid"><div class="info"><b>Inspirations</b><a href="https://lovenikki.fandom.com/">LN Wiki</a>, <a href="https://seal100x.github.io/nikkiup2u3">Seal</a>, <a href="https://docs.google.com/spreadsheets/d/1OhAgfzk0pCY9TG5PDPaSFjnv7ZHevxxJtlvfKm16ykg/edit?gid=602775022#gid=602775022">Ultimate LN Style Search Sheet</a>, and <a href="ln.nikkis.info">Nikki's Info</a></div><div class="info"><b>Features</b>Filled with stats, rarity, color, etc. (data and images to be placed later). Search and filter by type, rarity , nation, color, and tags</div><div class="info"><b>Credits/Helpers/Testers (Feedback Giver)</b>danc (@danc12321) for crafting data. mikachuu (@mikachuu#0493) provided info for missing items up to Daybreak Blade suit, lynndeeznuts (@LynnD#6271) provided info for items on JP server, krichur (@krichur) and Viv (@vivly) for the data of the colors. Lydia (@Lydia#0675), Pearl (@Ederne#4620), Viv (@vivly), mikachuu (@mikachuu#0493), Sinthu (FB)</div><div class="info"><b>Contact</b>Manami (@manami_naomi at Discord, u/OkTumbleweed8362 at Reddit, Margielyn Pascua (Main FB)/Manami Naomi (My Page) at Facebook, ramunesakura.ln at Instagram, @ramunesakura4 at Tiktok)</div></div>`;openModal()};
