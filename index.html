@@ -118,6 +118,75 @@ body.dark .notice {background:#36291a;border-color:#55442e;color:#dcb888;}
 .suit-piece img[title]{background:rgba(255,220,235,.35)}
 .suit-piece span{display:block;max-width:164px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
 .drop{display:flex;align-items:center;gap:6px}.stage-drop-icon{width:42px;height:42px;object-fit:contain;background:#fff5f9;border-radius:8px;flex:none}
+/* --- MUSIC PLAYER STYLING --- */
+.music-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+.music-card {
+  background: var(--panel2);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 8px 24px rgba(129, 76, 104, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.music-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(129, 76, 104, 0.15);
+}
+.music-card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.music-disc {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f3b2cd, #d8b9ef);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(223, 119, 166, 0.3);
+}
+.music-meta {
+  flex: 1;
+  min-width: 0;
+}
+.music-meta b {
+  display: block;
+  font-size: 15px;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.music-meta small {
+  color: var(--muted);
+  font-size: 11px;
+}
+.music-audio-player {
+  width: 100%;
+  height: 38px;
+  border-radius: 12px;
+  outline: none;
+  accent-color: var(--accent);
+}
+.music-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 4px;
+  border-top: 1px dashed var(--line);
+}
 </style>
 </head>
 <body>
@@ -133,6 +202,7 @@ body.dark .notice {background:#36291a;border-color:#55442e;color:#dcb888;}
     <!-- <button data-view="tasksuits">✦ Task Suits</button> -->
     <button data-view="breakdown">◈ Suit Breakdowns</button>
     <button data-view="themes">☾ Theme Generator</button>
+    <button data-view="music">♬ Music</button>
   </nav>
   <div class="side-note">
     <b>Stylist Encyclopedia</b>
@@ -143,7 +213,7 @@ body.dark .notice {background:#36291a;border-color:#55442e;color:#dcb888;}
 <main class="main">
   <div class="topbar">
     <button class="icon-btn menu-btn" id="menuBtn">☰</button>
-    <div class="top-search"><span>⌕</span><input id="globalSearch" placeholder="Search wardrobe, suits, stages..."></div>
+    <!-- <div class="top-search"><span>⌕</span><input id="globalSearch" placeholder="Search wardrobe, suits, stages..."></div> -->
     <button class="icon-btn" id="darkBtn" title="Dark mode">☾</button>
     <button class="icon-btn" id="infoBtn" title="About">ⓘ</button>
   </div>
@@ -289,6 +359,12 @@ body.dark .notice {background:#36291a;border-color:#55442e;color:#dcb888;}
     </div>
   </section>
 
+  <section class="view" id="view-music">
+    <div class="hero"><div class="eyebrow">Music reference</div><h2>Music</h2><p>Hear the music tracks from the game.</p></div>
+    <div id="musicResults" class="stage-grid"><div class="loading">Loading music data…</div></div>
+    <div id="musicPagination" class="pagination"></div>
+  </section>
+
   <div class="footer">Fan-made Love Nikki tool • Not affiliated with the game publisher</div>
 </main>
 </div>
@@ -302,7 +378,8 @@ const DATA = {
   chapters: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=563709766&single=true&output=csv",
   breakdowns: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=333774526&single=true&output=csv",
   themes: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=1701381424&single=true&output=csv",
-  serverNames: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=1044161109&single=true&output=csv" 
+  serverNames: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=1044161109&single=true&output=csv",
+  music: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=210977537&single=true&output=csv"
 };
 
 const PLACEHOLDER = "https://placehold.co/400x400/fff8fb/d57ca2?text=No+Image";
@@ -387,7 +464,8 @@ const state = {
   crafting:[],craftFiltered:[],craftPage:1,
   stages:[],stageFiltered:[],stagePage:1,
   breakdowns:[],themes:{},themeMode:"Simple",
-  closetPage: 1, closetPerPage: 48
+  closetPage: 1, closetPerPage: 48,
+  music:[], musicFiltered:[], musicPage:1
 };
 
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -709,11 +787,11 @@ document.getElementById("tableBtn").onclick = () => {
 };
 document.getElementById("clearFilters").onclick=()=>{document.getElementById("itemSearch").value="";["typeFilter","rarityFilter","categoryFilter","colorFilter","tagFilter","otherColorFilter","tertiaryColorFilter","tag1Filter","tag2Filter"].forEach(id=>document.getElementById(id).value="");["poseFilter","animatedFilter","inSuitFilter"].forEach(id=>document.getElementById(id).checked=false);state.ownedFilter="all";document.querySelectorAll("[data-owned]").forEach(x=>x.classList.toggle("active",x.dataset.owned==="all"));filterItems()};
 ["itemSearch","typeFilter","rarityFilter","categoryFilter","colorFilter","tagFilter","otherColorFilter","tertiaryColorFilter","tag1Filter","tag2Filter","poseFilter","animatedFilter","inSuitFilter"].forEach(id=>document.getElementById(id).addEventListener(id==="itemSearch"?"input":"change",()=>filterItems()));
-document.getElementById("globalSearch").addEventListener("input", e => {
-  setView("encyclopedia");
-  document.getElementById("itemSearch").value = e.target.value;
-  filterItems();
-});
+//document.getElementById("globalSearch").addEventListener("input", e => {
+//  setView("encyclopedia");
+//  document.getElementById("itemSearch").value = e.target.value;
+//  filterItems();
+// });
 
 document.getElementById("saveFilteredEncyclopedia").onclick=()=>{state.filtered.forEach(i=>{if(i.id)state.owned.add(String(i.id));if(i.niid)state.owned.add(String(i.niid))});saveOwned();renderItems();renderCloset()};
 document.getElementById("removeFilteredEncyclopedia").onclick=()=>{state.filtered.forEach(i=>{state.owned.delete(String(i.id));if(i.niid)state.owned.delete(String(i.niid))});saveOwned();renderItems();renderCloset()};
@@ -927,11 +1005,119 @@ document.getElementById("infoBtn").onclick=()=>{document.getElementById("modal")
 <p>Stylist Encyclopedia is an info catalog of wardrobe items from the game. (Will soon be cross-server catalog)</p>
 <div class="info-grid"><div class="info"><b>Inspirations</b><a href="https://lovenikki.fandom.com/">LN Wiki</a>, <a href="https://seal100x.github.io/nikkiup2u3">Seal</a>, <a href="https://docs.google.com/spreadsheets/d/1OhAgfzk0pCY9TG5PDPaSFjnv7ZHevxxJtlvfKm16ykg/edit?gid=602775022#gid=602775022">Ultimate LN Style Search Sheet</a>, and <a href="ln.nikkis.info">Nikki's Info</a></div><div class="info"><b>Features</b>Filled with stats, rarity, color, etc. (data and images to be placed later). Search and filter by type, rarity , nation, color, and tags</div><div class="info"><b>Credits/Helpers/Testers (Feedback Giver)</b>danc (@danc12321) for crafting data. mikachuu (@mikachuu#0493) provided info for missing items up to Daybreak Blade suit, lynndeeznuts (@LynnD#6271) provided info for items on JP server, krichur (@krichur) and Viv (@vivly) for the data of the colors. Lydia (@Lydia#0675), Pearl (@Ederne#4620), Viv (@vivly), mikachuu (@mikachuu#0493), Sinthu (FB)</div><div class="info"><b>Contact</b>Manami (@manami_naomi at Discord, u/OkTumbleweed8362 at Reddit, Margielyn Pascua (Main FB)/Manami Naomi (My Page) at Facebook, ramunesakura.ln at Instagram, @ramunesakura4 at Tiktok)</div></div>`;openModal()};
 
+// Helper to extract track title from 'music name', 'name', or 'title'
+function getTrackTitle(track) {
+  return val(track, "music name", "music_name", "name", "title", "track name") || "Untitled Track";
+}
+
+// Helper to extract track filename or URL
+function getTrackFilename(track) {
+  return val(track, "filename", "file name", "id", "track_id", "url", "link", "audio");
+}
+
+// Generate raw audio URL
+function getAudioUrl(track) {
+  const directLink = val(track, "url", "link", "audio");
+  if (directLink && directLink.startsWith("http")) return directLink;
+
+  const file = getTrackFilename(track);
+  if (!file) return "";
+
+  const cleanFile = file.replace(/\.mp3$/i, "").trim();
+  return `https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-music/main/${encodeURIComponent(cleanFile)}.mp3`;
+}
+
+// Load music sheet
+function loadMusic() {
+  fetchCSV(DATA.music).then(rows => {
+    state.music = rows;
+    state.musicFiltered = [...state.music];
+
+    const types = state.music.map(r => val(r, "type", "category", "album"));
+    populateSelect("musicFilter", types, "All Music Types");
+
+    renderMusic();
+  }).catch(err => {
+    console.error(err);
+    document.getElementById("musicResults").innerHTML = '<div class="loading">Could not load music data.</div>';
+  });
+}
+
+// Filter music items
+function filterMusic() {
+  const q = document.getElementById("musicSearch")?.value.toLowerCase().trim() || "";
+  const type = document.getElementById("musicFilter")?.value || "";
+
+  state.musicPage = 1;
+  state.musicFiltered = state.music.filter(r => {
+    const name = getTrackTitle(r).toLowerCase();
+    const filename = getTrackFilename(r).toLowerCase();
+    const trackType = val(r, "type", "category", "album");
+    return (!q || name.includes(q) || filename.includes(q)) && (!type || trackType === type);
+  });
+
+  renderMusic();
+}
+
+// Event listeners
+document.getElementById("musicSearch")?.addEventListener("input", filterMusic);
+document.getElementById("musicFilter")?.addEventListener("change", filterMusic);
+
+// Render Music Grid
+function renderMusic() {
+  const total = state.musicFiltered.length;
+  const pages = Math.max(1, Math.ceil(total / 24));
+  state.musicPage = Math.min(state.musicPage, pages);
+
+  const start = (state.musicPage - 1) * 24;
+  const rows = state.musicFiltered.slice(start, start + 24);
+  const container = document.getElementById("musicResults");
+
+  if (!rows.length) {
+    container.className = "";
+    container.innerHTML = '<div class="loading">No music tracks found.</div>';
+    renderPagination("musicPagination", 0, 1, () => {});
+    return;
+  }
+
+  container.className = "music-grid";
+  container.innerHTML = rows.map(track => {
+    const title = getTrackTitle(track);
+    const filename = getTrackFilename(track);
+    const type = val(track, "type", "category", "album") || "BGM Track";
+    const audioUrl = getAudioUrl(track);
+
+    return `
+      <article class="music-card">
+        <div class="music-card-head">
+          <div class="music-disc">♬</div>
+          <div class="music-meta">
+            <b title="${esc(title)}">${esc(title)}</b>
+          </div>
+        </div>
+        ${audioUrl ? `
+          <audio controls class="music-audio-player" preload="none">
+            <source src="${esc(audioUrl)}" type="audio/mpeg">
+          </audio>
+          <div class="music-actions">
+            </a>
+          </div>
+        ` : `<small style="color:var(--muted)">Audio link unavailable</small>`}
+      </article>
+    `;
+  }).join("");
+
+  renderPagination("musicPagination", pages, state.musicPage, p => {
+    state.musicPage = p;
+    renderMusic();
+  });
+}
+
 async function boot(){
   updateOwnedUI();
   state.view = "cards";
   
-  await Promise.allSettled([loadServerNames(),loadItems(),loadStages(),loadCrafting(),loadBreakdowns(),loadThemes()]);
+  await Promise.allSettled([loadServerNames(),loadItems(),loadStages(),loadCrafting(),loadBreakdowns(),loadThemes(),loadMusic()]);
   updateOwnedUI();
   
   if(state.view === "closet") renderCloset();
