@@ -476,30 +476,28 @@ let serverMap = {};
 
 async function loadServerNames() {
   try {
-    let rows = [];
-    
-    const cached = localStorage.getItem("lnServerMap");
-    if (cached) {
-      serverMap = JSON.parse(cached);
-      return;
-    }
+    if (!DATA.serverNames) return;
 
-    if (DATA.serverNames) {
-      rows = await fetchCSV(DATA.serverNames);
-      state.serverNames = rows;
+    const rows = await fetchCSV(DATA.serverNames);
+    state.serverNames = rows;
 
-      serverMap = {};
-      rows.forEach(row => {
-        const id = val(row, "internal_id", "id");
-        const name = val(row, "en name", "name").toLowerCase().trim();
-        if (id) serverMap[id] = row;
-        if (name) serverMap[name] = row;
-      });
+    serverMap = {};
 
-      localStorage.setItem("lnServerMap", JSON.stringify(serverMap));
-    }
+    rows.forEach(row => {
+      const id = val(row, "internal_id", "id");
+      const name = val(row, "en name", "name")
+        .toLowerCase()
+        .trim();
+
+      if (id) serverMap[id] = row;
+      if (name) serverMap[name] = row;
+    });
+
+    console.log(`Server Names loaded ✓ • ${rows.length.toLocaleString()} rows`);
   } catch (e) {
     console.warn("Server Names sheet unavailable", e);
+    state.serverNames = [];
+    serverMap = {};
   }
 }
 
