@@ -246,7 +246,7 @@ body.dark .notice {background:#36291a;border-color:#55442e;color:#dcb888;}
     </div>
     <div class="panel">
       <div class="panel-title"><div><h3>Data Status</h3><p id="dataStatus">Connecting to Google Sheets…</p></div></div>
-      <div class="notice">Not updated yet with the current game data. Current items: 33,292/33,621 - Missing: 329 items.</div>
+      <div class="notice">[In-Game Version 11.2.2] Updates: Website have new UI, Music menu to listen to in-game OST, Owned items have own menu, Card view will instead show icons then only if you tap it would show the item and its info (info would still be shown at Table view), Name of the items from the other server can now be viewed.</div>
     </div>
   </section>
 
@@ -797,7 +797,29 @@ document.getElementById("randomItem").onclick=()=>{if(state.items.length)openIte
 // document.getElementById("saveFiltered").onclick=()=>{state.filtered.forEach(i=>{if(i.id)state.owned.add(String(i.id));if(i.niid)state.owned.add(String(i.niid))});saveOwned();renderItems();renderCloset()};
 // document.getElementById("removeFiltered").onclick=()=>{state.filtered.forEach(i=>{state.owned.delete(String(i.id));if(i.niid)state.owned.delete(String(i.niid))});saveOwned();renderItems();renderCloset()};
 document.getElementById("clearOwned").onclick=()=>{if(confirm("Clear your entire closet?")){state.owned.clear();saveOwned();renderItems();renderCloset()}};
-document.getElementById("exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify([...state.owned])],{type:"application/octet-stream"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="my_wardrobe.wbak";a.click();URL.revokeObjectURL(a.href)};
+document.getElementById("exportBtn").onclick=()=>{
+
+  const niids = [...state.owned]
+    .map(String)
+    .map(id => state.items.find(item =>
+      String(item.niid || "").trim() === id.trim()
+    ))
+    .map(item => item ? String(item.niid).trim() : "")
+    .filter(Boolean);
+
+  const uniqueNiids = [...new Set(niids)];
+
+  const blob = new Blob(
+    [JSON.stringify(uniqueNiids)],
+    {type:"application/octet-stream"}
+  );
+
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "my_wardrobe.wbak";
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
 document.getElementById("importBtn").onclick=()=>document.getElementById("fileInput").click();
 document.getElementById("fileInput").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(Array.isArray(data)){state.owned=new Set(data.map(String));saveOwned();renderItems();renderCloset();alert("Closet imported!");}}catch{alert("That .wbak file could not be read.")}e.target.value=""};
 async function loadItems(){
