@@ -24,13 +24,49 @@ button,input,select{font:inherit}
 button{border:0;cursor:pointer}
 a{color:inherit}
 .app{display:flex;min-height:100vh}
-.sidebar{position:fixed;inset:0 auto 0 0;width:var(--sidebar);padding:18px 14px;background:rgba(255,250,253,.92);
-backdrop-filter:blur(18px);border-right:1px solid var(--line);z-index:50;overflow:auto}
-.brand{padding:8px 12px 20px;text-align:center}.brand-mark{font-size:30px}.brand h1{font-family:"DM Serif Display",serif;font-size:25px;margin:4px 0;color:#bd5f8d}.brand p{margin:0;color:var(--muted);font-size:12px}
-.nav{display:grid;gap:7px}.nav button{padding:12px 13px;text-align:left;background:transparent;color:var(--ink);border-radius:14px;font-weight:800}
-.nav button:hover{background:#fff0f6}.nav button.active{background:linear-gradient(135deg,#f3b2cd,#d8b9ef);color:#fff;box-shadow:0 8px 20px rgba(196,111,153,.2)}
-.side-note{margin:20px 7px 0;padding:13px;border:1px dashed #e5c4d3;border-radius:15px;color:var(--muted);font-size:12px;line-height:1.55;background:#fff9fc}
-.main{margin-left:var(--sidebar);width:calc(100% - var(--sidebar));padding:24px;min-width:0}
+.sidebar {
+  position: fixed;
+  inset: auto 0 0 0; /* Sticks to bottom, left, and right */
+  width: 100%;
+  height: 75px; /* Fixed height for the bottom bar */
+  padding: 10px 14px;
+  background: rgba(255, 250, 253, .92);
+  backdrop-filter: blur(18px);
+  border-top: 1px solid var(--line);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  overflow-x: auto; /* Allows scrolling horizontally if there are many buttons */
+  overflow-y: hidden;
+}
+.brand{ display: none;}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  gap: 7px;
+  width: 100%;
+}
+
+.nav button {
+  padding: 12px 13px;
+  text-align: center;
+  background: transparent;
+  color: var(--ink);
+  border-radius: 14px;
+  font-weight: 800;
+  white-space: nowrap; /* Prevents button text from breaking into multiple lines */
+  flex-shrink: 0; /* Prevents buttons from squishing */
+}
+
+.side-note{ display: none;}
+.main {
+  margin-left: 0;
+  margin-bottom: 75px; /* Adds space at the bottom so content isn't hidden behind the bar */
+  width: 100%;
+  padding: 24px;
+  min-width: 0;
+}
 .topbar{display:flex;align-items:center;gap:12px;position:sticky;top:12px;z-index:20;margin-bottom:18px}
 .menu-btn{display:none}.top-search{flex:1;position:relative}.top-search input{width:100%;padding:14px 18px 14px 44px;border:1px solid var(--line);border-radius:999px;background:var(--panel);outline:none;box-shadow:var(--shadow)}
 .top-search span{position:absolute;left:17px;top:11px;font-size:20px}.icon-btn{width:46px;height:46px;border-radius:50%;background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow);font-size:19px}
@@ -83,9 +119,31 @@ backdrop-filter:blur(18px);border-right:1px solid var(--line);z-index:50;overflo
 .loading{padding:50px;text-align:center;color:var(--muted)}.notice{padding:12px 14px;border-radius:13px;background:#fff5da;border:1px solid #f0ddb1;color:#80651f;font-size:12px}
 .footer{text-align:center;color:#9a808c;font-size:11px;padding:25px}
 .advanced-filters{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:9px}.advanced-filters summary{grid-column:1/-1;cursor:pointer;color:#9a5a79;font-weight:900;padding:8px 2px}.save-meter{display:flex;align-items:center;gap:10px;margin:0 0 14px}.save-meter .progress{flex:1}.save-percent{font-weight:900;color:#ad5c83;min-width:48px;text-align:right}.stage-detail{display:grid;grid-template-columns:1.1fr .9fr;gap:15px}.recommend-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px}.recommend-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:9px;cursor:pointer}.recommend-card img{width:100%;height:115px;object-fit:contain;background:#fff5f9;border-radius:10px}.recommend-card b{display:block;font-size:11px;margin-top:5px}.recommend-card small{color:var(--muted);font-size:9px}.material-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px;margin-top:12px}.material-card{padding:10px;background:#fff;border:1px solid var(--line);border-radius:13px;text-align:center}.material-card img{width:80px;height:80px;object-fit:contain;background:#fff5f9;border-radius:10px}.material-card b{display:block;font-size:11px;margin-top:4px}.material-card small{color:var(--muted)}.breakdown-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.suit-piece{cursor:pointer}.suit-piece img{transition:.15s}.suit-piece:hover img{transform:scale(1.04)}.gallery-modal{position:relative;display:flex;align-items:center;justify-content:center;min-height:55vh}.gallery-modal img{max-width:82%;max-height:65vh;object-fit:contain}.gallery-arrow{position:absolute;width:44px;height:44px;border-radius:50%;background:#f5dce7;color:#814f67;font-size:25px}.gallery-arrow.left{left:5px}.gallery-arrow.right{right:5px}.check-row{display:flex;gap:7px;align-items:center;margin-top:8px;font-size:12px}.check-row input{accent-color:#d979a5}
-@media(max-width:760px){.advanced-filters{grid-template-columns:1fr 1fr}.stage-detail{grid-template-columns:1fr}.recommend-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px) {
+  .sidebar { 
+    /* No transforms here, it just stays at the bottom naturally */
+    border-right: none;
+  }
+  .main { 
+    margin: 0; 
+    margin-bottom: 75px; 
+    width: 100%; 
+    padding: 12px; 
+  }
+  .menu-btn { 
+    display: none; 
+  }
+  .topbar { 
+    top: 6px; 
+  }
+  .filters { grid-template-columns: 1fr 1fr; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+  .card-img { height: 145px; }
+  .card-body { padding: 9px; }
+  .stats { gap: 8px; }
+  .theme-text { font-size: 30px; }
+}
 @media(max-width:1000px){:root{--sidebar:225px}.filters{grid-template-columns:1fr 1fr 1fr}.filters input{grid-column:1/-1}.stats{grid-template-columns:repeat(2,1fr)}.detail{grid-template-columns:1fr}.theme-layout{grid-template-columns:1fr}}
-@media(max-width:760px){.sidebar{transform:translateX(-100%);transition:.25s}.sidebar.open{transform:translateX(0)}.main{margin:0;width:100%;padding:12px}.menu-btn{display:block}.hero h2{font-size:36px}.topbar{top:6px}.filters{grid-template-columns:1fr 1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.card-img{height:145px}.card-body{padding:9px}.stats{gap:8px}.theme-text{font-size:30px}}
 @media(max-width:480px){.filters{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding-top:18px}.panel{padding:12px}.stat{padding:12px}.stat b{font-size:18px}}
 
 body.dark{--bg:#17121a;--bg2:#211823;--panel:rgba(38,28,39,.9);--panel2:#2a202c;--ink:#f0e7ed;--muted:#b9a6b2;--line:#4b3846;
@@ -187,6 +245,22 @@ body.dark .notice {background:#36291a;border-color:#55442e;color:#dcb888;}
   padding-top: 4px;
   border-top: 1px dashed var(--line);
 }
+
+#suitGalleryCategory,
+#suitGalleryObtain {
+  appearance: none;
+  background-image: url("data:image/svg+xml;UTF-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23887681' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+}
+
+#suitGalleryCategory,
+#suitGalleryObtain {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
 </style>
 </head>
 <body>
@@ -200,6 +274,7 @@ body.dark .notice {background:#36291a;border-color:#55442e;color:#dcb888;}
     <button data-view="stages">⚔ Stage Guide</button>
     <button data-view="crafting">✧ Crafting</button>
     <!-- <button data-view="tasksuits">✦ Task Suits</button> -->
+    <button data-view="suitgallery">⚝ Suit Gallery</button>
     <button data-view="breakdown">◈ Suit Breakdowns</button>
     <button data-view="themes">☾ Theme Generator</button>
     <button data-view="music">♬ Music</button>
@@ -212,7 +287,6 @@ body.dark .notice {background:#36291a;border-color:#55442e;color:#dcb888;}
 
 <main class="main">
   <div class="topbar">
-    <button class="icon-btn menu-btn" id="menuBtn">☰</button>
     <!-- <div class="top-search"><span>⌕</span><input id="globalSearch" placeholder="Search wardrobe, suits, stages..."></div> -->
     <button class="icon-btn" id="darkBtn" title="Dark mode">☾</button>
     <button class="icon-btn" id="infoBtn" title="About">ⓘ</button>
@@ -344,6 +418,37 @@ body.dark .notice {background:#36291a;border-color:#55442e;color:#dcb888;}
       <div class="loading">Loading task suits data…</div>
     </div>
   </section>
+  
+  <section class="view" id="view-suitgallery">
+  <div class="hero">
+    <div class="eyebrow">Suit gallery</div>
+    <h2>Suit Gallery</h2>
+    <p>Browse all suits with thumbnails, categories, and full‑size images.</p>
+  </div>
+
+  <div class="panel">
+    <div class="breakdown-toolbar" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+      <input
+        class="field suit-gallery-search"
+        id="suitGallerySearch"
+        placeholder="Search suit name, category, obtain..."
+        style="flex:1;min-width:200px;"
+      >
+      <select class="field" id="suitGalleryCategory">
+        <option value="">All categories</option>
+      </select>
+      <select class="field" id="suitGalleryObtain">
+        <option value="">All obtain methods</option>
+      </select>
+    </div>
+
+    <div id="suitGalleryResults" class="grid">
+      <div class="loading">Loading suits...</div>
+    </div>
+
+    <div id="suitGalleryPagination" class="pagination"></div>
+  </div>
+</section>
 
   <section class="view" id="view-breakdown">
     <div class="hero"><div class="eyebrow">Suit gallery</div><h2>Suit Breakdowns</h2><p>Search suits and open pieces in a full gallery viewer.</p></div>
@@ -372,6 +477,15 @@ body.dark .notice {background:#36291a;border-color:#55442e;color:#dcb888;}
 <div class="overlay" id="modalOverlay"><div class="modal" id="modal"></div></div>
 
 <script>
+const SUIT_GALLERY_DATA = {
+  sheet:
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=1089816438&single=true&output=csv",
+  suitImageBase:
+    "https://cdn.jsdelivr.net/gh/V1si0n-LNpr3D1cf0r/mn-dump-suits@main/",
+  thumbBase:
+    "https://cdn.jsdelivr.net/gh/V1si0n-LNpr3D1cf0r/mn-dump-st@main/"
+};
+
 const DATA = {
   items: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?output=csv",
   crafting: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=1432725843&single=true&output=csv",
@@ -465,7 +579,9 @@ const state = {
   stages:[],stageFiltered:[],stagePage:1,
   breakdowns:[],themes:{},themeMode:"Simple",
   closetPage: 1, closetPerPage: 48,
-  music:[], musicFiltered:[], musicPage:1
+  music:[], musicFiltered:[], musicPage:1,
+
+  suitGallery: { suits: [], filtered: [], page: 1, perPage: 48},
 };
 
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -542,9 +658,8 @@ function setView(name){
   state.view=name;window.scrollTo({top:0,behavior:"smooth"});
   if(name==="closet")renderCloset();
 }
-document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{setView(b.dataset.view);if(innerWidth<760)sidebar.classList.remove("open")});
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{setView(b.dataset.view);});
 document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>setView(b.dataset.go));
-document.getElementById("menuBtn").onclick=()=>sidebar.classList.toggle("open");
 document.getElementById("darkBtn").onclick=()=>{document.body.classList.toggle("dark");localStorage.setItem("lnDark",document.body.classList.contains("dark")?"1":"0")};
 if(localStorage.getItem("lnDark")==="1")document.body.classList.add("dark");
 
@@ -1025,17 +1140,14 @@ document.getElementById("infoBtn").onclick=()=>{document.getElementById("modal")
 <p>Stylist Encyclopedia is an info catalog of wardrobe items from the game. (Will soon be cross-server catalog)</p>
 <div class="info-grid"><div class="info"><b>Inspirations</b><a href="https://lovenikki.fandom.com/">LN Wiki</a>, <a href="https://seal100x.github.io/nikkiup2u3">Seal</a>, <a href="https://docs.google.com/spreadsheets/d/1OhAgfzk0pCY9TG5PDPaSFjnv7ZHevxxJtlvfKm16ykg/edit?gid=602775022#gid=602775022">Ultimate LN Style Search Sheet</a>, and <a href="ln.nikkis.info">Nikki's Info</a></div><div class="info"><b>Features</b>Filled with stats, rarity, color, etc. (data and images to be placed later). Search and filter by type, rarity , nation, color, and tags</div><div class="info"><b>Credits/Helpers/Testers (Feedback Giver)</b>danc (@danc12321) for crafting data. mikachuu (@mikachuu#0493) provided info for missing items up to Daybreak Blade suit, lynndeeznuts (@LynnD#6271) provided info for items on JP server, krichur (@krichur) and Viv (@vivly) for the data of the colors. Lydia (@Lydia#0675), Pearl (@Ederne#4620), Viv (@vivly), mikachuu (@mikachuu#0493), Sinthu (FB)</div><div class="info"><b>Contact</b>Manami (@manami_naomi at Discord, u/OkTumbleweed8362 at Reddit, Margielyn Pascua (Main FB)/Manami Naomi (My Page) at Facebook, ramunesakura.ln at Instagram, @ramunesakura4 at Tiktok)</div></div>`;openModal()};
 
-// Helper to extract track title from 'music name', 'name', or 'title'
 function getTrackTitle(track) {
   return val(track, "music name", "music_name", "name", "title", "track name") || "Untitled Track";
 }
 
-// Helper to extract track filename or URL
 function getTrackFilename(track) {
   return val(track, "filename", "file name", "id", "track_id", "url", "link", "audio");
 }
 
-// Generate raw audio URL
 function getAudioUrl(track) {
   const directLink = val(track, "url", "link", "audio");
   if (directLink && directLink.startsWith("http")) return directLink;
@@ -1047,7 +1159,6 @@ function getAudioUrl(track) {
   return `https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-music/main/${encodeURIComponent(cleanFile)}.mp3`;
 }
 
-// Load music sheet
 function loadMusic() {
   fetchCSV(DATA.music).then(rows => {
     state.music = rows;
@@ -1133,11 +1244,297 @@ function renderMusic() {
   });
 }
 
+let suitGalleryState = {
+  images: [],
+  index: 0
+};
+
+function openSuitGalleryModal(suit, pieceImages) {
+  if (!pieceImages || !pieceImages.length) {
+    pieceImages = [PLACEHOLDER];
+  }
+
+  suitGalleryState.images = pieceImages;
+  suitGalleryState.index = 0;
+
+  renderSuitGalleryModalContent(suit);
+  openModal();
+}
+
+function renderSuitGalleryModalContent(suit) {
+  const total = suitGalleryState.images.length;
+  const i = suitGalleryState.index;
+  const currentSrc = suitGalleryState.images[i] || PLACEHOLDER;
+  const hasMultiple = total > 1;
+
+  const html = `
+    <div class="modal-head">
+      <h3 style="font-family:'DM Serif Display',serif;font-size:26px;color:6f5261;">
+        ${esc(suit.name)}
+      </h3>
+      <button class="close" onclick="closeModal()">×</button>
+    </div>
+
+    <div class="suit-gallery-modal-body" style="display:grid;grid-template-columns:1fr;gap:14px;">
+      <!-- Main image + arrows -->
+      <div style="position:relative;display:flex;align-items:center;justify-content:center;min-height:60vh;">
+        ${hasMultiple ? `
+          <button
+            class="suit-gallery-arrow left"
+            type="button"
+            onclick="suitGalleryPrevImage()"
+            style="position:absolute;left:8px;z-index:2;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.9);border:1px solid var(--line);color:#814f67;font-size:22px;cursor:pointer;"
+          >
+            ‹
+          </button>
+        ` : ''}
+
+        <img
+          src="${esc(currentSrc)}"
+          loading="lazy"
+          onerror="this.onerror=null;this.src='${PLACEHOLDER}'"
+          alt="${esc(suit.name)}"
+          style="max-width:100%;max-height:65vh;object-fit:contain;border-radius:12px;border:1px solid var(--line);background:#fff;"
+        >
+
+        ${hasMultiple ? `
+          <button
+            class="suit-gallery-arrow right"
+            type="button"
+            onclick="suitGalleryNextImage()"
+            style="position:absolute;right:8px;z-index:2;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.9);border:1px solid var(--line);color:#814f67;font-size:22px;cursor:pointer;"
+          >
+            ›
+          </button>
+        ` : ''}
+      </div>
+
+      <!-- Name + Obtain -->
+      <div style="text-align:center;">
+        <div style="font-family:'DM Serif Display',serif;font-size:22px;color:6d5060;margin-bottom:6px;">
+          ${esc(suit.name)}
+        </div>
+        <div style="color:var(--muted);font-size:13px;">
+          ${esc(suit.obtain || 'Unknown obtain')}
+        </div>
+        ${hasMultiple ? `
+          <div style="margin-top:6px;color:var(--muted);font-size:11px;">
+            Piece ${i + 1} of ${total}
+          </div>
+        ` : ''}
+      </div>
+    </div>
+  `;
+
+  document.getElementById('modal').innerHTML = html;
+}
+
+function suitGalleryNextImage() {
+  suitGalleryState.index = (suitGalleryState.index + 1) % suitGalleryState.images.length;
+  const modal = document.getElementById('modal');
+  const img = modal.querySelector('.suit-gallery-modal-body img');
+  const counter = modal.querySelector('.suit-gallery-modal-body div[style*="text-align:center"] div:last-child');
+  if (img) {
+    img.src = suitGalleryState.images[suitGalleryState.index];
+  }
+  if (counter && suitGalleryState.images.length > 1) {
+    counter.textContent = `Piece ${suitGalleryState.index + 1} of ${suitGalleryState.images.length}`;
+  }
+}
+
+function suitGalleryPrevImage() {
+  suitGalleryState.index = (suitGalleryState.index - 1 + suitGalleryState.images.length) % suitGalleryState.images.length;
+  const modal = document.getElementById('modal');
+  const img = modal.querySelector('.suit-gallery-modal-body img');
+  const counter = modal.querySelector('.suit-gallery-modal-body div[style*="text-align:center"] div:last-child');
+  if (img) {
+    img.src = suitGalleryState.images[suitGalleryState.index];
+  }
+  if (counter && suitGalleryState.images.length > 1) {
+    counter.textContent = `Piece ${suitGalleryState.index + 1} of ${suitGalleryState.images.length}`;
+  }
+}
+
+async function loadSuitGallery() {
+  try {
+    const rows = await fetchCSV(SUIT_GALLERY_DATA.sheet);
+
+    console.log('Raw CSV rows length:', rows.length);
+    if (rows.length) {
+      console.log('First row (object):', rows[0]);
+    }
+
+    const suits = rows
+      .map(r => ({
+        name: (r.name || '').trim(),
+        thumbnailCode: (r['suit thumbnail'] || r['Suit Thumbnail'] || '').trim(),
+        filenameCode: (r.filename || '').trim(),
+        category: (r.category || '').trim(),
+        obtain: (r.obtain || '').trim()
+      }))
+      .filter(s => s.name);
+
+    console.log('Parsed suits count:', suits.length);
+    if (suits.length) {
+      console.log('First suit:', suits[0]);
+    }
+
+    state.suitGallery.suits = suits;
+    state.suitGallery.filtered = suits.slice();
+
+    populateSuitGalleryFilters();
+    renderSuitGallery();
+  } catch (e) {
+    console.error('Suit gallery load error:', e);
+    document.getElementById('suitGalleryResults').innerHTML =
+      '<div class="loading">Could not load suit gallery data.</div>';
+  }
+}
+
+function populateSuitGalleryFilters() {
+  const catSelect = document.getElementById('suitGalleryCategory');
+  const obtainSelect = document.getElementById('suitGalleryObtain');
+
+  const categories = [
+    ...new Set(state.suitGallery.suits.map(s => s.category).filter(Boolean))
+  ].sort((a, b) => a.localeCompare(b));
+
+  const obtains = [
+    ...new Set(state.suitGallery.suits.map(s => s.obtain).filter(Boolean))
+  ].sort((a, b) => a.localeCompare(b));
+
+  catSelect.innerHTML =
+    '<option value="">All categories</option>' +
+    categories.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
+
+  obtainSelect.innerHTML =
+    '<option value="">All obtain methods</option>' +
+    obtains.map(o => `<option value="${esc(o)}">${esc(o)}</option>`).join('');
+}
+
+function filterSuitGallery() {
+  const q = (document.getElementById('suitGallerySearch').value || '').toLowerCase().trim();
+  const cat = document.getElementById('suitGalleryCategory').value;
+  const obtain = document.getElementById('suitGalleryObtain').value;
+
+  state.suitGallery.page = 1;
+
+  state.suitGallery.filtered = state.suitGallery.suits.filter(s => {
+    const text = `${s.name} ${s.category} ${s.obtain}`.toLowerCase();
+
+    const matchesQ = !q || text.includes(q);
+    const matchesCat = !cat || s.category === cat;
+    const matchesObtain = !obtain || s.obtain === obtain;
+
+    return matchesQ && matchesCat && matchesObtain;
+  });
+
+  renderSuitGallery();
+}
+
+function renderSuitGallery() {
+  const total = state.suitGallery.filtered.length;
+  const perPage = state.suitGallery.perPage;
+  const pages = Math.max(1, Math.ceil(total / perPage));
+
+  state.suitGallery.page = Math.min(state.suitGallery.page, pages);
+
+  const start = (state.suitGallery.page - 1) * perPage;
+  const pageSuits = state.suitGallery.filtered.slice(start, start + perPage);
+
+  const container = document.getElementById('suitGalleryResults');
+
+  if (!total) {
+    container.className = 'grid';
+    container.innerHTML = '<div class="loading">No suits match these filters.</div>';
+    renderPagination('suitGalleryPagination', 0, 1, () => {});
+    return;
+  }
+
+  container.className = 'grid';
+  container.innerHTML = pageSuits.map(suit => {
+    const thumbUrl = suit.thumbnailCode
+      ? SUIT_GALLERY_DATA.thumbBase + encodeURIComponent(suit.thumbnailCode + '.png')
+      : PLACEHOLDER;
+
+    return `
+      <article class="card">
+        <div class="card-img" data-open-suit="${esc(suit.name)}">
+          <img
+            src="${esc(thumbUrl)}"
+            loading="lazy"
+            onerror="this.onerror=null;this.src='${PLACEHOLDER}'"
+            alt="${esc(suit.name)}"
+          >
+        </div>
+        <div class="card-body">
+          <div class="card-name">${esc(suit.name)}</div>
+          <div class="card-sub">${esc(suit.category || 'Unknown')}</div>
+          <div class="badges">
+            <span class="badge" style="background:#f2e4f6;color:#7a4f6b;">
+              ${esc(suit.obtain || 'Unknown')}
+            </span>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+
+  container.querySelectorAll('[data-open-suit]').forEach(el => {
+    el.addEventListener('click', () => {
+      const name = el.getAttribute('data-open-suit');
+      const suit = state.suitGallery.suits.find(s => s.name === name);
+      if (!suit) return;
+      openSuitFromGallery(suit);
+    });
+  });
+
+  renderPagination(
+    'suitGalleryPagination',
+    pages,
+    state.suitGallery.page,
+    p => {
+      state.suitGallery.page = p;
+      renderSuitGallery();
+    }
+  );
+}
+
+function openSuitFromGallery(suit) {
+  const thumbUrl = suit.thumbnailCode
+    ? SUIT_GALLERY_DATA.thumbBase + encodeURIComponent(suit.thumbnailCode + '.png')
+    : PLACEHOLDER;
+
+  const raw = (suit.filenameCode || '').trim();
+
+  const filenames = raw
+    .split(/,|\n/)
+    .map(s => s.trim())
+    .filter(Boolean);
+
+  let pieceImages = [];
+
+  if (filenames.length) {
+    pieceImages = filenames.map(f => {
+      const withExt = f.endsWith('.png') ? f : f + '.png';
+      return SUIT_GALLERY_DATA.suitImageBase + encodeURIComponent(withExt);
+    });
+  } else {
+    pieceImages = [thumbUrl];
+  }
+
+  openSuitGalleryModal(suit, pieceImages);
+}
+
+document.getElementById('suitGallerySearch')?.addEventListener('input', filterSuitGallery);
+document.getElementById('suitGalleryCategory')?.addEventListener('change', filterSuitGallery);
+document.getElementById('suitGalleryObtain')?.addEventListener('change', filterSuitGallery);
+
 async function boot(){
   updateOwnedUI();
   state.view = "cards";
   
-  await Promise.allSettled([loadServerNames(),loadItems(),loadStages(),loadCrafting(),loadBreakdowns(),loadThemes(),loadMusic()]);
+  await Promise.allSettled([loadServerNames(),loadItems(),loadStages(),loadCrafting(),loadBreakdowns(),loadThemes(),loadMusic(),loadSuitGallery()]);
   updateOwnedUI();
   
   if(state.view === "closet") renderCloset();
