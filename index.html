@@ -1501,9 +1501,6 @@ function renderSuitGallery() {
 }
 
 function openSuitFromGallery(suit) {
-  const thumbUrl = suit.thumbnailCode
-    ? SUIT_GALLERY_DATA.thumbBase + encodeURIComponent(suit.thumbnailCode + '.png')
-    : PLACEHOLDER;
 
   const raw = (suit.filenameCode || '').trim();
 
@@ -1512,16 +1509,11 @@ function openSuitFromGallery(suit) {
     .map(s => s.trim())
     .filter(Boolean);
 
-  let pieceImages = [];
-
-  if (filenames.length) {
-    pieceImages = filenames.map(f => {
-      const withExt = f.endsWith('.png') ? f : f + '.png';
-      return SUIT_GALLERY_DATA.suitImageBase + encodeURIComponent(withExt);
-    });
-  } else {
-    pieceImages = [thumbUrl];
-  }
+  const pieceImages = filenames.map(f => {
+    const withExt = f.endsWith('.png') ? f : f + '.png';
+    const url = SUIT_GALLERY_DATA.suitImageBase + encodeURIComponent(withExt);
+    return url;
+  });
 
   openSuitGalleryModal(suit, pieceImages);
 }
