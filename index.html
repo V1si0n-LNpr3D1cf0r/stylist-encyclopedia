@@ -15,6 +15,139 @@
   --line:#efd8e3;--shadow:0 14px 40px rgba(129,76,104,.12);
   --radius:20px;--sidebar:250px;
 }
+
+.nation-apple {
+  --bg: #f6faf2;
+  --bg2: #eaf2e1;
+  --panel: rgba(255, 255, 255, 0.95);
+  --panel2: #ffffff;
+  --ink: #2b3b1f;
+  --muted: #5e734d;
+  --accent: #9cb581;
+  --accent2: #728c57;
+  --line: #deebd1;
+  --shadow: 0 14px 40px rgba(156, 181, 129, 0.12);
+}
+
+.nation-lilith {
+  --bg: #fff5f7;
+  --bg2: #ffe1e7;
+  --panel: rgba(255, 255, 255, 0.95);
+  --panel2: #ffffff;
+  --ink: #541d2a;
+  --muted: #944e5e;
+  --accent: #f38da3;
+  --accent2: #cc546f;
+  --line: #ffd0da;
+  --shadow: 0 14px 40px rgba(243, 141, 163, 0.12);
+}
+
+.nation-cloud {
+  --bg: #f4f8fa;
+  --bg2: #e3edf2;
+  --panel: rgba(255, 255, 255, 0.95);
+  --panel2: #ffffff;
+  --ink: #1f3240;
+  --muted: #4e6578;
+  --accent: #92b8d4;
+  --accent2: #648dab;
+  --line: #dae6ed;
+  --shadow: 0 14px 40px rgba(146, 184, 212, 0.12);
+}
+
+.nation-pigeon {
+  --bg: #fcf6f6;
+  --bg2: #f5e4e6;
+  --panel: rgba(255, 255, 255, 0.95);
+  --panel2: #ffffff;
+  --ink: #471d22;
+  --muted: #824f55;
+  --accent: #c46874;
+  --accent2: #9e434f;
+  --line: #edd2d5;
+  --shadow: 0 14px 40px rgba(196, 104, 116, 0.12);
+}
+
+.nation-north {
+  --bg: #f5f7f2;
+  --bg2: #e7ebd9;
+  --panel: rgba(255, 255, 255, 0.95);
+  --panel2: #ffffff;
+  --ink: #2a3321;
+  --muted: #57634a;
+  --accent: #8c9c7c;
+  --accent2: #657555;
+  --line: #dae0ce;
+  --shadow: 0 14px 40px rgba(140, 156, 124, 0.12);
+}
+
+
+.nation-wasteland {
+  --bg: #fffbf5;
+  --bg2: #fdf0e1;
+  --panel: rgba(255, 255, 255, 0.95);
+  --panel2: #ffffff;
+  --ink: #54351a;
+  --muted: #916843;
+  --accent: #e59e66;
+  --accent2: #c4793b;
+  --line: #f7dec4;
+  --shadow: 0 14px 40px rgba(229, 158, 102, 0.12);
+}
+
+.nation-ruin {
+  --bg: #f1f6fa;
+  --bg2: #dde8f0;
+  --panel: rgba(255, 255, 255, 0.95);
+  --panel2: #ffffff;
+  --ink: #182e40;
+  --muted: #426078;
+  --accent: #5e91bd;
+  --accent2: #3a6b94;
+  --line: #cfdee8;
+  --shadow: 0 14px 40px rgba(94, 145, 189, 0.12);
+}
+
+#nationThemeSelect {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  background-image: url("data:image/svg+xml;UTF-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23887681' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+  padding-right: 36px;
+}
+
+body.dark #nationThemeSelect {
+  background-image: url("data:image/svg+xml;UTF-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b9a6b2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+}
+
+body.dark .theme-box {
+  background: linear-gradient(
+    135deg,
+    rgba(30, 25, 35, 0.9),
+    rgba(40, 30, 50, 0.9)
+  );
+  border: 1px solid var(--line);
+  color: #f0e7ed;
+}
+
+body.dark .theme-label {
+  color: #dcb8e8;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+body.dark .theme-text {
+  color: #f5ebf7;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+body.dark .theme-sparkle {
+  color: #f0d7f5;
+}
+
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;color:var(--ink);font-family:Nunito,system-ui,sans-serif;background:
@@ -26,9 +159,9 @@ a{color:inherit}
 .app{display:flex;min-height:100vh}
 .sidebar {
   position: fixed;
-  inset: auto 0 0 0; /* Sticks to bottom, left, and right */
+  inset: auto 0 0 0;
   width: 100%;
-  height: 75px; /* Fixed height for the bottom bar */
+  height: 75px;
   padding: 10px 14px;
   background: rgba(255, 250, 253, .92);
   backdrop-filter: blur(18px);
@@ -36,7 +169,7 @@ a{color:inherit}
   z-index: 50;
   display: flex;
   align-items: center;
-  overflow-x: auto; /* Allows scrolling horizontally if there are many buttons */
+  overflow-x: auto;
   overflow-y: hidden;
 }
 .brand{ display: none;}
@@ -55,14 +188,14 @@ a{color:inherit}
   color: var(--ink);
   border-radius: 14px;
   font-weight: 800;
-  white-space: nowrap; /* Prevents button text from breaking into multiple lines */
-  flex-shrink: 0; /* Prevents buttons from squishing */
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .side-note{ display: none;}
 .main {
   margin-left: 0;
-  margin-bottom: 75px; /* Adds space at the bottom so content isn't hidden behind the bar */
+  margin-bottom: 75px;
   width: 100%;
   padding: 24px;
   min-width: 0;
@@ -121,7 +254,7 @@ a{color:inherit}
 .advanced-filters{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:9px}.advanced-filters summary{grid-column:1/-1;cursor:pointer;color:#9a5a79;font-weight:900;padding:8px 2px}.save-meter{display:flex;align-items:center;gap:10px;margin:0 0 14px}.save-meter .progress{flex:1}.save-percent{font-weight:900;color:#ad5c83;min-width:48px;text-align:right}.stage-detail{display:grid;grid-template-columns:1.1fr .9fr;gap:15px}.recommend-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px}.recommend-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:9px;cursor:pointer}.recommend-card img{width:100%;height:115px;object-fit:contain;background:#fff5f9;border-radius:10px}.recommend-card b{display:block;font-size:11px;margin-top:5px}.recommend-card small{color:var(--muted);font-size:9px}.material-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px;margin-top:12px}.material-card{padding:10px;background:#fff;border:1px solid var(--line);border-radius:13px;text-align:center}.material-card img{width:80px;height:80px;object-fit:contain;background:#fff5f9;border-radius:10px}.material-card b{display:block;font-size:11px;margin-top:4px}.material-card small{color:var(--muted)}.breakdown-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.suit-piece{cursor:pointer}.suit-piece img{transition:.15s}.suit-piece:hover img{transform:scale(1.04)}.gallery-modal{position:relative;display:flex;align-items:center;justify-content:center;min-height:55vh}.gallery-modal img{max-width:82%;max-height:65vh;object-fit:contain}.gallery-arrow{position:absolute;width:44px;height:44px;border-radius:50%;background:#f5dce7;color:#814f67;font-size:25px}.gallery-arrow.left{left:5px}.gallery-arrow.right{right:5px}.check-row{display:flex;gap:7px;align-items:center;margin-top:8px;font-size:12px}.check-row input{accent-color:#d979a5}
 @media(max-width:760px) {
   .sidebar { 
-    /* No transforms here, it just stays at the bottom naturally */
+    
     border-right: none;
   }
   .main { 
@@ -146,13 +279,95 @@ a{color:inherit}
 @media(max-width:1000px){:root{--sidebar:225px}.filters{grid-template-columns:1fr 1fr 1fr}.filters input{grid-column:1/-1}.stats{grid-template-columns:repeat(2,1fr)}.detail{grid-template-columns:1fr}.theme-layout{grid-template-columns:1fr}}
 @media(max-width:480px){.filters{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding-top:18px}.panel{padding:12px}.stat{padding:12px}.stat b{font-size:18px}}
 
-body.dark{--bg:#17121a;--bg2:#211823;--panel:rgba(38,28,39,.9);--panel2:#2a202c;--ink:#f0e7ed;--muted:#b9a6b2;--line:#4b3846;
-  background: radial-gradient(circle at 8% 0%,#2c202a 0 18%,transparent 38%), linear-gradient(135deg,var(--bg),var(--bg2));}
-body.dark .sidebar{background:rgba(29,21,31,.94)}
-body.dark .card, body.dark .table td, body.dark .table th, body.dark .modal, body.dark .craft, body.dark .stage-card, body.dark .suit, body.dark .info, body.dark .detail-img, body.dark .field, body.dark .mode-list button, body.dark .btn, body.dark .advanced-checks .check-row, body.dark .material-card {background:var(--panel2);color:var(--ink);border-color:var(--line);}
-body.dark .filters input, body.dark .filters select, body.dark .filter-field select, body.dark select.field {background-color:#2b222d;color:var(--ink);border-color:var(--line);}
-body.dark .filters select, body.dark .filter-field select, body.dark select.field {background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b9a6b2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");}
-body.dark .notice {background:#36291a;border-color:#55442e;color:#dcb888;}
+body.dark {
+  --bg: #17121a;
+  --bg2: #211823;
+  --panel: rgba(38, 28, 39, 0.9);
+  --panel2: #2a202c;
+  --ink: #f0e7ed;
+  --muted: #b9a6b2;
+  --line: #4b3846;
+  background: radial-gradient(circle at 8% 0%, #2c202a 0 18%, transparent 38%), linear-gradient(135deg, var(--bg), var(--bg2));
+}
+
+body.dark .sidebar,
+body.dark .card,
+body.dark .table td,
+body.dark .table th,
+body.dark .modal,
+body.dark .craft,
+body.dark .stage-card,
+body.dark .suit,
+body.dark .info,
+body.dark .detail-img,
+body.dark .field,
+body.dark .mode-list button,
+body.dark .btn,
+body.dark .advanced-checks .check-row,
+body.dark .material-card,
+body.dark .recommend-card,
+body.dark .music-card,
+body.dark .chip,
+body.dark .score {
+  background: var(--panel2) !important;
+  color: var(--ink) !important;
+  border-color: var(--line) !important;
+}
+
+body.dark input,
+body.dark select,
+body.dark .filters input,
+body.dark .filters select,
+body.dark .filter-field select,
+body.dark select.field {
+  background-color: #2b222d !important;
+  color: var(--ink) !important;
+  border-color: var(--line) !important;
+}
+
+body.dark .hero h2,
+body.dark .panel-title h3,
+body.dark .modal-head h3,
+body.dark .detail h2,
+body.dark .stat b,
+body.dark .theme-text {
+  color: #f0e7ed !important;
+}
+
+body.dark .table tr:hover td,
+body.dark .suit-head,
+body.dark .card-img,
+body.dark .suit-piece img {
+  background: #231925 !important;
+}
+
+body.dark select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b9a6b2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+}
+
+body.dark .stage-card {
+  background: var(--panel2);
+  color: #f0e7ed;
+  border: 1px solid var(--line);
+}
+
+body.dark .stage-card b {
+  color: #f5ebf7;
+}
+
+body.dark .stage-card small {
+  color: #cbb8c7;
+}
+
+body.dark .drop {
+  background: rgba(255, 255, 255, 0.06);
+  color: #f0e7ed;
+  border: 1px solid var(--line);
+}
+
+body.dark .drop img {
+  filter: brightness(1.15) contrast(1.05);
+}
 
 .advanced-filters{margin-top:10px}
 .advanced-filters>summary{padding:7px 4px;color:#8f5576;font-weight:800}
@@ -176,7 +391,7 @@ body.dark .notice {background:#36291a;border-color:#55442e;color:#dcb888;}
 .suit-piece img[title]{background:rgba(255,220,235,.35)}
 .suit-piece span{display:block;max-width:164px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
 .drop{display:flex;align-items:center;gap:6px}.stage-drop-icon{width:42px;height:42px;object-fit:contain;background:#fff5f9;border-radius:8px;flex:none}
-/* --- MUSIC PLAYER STYLING --- */
+
 .music-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -261,6 +476,35 @@ body.dark .notice {background:#36291a;border-color:#55442e;color:#dcb888;}
   -moz-appearance: none;
   appearance: none;
 }
+
+.quick-start-card {
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+  position: relative;
+}
+
+.quick-start-card:hover,
+.quick-start-card:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(129, 76, 104, 0.14);
+  outline: none;
+}
+
+/* Optional: subtle accent border on hover */
+.quick-start-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid transparent;
+  pointer-events: none;
+  transition: border-color 160ms ease;
+}
+
+.quick-start-card:hover::after {
+  border-color: var(--accent);
+}
 </style>
 </head>
 <body>
@@ -271,11 +515,11 @@ body.dark .notice {background:#36291a;border-color:#55442e;color:#dcb888;}
     <button class="active" data-view="home">⌂ Overview</button>
     <button data-view="encyclopedia">✦ Wardrobe</button>
     <button data-view="closet">♡ My Wardrobe</button>
+    <button data-view="suitgallery">⚝ Suit Gallery</button>
+    <button data-view="breakdown">◈ Suit Breakdowns</button>
     <button data-view="stages">⚔ Stage Guide</button>
     <button data-view="crafting">✧ Crafting</button>
     <!-- <button data-view="tasksuits">✦ Task Suits</button> -->
-    <button data-view="suitgallery">⚝ Suit Gallery</button>
-    <button data-view="breakdown">◈ Suit Breakdowns</button>
     <button data-view="themes">☾ Theme Generator</button>
     <button data-view="music">♬ Music</button>
   </nav>
@@ -288,6 +532,16 @@ body.dark .notice {background:#36291a;border-color:#55442e;color:#dcb888;}
 <main class="main">
   <div class="topbar">
     <!-- <div class="top-search"><span>⌕</span><input id="globalSearch" placeholder="Search wardrobe, suits, stages..."></div> -->
+     <select id="nationThemeSelect" class="field" style="width:auto;padding:8px 10px;">
+  <option value="">Default</option>
+  <option value="nation-apple">Apple</option>
+  <option value="nation-lilith">Lilith</option>
+  <option value="nation-cloud">Cloud</option>
+  <option value="nation-pigeon">Pigeon</option>
+  <option value="nation-north">North</option>
+  <option value="nation-wasteland">Wasteland</option>
+  <option value="nation-ruin">Ruin</option>
+</select>
     <button class="icon-btn" id="darkBtn" title="Dark mode">☾</button>
     <button class="icon-btn" id="infoBtn" title="About">ⓘ</button>
   </div>
@@ -297,12 +551,6 @@ body.dark .notice {background:#36291a;border-color:#55442e;color:#dcb888;}
       <div class="eyebrow">Love Nikki • Fan-made database</div>
       <h2>Your wardrobe, organized.</h2>
       <p>An encyclopedia combining a searchable item database, checklist of your owned items, stages, crafting, suit breakdowns and a theme generator in one interface.</p>
-      <div class="hero-actions">
-        <button class="btn primary" data-go="encyclopedia">Browse Wardrobe</button>
-        <button class="btn" data-go="themes">Generate a Theme</button>
-        <button class="btn" data-go="closet">Open Owned Items</button>
-      </div>
-    </div>
     <div class="stats">
       <div class="stat"><b id="statItems">—</b><span>Wardrobe Items</span></div>
       <div class="stat"><b id="statOwned">0</b><span>Owned Items</span></div>
@@ -310,17 +558,94 @@ body.dark .notice {background:#36291a;border-color:#55442e;color:#dcb888;}
       <div class="stat"><b id="statSuits">—</b><span>Suit Breakdowns</span></div>
     </div>
     <div class="panel">
-      <div class="panel-title"><div><h3>Quick start</h3></div></div>
-      <div class="stage-grid">
-        <div class="stage-card"><b>✦ Wardrobe</b><small>Search by name, ID, type, rarity, nation, colors and tags.</small></div>
-        <div class="stage-card"><b>♡ My Wardrobe</b><small>See owned pieces and import/export a tiny .wbak file which then can be imported to Nikki's Info.</small></div>
-        <div class="stage-card"><b>⚔ Stage Guide</b><small>Browse chapter/stage info.</small></div>
-        <div class="stage-card"><b>◈ Breakdown</b><small>See upcoming suits and showcase of its items one by one.</small></div>
-      </div>
-    </div>
+  <div class="panel-title">
+    <div><h3>Quick start</h3></div>
+  </div>
+
+  <div class="stage-grid" id="quickStartGrid">
+    <button
+      class="stage-card quick-start-card"
+      type="button"
+      data-action="encyclopedia"
+      aria-label="Open Wardrobe"
+    >
+      <b>Wardrobe</b>
+      <small>Search by name, ID, type, rarity, nation, colors and tags.</small>
+    </button>
+
+    <button
+      class="stage-card quick-start-card"
+      type="button"
+      data-action="closet"
+      aria-label="Open My Wardrobe"
+    >
+      <b>My Wardrobe</b>
+      <small>See owned pieces and import/export a tiny .wbak file which then can be imported to Nikki's Info.</small>
+    </button>
+
+      <button
+      class="stage-card quick-start-card"
+      type="button"
+      data-action="suitgallery"
+      aria-label="View Suit Gallery"
+    >
+      <b>Suit Gallery</b>
+      <small>Explore the collection of all available suits.</small>
+    </button>
+
+    <button
+      class="stage-card quick-start-card"
+      type="button"
+      data-action="breakdown"
+      aria-label="Open Suit Breakdowns"
+    >
+      <b>Breakdown</b>
+      <small>See upcoming suits and showcase of its items one by one.</small>
+    </button>
+    <button
+      class="stage-card quick-start-card"
+      type="button"
+      data-action="stages"
+      aria-label="Open Stage Guide"
+    >
+      <b>Stage Guide</b>
+      <small>Browse chapter/stage info.</small>
+    </button>
+
+      <button
+      class="stage-card quick-start-card"
+      type="button"
+      data-action="crafting"
+      aria-label="Open Crafting"
+    >
+      <b>Crafting</b>
+      <small>See crafting recipes and materials.</small>
+    </button>
+
+    <button
+      class="stage-card quick-start-card"
+      type="button"
+      data-action="themes"
+      aria-label="Generate a Theme"
+    >
+      <b>Styling Theme Generator</b>
+      <small>Create custom themes based on your favorite items.</small>
+    </button>
+
+    <button
+      class="stage-card quick-start-card"
+      type="button"
+      data-action="music"
+      aria-label="Listen to Music"
+    >
+      <b>Music</b>
+      <small>Listen to the in-game OST.</small>
+    </button>
+  </div>
+</div>
     <div class="panel">
       <div class="panel-title"><div><h3>Data Status</h3><p id="dataStatus">Connecting to Google Sheets…</p></div></div>
-      <div class="notice">[In-Game Version 11.2.2] Updates: Website have new UI, Music menu to listen to in-game OST, Owned items have own menu, Card view will instead show icons then only if you tap it would show the item and its info (info would still be shown at Table view), Name of the items from the other server can now be viewed.</div>
+      <div class="notice">[In-Game Version 11.2.2] Updates: Website have new UI, Music menu to listen to in-game OST, Owned items have own menu, Card view will instead show icons then only if you tap it would show the item and its info (info would still be shown at Table view), Name of the items from the other server can now be viewed. UI Themes is currently experimental.</div>
     </div>
   </section>
 
@@ -524,6 +849,38 @@ function getIconId(item) {
     return id;
 }
 
+const NATION_THEME_KEY = 'ln_nation_theme';
+
+function applyNationTheme(themeClass) {
+  document.body.classList.remove(
+    'nation-apple',
+    'nation-lilith',
+    'nation-cloud',
+    'nation-pigeon',
+    'nation-north',
+    'nation-wasteland',
+    'nation-ruin'
+  );
+
+  if (themeClass) {
+    document.body.classList.add(themeClass);
+  }
+}
+
+const savedNationTheme = localStorage.getItem(NATION_THEME_KEY) || '';
+applyNationTheme(savedNationTheme);
+
+const nationSelect = document.getElementById('nationThemeSelect');
+if (nationSelect && savedNationTheme) {
+  nationSelect.value = savedNationTheme;
+}
+
+nationSelect?.addEventListener('change', (e) => {
+  const theme = e.target.value;
+  localStorage.setItem(NATION_THEME_KEY, theme);
+  applyNationTheme(theme);
+});
+
 function imageRepoFromId(id){
   const s=String(id||"").trim().toLowerCase();
   const types=["hair","dress","coat","top","bottom","hosiery","shoes","makeup","accessory","soul"];
@@ -609,9 +966,9 @@ async function loadServerNames() {
       if (name) serverMap[name] = row;
     });
 
-    console.log(`Server Names loaded ✓ • ${rows.length.toLocaleString()} rows`);
+    //console.log(`Server Names loaded ✓ • ${rows.length.toLocaleString()} rows`);
   } catch (e) {
-    console.warn("Server Names sheet unavailable", e);
+    //console.warn("Server Names sheet unavailable", e);
     state.serverNames = [];
     serverMap = {};
   }
@@ -660,7 +1017,32 @@ function setView(name){
 }
 document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{setView(b.dataset.view);});
 document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>setView(b.dataset.go));
-document.getElementById("darkBtn").onclick=()=>{document.body.classList.toggle("dark");localStorage.setItem("lnDark",document.body.classList.contains("dark")?"1":"0")};
+document.getElementById('quickStartGrid')?.addEventListener('click', (e) => {
+  const card = e.target.closest('.quick-start-card');
+  if (!card) return;
+
+  const action = card.getAttribute('data-action');
+  if (!action) return;
+
+  const actionToView = {
+  encyclopedia: 'encyclopedia',
+  closet: 'closet',
+  stages: 'stages',
+  breakdown: 'breakdown',
+  themes: 'themes',
+  music: 'music',
+  suitgallery: 'suitgallery'
+};
+
+  const viewName = actionToView[action];
+  if (viewName) {
+    setView(viewName);
+  }
+});
+document.getElementById("darkBtn").onclick = () => {
+  document.body.classList.toggle("dark");
+  localStorage.setItem("lnDark", document.body.classList.contains("dark") ? "1" : "0");
+};
 if(localStorage.getItem("lnDark")==="1")document.body.classList.add("dark");
 
 function populateSelect(id,values,label){
@@ -1065,44 +1447,105 @@ function renderBreakdowns(){
   document.getElementById("suitResults").innerHTML=rows.length?rows.map(x=>`<article class="suit" data-suit="${x.i}"><button class="suit-head"><span>${esc(val(x.s,"suit name","name"))}</span><span>⌄</span></button><div class="suit-body"></div></article>`).join(""):'<div class="loading">No suits found.</div>';
   document.querySelectorAll(".suit").forEach(el=>el.querySelector(".suit-head").onclick=()=>toggleSuit(el,Number(el.dataset.suit)));
 }
-function toggleSuit(el,i){
-  const body=el.querySelector(".suit-body");
-  if(el.classList.contains("open")){el.classList.remove("open");return;}
-  el.classList.add("open");if(body.dataset.loaded)return;body.dataset.loaded="1";
+function toggleSuit(el, i) {
+  const body = el.querySelector(".suit-body");
+  if (el.classList.contains("open")) {
+    el.classList.remove("open");
+    return;
+  }
+  el.classList.add("open");
+  if (body.dataset.loaded) return;
+  body.dataset.loaded = "1";
 
-  const s=state.breakdowns[i];
-  const suitName=val(s,"suit name","name").trim();
-  const ids=val(s,"item ids").split(",").map(x=>x.trim()).filter(Boolean);
+  const s = state.breakdowns[i];
+  const suitName = val(s, "suit name", "name").trim();
+  const ids = val(s, "item ids").split(",").map(x => x.trim()).filter(Boolean);
 
-  if(!ids.length){body.innerHTML='<span style="color:var(--muted)">No images available.</span>';return;}
+  if (!ids.length) {
+    body.innerHTML = '<span style="color:var(--muted)">No images available.</span>';
+    return;
+  }
 
-  const loadedUrls=[];
-  ids.forEach((rawId,j)=>{
-    const cleanId=rawId.trim();if(!cleanId)return;
-    let baseId=cleanId;
-    if(suitName && cleanId.startsWith(`${suitName}-`)) baseId=cleanId.slice(suitName.length+1);
-    else if(cleanId.includes("-")) baseId=cleanId.split("-").pop();
+  const itemUrls = new Array(ids.length).fill(PLACEHOLDER);
 
-    const primaryUrl=cleanId.includes("-")?IMAGE.breakdown("",cleanId):IMAGE.breakdown(suitName,baseId);
-    const plainUrl=IMAGE.breakdown("",baseId);
+  ids.forEach((rawId, j) => {
+    const cleanId = rawId.trim();
+    if (!cleanId) return;
 
-    const piece=document.createElement("div");piece.className="suit-piece";
-    const img=document.createElement("img");img.loading="lazy";img.alt=cleanId;img.dataset.stage="primary";img.src=primaryUrl;
-    const label=document.createElement("span");label.textContent=cleanId;
+    let baseId = cleanId;
+    if (suitName && cleanId.startsWith(`${suitName}-`)) {
+      baseId = cleanId.slice(suitName.length + 1);
+    } else if (cleanId.includes("-")) {
+      baseId = cleanId.split("-").pop();
+    }
 
-    img.addEventListener("load",function(){
-      if(!loadedUrls.includes(this.currentSrc))loadedUrls.push(this.currentSrc);
-      this.onclick=(event)=>{event.stopPropagation();openGallery(loadedUrls,Math.max(0,loadedUrls.indexOf(this.currentSrc)),suitName);};
+    const primaryUrl = cleanId.includes("-")
+      ? IMAGE.breakdown("", cleanId)
+      : IMAGE.breakdown(suitName, baseId);
+
+    const plainUrl = IMAGE.breakdown("", baseId);
+
+    itemUrls[j] = primaryUrl;
+
+    const piece = document.createElement("div");
+    piece.className = "suit-piece";
+
+    const img = document.createElement("img");
+    img.loading = "lazy";
+    img.alt = cleanId;
+    img.dataset.stage = "primary";
+    img.dataset.index = j;
+    img.src = primaryUrl;
+
+    img.addEventListener("error", function () {
+      if (this.dataset.stage === "primary") {
+        this.dataset.stage = "plain";
+        this.src = plainUrl;
+        itemUrls[j] = plainUrl;
+        return;
+      }
+      this.style.opacity = ".12";
+      this.title = `Image not found: ${cleanId}`;
+      this.src = PLACEHOLDER;
+      itemUrls[j] = PLACEHOLDER;
     });
-    img.addEventListener("error",function(){
-      if(this.dataset.stage==="primary"){this.dataset.stage="plain";this.src=plainUrl;return;}
-      this.style.opacity=".12";this.title=`Image not found: ${cleanId}`;this.src=PLACEHOLDER;
+
+    img.addEventListener("click", (event) => {
+      event.stopPropagation();
+      openGallery(itemUrls, Number(img.dataset.index), suitName);
     });
 
-    piece.appendChild(img);piece.appendChild(label);body.appendChild(piece);
+    piece.appendChild(img);
+    body.appendChild(piece);
   });
 }
-function openGallery(images,index,title){let i=index;const render=()=>{document.getElementById("modal").innerHTML=`<div class="modal-head"><h3>${esc(title||"Suit gallery")}</h3><button class="close" onclick="closeModal()">×</button></div><div class="gallery-modal"><button class="gallery-arrow left" id="galleryPrev">‹</button><img src="${esc(images[i])}" onerror="this.style.opacity='.35'"><button class="gallery-arrow right" id="galleryNext">›</button></div><div class="source-note">Piece ${i+1} of ${images.length}</div>`;document.getElementById("galleryPrev").onclick=()=>{i=(i-1+images.length)%images.length;render()};document.getElementById("galleryNext").onclick=()=>{i=(i+1)%images.length;render()};openModal()};render()}
+function openGallery(images, index, title) {
+  let i = index;
+  const render = () => {
+    document.getElementById("modal").innerHTML = `
+      <div class="modal-head">
+        <h3>${esc(title || "Suit gallery")}</h3>
+        <button class="close" onclick="closeModal()">×</button>
+      </div>
+      <div class="gallery-modal">
+        <button class="gallery-arrow left" id="galleryPrev">‹</button>
+        <img src="${esc(images[i])}" onerror="this.style.opacity='.35'">
+        <button class="gallery-arrow right" id="galleryNext">›</button>
+      </div>
+      <div class="source-note">Item ${i + 1} of ${images.length}</div>
+    `;
+    document.getElementById("galleryPrev").onclick = () => {
+      i = (i - 1 + images.length) % images.length;
+      render();
+    };
+    document.getElementById("galleryNext").onclick = () => {
+      i = (i + 1) % images.length;
+      render();
+    };
+    openModal();
+  };
+  render();
+}
 document.getElementById("suitSearch").addEventListener("input",renderBreakdowns);document.getElementById("expandAllSuits").onclick=()=>document.querySelectorAll(".suit").forEach(el=>{if(!el.classList.contains("open"))toggleSuit(el,Number(el.dataset.suit))});document.getElementById("collapseAllSuits").onclick=()=>document.querySelectorAll(".suit.open").forEach(el=>el.classList.remove("open"));
 
 const MODE_LABELS=["Simple","With a Twist","Series","Cosplay!","Colors","Rarity","Rarity Combo","Nation","Nation + Nation","Attribute","Nation + Tag","Tag + Attribute","Special","Love Nikki Competition"];
@@ -1138,7 +1581,7 @@ async function loadThemes(){
 
 document.getElementById("infoBtn").onclick=()=>{document.getElementById("modal").innerHTML=`<div class="modal-head"><h3>About this Website</h3><button class="close" onclick="closeModal()">×</button></div>
 <p>Stylist Encyclopedia is an info catalog of wardrobe items from the game. (Will soon be cross-server catalog)</p>
-<div class="info-grid"><div class="info"><b>Inspirations</b><a href="https://lovenikki.fandom.com/">LN Wiki</a>, <a href="https://seal100x.github.io/nikkiup2u3">Seal</a>, <a href="https://docs.google.com/spreadsheets/d/1OhAgfzk0pCY9TG5PDPaSFjnv7ZHevxxJtlvfKm16ykg/edit?gid=602775022#gid=602775022">Ultimate LN Style Search Sheet</a>, and <a href="ln.nikkis.info">Nikki's Info</a></div><div class="info"><b>Features</b>Filled with stats, rarity, color, etc. (data and images to be placed later). Search and filter by type, rarity , nation, color, and tags</div><div class="info"><b>Credits/Helpers/Testers (Feedback Giver)</b>danc (@danc12321) for crafting data. mikachuu (@mikachuu#0493) provided info for missing items up to Daybreak Blade suit, lynndeeznuts (@LynnD#6271) provided info for items on JP server, krichur (@krichur) and Viv (@vivly) for the data of the colors. Lydia (@Lydia#0675), Pearl (@Ederne#4620), Viv (@vivly), mikachuu (@mikachuu#0493), Sinthu (FB)</div><div class="info"><b>Contact</b>Manami (@manami_naomi at Discord, u/OkTumbleweed8362 at Reddit, Margielyn Pascua (Main FB)/Manami Naomi (My Page) at Facebook, ramunesakura.ln at Instagram, @ramunesakura4 at Tiktok)</div></div>`;openModal()};
+<div class="info-grid"><div class="info"><b>Inspirations</b><a href="https://lovenikki.miraheze.org/wiki/Love_Nikki-Dress_UP_Queen!_Wiki">LN Wiki</a>, <a href="https://seal100x.github.io/nikkiup2u3">Seal</a>, <a href="https://docs.google.com/spreadsheets/d/1OhAgfzk0pCY9TG5PDPaSFjnv7ZHevxxJtlvfKm16ykg/edit?gid=602775022#gid=602775022">Ultimate LN Style Search Sheet</a>, and <a href="ln.nikkis.info">Nikki's Info</a></div><div class="info"><b>Features</b>Filled with stats, rarity, color, etc. (data and images to be placed later). Search and filter by type, rarity , nation, color, and tags</div><div class="info"><b>Credits/Helpers/Testers (Feedback Giver)</b>danc (@danc12321) for crafting data. mikachuu (@mikachuu#0493) provided info for missing items up to Daybreak Blade suit, lynndeeznuts (@LynnD#6271) provided info for items on JP server, krichur (@krichur) and Viv (@vivly) for the data of the colors. Lydia (@Lydia#0675), Pearl (@Ederne#4620), Viv (@vivly), mikachuu (@mikachuu#0493), Sinthu (FB)</div><div class="info"><b>Contact</b>Manami (@manami_naomi at Discord, u/OkTumbleweed8362 at Reddit, Margielyn Pascua (Main FB)/Manami Naomi (My Page) at Facebook, ramunesakura.ln at Instagram, @ramunesakura4 at Tiktok)</div></div>`;openModal()};
 
 function getTrackTitle(track) {
   return val(track, "music name", "music_name", "name", "title", "track name") || "Untitled Track";
@@ -1174,7 +1617,6 @@ function loadMusic() {
   });
 }
 
-// Filter music items
 function filterMusic() {
   const q = document.getElementById("musicSearch")?.value.toLowerCase().trim() || "";
   const type = document.getElementById("musicFilter")?.value || "";
@@ -1190,11 +1632,9 @@ function filterMusic() {
   renderMusic();
 }
 
-// Event listeners
 document.getElementById("musicSearch")?.addEventListener("input", filterMusic);
 document.getElementById("musicFilter")?.addEventListener("change", filterMusic);
 
-// Render Music Grid
 function renderMusic() {
   const total = state.musicFiltered.length;
   const pages = Math.max(1, Math.ceil(total / 24));
@@ -1359,9 +1799,9 @@ async function loadSuitGallery() {
   try {
     const rows = await fetchCSV(SUIT_GALLERY_DATA.sheet);
 
-    console.log('Raw CSV rows length:', rows.length);
+    //console.log('Raw CSV rows length:', rows.length);
     if (rows.length) {
-      console.log('First row (object):', rows[0]);
+    //console.log('First row (object):', rows[0]);
     }
 
     const suits = rows
@@ -1374,9 +1814,9 @@ async function loadSuitGallery() {
       }))
       .filter(s => s.name);
 
-    console.log('Parsed suits count:', suits.length);
+    //console.log('Parsed suits count:', suits.length);
     if (suits.length) {
-      console.log('First suit:', suits[0]);
+      //console.log('First suit:', suits[0]);
     }
 
     state.suitGallery.suits = suits;
