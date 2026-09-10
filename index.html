@@ -688,7 +688,7 @@ body.dark .drop img {
   </section>
 
   <section class="view" id="view-closet">
-    <div class="hero"><div class="eyebrow">Personal wardrobe</div><h2>Owned Items</h2><p>See the items you own, keep the list locally in your browser, and export/import it when needed in Nikki's Info.</p></div>
+    <div class="hero"><div class="eyebrow">Personal wardrobe</div><h2>Owned Items</h2><p>See the items you own, keep the list locally in your browser, and export/import (a .wbak file) it when needed in Nikki's Info. NI uses .wbak for your wardrobe just in case/for backup. You can download such by going to MyNI > Download Backup</p></div>
     <div class="panel">
       <div class="owned-toolbar">
         <!--- <button class="btn primary" id="saveFiltered">♡ Save filtered</button>
@@ -997,10 +997,18 @@ function saveOwned(){localStorage.setItem("lnOwned",JSON.stringify([...state.own
 function keyFor(item){return String(item.id||item.niid||"")}
 function isOwned(item){return state.owned.has(String(item.id))|| (item.niid&&state.owned.has(String(item.niid)))}
 function toggleOwned(item){
-  const id=String(item.id||item.niid||""); if(!id)return;
-  if(isOwned(item)){state.owned.delete(String(item.id));if(item.niid)state.owned.delete(String(item.niid))}
-  else {state.owned.add(id);if(item.niid)state.owned.add(String(item.niid))}
-  saveOwned();renderItems();renderCloset();
+  const niid = String(item.niid || "").trim();
+  if (!niid) return;
+  
+  if (isOwned(item)) {
+    state.owned.delete(niid);
+    if (item.id) state.owned.delete(String(item.id).trim());
+  } else {
+    state.owned.add(niid);
+  }
+  saveOwned();
+  renderItems();
+  renderCloset();
 }
 function updateOwnedUI(){
   const count=state.owned.size;
@@ -1288,27 +1296,54 @@ document.getElementById("clearFilters").onclick=()=>{document.getElementById("it
 //  filterItems();
 // });
 
-document.getElementById("saveFilteredEncyclopedia").onclick=()=>{state.filtered.forEach(i=>{if(i.id)state.owned.add(String(i.id));if(i.niid)state.owned.add(String(i.niid))});saveOwned();renderItems();renderCloset()};
-document.getElementById("removeFilteredEncyclopedia").onclick=()=>{state.filtered.forEach(i=>{state.owned.delete(String(i.id));if(i.niid)state.owned.delete(String(i.niid))});saveOwned();renderItems();renderCloset()};
+document.getElementById("saveFilteredEncyclopedia").onclick = () => {
+  state.filtered.forEach(i => {
+    if (i.niid) state.owned.add(String(i.niid).trim());
+  });
+  saveOwned();
+  renderItems();
+  renderCloset();
+};
+
+document.getElementById("removeFilteredEncyclopedia").onclick = () => {
+  state.filtered.forEach(i => {
+    if (i.niid) state.owned.delete(String(i.niid).trim());
+    if (i.id) state.owned.delete(String(i.id).trim());
+  });
+  saveOwned();
+  renderItems();
+  renderCloset();
+};
 document.getElementById("randomItem").onclick=()=>{if(state.items.length)openItem(state.items[Math.floor(Math.random()*state.items.length)])};
 // document.getElementById("saveFiltered").onclick=()=>{state.filtered.forEach(i=>{if(i.id)state.owned.add(String(i.id));if(i.niid)state.owned.add(String(i.niid))});saveOwned();renderItems();renderCloset()};
 // document.getElementById("removeFiltered").onclick=()=>{state.filtered.forEach(i=>{state.owned.delete(String(i.id));if(i.niid)state.owned.delete(String(i.niid))});saveOwned();renderItems();renderCloset()};
 document.getElementById("clearOwned").onclick=()=>{if(confirm("Clear your entire closet?")){state.owned.clear();saveOwned();renderItems();renderCloset()}};
-document.getElementById("exportBtn").onclick=()=>{
+document.getElementById("exportBtn").onclick = () => {
+  if (!state.items.length) {
+    alert("Wardrobe data is still loading. Please wait a moment and try again.");
+    return;
+  }
 
-  const niids = [...state.owned]
+  const exportedIds = [...state.owned]
     .map(String)
-    .map(id => state.items.find(item =>
-      String(item.niid || "").trim() === id.trim()
-    ))
-    .map(item => item ? String(item.niid).trim() : "")
-    .filter(Boolean);
+    .map(ownedId => {
+      const item = state.items.find(i => 
+        String(i.id || "").trim() === ownedId.trim() || 
+        String(i.niid || "").trim() === ownedId.trim()
+      );
+      
+      if (item) {
+        return String(item.niid || item.id).trim();
+      }
+      return ownedId;
+    })
+    .filter(id => id && !String(id).startsWith("item_") && id !== "Loading...");
 
-  const uniqueNiids = [...new Set(niids)];
+  const uniqueIds = [...new Set(exportedIds)];
 
   const blob = new Blob(
-    [JSON.stringify(uniqueNiids)],
-    {type:"application/octet-stream"}
+    [JSON.stringify(uniqueIds)],
+    { type: "application/octet-stream" }
   );
 
   const a = document.createElement("a");
