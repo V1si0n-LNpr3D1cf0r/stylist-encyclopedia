@@ -491,7 +491,6 @@ body.dark .drop img {
   outline: none;
 }
 
-/* Optional: subtle accent border on hover */
 .quick-start-card::after {
   content: "";
   position: absolute;
@@ -504,6 +503,27 @@ body.dark .drop img {
 
 .quick-start-card:hover::after {
   border-color: var(--accent);
+}
+
+.item-characteristics {
+  margin-top: 16px;
+}
+
+.item-characteristics h4 {
+  margin: 0 0 8px;
+  color: var(--accent2);
+  font-size: 14px;
+}
+
+.characteristic-badge {
+  background: var(--panel2);
+  border: 1px solid var(--accent);
+  color: var(--ink);
+}
+
+.characteristic-empty {
+  color: var(--muted);
+  font-size: 12px;
 }
 </style>
 </head>
@@ -1133,6 +1153,28 @@ function getBadgeStyle(tagName) {
   return `background-color: ${color}; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; margin: 2px;`;
 }
 
+function getCharacteristics(item) {
+  const raw = val(item, "characteristic");
+
+  if (!raw) return [];
+
+  return raw
+    .split(/[,;\n]/)
+    .map(value => value.trim())
+    .filter(Boolean);
+}
+
+function characteristicBadges(item, limit = 3) {
+  return getCharacteristics(item)
+    .slice(0, limit)
+    .map(value => `
+      <span class="badge characteristic-badge">
+        ${esc(value)}
+      </span>
+    `)
+    .join("");
+}
+
 function itemCard(item){
   const owned=isOwned(item);
   
@@ -1237,7 +1279,16 @@ function openItem(item){
   document.getElementById("modal").innerHTML=`<div class="modal-head"><h3>Item Details</h3><button class="close" onclick="closeModal()">×</button></div>
   <div class="detail"><div class="detail-img"><img src="${esc(img)}" onerror="this.onerror=null;this.src='${PLACEHOLDER}'"></div>
   <div><h2>${esc(val(item,"name")||"Unknown Item")}</h2><div class="badges"><span class="badge">${esc(val(item,"type","subtype")||"Item")}</span><span class="badge">${esc(item.rarity||0)}♥</span></div>
-  <p>${esc(val(item,"desc","description"))}</p><button class="btn ${owned?"danger":"primary"}" id="modalOwn">${owned?"♥ Remove from closet":"♡ Add to closet"}</button>
+  <p>${esc(val(item,"desc","description"))}</p><div class="item-characteristics">
+  <h4>Characteristics</h4>
+  <div class="badges">
+    ${
+      characteristicBadges(item, 999) ||
+      '<span class="characteristic-empty">None listed</span>'
+    }
+  </div>
+</div>
+<button class="btn ${owned?"danger":"primary"}" id="modalOwn">${owned?"♥ Remove from closet":"♡ Add to closet"}</button>
   <div class="info-grid">
   ${[["Type",val(item,"type")],["Sub Type",val(item,"subtype")],["Category / Nation",val(item,"category")],["Suit",val(item,"suit")],["Main Color",val(item,"maincolor","main color")],["Other Color",val(item,"othercolor","other color")],["Tertiary",val(item,"tertiary")],["Tag 1",tag(val(item,"tag1"))],["Tag 2",tag(val(item,"tag2"))],["Pose",formatBool(val(item,"pose"))],["Animated",formatBool(val(item,"animated"))],["In Suit",formatBool(val(item,"inasuit","in a suit"))]].filter(x=>x[1] && x[1]!=="-" && x[1]!=="").map(x=>`<div class="info"><b>${esc(x[0])}</b>${x[0].includes("Tag")?x[1]:esc(x[1])}</div>`).join("")}</div>
   ${stats.length?`<div class="score-grid">${stats.map(k=>`<div class="score"><b>${esc(item[k])}</b><span>${esc(k)}</span></div>`).join("")}</div>`:""}
