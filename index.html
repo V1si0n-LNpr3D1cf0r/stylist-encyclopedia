@@ -525,6 +525,117 @@ body.dark .drop img {
   color: var(--muted);
   font-size: 12px;
 }
+
+.task-suit-list {
+  display: grid;
+  gap: 12px;
+}
+
+.task-suit-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--panel2);
+  box-shadow: var(--shadow);
+}
+
+.task-suit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 0;
+  background: var(--panel2);
+  color: var(--ink);
+  font-weight: 900;
+  text-align: left;
+}
+
+.task-suit-header:hover {
+  background: color-mix(in srgb, var(--accent) 8%, var(--panel2));
+}
+
+.task-suit-arrow {
+  color: var(--accent);
+  font-size: 18px;
+}
+
+.task-suit-body {
+  display: none;
+  padding: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.task-suit-card.open .task-suit-body {
+  display: block;
+}
+
+.task-suit-section {
+  margin-bottom: 18px;
+}
+
+.task-suit-section:last-child {
+  margin-bottom: 0;
+}
+
+.task-suit-section h4 {
+  margin: 0 0 10px;
+  color: var(--accent2);
+  font-size: 14px;
+}
+
+.task-suit-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+}
+
+.task-suit-item {
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  text-align: center;
+}
+
+.task-suit-item img {
+  display: block;
+  width: 100%;
+  height: 130px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: var(--bg2);
+  cursor: pointer;
+}
+
+.task-suit-item-name {
+  display: block;
+  margin-top: 7px;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.task-suit-item-source {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.35;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.task-suit-empty {
+  color: var(--muted);
+  font-size: 13px;
+}
 </style>
 </head>
 <body>
@@ -539,7 +650,7 @@ body.dark .drop img {
     <button data-view="breakdown">◈ Suit Breakdowns</button>
     <button data-view="stages">⚔ Stage Guide</button>
     <button data-view="crafting">✧ Crafting</button>
-    <!-- <button data-view="tasksuits">✦ Task Suits</button> -->
+    <button data-view="tasksuits">✦ Task Suits</button>
     <button data-view="themes">☾ Theme Generator</button>
     <button data-view="music">♬ Music</button>
   </nav>
@@ -640,6 +751,16 @@ body.dark .drop img {
     >
       <b>Crafting</b>
       <small>See crafting recipes and materials.</small>
+    </button>
+
+    <button
+      class="stage-card quick-start-card"
+      type="button"
+      data-action="tasksuits"
+      aria-label="Open Task Suits"
+      >
+      <b>Task Suits</b>
+      <small>Prefarm info for upcoming task suits.</small>
     </button>
 
     <button
@@ -772,11 +893,35 @@ body.dark .drop img {
   </section>
   
   <section class="view" id="view-tasksuits">
-    <div class="hero"><div class="eyebrow">Upcoming Content</div><h2>Task Suits</h2><p>Future task suits data and requirements.</p></div>
-    <div class="panel">
-      <div class="loading">Loading task suits data…</div>
+  <div class="hero">
+    <div class="eyebrow">Upcoming content</div>
+    <h2>Task Suits</h2>
+    <p>View task suits and the suits or items needed to complete them.</p>
+    <details class="notice" style="margin-top: 12px; font-size: 13px; color: #665;">
+      <summary style="font-weight: 900; cursor: pointer;">Note!</summary>
+      <div style="margin-top: 8px; line-height: 1.5;">
+        All "Suits" needed for the task suits require all recolors.
+      </div>
+    </details>
+  </div>
+
+  <div class="panel">
+    <div class="filters" style="grid-template-columns: 2fr;">
+      <input
+        id="taskSuitSearch"
+        class="field"
+        type="search"
+        placeholder="Search task suits or requirements..."
+      >
     </div>
-  </section>
+
+    <div id="taskSuitResults" class="task-suit-list">
+      <div class="loading">Loading task suits...</div>
+    </div>
+
+    <div id="taskSuitPagination" class="pagination"></div>
+  </div>
+</section>
   
   <section class="view" id="view-suitgallery">
   <div class="hero">
@@ -852,7 +997,8 @@ const DATA = {
   breakdowns: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=333774526&single=true&output=csv",
   themes: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=1701381424&single=true&output=csv",
   serverNames: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=1044161109&single=true&output=csv",
-  music: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=210977537&single=true&output=csv"
+  music: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=210977537&single=true&output=csv",
+  taskSuits:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=1505720108&single=true&output=csv"
 };
 
 const PLACEHOLDER = "https://placehold.co/400x400/fff8fb/d57ca2?text=No+Image";
@@ -1073,7 +1219,8 @@ document.getElementById('quickStartGrid')?.addEventListener('click', (e) => {
   breakdown: 'breakdown',
   themes: 'themes',
   music: 'music',
-  suitgallery: 'suitgallery'
+  suitgallery: 'suitgallery',
+  tasksuits: 'tasksuits',
 };
 
   const viewName = actionToView[action];
@@ -2058,6 +2205,339 @@ function openSuitFromGallery(suit) {
   openSuitGalleryModal(suit, pieceImages);
 }
 
+function splitTaskFilenames(value) {
+  return String(value || "")
+    .split(/[,;\n]/)
+    .map(value => value.trim())
+    .filter(Boolean);
+}
+
+function parseNeededSections(value) {
+  const text = String(value || "").trim();
+
+  const suitsMatch = text.match(
+    /Suits:\s*(.*?)(?=\s+Items:|$)/is
+  );
+
+  const itemsMatch = text.match(
+    /Items:\s*(.*)$/is
+  );
+
+  return {
+    suits: parseNeededList(suitsMatch ? suitsMatch[1] : ""),
+    items: parseNeededList(itemsMatch ? itemsMatch[1] : "")
+  };
+}
+
+function parseNeededList(value) {
+  const text = String(value || "").trim();
+
+  if (!text) {
+    return [];
+  }
+
+  const entries = [];
+  let current = "";
+  let parenthesesDepth = 0;
+
+  for (const character of text) {
+    if (character === "(") {
+      parenthesesDepth++;
+      current += character;
+      continue;
+    }
+
+    if (character === ")") {
+      parenthesesDepth = Math.max(0, parenthesesDepth - 1);
+      current += character;
+      continue;
+    }
+
+    if (character === "," && parenthesesDepth === 0) {
+      if (current.trim()) {
+        entries.push(current.trim());
+      }
+
+      current = "";
+      continue;
+    }
+
+    current += character;
+  }
+
+  if (current.trim()) {
+    entries.push(current.trim());
+  }
+
+  return entries.map(entry => {
+    const match = entry.match(/^(.+?)\s*\(([^()]*)\)\s*$/);
+
+    return {
+      name: match ? match[1].trim() : entry.trim(),
+      source: match ? match[2].trim() : ""
+    };
+  });
+}
+
+const TASK_SUIT_IMAGE_BASE =
+  "https://cdn.jsdelivr.net/gh/V1si0n-LNpr3D1cf0r/mn-dump-tasksuits@main/";
+
+function taskSuitImageUrl(filename) {
+  const clean = String(filename || "").trim();
+
+  if (!clean) {
+    return PLACEHOLDER;
+  }
+
+  const withExtension = /\.png$/i.test(clean)
+    ? clean
+    : `${clean}.png`;
+
+  return TASK_SUIT_IMAGE_BASE +
+    withExtension
+      .split("/")
+      .map(part => encodeURIComponent(part))
+      .join("/");
+}
+
+const taskSuitState = {
+  rows: [],
+  filtered: [],
+  page: 1,
+  perPage: 20
+};
+
+async function loadTaskSuits() {
+  const container = document.getElementById("taskSuitResults");
+
+  try {
+    const rows = await fetchCSV(DATA.taskSuits);
+
+    taskSuitState.rows = rows
+      .map(row => ({
+        suit: val(row, "suit"),
+        needed: val(row, "needed"),
+        filenames: val(row, "filenames")
+      }))
+      .filter(row => row.suit);
+
+    taskSuitState.filtered = taskSuitState.rows.slice();
+
+    renderTaskSuits();
+  } catch (error) {
+    console.error("Task Suit load error:", error);
+
+    container.innerHTML = `
+      <div class="loading">
+        Could not load task suit data.
+      </div>
+    `;
+  }
+}
+
+function filterTaskSuits() {
+  const query = document
+    .getElementById("taskSuitSearch")
+    .value
+    .trim()
+    .toLowerCase();
+
+  taskSuitState.page = 1;
+
+  taskSuitState.filtered = taskSuitState.rows.filter(row => {
+    const searchableText = [
+      row.suit,
+      row.needed,
+      row.filenames
+    ]
+      .join(" ")
+      .toLowerCase();
+
+    return !query || searchableText.includes(query);
+  });
+
+  renderTaskSuits();
+}
+
+function renderTaskSuits() {
+  const container = document.getElementById("taskSuitResults");
+  const total = taskSuitState.filtered.length;
+
+  const pages = Math.max(
+    1,
+    Math.ceil(total / taskSuitState.perPage)
+  );
+
+  taskSuitState.page = Math.min(taskSuitState.page, pages);
+
+  const start =
+    (taskSuitState.page - 1) * taskSuitState.perPage;
+
+  const rows = taskSuitState.filtered.slice(
+    start,
+    start + taskSuitState.perPage
+  );
+
+  if (!rows.length) {
+    container.innerHTML = `
+      <div class="task-suit-empty">
+        No task suits found.
+      </div>
+    `;
+
+    renderPagination(
+      "taskSuitPagination",
+      0,
+      1,
+      () => {}
+    );
+
+    return;
+  }
+
+  container.innerHTML = rows.map((row, index) => {
+    const actualIndex = start + index;
+
+    return `
+      <article class="task-suit-card" data-task-index="${actualIndex}">
+        <button
+          class="task-suit-header"
+          type="button"
+          data-task-toggle
+        >
+          <span>${esc(row.suit)}</span>
+          <span class="task-suit-arrow">⌄</span>
+        </button>
+
+        <div class="task-suit-body">
+          <div class="loading">Loading requirements...</div>
+        </div>
+      </article>
+    `;
+  }).join("");
+
+  container
+    .querySelectorAll("[data-task-toggle]")
+    .forEach(button => {
+      button.addEventListener("click", () => {
+        const card = button.closest("[data-task-index]");
+        const index = Number(card.dataset.taskIndex);
+
+        toggleTaskSuit(card, index);
+      });
+    });
+
+  renderPagination(
+    "taskSuitPagination",
+    pages,
+    taskSuitState.page,
+    page => {
+      taskSuitState.page = page;
+      renderTaskSuits();
+    }
+  );
+}
+
+function toggleTaskSuit(card, index) {
+  const isOpen = card.classList.toggle("open");
+
+  if (!isOpen) {
+    return;
+  }
+
+  const body = card.querySelector(".task-suit-body");
+
+  if (body.dataset.loaded) {
+    return;
+  }
+
+  body.dataset.loaded = "1";
+
+  const row = taskSuitState.filtered[index];
+
+  if (!row) {
+    body.innerHTML = `
+      <div class="task-suit-empty">
+        Task suit data is unavailable.
+      </div>
+    `;
+    return;
+  }
+
+  const sections = parseNeededSections(row.needed);
+  const filenames = splitTaskFilenames(row.filenames);
+
+  const allRequirements = [
+    ...sections.suits,
+    ...sections.items
+  ];
+
+  if (!allRequirements.length) {
+    body.innerHTML = `
+      <div class="task-suit-empty">
+        No requirements listed.
+      </div>
+    `;
+    return;
+  }
+
+  const suitCount = sections.suits.length;
+
+  const renderSection = (title, requirements, offset) => {
+    if (!requirements.length) {
+      return "";
+    }
+
+    return `
+      <div class="task-suit-section">
+        <h4>${esc(title)}</h4>
+
+        <div class="task-suit-items">
+          ${requirements.map((requirement, index) => {
+            const filename = filenames[offset + index] || "";
+            const imageUrl = taskSuitImageUrl(filename);
+
+            return `
+              <div class="task-suit-item">
+                <img
+                  src="${esc(imageUrl)}"
+                  alt="${esc(requirement.name)}"
+                  loading="lazy"
+                  data-task-image="${esc(imageUrl)}"
+                  onerror="this.onerror=null;this.src='${PLACEHOLDER}'"
+                >
+
+                <span class="task-suit-item-name">
+                  ${esc(requirement.name)}
+                </span>
+
+                <span class="task-suit-item-source">
+                  ${esc(requirement.source || "Source not listed")}
+                </span>
+              </div>
+            `;
+          }).join("")}
+        </div>
+      </div>
+    `;
+  };
+
+  body.innerHTML =
+    renderSection("Suits", sections.suits, 0) +
+    renderSection("Items", sections.items, suitCount);
+
+  body
+    .querySelectorAll("[data-task-image]")
+    .forEach(image => {
+      image.addEventListener("click", () => {
+        openTaskSuitImage(
+          image.dataset.taskImage,
+          image.alt
+        );
+      });
+    });
+}
+
 document.getElementById('suitGallerySearch')?.addEventListener('input', filterSuitGallery);
 document.getElementById('suitGalleryCategory')?.addEventListener('change', filterSuitGallery);
 document.getElementById('suitGalleryObtain')?.addEventListener('change', filterSuitGallery);
@@ -2066,7 +2546,7 @@ async function boot(){
   updateOwnedUI();
   state.view = "cards";
   
-  await Promise.allSettled([loadServerNames(),loadItems(),loadStages(),loadCrafting(),loadBreakdowns(),loadThemes(),loadMusic(),loadSuitGallery()]);
+  await Promise.allSettled([loadServerNames(),loadItems(),loadStages(),loadCrafting(),loadBreakdowns(),loadThemes(),loadMusic(),loadSuitGallery(),loadTaskSuits()]);
   updateOwnedUI();
   
   if(state.view === "closet") renderCloset();
