@@ -638,6 +638,66 @@ body.dark .drop img {
   color: var(--muted);
   font-size: 13px;
 }
+
+.theme-mode-label {
+  display: block;
+  margin: 4px 0 6px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.theme-mode-select {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+#themeModeSelect {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 36px;
+}
+
+body.dark #themeModeSelect {
+  background-color: #2b222d !important;
+  color: var(--ink) !important;
+}
+
+.theme-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.theme-controls {
+  min-width: 0;
+}
+
+.theme-mode-select {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.theme-box {
+  min-height: 300px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 760px) {
+  .theme-layout {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .theme-box {
+    min-height: 250px;
+  }
+}
 </style>
 </head>
 <body>
@@ -965,9 +1025,43 @@ body.dark .drop img {
   <section class="view" id="view-themes">
     <div class="hero"><div class="eyebrow">Creative tool</div><h2>Theme Generator</h2><p>Choose a generator mode and style!</p></div>
     <div class="panel theme-layout">
-      <div><div class="panel-title"><div><h3>Mode</h3><p id="modeLabel">Simple</p></div></div><div class="mode-list" id="themeModes"></div></div>
-      <div class="theme-box"><div class="theme-sparkle">✦</div><div class="theme-label">STYLING THEME</div><div class="theme-text" id="themeText">Click Generate</div><button class="btn primary" id="generateBtn">Generate ✦</button></div>
+  <div class="theme-controls">
+    <div class="panel-title">
+      <div>
+        <h3>Mode</h3>
+        <p>Choose a theme category</p>
+      </div>
     </div>
+
+    <label
+      for="themeModeSelect"
+      class="theme-mode-label"
+    >
+      Theme type
+    </label>
+
+    <select
+      id="themeModeSelect"
+      class="field theme-mode-select"
+    >
+      <option value="">Loading themes...</option>
+    </select>
+  </div>
+
+  <div class="theme-box">
+    <div class="theme-sparkle">✦</div>
+    <div class="theme-label">STYLING THEME</div>
+    <div class="theme-text" id="themeText">
+      Click Generate
+    </div>
+    <button
+      class="btn primary"
+      id="generateBtn"
+    >
+      Generate ✦
+    </button>
+  </div>
+</div>
   </section>
 
   <section class="view" id="view-music">
@@ -1797,21 +1891,145 @@ function openGallery(images, index, title) {
 }
 document.getElementById("suitSearch").addEventListener("input",renderBreakdowns);document.getElementById("expandAllSuits").onclick=()=>document.querySelectorAll(".suit").forEach(el=>{if(!el.classList.contains("open"))toggleSuit(el,Number(el.dataset.suit))});document.getElementById("collapseAllSuits").onclick=()=>document.querySelectorAll(".suit.open").forEach(el=>el.classList.remove("open"));
 
-const MODE_LABELS=["Simple","With a Twist","Series","Cosplay!","Colors","Rarity","Rarity Combo","Nation","Nation + Nation","Attribute","Nation + Tag","Tag + Attribute","Special","Love Nikki Competition"];
-document.getElementById("themeModes").innerHTML=MODE_LABELS.map(m=>`<button class="${m==="Simple"?"active":""}" data-mode="${esc(m)}">${esc(m)}</button>`).join("");
-document.querySelectorAll("#themeModes button").forEach(b=>b.onclick=()=>{document.querySelectorAll("#themeModes button").forEach(x=>x.classList.remove("active"));b.classList.add("active");state.themeMode=b.dataset.mode;document.getElementById("modeLabel").textContent=state.themeMode});
+const MODELABELS = [
+  "Simple",
+  "With a Twist",
+  "Series",
+  "Cosplay!",
+  "Colors",
+  "Rarity",
+  "Rarity Combo",
+  "Nation",
+  "Nation Nation",
+  "Attribute",
+  "Nation Tag",
+  "Tag Attribute",
+  "Special",
+  "Love Nikki Competition",
+  "Style Squad Previous Themes"
+];
+
+const themeModeSelect =
+  document.getElementById("themeModeSelect");
+
+themeModeSelect.innerHTML = MODELABELS.map(mode => `
+  <option value="${esc(mode)}">
+    ${esc(mode)}
+  </option>
+`).join("");
+
+themeModeSelect.value = state.themeMode || "Simple";
+
+themeModeSelect.addEventListener("change", event => {
+  state.themeMode = event.target.value;
+});
 function pick(a){return a&&a.length?a[Math.floor(Math.random()*a.length)]:"—"}
-function generateTheme(){
-  const t=state.themes,m=state.themeMode,cat=t.Categories||[],role=t.Roles||[],twist=t.Twists||[],char=t.Characters||[],colors=t.Colors||[],rar=t.Rarity||[],nation=t.Nations||[],attr=t.Attribute||[],tags=t.Tags||[],special=t["Special Themes"]||[],comp=t["Love Nikki Competition Themes"]||[];
-  let r="No theme data loaded.";
-  if(m==="Simple")r=`${pick(cat)} ${pick(role)}`;else if(m==="With a Twist")r=`${pick(cat)} ${pick(role)} ${pick(twist)}`;
-  else if(m==="Series"){const x=pick(cat);r=`${x} ${pick(role)}\n${x} ${pick(role)}\n${x} Queen/King`}
-  else if(m==="Cosplay!")r=`${pick(char)} ${pick(twist)}`;else if(m==="Colors")r=`${pick(colors)} + ${pick(colors)}`;
-  else if(m==="Rarity")r=pick(rar);else if(m==="Rarity Combo")r=`${pick(rar)} — ${pick(rar)}`;else if(m==="Nation")r=`${pick(nation)} ${pick(cat)} ${pick(role)}`;
-  else if(m==="Nation + Nation")r=`${pick(nation)} + ${pick(nation)}`;else if(m==="Attribute")r=`${pick(attr)} + ${pick(attr)}`;
-  else if(m==="Nation + Tag")r=`${pick(nation)} + ${pick(tags)}`;else if(m==="Tag + Attribute")r=`${pick(tags)} + ${pick(attr)}`;
-  else if(m==="Special")r=pick(special);else if(m==="Love Nikki Competition")r=pick(comp);
-  document.getElementById("themeText").textContent=r;applyThemeVibe()
+function generateTheme() {
+  const t = state.themes;
+  const m = state.themeMode;
+
+  const c = t.Categories;
+  const ro = t.Roles;
+  const tw = t.Twists;
+  const ch = t.Characters;
+  const co = t.Colors;
+  const ra = t.Rarity;
+  const na = t.Nations;
+  const at = t.Attribute;
+  const ta = t.Tags;
+  const sp = t["Special Themes"];
+  const co2 = t["Love Nikki Competition Themes"];
+  const sspt = t["Style Squad Previous Themes"];
+
+  let r = "No theme data loaded.";
+
+  if (m === "Simple") {
+    r = [pick(c), pick(ro)]
+      .filter(Boolean)
+      .join(" • ");
+  }
+
+  else if (m === "With a Twist") {
+    r = [pick(c), pick(ro), pick(tw)]
+      .filter(Boolean)
+      .join(" • ");
+  }
+
+  else if (m === "Series") {
+    r = [
+      pick(c),
+      pick(ro),
+      pick(ro),
+      "Queen/King"
+    ]
+      .filter(Boolean)
+      .join(" • ");
+  }
+
+  else if (m === "Cosplay!") {
+    r = [pick(ch), pick(tw)]
+      .filter(Boolean)
+      .join(" • ");
+  }
+
+  else if (m === "Colors") {
+    r = pick(co);
+  }
+
+  else if (m === "Rarity") {
+    r = pick(ra);
+  }
+
+  else if (m === "Rarity Combo") {
+    r = [pick(ra), pick(ra)]
+      .filter(Boolean)
+      .join(" + ");
+  }
+
+  else if (m === "Nation") {
+    r = [pick(na), pick(c), pick(ro)]
+      .filter(Boolean)
+      .join(" • ");
+  }
+
+  else if (m === "Nation Nation") {
+    r = [pick(na), pick(na)]
+      .filter(Boolean)
+      .join(" • ");
+  }
+
+  else if (m === "Attribute") {
+    r = pick(at);
+  }
+
+  else if (m === "Nation Tag") {
+    r = [pick(na), pick(ta)]
+      .filter(Boolean)
+      .join(" • ");
+  }
+
+  else if (m === "Tag Attribute") {
+    r = [pick(ta), pick(at)]
+      .filter(Boolean)
+      .join(" • ");
+  }
+
+  else if (m === "Special") {
+    r = pick(sp);
+  }
+
+  else if (m === "Love Nikki Competition") {
+    r = pick(co2);
+  }
+
+  else if (m === "Style Squad Previous Themes") {
+    r = pick(sspt);
+  }
+
+  document.getElementById("themeText").textContent =
+    r || "No theme data available.";
+
+  applyThemeVibe();
 }
 document.getElementById("generateBtn").onclick=generateTheme;
 function applyThemeVibe(){
@@ -1822,7 +2040,7 @@ function applyThemeVibe(){
 }
 async function loadThemes(){
   try{
-    const rows=await fetchCSV(DATA.themes),keys=["Categories","Roles","Twists","Characters","Colors","Rarity","Nations","Attribute","Tags","Special Themes","Love Nikki Competition Themes"];
+    const rows=await fetchCSV(DATA.themes),keys=["Categories","Roles","Twists","Characters","Colors","Rarity","Nations","Attribute","Tags","Special Themes","Love Nikki Competition Themes","Style Squad Previous Themes"];
     state.themes=Object.fromEntries(keys.map(k=>[k,[]]));
     rows.forEach(r=>keys.forEach(k=>{const v=val(r,k.toLowerCase(),k);if(v)state.themes[k].push(v)}));
   }catch(e){console.warn("Theme sheet unavailable",e)}
