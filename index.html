@@ -2183,7 +2183,6 @@ function renderSuitGalleryModalContent(suit) {
     </div>
 
     <div class="suit-gallery-modal-body" style="display:grid;grid-template-columns:1fr;gap:14px;">
-      <!-- Main image + arrows -->
       <div style="position:relative;display:flex;align-items:center;justify-content:center;min-height:60vh;">
         ${hasMultiple ? `
           <button
@@ -2216,7 +2215,6 @@ function renderSuitGalleryModalContent(suit) {
         ` : ''}
       </div>
 
-      <!-- Name + Obtain -->
       <div style="text-align:center;">
         <div style="font-family:'DM Serif Display',serif;font-size:22px;color:6d5060;margin-bottom:6px;">
           ${esc(suit.name)}
@@ -2226,7 +2224,7 @@ function renderSuitGalleryModalContent(suit) {
         </div>
         ${hasMultiple ? `
           <div style="margin-top:6px;color:var(--muted);font-size:11px;">
-            Piece ${i + 1} of ${total}
+            Preview ${i + 1} of ${total}
           </div>
         ` : ''}
       </div>
