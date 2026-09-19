@@ -698,6 +698,27 @@ body.dark #themeModeSelect {
     min-height: 250px;
   }
 }
+
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.card-img img,
+.detail-img img,
+.suit-piece img,
+.task-suit-item img,
+.material-card img,
+.recommend-card img,
+.stage-card img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
 </style>
 </head>
 <body>
@@ -2759,6 +2780,23 @@ function toggleTaskSuit(card, index) {
 document.getElementById('suitGallerySearch')?.addEventListener('input', filterSuitGallery);
 document.getElementById('suitGalleryCategory')?.addEventListener('change', filterSuitGallery);
 document.getElementById('suitGalleryObtain')?.addEventListener('change', filterSuitGallery);
+document.addEventListener("contextmenu", event => {
+  if (event.target.closest("img")) {
+    event.preventDefault();
+  }
+});
+
+document.addEventListener("dragstart", event => {
+  if (event.target.closest("img")) {
+    event.preventDefault();
+  }
+});
+
+document.addEventListener("selectstart", event => {
+  if (event.target.closest("img")) {
+    event.preventDefault();
+  }
+});
 
 async function boot(){
   updateOwnedUI();
