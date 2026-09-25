@@ -794,7 +794,7 @@ img {
       aria-label="Open My Wardrobe"
     >
       <b>My Wardrobe</b>
-      <small>See owned pieces and import/export a tiny .wbak file which then can be imported to Nikki's Info.</small>
+      <small>See owned pieces and import/export a small JSON wardrobe backup.</small>
     </button>
 
       <button
@@ -912,16 +912,16 @@ img {
   </section>
 
   <section class="view" id="view-closet">
-    <div class="hero"><div class="eyebrow">Personal wardrobe</div><h2>Owned Items</h2><p>See the items you own, keep the list locally in your browser, and export/import (a .wbak file) it when needed in Nikki's Info. </p></div>
+    <div class="hero"><div class="eyebrow">Personal wardrobe</div><h2>Owned Items</h2><p>See the items you own, keep the list locally in your browser, and export/import your wardrobe as a JSON file.</p></div>
 
     <details class="panel" style="margin-bottom: 15px; background: #fff5f9; border-color: #f5dce7;">
-      <summary style="font-weight: 900; color: #9a5a79; cursor: pointer; font-size: 13px;">How Wardrobe &amp; .wbak files work</summary>
+      <summary style="font-weight: 900; color: #9a5a79; cursor: pointer; font-size: 13px;">How Wardrobe &amp; JSON files work</summary>
       <div style="font-size: 13px; color: #665; margin-top: 10px; line-height: 1.5;">
-        <p><b>What is a .wbak file?</b> It's a standard backup file format used by NI to save and make backup of your wardrobe items.</p>
+        <p><b>What is a JSON file?</b> It's a standard text-based format used to save and back up your wardrobe items.</p>
         <p style="margin-top: 6px;"><b>How to get started:</b></p>
         <ul style="margin-left: 20px; margin-top: 4px;">
-          <li><b>Option A:</b> You don't need any file to start! Browse the <b>Encyclopedia</b> and check off items you own. The site saves them automatically, and you can click <b>Export .wbak</b> anytime to download your backup and import in NI right away!</li>
-          <li><b>Option B (Nikki's Info users):</b> If you already track your collection on <a href="https://ln.nikkis.info" target="_blank" style="color: #ad5c83; text-decoration: underline;">Nikki's Info</a>, export your wardrobe backup from their site (go to MyNI > Download Backup) and click <b>Import .wbak</b> here to load it instantly.</li>
+          <li><b>Option A:</b> You don't need any file to start! Browse the <b>Encyclopedia</b> and check off items you own. The site saves them automatically, and you can click <b>Export JSON</b> anytime to download your backup.</li>
+          <li><b>Option B (existing backup):</b> If you already have a compatible wardrobe backup, click <b>Import JSON</b> here to load it instantly.</li>
         </ul>
         <p style="margin-top: 8px;">Need assistance? Community advice and game guides can be found on Reddit (<a href="https://www.reddit.com/r/LoveNikki/" target="_blank" style="color: #ad5c83;">r/LoveNikki</a>) or community Discord servers.</p>
       </div>
@@ -931,8 +931,8 @@ img {
       <div class="owned-toolbar">
         <!--- <button class="btn primary" id="saveFiltered">♡ Save filtered</button>
         <button class="btn danger" id="removeFiltered">Remove filtered</button> --->
-        <button class="btn" id="exportBtn">Export .wbak</button>
-        <button class="btn" id="importBtn">Import .wbak</button><input type="file" id="fileInput" accept=".wbak" hidden>
+        <button class="btn" id="exportBtn">Export JSON</button>
+        <button class="btn" id="importBtn">Import JSON</button><input type="file" id="fileInput" accept=".json,application/json,.wbak" hidden>
         <button class="btn" id="clearOwned">Clear Owned Items</button>
       </div>
       <div style="margin-top:14px"><div class="result-meta"><span>Collection progress</span><b id="ownedText">0 / 0</b></div><div class="progress"><i id="ownedBar"></i></div></div>
@@ -1122,7 +1122,7 @@ const PLACEHOLDER = "https://placehold.co/400x400/fff8fb/d57ca2?text=No+Image";
 
 function getBestId(item) {
     if (!item) return "";
-    let id = val(item, "id", "niid");
+    let id = val(item, "id", "internal_id");
     if (!id || String(id).startsWith("item_")) {
         const name = val(item, "name").toLowerCase();
         const serverMatch = serverMap[name];
@@ -1291,17 +1291,17 @@ async function fetchCSV(url){
   return parseCSV(await r.text());
 }
 function saveOwned(){localStorage.setItem("lnOwned",JSON.stringify([...state.owned]));updateOwnedUI()}
-function keyFor(item){return String(item.id||item.niid||"")}
-function isOwned(item){return state.owned.has(String(item.id))|| (item.niid&&state.owned.has(String(item.niid)))}
+function keyFor(item){return String(item.id||item.internal_id||"")}
+function isOwned(item){return state.owned.has(String(item.id))|| (item.internal_id&&state.owned.has(String(item.internal_id)))}
 function toggleOwned(item){
-  const niid = String(item.niid || "").trim();
-  if (!niid) return;
+  const internal_id = String(item.internal_id || "").trim();
+  if (!internal_id) return;
   
   if (isOwned(item)) {
-    state.owned.delete(niid);
+    state.owned.delete(internal_id);
     if (item.id) state.owned.delete(String(item.id).trim());
   } else {
-    state.owned.add(niid);
+    state.owned.add(internal_id);
   }
   saveOwned();
   renderItems();
@@ -1387,7 +1387,7 @@ function itemMatches(item){
   if(q){
     const numeric=/^\d+$/.test(q);
     if(numeric){
-      if(!(String(item.id||"").includes(q)||String(item.niid||"").includes(q)))return false;
+      if(!(String(item.id||"").includes(q)||String(item.internal_id||"").includes(q)))return false;
     }else{
       const terms=q.split(/\s+/).filter(Boolean),text=Object.values(item).join(" ").toLowerCase();
       if(!terms.every(t=>text.includes(t)))return false;
@@ -1450,9 +1450,9 @@ function itemCard(item){
   const missingData = (!val(item,"name") || !item.rarity || !val(item,"type")) ? "missing-data" : "";
   
   return `<article class="card ${owned?"owned":""} ${missingData}">
-    <button class="heart ${owned?"on":""}" title="${owned?"Remove from owned items":"Add to owned items"}" data-id="${esc(item.id||item.niid)}">${owned?"♥":"♡"}</button>
-    <div class="card-img" data-open="${esc(item.id||item.niid)}"><img src="${esc(img)}" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER}'"></div>
-    <div class="card-body" data-open="${esc(item.id||item.niid)}"><div class="card-name">${esc(name)}</div><div class="card-sub">${esc(type)} • ${esc(item.rarity||"0")}♥</div>
+    <button class="heart ${owned?"on":""}" title="${owned?"Remove from owned items":"Add to owned items"}" data-id="${esc(item.id||item.internal_id)}">${owned?"♥":"♡"}</button>
+    <div class="card-img" data-open="${esc(item.id||item.internal_id)}"><img src="${esc(img)}" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER}'"></div>
+    <div class="card-body" data-open="${esc(item.id||item.internal_id)}"><div class="card-name">${esc(name)}</div><div class="card-sub">${esc(type)} • ${esc(item.rarity||"0")}♥</div>
     <div class="badges">${tags.slice(0,2).map(t=>`<span class="badge" style="${getBadgeStyle(t)}">${esc(t)}</span>`).join("")}</div></div>
   </article>`
 }
@@ -1467,7 +1467,7 @@ function tableRow(item){
   };
   const color=(x)=>x?`<span class="color-value"><i class="color-swatch" style="background:${colorMap[x]||"#ddd"}"></i>${esc(x)}</span>`:"-";
   return `<tr>
-    <td class="sticky-save"><input type="checkbox" ${owned?"checked":""} data-row-own="${esc(item.id||item.niid)}"></td>
+    <td class="sticky-save"><input type="checkbox" ${owned?"checked":""} data-row-own="${esc(item.id||item.internal_id)}"></td>
     <td class="name-cell"><b>${esc(val(item,"name")||"Unknown")}</b></td>
     <td>${esc(val(item,"type")||"-")}</td>
     <td>${esc(val(item,"subtype")||"-")}</td>
@@ -1483,7 +1483,7 @@ function tableRow(item){
     <td>${tag(val(item,"tag1"))}</td><td>${tag(val(item,"tag2"))}</td>
     <td>${formatBool(val(item,"inasuit","in a suit"))}</td><td>${formatBool(item.pose)}</td><td>${formatBool(item.animated)}</td>
     <td><img class="table-img" src="${esc(img)}" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER}'"></td>
-    <td><button class="btn small" data-open="${esc(item.id||item.niid)}">Details</button></td>
+    <td><button class="btn small" data-open="${esc(item.id||item.internal_id)}">Details</button></td>
   </tr>`
 }
 function renderItems(){
@@ -1508,9 +1508,9 @@ function renderItems(){
       <th>In Suit</th><th>Pose</th><th>Animated</th><th>Image</th><th></th>
       </tr></thead><tbody>${page.map(tableRow).join("")}</tbody></table>`
   }
-  container.querySelectorAll(".heart").forEach(b=>b.onclick=e=>{e.stopPropagation();const item=state.items.find(x=>String(x.id||x.niid)===String(b.dataset.id));if(item)toggleOwned(item)});
-  container.querySelectorAll("[data-row-own]").forEach(b=>b.onchange=()=>{const item=state.items.find(x=>String(x.id||x.niid)===String(b.dataset.rowOwn));if(item)toggleOwned(item)});
-  container.querySelectorAll("[data-open]").forEach(el=>el.onclick=()=>{const item=state.items.find(x=>String(x.id||x.niid)===String(el.dataset.open));if(item)openItem(item)});
+  container.querySelectorAll(".heart").forEach(b=>b.onclick=e=>{e.stopPropagation();const item=state.items.find(x=>String(x.id||x.internal_id)===String(b.dataset.id));if(item)toggleOwned(item)});
+  container.querySelectorAll("[data-row-own]").forEach(b=>b.onchange=()=>{const item=state.items.find(x=>String(x.id||x.internal_id)===String(b.dataset.rowOwn));if(item)toggleOwned(item)});
+  container.querySelectorAll("[data-open]").forEach(el=>el.onclick=()=>{const item=state.items.find(x=>String(x.id||x.internal_id)===String(el.dataset.open));if(item)openItem(item)});
   renderPagination("itemPagination",pages,state.itemPage,p=>{state.itemPage=p;renderItems()});
 }
 function renderPagination(id,total,current,go){
@@ -1589,8 +1589,8 @@ function renderCloset(){
   const pageItems = items.slice(start, start + state.closetPerPage);
   
   c.innerHTML = pageItems.map(itemCard).join("");
-  c.querySelectorAll(".heart").forEach(b => b.onclick = e => { e.stopPropagation(); const item = state.items.find(x => String(x.id||x.niid) === String(b.dataset.id)); if(item) toggleOwned(item); });
-  c.querySelectorAll("[data-open]").forEach(el => el.onclick = () => { const item = state.items.find(x => String(x.id||x.niid) === String(el.dataset.open)); if(item) openItem(item); });
+  c.querySelectorAll(".heart").forEach(b => b.onclick = e => { e.stopPropagation(); const item = state.items.find(x => String(x.id||x.internal_id) === String(b.dataset.id)); if(item) toggleOwned(item); });
+  c.querySelectorAll("[data-open]").forEach(el => el.onclick = () => { const item = state.items.find(x => String(x.id||x.internal_id) === String(el.dataset.open)); if(item) openItem(item); });
   
   renderPagination("closetPagination", pages, state.closetPage, p => {
     state.closetPage = p;
@@ -1627,7 +1627,7 @@ document.getElementById("clearFilters").onclick=()=>{document.getElementById("it
 
 document.getElementById("saveFilteredEncyclopedia").onclick = () => {
   state.filtered.forEach(i => {
-    if (i.niid) state.owned.add(String(i.niid).trim());
+    if (i.internal_id) state.owned.add(String(i.internail_id).trim());
   });
   saveOwned();
   renderItems();
@@ -1636,7 +1636,7 @@ document.getElementById("saveFilteredEncyclopedia").onclick = () => {
 
 document.getElementById("removeFilteredEncyclopedia").onclick = () => {
   state.filtered.forEach(i => {
-    if (i.niid) state.owned.delete(String(i.niid).trim());
+    if (i.internal_id) state.owned.delete(String(i.internal_id).trim());
     if (i.id) state.owned.delete(String(i.id).trim());
   });
   saveOwned();
@@ -1644,8 +1644,8 @@ document.getElementById("removeFilteredEncyclopedia").onclick = () => {
   renderCloset();
 };
 document.getElementById("randomItem").onclick=()=>{if(state.items.length)openItem(state.items[Math.floor(Math.random()*state.items.length)])};
-// document.getElementById("saveFiltered").onclick=()=>{state.filtered.forEach(i=>{if(i.id)state.owned.add(String(i.id));if(i.niid)state.owned.add(String(i.niid))});saveOwned();renderItems();renderCloset()};
-// document.getElementById("removeFiltered").onclick=()=>{state.filtered.forEach(i=>{state.owned.delete(String(i.id));if(i.niid)state.owned.delete(String(i.niid))});saveOwned();renderItems();renderCloset()};
+// document.getElementById("saveFiltered").onclick=()=>{state.filtered.forEach(i=>{if(i.id)state.owned.add(String(i.id));if(i.internal_id)state.owned.add(String(i.internal_id))});saveOwned();renderItems();renderCloset()};
+// document.getElementById("removeFiltered").onclick=()=>{state.filtered.forEach(i=>{state.owned.delete(String(i.id));if(i.internal_id)state.owned.delete(String(i.internal_id))});saveOwned();renderItems();renderCloset()};
 document.getElementById("clearOwned").onclick=()=>{if(confirm("Clear your entire closet?")){state.owned.clear();saveOwned();renderItems();renderCloset()}};
 document.getElementById("exportBtn").onclick = () => {
   if (!state.items.length) {
@@ -1656,33 +1656,49 @@ document.getElementById("exportBtn").onclick = () => {
   const exportedIds = [...state.owned]
     .map(String)
     .map(ownedId => {
-      const item = state.items.find(i => 
-        String(i.id || "").trim() === ownedId.trim() || 
-        String(i.niid || "").trim() === ownedId.trim()
+      const item = state.items.find(i =>
+        String(i.id || "").trim() === ownedId.trim() ||
+        String(i.internal_id || "").trim() === ownedId.trim()
       );
-      
+
       if (item) {
-        return String(item.niid || item.id).trim();
+        return String(item.internail_id || item.id).trim();
       }
       return ownedId;
     })
     .filter(id => id && !String(id).startsWith("item_") && id !== "Loading...");
 
   const uniqueIds = [...new Set(exportedIds)];
-
+  const backup = {version:1, owned:uniqueIds};
   const blob = new Blob(
-    [JSON.stringify(uniqueIds)],
-    { type: "application/octet-stream" }
+    [JSON.stringify(backup, null, 2)],
+    { type: "application/json" }
   );
 
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = "my_wardrobe.wbak";
+  a.download = "love-nikki-owned.json";
   a.click();
   URL.revokeObjectURL(a.href);
 };
 document.getElementById("importBtn").onclick=()=>document.getElementById("fileInput").click();
-document.getElementById("fileInput").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(Array.isArray(data)){state.owned=new Set(data.map(String));saveOwned();renderItems();renderCloset();alert("Closet imported!");}}catch{alert("That .wbak file could not be read.")}e.target.value=""};
+document.getElementById("fileInput").onchange=async e=>{
+  const f=e.target.files?.[0];
+  if(!f)return;
+  try{
+    const data=JSON.parse(await f.text());
+    const imported = Array.isArray(data) ? data : (Array.isArray(data?.owned) ? data.owned : null);
+    if(!imported) throw new Error("Invalid wardrobe JSON");
+    state.owned=new Set(imported.map(String));
+    saveOwned();
+    renderItems();
+    renderCloset();
+    alert("Closet imported!");
+  }catch{
+    alert("That JSON wardrobe file could not be read.");
+  }
+  e.target.value="";
+};
 async function loadItems(){
   try{
     state.items=await fetchCSV(DATA.items);
@@ -2811,3 +2827,4 @@ boot();
 </script>
 </body>
 </html>
+
