@@ -251,6 +251,38 @@ a{color:inherit}
 .crafting-list{display:grid;gap:10px}.craft{padding:14px;background:#fff;border:1px solid var(--line);border-radius:15px;display:flex;align-items:center;justify-content:space-between;gap:12px}.craft h4{margin:0;color:#765365}.craft p{margin:4px 0 0;color:var(--muted);font-size:11px}
 .loading{padding:50px;text-align:center;color:var(--muted)}.notice{padding:12px 14px;border-radius:13px;background:#fff5da;border:1px solid #f0ddb1;color:#80651f;font-size:12px}
 .footer{text-align:center;color:#9a808c;font-size:11px;padding:25px}
+
+/* Support Stylist Encyclopedia */
+.support-panel{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(190px,240px);
+  align-items:center;
+  gap:22px;
+  overflow:hidden;
+  position:relative;
+  background:radial-gradient(circle at 100% 0%,rgba(255,255,255,.9),transparent 38%),linear-gradient(135deg,#fff1f7,#f4edff);
+  border-color:#edc5d9;
+}
+.support-kicker{color:#b65d8a;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.support-heading{font-family:"DM Serif Display",serif;font-size:clamp(25px,3vw,34px);line-height:1.15;color:#754d65;margin:6px 0 10px}
+.support-description{margin:0;color:#755f6b;line-height:1.7;font-size:13px;max-width:760px}
+.support-goals{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}
+.support-chip{display:inline-flex;align-items:center;padding:7px 10px;border:1px solid #efd0df;border-radius:999px;background:rgba(255,255,255,.76);color:#86536e;font-size:11px;font-weight:800}
+.support-note{margin:13px 0 0;color:#8b7180;font-size:11px;line-height:1.6}
+.support-actions{min-width:0;text-align:center;padding:18px 14px;background:rgba(255,255,255,.62);border:1px solid rgba(237,197,217,.8);border-radius:18px}
+.support-flower{font-size:32px;line-height:1;color:#d779a4;margin-bottom:12px}
+.support-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 14px;border-radius:13px;text-decoration:none;font-weight:900;font-size:13px;color:#fff;background:linear-gradient(135deg,#df77a6,#ad82d8);box-shadow:0 6px 16px rgba(173,130,216,.2);transition:transform .15s,filter .15s}
+.support-btn:hover{transform:translateY(-2px);filter:brightness(1.03)}
+.support-btn.is-disabled{background:#eadce5;color:#8d7583;box-shadow:none;cursor:default;transform:none;filter:none}
+.support-status{display:block;margin-top:9px;color:#8a7280;font-size:10px;line-height:1.5}
+.footer-support-link{display:inline-block;margin-bottom:8px;color:#a85680;font-weight:900;text-decoration:none;font-size:12px}
+.footer-support-link:hover{text-decoration:underline}
+body.dark .support-panel{background:radial-gradient(circle at 100% 0%,rgba(87,58,82,.6),transparent 38%),linear-gradient(135deg,#30202d,#292238);border-color:var(--line)}
+body.dark .support-heading,body.dark .support-description,body.dark .support-note,body.dark .support-status{color:var(--ink)}
+body.dark .support-kicker{color:#e7a2c4}
+body.dark .support-chip,body.dark .support-actions{background:rgba(255,255,255,.04);border-color:var(--line);color:var(--ink)}
+body.dark .support-btn.is-disabled{background:#463443;color:#d2bfcc}
+@media(max-width:760px){.support-panel{grid-template-columns:1fr;gap:15px}.support-actions{padding:15px}.support-btn{max-width:360px;margin:0 auto}}
 .advanced-filters{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:9px}.advanced-filters summary{grid-column:1/-1;cursor:pointer;color:#9a5a79;font-weight:900;padding:8px 2px}.save-meter{display:flex;align-items:center;gap:10px;margin:0 0 14px}.save-meter .progress{flex:1}.save-percent{font-weight:900;color:#ad5c83;min-width:48px;text-align:right}.stage-detail{display:grid;grid-template-columns:1.1fr .9fr;gap:15px}.recommend-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px}.recommend-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:9px;cursor:pointer}.recommend-card img{width:100%;height:115px;object-fit:contain;background:#fff5f9;border-radius:10px}.recommend-card b{display:block;font-size:11px;margin-top:5px}.recommend-card small{color:var(--muted);font-size:9px}.material-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px;margin-top:12px}.material-card{padding:10px;background:#fff;border:1px solid var(--line);border-radius:13px;text-align:center}.material-card img{width:80px;height:80px;object-fit:contain;background:#fff5f9;border-radius:10px}.material-card b{display:block;font-size:11px;margin-top:4px}.material-card small{color:var(--muted)}.breakdown-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.suit-piece{cursor:pointer}.suit-piece img{transition:.15s}.suit-piece:hover img{transform:scale(1.04)}.gallery-modal{position:relative;display:flex;align-items:center;justify-content:center;min-height:55vh}.gallery-modal img{max-width:82%;max-height:65vh;object-fit:contain}.gallery-arrow{position:absolute;width:44px;height:44px;border-radius:50%;background:#f5dce7;color:#814f67;font-size:25px}.gallery-arrow.left{left:5px}.gallery-arrow.right{right:5px}.check-row{display:flex;gap:7px;align-items:center;margin-top:8px;font-size:12px}.check-row input{accent-color:#d979a5}
 @media(max-width:760px) {
   .sidebar { 
@@ -756,6 +788,7 @@ img {
   <option value="nation-wasteland">Wasteland</option>
   <option value="nation-ruin">Ruin</option>
 </select>
+    <button class="icon-btn" id="supportJumpBtn" title="Support Stylist Encyclopedia" aria-label="Support Stylist Encyclopedia">♡</button>
     <button class="icon-btn" id="darkBtn" title="Dark mode">☾</button>
     <button class="icon-btn" id="infoBtn" title="About">ⓘ</button>
   </div>
@@ -867,6 +900,24 @@ img {
     </button>
   </div>
 </div>
+    <div class="panel support-panel" id="supportPanel">
+      <div class="support-content">
+        <div class="support-kicker">A little help goes a long way ♡</div>
+        <h3 class="support-heading">Support Stylist Encyclopedia 🌸</h3>
+        <p class="support-description">I'm a student in the Philippines, and my family is currently facing financial difficulties. I make and maintain this fan-made Love Nikki resource, and support would help me contribute toward my mother's medical expenses, repair the laptop I use to update this site, and save for a replacement phone. I've used my current phone since 2019, and it no longer charges reliably.</p>
+        <div class="support-goals" aria-label="What support helps with">
+          <span class="support-chip">Mother's medical expenses</span>
+          <span class="support-chip">Laptop repairs</span>
+          <span class="support-chip">Replacement phone</span>
+        </div>
+        <p class="support-note">Stylist Encyclopedia will remain free to use. There's no pressure to donate — sharing the site, reporting errors, and using its tools are helpful, too. Thank you for being here! 💗</p>
+      </div>
+      <div class="support-actions">
+        <div class="support-flower" aria-hidden="true">✿</div>
+        <a class="support-btn is-disabled" id="supportPatreonLink" role="link" aria-disabled="true" tabindex="-1">Patreon page coming soon ♡</a>
+        <small class="support-status" id="supportStatus">The support link will appear here once the page is ready.</small>
+      </div>
+    </div>
     <div class="panel">
       <div class="panel-title"><div><h3>Data Status</h3><p id="dataStatus">Connecting to Google Sheets…</p></div></div>
       <div class="notice">[In-Game Version 11.2.2] Updates: Website have new UI, Music menu to listen to in-game OST, Owned items have own menu, Card view will instead show icons then only if you tap it would show the item and its info (info would still be shown at Table view), Name of the items from the other server can now be viewed. UI Themes is currently experimental.</div>
@@ -1091,13 +1142,18 @@ img {
     <div id="musicPagination" class="pagination"></div>
   </section>
 
-  <div class="footer">Fan-made Love Nikki tool • Not affiliated with the game publisher</div>
+  <div class="footer">
+    <a class="footer-support-link" href="#supportPanel" id="footerSupportLink">♡ Support this project</a><br>
+    Fan-made Love Nikki tool • Not affiliated with the game publisher
+  </div>
 </main>
 </div>
 
 <div class="overlay" id="modalOverlay"><div class="modal" id="modal"></div></div>
 
 <script>
+const SUPPORT_PAGE_URL = "https://patreon.com/ManamiNaomi";
+
 const SUIT_GALLERY_DATA = {
   sheet:
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=1089816438&single=true&output=csv",
@@ -1320,6 +1376,34 @@ function setView(name){
   state.view=name;window.scrollTo({top:0,behavior:"smooth"});
   if(name==="closet")renderCloset();
 }
+
+(function setupSupportLinks(){
+  const url = String(SUPPORT_PAGE_URL || "").trim();
+  const mainLink = document.getElementById("supportPatreonLink");
+  const status = document.getElementById("supportStatus");
+  const validPatreonUrl = /^https:\/\/(www\.)?patreon\.com\/[A-Za-z0-9_./?=#%-]+$/i.test(url);
+
+  if(mainLink && validPatreonUrl){
+    mainLink.href = url;
+    mainLink.target = "_blank";
+    mainLink.rel = "noopener noreferrer";
+    mainLink.classList.remove("is-disabled");
+    mainLink.removeAttribute("aria-disabled");
+    mainLink.removeAttribute("tabindex");
+    mainLink.textContent = "Support on Patreon ↗";
+    if(status) status.textContent = "Thank you for helping keep this fan-made resource going!";
+  }
+})();
+
+function goToSupportPanel(){
+  setView("home");
+  document.getElementById("supportPanel")?.scrollIntoView({behavior:"smooth",block:"center"});
+}
+document.getElementById("supportJumpBtn")?.addEventListener("click", goToSupportPanel);
+document.getElementById("footerSupportLink")?.addEventListener("click", event=>{
+  event.preventDefault();
+  goToSupportPanel();
+});
 document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{setView(b.dataset.view);});
 document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>setView(b.dataset.go));
 document.getElementById('quickStartGrid')?.addEventListener('click', (e) => {
@@ -2827,4 +2911,3 @@ boot();
 </script>
 </body>
 </html>
-
