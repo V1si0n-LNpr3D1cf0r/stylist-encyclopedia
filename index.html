@@ -1711,7 +1711,7 @@ document.getElementById("clearFilters").onclick=()=>{document.getElementById("it
 
 document.getElementById("saveFilteredEncyclopedia").onclick = () => {
   state.filtered.forEach(i => {
-    if (i.internal_id) state.owned.add(String(i.internail_id).trim());
+    if (i.internal_id) state.owned.add(String(i.internal_id).trim());
   });
   saveOwned();
   renderItems();
@@ -1741,12 +1741,12 @@ document.getElementById("exportBtn").onclick = () => {
     .map(String)
     .map(ownedId => {
       const item = state.items.find(i =>
-        String(i.id || "").trim() === ownedId.trim() ||
-        String(i.internal_id || "").trim() === ownedId.trim()
+        String(i.internal_id || "").trim() === ownedId.trim() ||
+        String(i.id || "").trim() === ownedId.trim()
       );
 
       if (item) {
-        return String(item.internail_id || item.id).trim();
+        return String(item.id || item.internal_id).trim();
       }
       return ownedId;
     })
@@ -2911,3 +2911,4 @@ boot();
 </script>
 </body>
 </html>
+
