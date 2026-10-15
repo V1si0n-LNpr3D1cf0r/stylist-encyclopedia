@@ -277,12 +277,83 @@ a{color:inherit}
 .support-status{display:block;margin-top:9px;color:#8a7280;font-size:10px;line-height:1.5}
 .footer-support-link{display:inline-block;margin-bottom:8px;color:#a85680;font-weight:900;text-decoration:none;font-size:12px}
 .footer-support-link:hover{text-decoration:underline}
+
+/* Stylist Encyclopedia Discord community */
+.community-panel{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(190px,240px);
+  align-items:center;
+  gap:22px;
+  overflow:hidden;
+  position:relative;
+  background:radial-gradient(circle at 0% 100%,rgba(255,255,255,.9),transparent 38%),linear-gradient(135deg,#f0f6ff,#f7efff 58%,#fff1f7);
+  border-color:#d9d4f2;
+}
+.community-kicker{color:#7d70b6;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.community-heading{font-family:"DM Serif Display",serif;font-size:clamp(25px,3vw,34px);line-height:1.15;color:#63547e;margin:6px 0 10px}
+.community-description{margin:0;color:#655a73;line-height:1.7;font-size:13px;max-width:760px}
+.community-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}
+.community-tag{display:inline-flex;align-items:center;padding:7px 10px;border:1px solid #dcd4f2;border-radius:999px;background:rgba(255,255,255,.78);color:#67578d;font-size:11px;font-weight:800}
+.community-note{margin:13px 0 0;color:#7c718c;font-size:11px;line-height:1.6}
+.community-actions{min-width:0;text-align:center;padding:18px 14px;background:rgba(255,255,255,.68);border:1px solid rgba(213,204,239,.9);border-radius:18px}
+.community-icon{font-size:34px;line-height:1;margin-bottom:12px;color:#8b7bc5}
+.community-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 14px;border-radius:13px;text-decoration:none;font-weight:900;font-size:13px;color:#fff;background:linear-gradient(135deg,#8e81ca,#b080cd);box-shadow:0 6px 16px rgba(142,129,202,.22);transition:transform .15s,filter .15s}
+.community-btn:hover{transform:translateY(-2px);filter:brightness(1.04)}
+.community-status{display:block;margin-top:9px;color:#7c718c;font-size:10px;line-height:1.5}
+.footer-community-link{display:inline-block;margin:0 0 8px;color:#7767ad;font-weight:900;text-decoration:none;font-size:12px}
+.footer-community-link:hover{text-decoration:underline}
+body.dark .community-panel{background:radial-gradient(circle at 0% 100%,rgba(67,55,92,.65),transparent 38%),linear-gradient(135deg,#222238,#30243a);border-color:var(--line)}
+body.dark .community-heading,body.dark .community-description,body.dark .community-note,body.dark .community-status{color:var(--ink)}
+body.dark .community-kicker{color:#c4b8f2}
+body.dark .community-tag,body.dark .community-actions{background:rgba(255,255,255,.04);border-color:var(--line);color:var(--ink)}
+@media(max-width:760px){.community-panel{grid-template-columns:1fr;gap:15px}.community-actions{padding:15px}.community-btn{max-width:360px;margin:0 auto}}
 body.dark .support-panel{background:radial-gradient(circle at 100% 0%,rgba(87,58,82,.6),transparent 38%),linear-gradient(135deg,#30202d,#292238);border-color:var(--line)}
 body.dark .support-heading,body.dark .support-description,body.dark .support-note,body.dark .support-status{color:var(--ink)}
 body.dark .support-kicker{color:#e7a2c4}
 body.dark .support-chip,body.dark .support-actions{background:rgba(255,255,255,.04);border-color:var(--line);color:var(--ink)}
 body.dark .support-btn.is-disabled{background:#463443;color:#d2bfcc}
 @media(max-width:760px){.support-panel{grid-template-columns:1fr;gap:15px}.support-actions{padding:15px}.support-btn{max-width:360px;margin:0 auto}}
+
+/* Side-by-side community and support cards */
+.promo-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+  align-items:stretch;
+  margin-bottom:18px;
+}
+.promo-grid > .panel{
+  min-width:0;
+  margin-bottom:0;
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:15px;
+}
+.promo-grid .community-content,
+.promo-grid .support-content{min-width:0}
+.promo-grid .community-actions,
+.promo-grid .support-actions{
+  margin-top:auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:13px;
+}
+.promo-grid .community-icon,
+.promo-grid .support-flower{font-size:25px;margin:0;line-height:1.1}
+.promo-grid .community-note,
+.promo-grid .support-note{margin-bottom:0}
+.promo-grid .community-btn,
+.promo-grid .support-btn{max-width:360px;width:100%;margin:0 auto}
+.footer-promo-links{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.footer-promo-links .footer-community-link,
+.footer-promo-links .footer-support-link{margin:0}
+.footer-promo-separator{color:var(--muted);opacity:.8}
+@media(max-width:850px){.promo-grid{grid-template-columns:1fr;gap:14px}}
 .advanced-filters{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:9px}.advanced-filters summary{grid-column:1/-1;cursor:pointer;color:#9a5a79;font-weight:900;padding:8px 2px}.save-meter{display:flex;align-items:center;gap:10px;margin:0 0 14px}.save-meter .progress{flex:1}.save-percent{font-weight:900;color:#ad5c83;min-width:48px;text-align:right}.stage-detail{display:grid;grid-template-columns:1.1fr .9fr;gap:15px}.recommend-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px}.recommend-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:9px;cursor:pointer}.recommend-card img{width:100%;height:115px;object-fit:contain;background:#fff5f9;border-radius:10px}.recommend-card b{display:block;font-size:11px;margin-top:5px}.recommend-card small{color:var(--muted);font-size:9px}.material-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px;margin-top:12px}.material-card{padding:10px;background:#fff;border:1px solid var(--line);border-radius:13px;text-align:center}.material-card img{width:80px;height:80px;object-fit:contain;background:#fff5f9;border-radius:10px}.material-card b{display:block;font-size:11px;margin-top:4px}.material-card small{color:var(--muted)}.breakdown-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.suit-piece{cursor:pointer}.suit-piece img{transition:.15s}.suit-piece:hover img{transform:scale(1.04)}.gallery-modal{position:relative;display:flex;align-items:center;justify-content:center;min-height:55vh}.gallery-modal img{max-width:82%;max-height:65vh;object-fit:contain}.gallery-arrow{position:absolute;width:44px;height:44px;border-radius:50%;background:#f5dce7;color:#814f67;font-size:25px}.gallery-arrow.left{left:5px}.gallery-arrow.right{right:5px}.check-row{display:flex;gap:7px;align-items:center;margin-top:8px;font-size:12px}.check-row input{accent-color:#d979a5}
 @media(max-width:760px) {
   .sidebar { 
@@ -788,6 +859,7 @@ img {
   <option value="nation-wasteland">Wasteland</option>
   <option value="nation-ruin">Ruin</option>
 </select>
+    <button class="icon-btn" id="discordJumpBtn" title="Join the Discord community" aria-label="Join the Discord community">💬</button>
     <button class="icon-btn" id="supportJumpBtn" title="Support Stylist Encyclopedia" aria-label="Support Stylist Encyclopedia">♡</button>
     <button class="icon-btn" id="darkBtn" title="Dark mode">☾</button>
     <button class="icon-btn" id="infoBtn" title="About">ⓘ</button>
@@ -900,17 +972,36 @@ img {
     </button>
   </div>
 </div>
+    <div class="promo-grid" id="communitySupportGrid">
+    <div class="panel community-panel" id="communityPanel">
+      <div class="community-content">
+        <div class="community-kicker">Come be part of the community!</div>
+        <h3 class="community-heading">Love Nikki is more fun together~</h3>
+        <p class="community-description">Want to talk about Love Nikki (events, upcoming stuff, etc.), ask questions about Stylist Encyclopedia, share suggestions, or report missing and incorrect information? Come join the Discord! It’s a place to connect with other players and help this little fan-made project grow. Whether you want to chat, share feedback, or simply look around, you’re welcome.</p>
+        <div class="community-tags" aria-label="What you can do in the community">
+          <span class="community-tag">Love Nikki discussion</span>
+          <span class="community-tag">Site feedback &amp; bug reports</span>
+          <span class="community-tag">Suggestions &amp; ideas</span>
+        </div>
+        <p class="community-note">You don’t need to donate or be an expert to join. Be kind to one another and follow the server rules so everyone can enjoy the community. 💗</p>
+      </div>
+      <div class="community-actions">
+        <div class="community-icon" aria-hidden="true">💬</div>
+        <a class="community-btn" href="https://discord.gg/d2vcnFTRA" target="_blank" rel="noopener noreferrer">Join our Discord ↗</a>
+        <small class="community-status">Free to join • Feedback is welcome • Lurkers are welcome too!</small>
+      </div>
+    </div>
     <div class="panel support-panel" id="supportPanel">
       <div class="support-content">
         <div class="support-kicker">A little help goes a long way ♡</div>
-        <h3 class="support-heading">Support Stylist Encyclopedia 🌸</h3>
+        <h3 class="support-heading">Support Stylist Encyclopedia</h3>
         <p class="support-description">I'm a student in the Philippines, and my family is currently facing financial difficulties. I make and maintain this fan-made Love Nikki resource, and support would help me contribute toward my mother's medical expenses, repair the laptop I use to update this site, and save for a replacement phone. I've used my current phone since 2019, and it no longer charges reliably.</p>
         <div class="support-goals" aria-label="What support helps with">
           <span class="support-chip">Mother's medical expenses</span>
           <span class="support-chip">Laptop repairs</span>
           <span class="support-chip">Replacement phone</span>
         </div>
-        <p class="support-note">Stylist Encyclopedia will remain free to use. There's no pressure to donate — sharing the site, reporting errors, and using its tools are helpful, too. Thank you for being here! 💗</p>
+        <p class="support-note">Stylist Encyclopedia will remain free to use. There's no pressure to donate, sharing the site, reporting errors, and using its tools are helpful too. Thank you for being here! 💗</p>
       </div>
       <div class="support-actions">
         <div class="support-flower" aria-hidden="true">✿</div>
@@ -918,9 +1009,10 @@ img {
         <small class="support-status" id="supportStatus">The support link will appear here once the page is ready.</small>
       </div>
     </div>
+    </div>
     <div class="panel">
       <div class="panel-title"><div><h3>Data Status</h3><p id="dataStatus">Connecting to Google Sheets…</p></div></div>
-      <div class="notice">[In-Game Version 11.2.2] Updates: Website have new UI, Music menu to listen to in-game OST, Owned items have own menu, Card view will instead show icons then only if you tap it would show the item and its info (info would still be shown at Table view), Name of the items from the other server can now be viewed. UI Themes is currently experimental.</div>
+      <!-- <div class="notice">[In-Game Version 11.2.2] Updates: Website have new UI, Music menu to listen to in-game OST, Owned items have own menu, Card view will instead show icons then only if you tap it would show the item and its info (info would still be shown at Table view), Name of the items from the other server can now be viewed. UI Themes is currently experimental.</div> -->
     </div>
   </section>
 
@@ -1143,7 +1235,11 @@ img {
   </section>
 
   <div class="footer">
-    <a class="footer-support-link" href="#supportPanel" id="footerSupportLink">♡ Support this project</a><br>
+    <div class="footer-promo-links">
+      <a class="footer-community-link" href="#communityPanel" id="footerCommunityLink">💬 Join our Discord</a>
+      <span aria-hidden="true" class="footer-promo-separator">|</span>
+      <a class="footer-support-link" href="#supportPanel" id="footerSupportLink">♡ Support this project</a>
+    </div>
     Fan-made Love Nikki tool • Not affiliated with the game publisher
   </div>
 </main>
@@ -1152,6 +1248,7 @@ img {
 <div class="overlay" id="modalOverlay"><div class="modal" id="modal"></div></div>
 
 <script>
+// Patreon support page URL.
 const SUPPORT_PAGE_URL = "https://patreon.com/ManamiNaomi";
 
 const SUIT_GALLERY_DATA = {
@@ -1377,6 +1474,7 @@ function setView(name){
   if(name==="closet")renderCloset();
 }
 
+// Enable the Patreon button only when a valid HTTPS Patreon URL is configured.
 (function setupSupportLinks(){
   const url = String(SUPPORT_PAGE_URL || "").trim();
   const mainLink = document.getElementById("supportPatreonLink");
@@ -1403,6 +1501,15 @@ document.getElementById("supportJumpBtn")?.addEventListener("click", goToSupport
 document.getElementById("footerSupportLink")?.addEventListener("click", event=>{
   event.preventDefault();
   goToSupportPanel();
+});
+function goToCommunityPanel(){
+  setView("home");
+  document.getElementById("communityPanel")?.scrollIntoView({behavior:"smooth",block:"center"});
+}
+document.getElementById("discordJumpBtn")?.addEventListener("click", goToCommunityPanel);
+document.getElementById("footerCommunityLink")?.addEventListener("click", event=>{
+  event.preventDefault();
+  goToCommunityPanel();
 });
 document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{setView(b.dataset.view);});
 document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>setView(b.dataset.go));
@@ -1711,7 +1818,7 @@ document.getElementById("clearFilters").onclick=()=>{document.getElementById("it
 
 document.getElementById("saveFilteredEncyclopedia").onclick = () => {
   state.filtered.forEach(i => {
-    if (i.internal_id) state.owned.add(String(i.internal_id).trim());
+    if (i.internal_id) state.owned.add(String(i.internail_id).trim());
   });
   saveOwned();
   renderItems();
@@ -1741,12 +1848,12 @@ document.getElementById("exportBtn").onclick = () => {
     .map(String)
     .map(ownedId => {
       const item = state.items.find(i =>
-        String(i.internal_id || "").trim() === ownedId.trim() ||
-        String(i.id || "").trim() === ownedId.trim()
+        String(i.id || "").trim() === ownedId.trim() ||
+        String(i.internal_id || "").trim() === ownedId.trim()
       );
 
       if (item) {
-        return String(item.id || item.internal_id).trim();
+        return String(item.internail_id || item.id).trim();
       }
       return ownedId;
     })
