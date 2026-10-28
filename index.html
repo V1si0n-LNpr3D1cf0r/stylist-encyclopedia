@@ -3429,8 +3429,8 @@ if (typeof module !== 'undefined') module.exports = Engine;
     { id: 'ln', label: 'LN', name: { en: 'Global', vi: 'Love Nikki ' }, url: SHEET_LN, gids: {} },
     { id: 'vn', label: 'VN', name: { en: 'Vietnam Server', vi: 'Server Việt Nam' }, url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQiKpuAp-fI4o2nTFoG3KHZVxeXG_qojkuVyss_OR4zk2G5aRqJS8-jHyvL1_NYQCIPpDlDckumOTqI/pub?output=csv', gids: {} },
     { id: 'cn', label: 'CN', name: { en: 'Chinese Server', vi: 'Server Chinese' }, url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSCwZJkPJvdGGnBnOBUhulg3FYUVd87O0ANH7nWek3r8a7hzScGd3V5LZ01XbA74O8jY42zPrp8tzxl/pub?output=csv', gids: {} },
-    { id: 'jp', label: 'JP', name: { en: 'Japananese Server', vi: 'Server Japan' }, url: '', gids: {} },
-    { id: 'tw', label: 'TW', name: { en: 'Taiwan Server', vi: 'Server Taiwan' }, url: '', gids: {} }
+    { id: 'jp', label: 'JP', name: { en: 'Japananese Server', vi: 'Server Japan' }, url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQK-QsWjSHwtKCBtKPW6Fdx2Wqe1_FOzRDWhcDRecl4rK1sJxdoCQ3Yjhhq9PEYEfaaih8KzOKkVXp_/pub?output=csv', gids: {} },
+    { id: 'tw', label: 'TW', name: { en: 'Taiwan Server', vi: 'Server Taiwan' }, url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSxY5tmVoMDtrPgTqhTYAQABjvGi0Las0BoXojnx3tO-ju_srsDHD8cNS6VjuZfJ_0KDdr_Pf7gBO3A/pub?output=csv', gids: {} }
   ];
   var server = store('server'); if (!SERVERS.some(function (x) { return x.id === server; })) server = SERVERS[0].id;
   function srv() { return SERVERS.filter(function (x) { return x.id === server; })[0]; }
