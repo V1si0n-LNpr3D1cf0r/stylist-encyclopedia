@@ -822,6 +822,8 @@ img {
   -webkit-user-select: none;
   -webkit-touch-callout: none;
 }
+:root{--sc-good:#2f7d5b;--sc-warn:#a8551c}
+body.dark{--sc-good:#6cc59a;--sc-warn:#f0a26a}
 </style>
 </head>
 <body>
@@ -830,12 +832,13 @@ img {
   <div class="brand"><div class="brand-mark">✦</div><h1>Stylist Encyclopedia</h1><p>Love Nikki Wardrobe Organizer</p></div>
   <nav class="nav">
     <button class="active" data-view="home">⌂ Overview</button>
+    <button data-view="scorer">⚔ Outfit Scorer</button>
     <button data-view="encyclopedia">✦ Wardrobe</button>
     <button data-view="closet">♡ My Wardrobe</button>
     <button data-view="suitgallery">⚝ Suit Gallery</button>
     <button data-view="breakdown">◈ Suit Breakdowns</button>
-    <button data-view="stages">⚔ Stage Guide</button>
-    <button data-view="crafting">✧ Crafting</button>
+    <!-- <button data-view="stages">Stage Guide</button> -->
+    <!-- <button data-view="crafting">✧ Crafting</button> -->
     <button data-view="tasksuits">✦ Task Suits</button>
     <button data-view="themes">☾ Theme Generator</button>
     <button data-view="music">♬ Music</button>
@@ -848,7 +851,6 @@ img {
 
 <main class="main">
   <div class="topbar">
-    <!-- <div class="top-search"><span>⌕</span><input id="globalSearch" placeholder="Search wardrobe, suits, stages..."></div> -->
      <select id="nationThemeSelect" class="field" style="width:auto;padding:8px 10px;">
   <option value="">Default</option>
   <option value="nation-apple">Apple</option>
@@ -873,7 +875,7 @@ img {
     <div class="stats">
       <div class="stat"><b id="statItems">—</b><span>Wardrobe Items</span></div>
       <div class="stat"><b id="statOwned">0</b><span>Owned Items</span></div>
-      <div class="stat"><b id="statStages">—</b><span>Stage Info</span></div>
+      <!-- <div class="stat"><b id="statStages">—</b><span>Stage Info</span></div> -->
       <div class="stat"><b id="statSuits">—</b><span>Suit Breakdowns</span></div>
     </div>
     <div class="panel">
@@ -882,6 +884,16 @@ img {
   </div>
 
   <div class="stage-grid" id="quickStartGrid">
+    <button
+      class="stage-card quick-start-card"
+      type="button"
+      data-action="scorer"
+      aria-label="Open Outfit Scorer"
+    >
+      <b>Outfit Scorer</b>
+      <small>Outfit suggestion to be used on stages.</small>
+    </button>
+
     <button
       class="stage-card quick-start-card"
       type="button"
@@ -921,7 +933,7 @@ img {
       <b>Breakdown</b>
       <small>See upcoming suits and showcase of its items one by one.</small>
     </button>
-    <button
+    <!-- <button
       class="stage-card quick-start-card"
       type="button"
       data-action="stages"
@@ -931,6 +943,9 @@ img {
       <small>Browse chapter/stage info.</small>
     </button>
 
+    -->
+    
+    <!--
       <button
       class="stage-card quick-start-card"
       type="button"
@@ -940,6 +955,8 @@ img {
       <b>Crafting</b>
       <small>See crafting recipes and materials.</small>
     </button>
+
+    -->
 
     <button
       class="stage-card quick-start-card"
@@ -987,7 +1004,7 @@ img {
       </div>
       <div class="community-actions">
         <div class="community-icon" aria-hidden="true">💬</div>
-        <a class="community-btn" href="https://discord.gg/d2vcnFTRA" target="_blank" rel="noopener noreferrer">Join our Discord ↗</a>
+        <a class="community-btn" href="https://discord.gg/wkRsQyKN7" target="_blank" rel="noopener noreferrer">Join our Discord ↗</a>
         <small class="community-status">Free to join • Feedback is welcome • Lurkers are welcome too!</small>
       </div>
     </div>
@@ -1075,7 +1092,7 @@ img {
         <!--- <button class="btn primary" id="saveFiltered">♡ Save filtered</button>
         <button class="btn danger" id="removeFiltered">Remove filtered</button> --->
         <button class="btn" id="exportBtn">Export JSON</button>
-        <button class="btn" id="importBtn">Import JSON</button><input type="file" id="fileInput" accept=".json,application/json,.wbak" hidden>
+        <button class="btn" id="importBtn">Import JSON / clothes_date</button><input type="file" id="fileInput" accept=".json,application/json,.wbak,.txt,text/plain" hidden>
         <button class="btn" id="clearOwned">Clear Owned Items</button>
       </div>
       <div style="margin-top:14px"><div class="result-meta"><span>Collection progress</span><b id="ownedText">0 / 0</b></div><div class="progress"><i id="ownedBar"></i></div></div>
@@ -1228,6 +1245,11 @@ img {
 </div>
   </section>
 
+  <section class="view" id="view-scorer">
+    <div class="hero"><div class="eyebrow">Stylist tools</div><h2>Outfit Scorer</h2><p>Pick a stage and see the best outfit from your wardrobe, with a score for every slot. Still work in progress so required items won't be suggested yet (plz wait until I find them all)! If you encounter any issues, please let me know! Join our Discord for support: https://discord.gg/wkRsQyKN7 (or tap the 💬 at the top left) and go to #🍭│manami-dark-web Thank you very much 😭!</p></div>
+    <div id="lnScorerHost"></div>
+  </section>
+
   <section class="view" id="view-music">
     <div class="hero"><div class="eyebrow">Music reference</div><h2>Music</h2><p>Hear the music tracks from the game.</p></div>
     <div id="musicResults" class="stage-grid"><div class="loading">Loading music data…</div></div>
@@ -1248,7 +1270,6 @@ img {
 <div class="overlay" id="modalOverlay"><div class="modal" id="modal"></div></div>
 
 <script>
-// Patreon support page URL.
 const SUPPORT_PAGE_URL = "https://patreon.com/ManamiNaomi";
 
 const SUIT_GALLERY_DATA = {
@@ -1416,9 +1437,7 @@ async function loadServerNames() {
       if (name) serverMap[name] = row;
     });
 
-    //console.log(`Server Names loaded ✓ • ${rows.length.toLocaleString()} rows`);
   } catch (e) {
-    //console.warn("Server Names sheet unavailable", e);
     state.serverNames = [];
     serverMap = {};
   }
@@ -1472,9 +1491,9 @@ function setView(name){
   document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===name));
   state.view=name;window.scrollTo({top:0,behavior:"smooth"});
   if(name==="closet")renderCloset();
+  if(name==="scorer"&&window.lnScorerShow)window.lnScorerShow();
 }
 
-// Enable the Patreon button only when a valid HTTPS Patreon URL is configured.
 (function setupSupportLinks(){
   const url = String(SUPPORT_PAGE_URL || "").trim();
   const mainLink = document.getElementById("supportPatreonLink");
@@ -1521,6 +1540,7 @@ document.getElementById('quickStartGrid')?.addEventListener('click', (e) => {
   if (!action) return;
 
   const actionToView = {
+  scorer: 'scorer',
   encyclopedia: 'encyclopedia',
   closet: 'closet',
   stages: 'stages',
@@ -1810,11 +1830,6 @@ document.getElementById("tableBtn").onclick = () => {
 };
 document.getElementById("clearFilters").onclick=()=>{document.getElementById("itemSearch").value="";["typeFilter","rarityFilter","categoryFilter","colorFilter","tagFilter","otherColorFilter","tertiaryColorFilter","tag1Filter","tag2Filter"].forEach(id=>document.getElementById(id).value="");["poseFilter","animatedFilter","inSuitFilter"].forEach(id=>document.getElementById(id).checked=false);state.ownedFilter="all";document.querySelectorAll("[data-owned]").forEach(x=>x.classList.toggle("active",x.dataset.owned==="all"));filterItems()};
 ["itemSearch","typeFilter","rarityFilter","categoryFilter","colorFilter","tagFilter","otherColorFilter","tertiaryColorFilter","tag1Filter","tag2Filter","poseFilter","animatedFilter","inSuitFilter"].forEach(id=>document.getElementById(id).addEventListener(id==="itemSearch"?"input":"change",()=>filterItems()));
-//document.getElementById("globalSearch").addEventListener("input", e => {
-//  setView("encyclopedia");
-//  document.getElementById("itemSearch").value = e.target.value;
-//  filterItems();
-// });
 
 document.getElementById("saveFilteredEncyclopedia").onclick = () => {
   state.filtered.forEach(i => {
@@ -1835,8 +1850,6 @@ document.getElementById("removeFilteredEncyclopedia").onclick = () => {
   renderCloset();
 };
 document.getElementById("randomItem").onclick=()=>{if(state.items.length)openItem(state.items[Math.floor(Math.random()*state.items.length)])};
-// document.getElementById("saveFiltered").onclick=()=>{state.filtered.forEach(i=>{if(i.id)state.owned.add(String(i.id));if(i.internal_id)state.owned.add(String(i.internal_id))});saveOwned();renderItems();renderCloset()};
-// document.getElementById("removeFiltered").onclick=()=>{state.filtered.forEach(i=>{state.owned.delete(String(i.id));if(i.internal_id)state.owned.delete(String(i.internal_id))});saveOwned();renderItems();renderCloset()};
 document.getElementById("clearOwned").onclick=()=>{if(confirm("Clear your entire closet?")){state.owned.clear();saveOwned();renderItems();renderCloset()}};
 document.getElementById("exportBtn").onclick = () => {
   if (!state.items.length) {
@@ -1877,16 +1890,28 @@ document.getElementById("fileInput").onchange=async e=>{
   const f=e.target.files?.[0];
   if(!f)return;
   try{
-    const data=JSON.parse(await f.text());
-    const imported = Array.isArray(data) ? data : (Array.isArray(data?.owned) ? data.owned : null);
-    if(!imported) throw new Error("Invalid wardrobe JSON");
-    state.owned=new Set(imported.map(String));
-    saveOwned();
-    renderItems();
-    renderCloset();
-    alert("Closet imported!");
+    const text=await f.text();
+    if(/^\s*[\[{]/.test(text)){
+      const data=JSON.parse(text);
+      const imported = Array.isArray(data) ? data : (Array.isArray(data?.owned) ? data.owned : null);
+      if(!imported) throw new Error("Invalid wardrobe JSON");
+      state.owned=new Set(imported.map(String));
+      saveOwned();
+      renderItems();
+      renderCloset();
+      alert("Closet imported!");
+    }else{
+      if(!window.lnDecodeWardrobe) throw new Error("decoder unavailable");
+      const ids=window.lnDecodeWardrobe(text);
+      if(!ids.length) throw new Error("no items");
+      state.owned=new Set(ids.map(String));
+      saveOwned();
+      renderItems();
+      renderCloset();
+      alert("Imported "+ids.length+" items from your game export.");
+    }
   }catch{
-    alert("That JSON wardrobe file could not be read.");
+    alert("That wardrobe file could not be read.");
   }
   e.target.value="";
 };
@@ -2492,9 +2517,7 @@ async function loadSuitGallery() {
   try {
     const rows = await fetchCSV(SUIT_GALLERY_DATA.sheet);
 
-    //console.log('Raw CSV rows length:', rows.length);
     if (rows.length) {
-    //console.log('First row (object):', rows[0]);
     }
 
     const suits = rows
@@ -2507,9 +2530,7 @@ async function loadSuitGallery() {
       }))
       .filter(s => s.name);
 
-    //console.log('Parsed suits count:', suits.length);
     if (suits.length) {
-      //console.log('First suit:', suits[0]);
     }
 
     state.suitGallery.suits = suits;
@@ -3015,6 +3036,1008 @@ async function boot(){
   if(state.view === "closet") renderCloset();
 }
 boot();
+</script>
+<script>
+(function(){
+var host = document.getElementById('lnScorerHost');
+var root = host.attachShadow({ mode: 'open' });
+root.innerHTML = '<style>' + "\n/* Layout: a two-column fitting room \u2014 controls on the left (wardrobe, stage), the scored outfit card on the right; stacks on phones. */\n:host { display: block; color: var(--s-ink); font-family: \"Nunito\", system-ui, -apple-system, \"Segoe UI\", sans-serif; font-size: 15px; line-height: 1.5;\n  --s-bg: transparent; --s-surface: var(--panel2, #fff); --s-sunk: var(--bg2, #f4ecef); --s-ink: var(--s-ink); --s-muted: var(--s-muted); --s-line: var(--s-line);\n  --s-accent: var(--s-accent); --s-accent-ink: #fff; --s-accent-soft: color-mix(in srgb, var(--s-accent) 16%, transparent);\n  --s-gold: var(--accent2); --s-gold-soft: color-mix(in srgb, var(--accent2) 16%, transparent);\n  --s-good: var(--sc-good, #2f7d5b); --s-warn: var(--sc-warn, #a8551c);\n  --s-f-display: \"DM Serif Display\", Georgia, serif; --s-f-body: \"Nunito\", system-ui, sans-serif; --s-r: 12px; }\n* { box-sizing: border-box; }\n:host { }\n.wrap { max-width: 1180px; margin: 0 auto; padding-block: 20px 48px;\n  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }\nheader.top { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; padding-bottom: 18px; border-bottom: 1px solid var(--s-line); margin-bottom: 22px; }\n.brand h1 { font-family: var(--s-f-display); font-weight: 500; font-size: clamp(30px, 5vw, 44px); line-height: 1; margin: 0; letter-spacing: -0.01em; }\n.brand h1 em { color: var(--s-accent); }\n.brand p { margin: 6px 0 0; color: var(--s-muted); font-size: 13.5px; max-width: 60ch; }\n.top-tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }\n.srv-wrap { display: flex; align-items: center; gap: 8px; }\n.srv-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--s-muted); }\n.srv { display: flex; border: 1px solid var(--s-line); border-radius: 999px; padding: 3px; background: var(--s-surface); gap: 2px; }\n.srv button { border: 0; border-radius: 999px; padding: 5px 14px; font-size: 13px; font-weight: 600; color: var(--s-muted); background: transparent; letter-spacing: .04em; }\n.srv button[aria-pressed=true] { background: var(--s-accent); color: var(--s-accent-ink); }\n.nodata { background: var(--s-surface); border: 1.5px dashed var(--s-line); border-radius: var(--s-r); padding: 28px 22px; max-width: 640px; }\n.nodata h2 { font-family: var(--s-f-display); font-weight: 500; font-size: 28px; margin: 0 0 8px; line-height: 1.1; }\n.nodata p { color: var(--s-muted); margin: 0 0 12px; }\n.nodata ol { margin: 0; padding-left: 20px; display: grid; gap: 6px; }\n.pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--s-line); color: var(--s-muted); background: var(--s-surface); white-space: nowrap; }\n.pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--s-good); }\n.pill.src-sheet .dot { background: var(--s-accent); }\n.pill.src-file .dot { background: var(--s-gold); }\n.pill.src-none .dot { background: var(--s-line); }\n\n.grid { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 22px; align-items: start; }\n@media (max-width: 900px) { .grid { grid-template-columns: minmax(0, 1fr); } }\n.col { display: flex; flex-direction: column; gap: 18px; min-width: 0; }\n.panel { background: var(--s-surface); border: 1px solid var(--s-line); border-radius: var(--s-r); padding: 16px; min-width: 0; }\n.panel h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--s-muted); margin: 0 0 12px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; gap: 8px; }\n.panel h2 .step { color: var(--s-accent); font-family: var(--s-f-display); font-size: 16px; letter-spacing: 0; text-transform: none; font-style: italic; margin-right: 6px; }\n\nbutton, .btn { font: inherit; font-size: 13.5px; border-radius: 8px; border: 1px solid var(--s-line); background: var(--s-surface); color: var(--s-ink); padding: 7px 12px; cursor: pointer; }\nbutton:hover { border-color: var(--s-accent); }\nbutton.primary { background: var(--s-accent); border-color: var(--s-accent); color: var(--s-accent-ink); font-weight: 600; }\nbutton.ghost { background: transparent; border-color: transparent; color: var(--s-muted); padding: 4px 8px; }\nbutton.ghost:hover { color: var(--s-accent); }\nbutton:focus-visible, select:focus-visible, input:focus-visible, .drop:focus-visible, summary:focus-visible { outline: 2px solid var(--s-accent); outline-offset: 2px; }\nbutton:disabled { opacity: .5; cursor: default; }\nselect, input[type=text], input[type=number], input[type=url], textarea { font: inherit; font-size: 14px; color: var(--s-ink); background: var(--s-sunk); border: 1px solid var(--s-line); border-radius: 8px; padding: 7px 9px; width: 100%; min-width: 0; }\ntextarea { min-height: 90px; resize: vertical; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12.5px; }\nlabel.f { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--s-muted); min-width: 0; }\n.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: end; }\n.row > * { flex: 1 1 0; }\n.muted { color: var(--s-muted); }\n.small { font-size: 12.5px; }\n.num { font-variant-numeric: tabular-nums; }\n\n.drop { border: 1.5px dashed var(--s-line); border-radius: var(--s-r); padding: 18px 14px; text-align: center; background: var(--s-sunk); cursor: pointer; transition: border-color .15s, background .15s; }\n.drop.over { border-color: var(--s-accent); background: var(--s-accent-soft); }\n.drop strong { display: block; font-size: 14px; }\n.drop span { font-size: 12.5px; color: var(--s-muted); }\n.wstatus { margin-top: 10px; font-size: 13px; display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; justify-content: space-between; }\n.wstatus b { font-variant-numeric: tabular-nums; }\n\n.tabs { display: flex; gap: 2px; background: var(--s-sunk); padding: 3px; border-radius: 9px; margin-bottom: 12px; }\n.tabs button { flex: 1 1 auto; min-width: 0; border: 0; background: transparent; padding: 6px 5px; font-size: 12.5px; color: var(--s-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }\n.tabs button[aria-pressed=true] { background: var(--s-surface); color: var(--s-ink); font-weight: 600; box-shadow: 0 1px 2px rgba(0,0,0,.08); }\n.stage-fields { display: grid; gap: 8px; }\n.stage-fields .row > label.f { flex: 1 1 90px; }\n.err { color: var(--s-warn); font-size: 12.5px; margin-top: 6px; }\n\n/* attribute balance bars \u2014 the signature of the stage card */\n.balance { display: grid; gap: 6px; margin-top: 14px; }\n.bal { display: grid; grid-template-columns: 92px minmax(0,1fr) 92px; gap: 8px; align-items: center; font-size: 12px; line-height: 1.25; }\n.bal .l { text-align: right; }\n.bal .bar { position: relative; height: 8px; background: var(--s-sunk); border-radius: 4px; }\n.bal .bar::after { content: \"\"; position: absolute; left: 50%; top: -2px; bottom: -2px; width: 1px; background: var(--s-line); }\n.bal .fill { position: absolute; top: 0; bottom: 0; background: var(--s-accent); border-radius: 4px; }\n.bal .on { color: var(--s-ink); font-weight: 600; }\n.bal .off { color: var(--s-muted); }\n.bal small { font-variant-numeric: tabular-nums; color: var(--s-accent); font-weight: 600; margin-left: 3px; }\n.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }\n.chip { font-size: 12px; padding: 3px 9px; border-radius: 999px; background: var(--s-gold-soft); color: var(--s-gold); white-space: nowrap; }\n.chip.skill { background: var(--s-sunk); color: var(--s-muted); }\n.custom-grid { display: grid; gap: 8px; }\n.custom-pair { display: grid; grid-template-columns: 1fr 1fr 80px; gap: 6px; align-items: center; }\n.seg { display: flex; border: 1px solid var(--s-line); border-radius: 8px; overflow: hidden; grid-column: span 2; }\n.seg button { flex: 1; border: 0; border-radius: 0; font-size: 12.5px; padding: 6px 4px; background: var(--s-sunk); color: var(--s-muted); }\n.seg button[aria-pressed=true] { background: var(--s-accent-soft); color: var(--s-accent); font-weight: 600; }\n\n/* result card */\n.score-head { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: end; justify-content: space-between; padding-bottom: 14px; border-bottom: 1px solid var(--s-line); }\n.score-big { font-family: var(--s-f-display); font-size: clamp(40px, 7vw, 60px); line-height: .95; font-weight: 500; font-variant-numeric: lining-nums tabular-nums; }\n.score-label { font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--s-muted); margin-bottom: 4px; }\n.score-stage { font-size: 14px; margin-top: 6px; }\n.score-stage b { color: var(--s-accent); }\n.breakdown { display: grid; grid-template-columns: repeat(3, minmax(0, auto)); gap: 4px 18px; font-size: 12.5px; color: var(--s-muted); }\n.breakdown b { color: var(--s-ink); font-variant-numeric: tabular-nums; font-weight: 600; display: block; font-size: 15px; }\n.opts { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; padding: 12px 0; font-size: 13px; }\n.opts label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }\n.opts input { accent-color: var(--s-accent); }\n\n.outfit { width: 100%; border-collapse: collapse; font-size: 13.5px; }\n.outfit-wrap { overflow-x: auto; }\n.outfit th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .09em; color: var(--s-muted); font-weight: 600; padding: 14px 8px 6px; border-bottom: 1px solid var(--s-line); }\n.outfit td { padding: 7px 8px; border-bottom: 1px solid var(--s-line); vertical-align: middle; }\n.outfit tr.item { cursor: pointer; }\n.outfit tr.item:hover td { background: var(--s-sunk); }\n.outfit td.slot { color: var(--s-muted); white-space: nowrap; width: 1%; }\n.outfit td.name { font-weight: 500; min-width: 140px; }\n.outfit td.id { color: var(--s-muted); font-variant-numeric: tabular-nums; font-size: 12px; width: 1%; }\n.outfit td.sc { text-align: right; font-variant-numeric: tabular-nums; width: 1%; white-space: nowrap; }\n.outfit tr.dropped td { color: var(--s-muted); text-decoration: line-through; text-decoration-color: var(--s-line); }\n.outfit tr.dropped td.slot { text-decoration: none; }\n.badge { display: inline-block; font-size: 10.5px; padding: 1px 6px; border-radius: 4px; margin-left: 6px; vertical-align: 1px; font-weight: 600; letter-spacing: .02em; }\n.badge.tag { background: var(--s-gold-soft); color: var(--s-gold); }\n.badge.pin { background: var(--s-accent-soft); color: var(--s-accent); }\n.badge.off { background: var(--s-sunk); color: var(--s-muted); }\n.alts td { background: var(--s-sunk); padding: 6px 8px 10px 22px; }\n.alts ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 2px; }\n.alts li { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto auto; gap: 8px; align-items: center; font-size: 13px; padding: 3px 0; }\n.alts li .rk { color: var(--s-muted); font-variant-numeric: tabular-nums; font-size: 12px; }\n.alts li .nm { min-width: 0; overflow-wrap: anywhere; }\n.alts li .sc { font-variant-numeric: tabular-nums; }\n.alts li.cur .nm { color: var(--s-accent); font-weight: 600; }\n.alts .alt-actions { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }\n.empty { padding: 26px 8px; text-align: center; color: var(--s-muted); }\n\ndetails.data { background: var(--s-surface); border: 1px solid var(--s-line); border-radius: var(--s-r); padding: 0 16px; }\ndetails.data > summary { cursor: pointer; padding: 14px 0; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 10px; align-items: center; }\ndetails.data > summary::-webkit-details-marker { display: none; }\ndetails.data > summary::after { content: \"+\"; font-family: var(--s-f-display); font-size: 22px; color: var(--s-accent); line-height: 1; }\ndetails.data[open] > summary::after { content: \"\u2212\"; }\n.data-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px; padding-bottom: 18px; }\n@media (max-width: 760px) { .data-body { grid-template-columns: minmax(0, 1fr); } }\n.data-body h3 { font-size: 14px; margin: 0 0 8px; }\n.data-body ol { margin: 0; padding-left: 20px; font-size: 13.5px; display: grid; gap: 6px; }\n.counts { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin: 10px 0 14px; }\n.counts div { background: var(--s-sunk); border-radius: 8px; padding: 8px 10px; font-size: 12px; color: var(--s-muted); }\n.counts b { display: block; font-size: 17px; color: var(--s-ink); font-variant-numeric: tabular-nums; }\n.tabtable { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 8px; }\n.tabtable td { padding: 5px 6px; border-bottom: 1px solid var(--s-line); vertical-align: top; }\n.tabtable td:first-child { font-weight: 600; white-space: nowrap; }\ncode { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; background: var(--s-sunk); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }\n.msg { font-size: 13px; margin-top: 8px; min-height: 1.4em; }\n.msg.ok { color: var(--s-good); } .msg.bad { color: var(--s-warn); }\nfooter { margin-top: 26px; font-size: 12px; color: var(--s-muted); text-align: center; }\n.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); background: var(--s-ink); color: var(--s-bg); padding: 8px 14px; border-radius: 8px; font-size: 13px; z-index: 20; }\n@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }\n\n.brand h1 { display: none; }\n#dataBox { display: none !important; }\n" + '</style>' + "<div class=\"wrap\">\n  <header class=\"top\">\n    <div class=\"brand\">\n      <h1>LN <em>Outfit<\/em> Scorer<\/h1>\n      <p id=\"t-sub\"><\/p>\n    <\/div>\n    <div class=\"top-tools\">\n      <div class=\"srv-wrap\"><span class=\"srv-lbl\" id=\"t-srv\"><\/span><div class=\"srv\" role=\"group\" id=\"srvBtns\"><\/div><\/div>\n      <span class=\"pill\" id=\"srcPill\"><span class=\"dot\"><\/span><span id=\"srcText\"><\/span><\/span>\n      <button class=\"ghost\" id=\"langBtn\" type=\"button\">EN<\/button>\n    <\/div>\n  <\/header>\n\n  <section class=\"nodata\" id=\"noData\" hidden><\/section>\n  <div class=\"grid\" id=\"mainGrid\">\n    <div class=\"col\">\n      <section class=\"panel\" aria-labelledby=\"h-ward\">\n        <h2 id=\"h-ward\"><span><span class=\"step\">i.<\/span><span id=\"t-ward\"><\/span><\/span><\/h2>\n        <div class=\"drop\" id=\"drop\" tabindex=\"0\" role=\"button\">\n          <strong id=\"t-drop\"><\/strong>\n          <span id=\"t-drop2\"><\/span>\n          <input type=\"file\" id=\"fileIn\" accept=\".txt,text/plain,.json,application/json\" multiple hidden>\n        <\/div>\n        <details style=\"margin-top:10px\" id=\"typedBox\">\n          <summary class=\"small muted\" id=\"t-typed\" style=\"cursor:pointer\"><\/summary>\n          <textarea id=\"typedIn\" placeholder=\"h12&#10;d305&#10;a10234\"><\/textarea>\n          <div class=\"row\" style=\"margin-top:6px\"><button type=\"button\" id=\"typedBtn\" style=\"flex:none\"><\/button><\/div>\n        <\/details>\n        <div class=\"wstatus\"><span id=\"wardStatus\"><\/span><button class=\"ghost\" type=\"button\" id=\"wardClear\"><\/button><button class=\"ghost\" type=\"button\" id=\"wardExport\">Export JSON<\/button><\/div>\n      <\/section>\n\n      <section class=\"panel\" aria-labelledby=\"h-stage\">\n        <h2 id=\"h-stage\"><span><span class=\"step\">ii.<\/span><span id=\"t-stage\"><\/span><\/span><\/h2>\n        <div class=\"tabs\" role=\"group\" id=\"typeTabs\"><\/div>\n        <div id=\"stageFields\" class=\"stage-fields\"><\/div>\n        <div class=\"err\" id=\"stageErr\"><\/div>\n        <div id=\"stageInfo\"><\/div>\n      <\/section>\n    <\/div>\n\n    <section class=\"panel\" aria-labelledby=\"h-res\" id=\"resultPanel\">\n      <h2 id=\"h-res\"><span><span class=\"step\">iii.<\/span><span id=\"t-res\"><\/span><\/span><button type=\"button\" class=\"ghost\" id=\"copyBtn\"><\/button><\/h2>\n      <div id=\"result\"><\/div>\n    <\/section>\n  <\/div>\n\n  <details class=\"data\" id=\"dataBox\" style=\"margin-top:22px\" hidden>\n    <summary><span id=\"t-data\"><\/span><span class=\"pill\" id=\"srcPill2\"><span class=\"dot\"><\/span><span id=\"srcText2\"><\/span><\/span><\/summary>\n    <div class=\"data-body\">\n      <div>\n        <div class=\"counts\" id=\"counts\"><\/div>\n        <label class=\"f\" for=\"sheetIn\"><span id=\"t-sheetlbl\"><\/span>\n          <input type=\"url\" id=\"sheetIn\" placeholder=\"https://docs.google.com/spreadsheets/d/\u2026/edit\">\n        <\/label>\n        <div class=\"row\" style=\"margin-top:8px\">\n          <button type=\"button\" class=\"primary\" id=\"syncBtn\" style=\"flex:none\"><\/button>\n          <button type=\"button\" id=\"xlsxBtn\" style=\"flex:none\"><\/button>\n          <button type=\"button\" class=\"ghost\" id=\"resetBtn\" style=\"flex:none\"><\/button>\n          <input type=\"file\" id=\"xlsxIn\" accept=\".xlsx,.xls,.ods\" hidden>\n        <\/div>\n        <div class=\"msg\" id=\"dataMsg\"><\/div>\n      <\/div>\n      <div>\n        <h3 id=\"t-howto\"><\/h3>\n        <ol id=\"howto\"><\/ol>\n        <table class=\"tabtable\" id=\"tabTable\"><\/table>\n      <\/div>\n    <\/div>\n  <\/details>\n\n  <footer id=\"credit\"><\/footer>\n<\/div>\n\n";
+var Engine = (function () {
+  'use strict';
+
+  var DEFAULT_SLOTS = [
+    ['hair', 'Hair', 'Tóc', 'main', 0.5, [1, 2]],
+    ['dress', 'Dress', 'Váy liền', 'dress', 2, [3, 4, 5, 41, 54, 56, 62]],
+    ['coat', 'Coat', 'Áo khoác', 'main', 0.2, [6, 7, 48, 52, 63, 65]],
+    ['top', 'Top', 'Áo', 'top', 1, [8, 9, 10, 64]],
+    ['bottom', 'Bottom', 'Quần / váy ngắn', 'bottom', 1, [11, 12, 13, 57]],
+    ['leglet', 'Leglet', 'Tất ngắn', 'main', 0.3, [14]],
+    ['hosiery', 'Hosiery', 'Tất dài', 'main', 0.3, [15]],
+    ['shoes', 'Shoes', 'Giày', 'main', 0.4, [16, 17]],
+    ['makeup', 'Makeup', 'Trang điểm', 'main', 0.1, [18]],
+    ['dreamweaver', 'Dreamweaver', 'Dreamweaver', 'main', 0, [61]],
+    ['hairorn', 'Hair Ornament', 'Phụ kiện tóc', 'accessory', 0.2, [19]],
+    ['veil', 'Veil', 'Mạng che', 'accessory', 0.2, [20, 31]],
+    ['hairpin', 'Hairpin', 'Kẹp tóc', 'accessory', 0.2, [43]],
+    ['ear', 'Ear', 'Tai', 'accessory', 0.2, [44]],
+    ['earring', 'Earring', 'Khuyên tai', 'accessory', 0.2, [21]],
+    ['scarf', 'Scarf', 'Khăn quàng', 'accessory', 0.2, [22]],
+    ['necklace', 'Necklace', 'Vòng cổ', 'accessory', 0.2, [23, 24]],
+    ['rhandorn', 'Right Hand Ornament', 'Trang sức tay phải', 'accessory', 0.2, [25, 39]],
+    ['lhandorn', 'Left Hand Ornament', 'Trang sức tay trái', 'accessory', 0.2, [26, 40]],
+    ['gloves', 'Gloves', 'Găng tay', 'accessory', 0.2, [27, 45, 46, 53, 67, 68]],
+    ['rhand', 'Right Hand Holding', 'Cầm tay phải', 'hand-right', 0.2, [28]],
+    ['lhand', 'Left Hand Holding', 'Cầm tay trái', 'hand-left', 0.2, [29]],
+    ['bhand', 'Both Hand Holding', 'Cầm hai tay', 'hand-both', 0.2, [58, 66]],
+    ['waist', 'Waist', 'Thắt lưng', 'accessory', 0.2, [30]],
+    ['face', 'Face', 'Mặt', 'accessory', 0.2, [32]],
+    ['brooch', 'Brooch', 'Cài áo', 'accessory', 0.2, [33, 69]],
+    ['tattoo', 'Tattoo', 'Hình xăm', 'accessory', 0.2, [34]],
+    ['wing', 'Wing', 'Cánh', 'accessory', 0.2, [35, 42]],
+    ['tail', 'Tail', 'Đuôi', 'accessory', 0.2, [36, 47]],
+    ['foreground', 'Foreground', 'Tiền cảnh', 'accessory', 0.2, [37]],
+    ['background', 'Background', 'Hậu cảnh', 'accessory', 0.2, [38, 55]],
+    ['headorn', 'Head Ornament', 'Trang sức đầu', 'accessory', 0.2, [49]],
+    ['ground', 'Ground', 'Mặt đất', 'accessory', 0.2, [51]],
+    ['skin', 'Skin', 'Da', 'accessory', 0.2, [50]]
+  ];
+
+  var DEFAULT_PENALTY = [[16, 0.4], [15, 0.425], [14, 0.45], [13, 0.475], [12, 0.51], [11, 0.55],
+    [10, 0.6], [9, 0.65], [8, 0.7], [7, 0.75], [6, 0.825], [5, 0.9], [4, 0.95]];
+
+  var TAG_NAMES = ['Sports', 'POP', 'Homewear', 'Chinese Classical', 'Chic', 'Preppy', 'Unisex', 'Fairy',
+    'European', 'Workwear', 'Pajamas', 'Dancer', 'Britain', 'Musician', 'Dryad', 'Goddess', 'Shower',
+    'Animal', 'Rain', 'Swimsuit', 'Floral', 'Sun Care', 'Apron', 'Paramedics', 'Evening Gown', 'Bunny',
+    'Gothic', 'Lady', 'Maiden', 'Winter', 'Bohemia', 'Swordsman', 'Modern China', 'Kimono', 'Lolita',
+    'Wedding', 'Republic of China', 'Cheongsam', 'Multicultural', 'Traditional', 'Army', 'Sailor',
+    'Future', 'Street'];
+  var DEFAULT_TAGS = TAG_NAMES.map(function (n, i) { return [i + 11, n]; });
+
+  var DEFAULT_SKILLS = [[10, 'Smile'], [11, 'Critical Eye'], [13, 'Picky Immune'], [14, 'Charming'],
+    [15, 'Sleeping'], [16, 'True Love'], [17, 'Gift'], [18, 'Clock'], [21, 'Picky Bounce']];
+
+  var ATTRS = ['Gorgeous', 'Simple', 'Elegant', 'Lively', 'Mature', 'Cute', 'Sexy', 'Pure', 'Warm', 'Cool'];
+
+  /* ---------- data model ----------
+     db = { clothes:[{id,name,depth,a:[10],sp1,sp2}], stages:[{code,type,name,w:[10],tag:[2],tw:[2],sk:[4]}],
+            slots:[{key,en,vi,group,mult,codes:[]}], bonuses:{name:bonus}, penalty:[[min,mult]],
+            tags:{id:name}, skills:{id:name} } */
+  function buildDb(raw) {
+    var db = {};
+    db.clothes = raw.clothes.map(function (c) {
+      return { id: c[0], name: String(c[1]), depth: c[2], a: c.slice(3, 13), sp1: c[13], sp2: c[14] };
+    });
+    db.stages = raw.stages;
+    db.slots = (raw.slots || DEFAULT_SLOTS).map(function (s) {
+      return { key: s[0], en: s[1], vi: s[2], group: s[3], mult: s[4], codes: s[5] };
+    });
+    db.bonuses = {};
+    (raw.bonuses || []).forEach(function (b) { db.bonuses[b[0]] = b[1]; });
+    db.penalty = (raw.penalty || DEFAULT_PENALTY).slice().sort(function (a, b) { return b[0] - a[0]; });
+    db.tags = {}; (raw.tags || DEFAULT_TAGS).forEach(function (t) { db.tags[t[0]] = t[1]; });
+    db.skills = {}; (raw.skills || DEFAULT_SKILLS).forEach(function (t) { db.skills[t[0]] = t[1]; });
+    index(db);
+    return db;
+  }
+
+  function index(db) {
+    db.depthToSlot = {};
+    db.fallbackSlot = null;
+    db.slots.forEach(function (s) {
+      s.codes.forEach(function (c) { db.depthToSlot[c] = s; });
+      if (s.key === 'dreamweaver' || (!db.fallbackSlot && /dream/i.test(s.en))) db.fallbackSlot = s;
+    });
+    if (!db.fallbackSlot) db.fallbackSlot = db.slots[db.slots.length - 1];
+    db.stageByCode = {};
+    db.stages.forEach(function (s) { db.stageByCode[s.code] = s; });
+  }
+
+  function slotOf(db, item) { return db.depthToSlot[item.depth] || db.fallbackSlot; }
+
+  function penaltyFor(db, n) {
+    for (var i = 0; i < db.penalty.length; i++) if (n >= db.penalty[i][0]) return db.penalty[i][1];
+    return 1;
+  }
+
+  /* ---------- scoring ---------- */
+  function scoreItem(db, item, stage) {
+    var s = 0, a = item.a, w = stage.w;
+    for (var i = 0; i < 10; i++) s += w[i] * (a[i] || 0);
+    var slot = slotOf(db, item), tagPart = 0;
+    for (var t = 0; t < 2; t++) {
+      var tg = stage.tag[t];
+      if (tg && (item.sp1 === tg || item.sp2 === tg)) tagPart += stage.tw[t] * slot.mult;
+    }
+    s += tagPart;
+    if (slot === db.fallbackSlot && db.bonuses[item.name] != null) s += db.bonuses[item.name];
+    return { score: Math.trunc(s), tagPart: tagPart, tagHit: tagPart > 0 };
+  }
+
+  /* owned: Set of id strings or null (= all clothes) */
+  function rankAll(db, stage, owned) {
+    var bySlot = {};
+    db.slots.forEach(function (s) { bySlot[s.key] = []; });
+    for (var i = 0; i < db.clothes.length; i++) {
+      var it = db.clothes[i];
+      if (owned && !owned.has(String(it.id))) continue;
+      var r = scoreItem(db, it, stage);
+      bySlot[slotOf(db, it).key].push({ item: it, score: r.score, tagPart: r.tagPart, tagHit: r.tagHit });
+    }
+    Object.keys(bySlot).forEach(function (k) { bySlot[k].sort(function (a, b) { return b.score - a.score; }); });
+    return bySlot;
+  }
+
+  /* opts: {optimize:bool, overrides:{slotKey: entry|'none'}} */
+  function buildOutfit(db, ranked, opts) {
+    opts = opts || {};
+    var ov = opts.overrides || {};
+    function pick(key) {
+      if (ov[key] === 'none') return null;
+      if (ov[key]) return ov[key];
+      return (ranked[key] && ranked[key][0]) || null;
+    }
+    var main = [], acc = [], hands = { r: null, l: null, b: null, rKey: null, lKey: null, bKey: null };
+    var dress = null, top = null, bottom = null, dressKey, topKey, bottomKey;
+    db.slots.forEach(function (s) {
+      var e = pick(s.key);
+      if (s.group === 'dress') { dress = e; dressKey = s.key; }
+      else if (s.group === 'top') { top = e; topKey = s.key; }
+      else if (s.group === 'bottom') { bottom = e; bottomKey = s.key; }
+      else if (s.group === 'hand-right') { hands.r = e; hands.rKey = s.key; }
+      else if (s.group === 'hand-left') { hands.l = e; hands.lKey = s.key; }
+      else if (s.group === 'hand-both') { hands.b = e; hands.bKey = s.key; }
+      else if (e) (s.group === 'accessory' ? acc : main).push({ slot: s, e: e });
+    });
+    var slotByKey = {}; db.slots.forEach(function (s) { slotByKey[s.key] = s; });
+
+    var tb = (top ? top.score : 0) + (bottom ? bottom.score : 0);
+    var useDress = dress && (!top && !bottom ? true : dress.score > tb);
+    if (ov[dressKey] && ov[dressKey] !== 'none') useDress = true;
+    if ((ov[topKey] && ov[topKey] !== 'none') || (ov[bottomKey] && ov[bottomKey] !== 'none')) useDress = false;
+    var mainList = [];
+    db.slots.forEach(function (s) {
+      if (s.group === 'dress' && useDress && dress) mainList.push({ slot: s, e: dress });
+      else if (s.group === 'top' && !useDress && top) mainList.push({ slot: s, e: top });
+      else if (s.group === 'bottom' && !useDress && bottom) mainList.push({ slot: s, e: bottom });
+      else main.forEach(function (m) { if (m.slot === s) mainList.push(m); });
+    });
+    var mainSum = mainList.reduce(function (t, m) { return t + m.e.score; }, 0);
+
+    var handOpts = [];
+    var rl = [];
+    if (hands.r) rl.push({ slot: slotByKey[hands.rKey], e: hands.r });
+    if (hands.l) rl.push({ slot: slotByKey[hands.lKey], e: hands.l });
+    var both = hands.b ? [{ slot: slotByKey[hands.bKey], e: hands.b }] : [];
+    var forceBoth = ov[hands.bKey] && ov[hands.bKey] !== 'none';
+    var forceRL = (ov[hands.rKey] && ov[hands.rKey] !== 'none') || (ov[hands.lKey] && ov[hands.lKey] !== 'none');
+    if (forceBoth) handOpts = [both];
+    else if (forceRL) handOpts = [rl];
+    else if (!opts.optimize) {
+      var bs = hands.b ? hands.b.score : -1, rs = rl.reduce(function (t, x) { return t + x.e.score; }, 0);
+      handOpts = [hands.b && (rl.length === 0 || bs > rs) ? both : rl];
+    } else handOpts = [both, rl];
+
+    var best = null;
+    handOpts.forEach(function (h) {
+      var pool = acc.concat(h);
+      var res = opts.optimize ? optimizeAcc(db, pool) : evalAcc(db, pool);
+      if (!best || res.total > best.total) best = res;
+    });
+    if (!best) best = evalAcc(db, []);
+    var order = {}; db.slots.forEach(function (s, i) { order[s.key] = i; });
+    best.list.sort(function (a, b) { return order[a.slot.key] - order[b.slot.key]; });
+    best.dropped.sort(function (a, b) { return order[a.slot.key] - order[b.slot.key]; });
+
+    return {
+      main: mainList, mainSum: mainSum, useDress: !!useDress,
+      acc: best.list, accDropped: best.dropped, accRaw: best.raw, accTag: best.tag,
+      accCount: best.list.length, accMult: best.mult, accTotal: best.total,
+      total: mainSum + best.total
+    };
+  }
+
+  function evalAcc(db, list) {
+    var raw = 0, tag = 0;
+    list.forEach(function (x) { raw += x.e.score; tag += x.e.tagPart; });
+    var m = penaltyFor(db, list.length);
+    return { list: list.slice(), dropped: [], raw: raw, tag: tag, mult: m, total: (raw - tag) * m + tag };
+  }
+
+  function optimizeAcc(db, pool) {
+    var best = evalAcc(db, []);
+    best.dropped = pool.slice();
+    for (var n = 1; n <= pool.length; n++) {
+      var m = penaltyFor(db, n);
+      var sorted = pool.slice().sort(function (a, b) {
+        return ((b.e.score - b.e.tagPart) * m + b.e.tagPart) - ((a.e.score - a.e.tagPart) * m + a.e.tagPart);
+      });
+      var r = evalAcc(db, sorted.slice(0, n));
+      if (r.total > best.total + 1e-9) { r.dropped = sorted.slice(n); best = r; }
+    }
+    return best;
+  }
+
+  var B64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+  function decodeBase64Loose(str) {
+    var out = [], buf = 0, bits = 0;
+    for (var i = 0; i < str.length; i++) {
+      var c = str[i];
+      if (c === '=') continue;
+      var v = B64.indexOf(c);
+      if (v < 0) continue;
+      buf = (buf << 6) | v; bits += 6;
+      if (bits >= 8) { bits -= 8; out.push((buf >> bits) & 255); buf &= (1 << bits) - 1; }
+    }
+    return out;
+  }
+  function rc4(keyStr, bytes) {
+    var S = [], j = 0, i, k = [];
+    for (i = 0; i < keyStr.length; i++) k.push(keyStr.charCodeAt(i));
+    for (i = 0; i < 256; i++) S[i] = i;
+    for (i = 0; i < 256; i++) { j = (j + S[i] + k[i % k.length]) % 256; var t = S[i]; S[i] = S[j]; S[j] = t; }
+    var out = new Array(bytes.length); i = 0; j = 0;
+    for (var n = 0; n < bytes.length; n++) {
+      i = (i + 1) % 256; j = (j + S[i]) % 256;
+      var t2 = S[i]; S[i] = S[j]; S[j] = t2;
+      out[n] = bytes[n] ^ S[(S[i] + S[j]) % 256];
+    }
+    return out;
+  }
+  var WARDROBE_KEY = 'ELPSsYasdaKONGROO';
+  function decodeClothesDate(text) {
+    var bytes = rc4(WARDROBE_KEY, decodeBase64Loose(text));
+    var s = '';
+    for (var i = 0; i < bytes.length; i += 8192) s += String.fromCharCode.apply(null, bytes.slice(i, i + 8192));
+    var ids = [], b = s.indexOf('[');
+    while (b !== -1) {
+      var e = s.indexOf(']');
+      if (e === -1) break;
+      ids.push(s.slice(b + 1, e).trim());
+      s = s.slice(e + 1);
+      b = s.indexOf('[');
+    }
+    return ids;
+  }
+  function parseTyped(text) {
+    var ids = [], bad = [];
+    text.split(/\r?\n/).forEach(function (raw) {
+      var entry = raw.trim();
+      if (!entry) return;
+      var low = entry.toLowerCase(), cat = 0, off = parseInt(entry.slice(1), 10);
+      if (isNaN(off) || !/^\s*-?\d+\s*$/.test(entry.slice(1))) { bad.push(entry); return; }
+      if (low.indexOf('c991327') >= 0) { cat = 80000; off = 1327; }
+      else if (low.indexOf('s993221') >= 0) { cat = 80000; off = 3221; }
+      else if (low.indexOf('t99961') >= 0) { cat = 30000; off = 961; }
+      else if (low.indexOf('o2599') >= 0 || low.indexOf('o5735') >= 0) cat = 80000;
+      else {
+        var c = low[0];
+        if (c === 'h') cat = 10000; else if (c === 'd') cat = 20000; else if (c === 'c') cat = 30000;
+        else if (c === 't') cat = 40000; else if (c === 'b') cat = 50000; else if (c === 'o') cat = 60000;
+        else if (c === 's') cat = 70000; else if (c === 'm') cat = 90000; else if (c === 'r') cat = 880000;
+        else if (c === 'a') {
+          if (off < 10000) cat = 80000;
+          else { cat = 180000; off = parseInt(entry.slice(2), 10); }
+        }
+      }
+      ids.push(String(cat + off));
+    });
+    return { ids: ids, bad: bad };
+  }
+
+  return {
+    buildDb: buildDb, rankAll: rankAll, buildOutfit: buildOutfit, scoreItem: scoreItem, slotOf: slotOf,
+    penaltyFor: penaltyFor, decodeClothesDate: decodeClothesDate, parseTyped: parseTyped,
+    rc4: rc4, decodeBase64Loose: decodeBase64Loose,
+    DEFAULT_SLOTS: DEFAULT_SLOTS, DEFAULT_PENALTY: DEFAULT_PENALTY, DEFAULT_TAGS: DEFAULT_TAGS,
+    DEFAULT_SKILLS: DEFAULT_SKILLS, ATTRS: ATTRS, WARDROBE_KEY: WARDROBE_KEY
+  };
+})();
+if (typeof module !== 'undefined') module.exports = Engine;
+(function () {
+  'use strict';
+  var E = Engine;
+  var $ = function (id) { return root.getElementById(id); };
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function fmt(n, d) { return Number(n).toLocaleString('en-US', { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 }); }
+  function store(k, v) { try { if (v === undefined) return JSON.parse(localStorage.getItem('lnos.' + k)); localStorage.setItem('lnos.' + k, JSON.stringify(v)); } catch (e) { return null; } }
+
+  var T = {
+    vi: {
+      sub: 'Tìm bộ đồ điểm cao nhất cho từng màn Love Nikki, dựa trên tủ đồ của bạn.',
+      ward: 'Tủ đồ', drop: 'Kéo thả clothes_date.txt vào đây', drop2: 'hoặc bấm để chọn file · nhận cả clothes_typed.txt',
+      typed: 'Gõ tay thêm đồ (định dạng clothes_typed.txt)', typedBtn: 'Thêm vào tủ đồ',
+      wAll: 'Chưa nạp tủ đồ, đang tính với <b>toàn bộ</b> đồ trong game.',
+      wHave: function (n, m) { return 'Tủ đồ: <b>' + fmt(n) + '</b> món, <b>' + fmt(m) + '</b> món có trong dữ liệu.'; },
+      wClear: 'Dùng toàn bộ đồ', wBad: 'Không đọc được file này. Hãy chọn clothes_date.txt hoặc clothes_typed.txt.',
+      stage: 'Màn chơi', types: { Arena: 'Arena', Commission: 'Commission', Maiden: 'Maiden', Princess: 'Princess', Custom: 'Tự đặt' },
+      vol: 'Tập', ch: 'Chương', st: 'Màn', act: 'Act', theme: 'Chủ đề', side: 'phụ', go: 'Mở',
+      noStage: 'Không tìm thấy mã màn này.', tags: 'Tag đặc biệt', skills: 'Kỹ năng đối thủ',
+      res: 'Bộ đồ đề xuất', total: 'Tổng điểm', main: 'Đồ chính', acc: 'Phụ kiện', accN: function (n, m) { return n + ' món × ' + m; },
+      opt: 'Tự bỏ bớt phụ kiện nếu giúp tăng điểm', reset: 'Bỏ các lựa chọn tay',
+      thSlot: 'Ô', thItem: 'Món đồ', thScore: 'Điểm', mainH: 'Đồ chính', accH: 'Phụ kiện',
+      tag: 'TAG', pinned: 'CHỌN TAY', dropped: 'BỎ', top20: 'Top 20 trong ô này', use: 'Dùng món này', none: 'Không mặc ô này', auto: 'Để máy chọn',
+      emptyRes: 'Chọn một màn để xem bộ đồ.', copy: 'Sao chép', copied: 'Đã sao chép kết quả',
+      data: 'Dữ liệu & cập nhật', srcBuilt: 'Dữ liệu có sẵn', srcSheet: 'Google Sheet', srcFile: 'File nhập',
+      cClothes: 'Món đồ', cStages: 'Màn', cBonus: 'Điểm cộng DW', cSlots: 'Mã ô',
+      sheetLbl: 'Link Google Sheet (chia sẻ "Bất kỳ ai có đường liên kết")', sync: 'Đồng bộ từ Sheet', xlsx: 'Nhập file .xlsx', resetData: 'Về dữ liệu gốc',
+      syncing: 'Đang tải dữ liệu từ Google Sheet…', synced: function (s) { return 'Đã cập nhật: ' + s; },
+      syncFail: 'Không tải được Sheet. Kiểm tra link và quyền chia sẻ. Nếu bạn đang xem trang này trên Claude, trang bị chặn kết nối ra ngoài: hãy tải file .xlsx từ Google Sheet (Tệp → Tải xuống → .xlsx) rồi bấm "Nhập file .xlsx".',
+      badLink: 'Link không đúng dạng Google Sheet.', loadingLib: 'Đang mở file…', fileFail: 'Không đọc được file. Kiểm tra lại tên các trang tính.',
+      resetDone: 'Đã quay về dữ liệu gốc.',
+      howto: 'Cập nhật dữ liệu bằng Google Sheet',
+      steps: ['Tải file <b>LN-Scorer-Data.xlsx</b> lên Google Drive, mở bằng Google Sheets (Tệp → Lưu dưới dạng Google Trang tính).',
+        'Bấm <b>Chia sẻ</b> → "Bất kỳ ai có đường liên kết" → Người xem.',
+        'Khi game ra đồ hoặc màn mới, chỉ cần thêm dòng vào đúng trang tính.',
+        'Dán link Sheet ở bên trái và bấm <b>Đồng bộ</b>. Trang nhớ link và dữ liệu cho lần sau.'],
+      tabsDesc: { Clothes: 'Mỗi dòng một món: ID, tên, mã ô, 10 chỉ số, 2 tag đặc biệt', Stages: 'Mỗi dòng một màn: mã, loại, tên, 10 trọng số, 2 tag + điểm thưởng, 4 kỹ năng',
+        Slots: 'Mã ô → tên ô, nhóm, hệ số tag', Bonuses: 'Điểm cộng cố định cho đồ Dreamweaver', Penalty: 'Hệ số giảm theo số phụ kiện', Tags: 'Tên tag đặc biệt', Skills: 'Tên kỹ năng đối thủ' },
+      credit: 'Được làm với sự giúp đỡ của Hoa Ne (hoanemn tại Discord)',
+      server: 'Server', resetServer: 'Xoá dữ liệu server này',
+      noDataH: function (n) { return 'Chưa có dữ liệu cho ' + n; },
+      noDataP: 'Mỗi server có bộ đồ và màn chơi riêng. Nạp dữ liệu cho server này bằng một trong hai cách bên dưới, trang sẽ nhớ cho lần sau.',
+      noData1: 'Dán link Google Sheet của server này rồi bấm <b>Đồng bộ từ Sheet</b>.',
+      noData2: 'Hoặc bấm <b>Nhập file .xlsx</b> (cùng mẫu với LN-Scorer-Data.xlsx: các trang Clothes, Stages…).',
+      custom: 'Chọn bên thuộc tính và trọng số', tag1: 'Tag 1', tag2: 'Tag 2', bonus: 'Điểm thưởng', noTag: '(không)', apply: 'Tính điểm'
+    },
+    en: {
+      sub: 'Finds the highest-scoring Love Nikki outfit for each stage from your own wardrobe.',
+      ward: 'Wardrobe', drop: 'Drop your clothes_date file here', drop2: 'or click to choose a file',
+      typed: 'Type extra items ', typedBtn: 'Add to wardrobe',
+      wAll: 'No wardrobe loaded. Scoring with <b>every</b> item in the game.',
+      wHave: function (n, m) { return 'Wardrobe: <b>' + fmt(n) + '</b> items, <b>' + fmt(m) + '</b> found in data.'; },
+      wClear: 'Use all items (from the game)', wBad: "That file couldn't be read. Choose clothes_date.txt or clothes_typed.txt.",
+      stage: 'Stage', types: { Arena: 'Arena', Commission: 'Commission', Maiden: 'Maiden', Princess: 'Princess', Custom: 'Custom' },
+      vol: 'Volume', ch: 'Chapter', st: 'Stage', act: 'Act', theme: 'Theme', side: 'side', go: 'Open',
+      noStage: 'No stage with that code.', tags: 'Special tags', skills: 'Opponent skills',
+      res: 'Suggested outfit', total: 'Total score', main: 'Main pieces', acc: 'Accessories', accN: function (n, m) { return n + ' items × ' + m; },
+      opt: 'Drop accessories when that raises the score', reset: 'Clear manual picks',
+      thSlot: 'Slot', thItem: 'Item', thScore: 'Score', mainH: 'Main pieces', accH: 'Accessories',
+      tag: 'TAG', pinned: 'PICKED', dropped: 'DROPPED', top20: 'Top 20 in this slot', use: 'Use this', none: 'Leave slot empty', auto: 'Let it choose',
+      emptyRes: 'Pick a stage to see the outfit.', copy: 'Copy', copied: 'Result copied',
+      data: 'Data & updates', srcBuilt: 'Built-in data', srcSheet: 'Google Sheet', srcFile: 'Imported file',
+      cClothes: 'Items', cStages: 'Stages', cBonus: 'DW bonuses', cSlots: 'Slot codes',
+      sheetLbl: 'Google Sheet link (shared as "Anyone with the link")', sync: 'Sync from Sheet', xlsx: 'Import .xlsx', resetData: 'Back to built-in',
+      syncing: 'Loading data from Google Sheets…', synced: function (s) { return 'Updated: ' + s; },
+      syncFail: "Couldn't load the Sheet. Check the link and sharing. If you're viewing this page on Claude, it can't reach other sites: download the Sheet as .xlsx (File → Download → .xlsx) and use Import .xlsx.",
+      badLink: "That isn't a Google Sheets link.", loadingLib: 'Opening file…', fileFail: "Couldn't read that file. Check the sheet tab names.",
+      resetDone: 'Back to the built-in data.',
+      howto: 'Keep the data current with Google Sheets',
+      steps: ['Upload <b>LN-Scorer-Data.xlsx</b> to Google Drive and open it with Google Sheets (File → Save as Google Sheets).',
+        'Click <b>Share</b> → "Anyone with the link" → Viewer.',
+        'When the game adds items or stages, add rows to the matching tab.',
+        'Paste the Sheet link on the left and click <b>Sync</b>. The page remembers the link and data.'],
+      tabsDesc: { Clothes: 'One row per item: ID, name, slot code, 10 stats, 2 special tags', Stages: 'One row per stage: code, type, name, 10 weights, 2 tags + bonus, 4 skills',
+        Slots: 'Slot code → slot name, group, tag multiplier', Bonuses: 'Flat bonus for Dreamweaver items', Penalty: 'Accessory count multiplier', Tags: 'Special tag names', Skills: 'Opponent skill names' },
+      credit: 'Made with the help of Hoa Ne (hoanemn at Discord)',
+      server: 'Server', resetServer: "Clear this server's data",
+      noDataH: function (n) { return 'No data for ' + n + ' yet'; },
+      noDataP: 'Each server has its own items and stages. Load data for this server one of these two ways; the page remembers it.',
+      noData1: "Paste this server's Google Sheet link and click <b>Sync from Sheet</b>.",
+      noData2: 'Or click <b>Import .xlsx</b> (same layout as LN-Scorer-Data.xlsx: tabs Clothes, Stages…).',
+      custom: 'Pick a side for each attribute and its weight', tag1: 'Tag 1', tag2: 'Tag 2', bonus: 'Bonus', noTag: '(none)', apply: 'Score it'
+    }
+  };
+  var lang = store('lang2') || 'en';
+  function t(k) { return T[lang][k]; }
+  var VI_ATTR = ['Lộng lẫy', 'Giản dị', 'Thanh lịch', 'Năng động', 'Trưởng thành', 'Đáng yêu', 'Gợi cảm', 'Thuần khiết', 'Ấm áp', 'Mát mẻ'];
+  function attrName(i) { return lang === 'vi' ? VI_ATTR[i] : E.ATTRS[i]; }
+  function slotName(s) { return lang === 'vi' ? (s.vi || s.en) : s.en; }
+
+  var SHEET_LN = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQz03CXtOiGLcOEV9xd88QDe1FvwkUsxdGuYOEckRZXql2Z2FmTm3VVxdPNbLe8aKIVA9moXMltshW3/pub?output=csv';
+
+  var SERVERS = [
+    { id: 'ln', label: 'LN', name: { en: 'Global', vi: 'Love Nikki ' }, url: SHEET_LN, gids: {} },
+    { id: 'vn', label: 'VN', name: { en: 'Vietnam Server', vi: 'Server Việt Nam' }, url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQiKpuAp-fI4o2nTFoG3KHZVxeXG_qojkuVyss_OR4zk2G5aRqJS8-jHyvL1_NYQCIPpDlDckumOTqI/pub?output=csv', gids: {} },
+    { id: 'cn', label: 'CN', name: { en: 'Chinese Server', vi: 'Server Chinese' }, url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSCwZJkPJvdGGnBnOBUhulg3FYUVd87O0ANH7nWek3r8a7hzScGd3V5LZ01XbA74O8jY42zPrp8tzxl/pub?output=csv', gids: {} },
+    { id: 'jp', label: 'JP', name: { en: 'Japananese Server', vi: 'Server Japan' }, url: '', gids: {} },
+    { id: 'tw', label: 'TW', name: { en: 'Taiwan Server', vi: 'Server Taiwan' }, url: '', gids: {} }
+  ];
+  var server = store('server'); if (!SERVERS.some(function (x) { return x.id === server; })) server = SERVERS[0].id;
+  function srv() { return SERVERS.filter(function (x) { return x.id === server; })[0]; }
+  function k(base) { return base + '.' + server; }
+  try {
+    if (localStorage.getItem('lnos.ward') && !localStorage.getItem('lnos.ward.ln')) { localStorage.setItem('lnos.ward.ln', localStorage.getItem('lnos.ward')); localStorage.removeItem('lnos.ward'); }
+    if (localStorage.getItem('lnos.sheet') && !localStorage.getItem('lnos.sheet.ln')) { localStorage.setItem('lnos.sheet.ln', localStorage.getItem('lnos.sheet')); localStorage.removeItem('lnos.sheet'); }
+  } catch (e) {}
+
+  var builtinCache = {};
+  function builtinFor(s) {
+    if (!s.builtin || !$(s.builtin)) return null;
+    if (!builtinCache[s.builtin]) builtinCache[s.builtin] = JSON.parse($(s.builtin).textContent);
+    return builtinCache[s.builtin];
+  }
+  var BUILTIN = builtinFor(SERVERS[0]);
+  var EMPTY = { clothes: [], stages: [], bonuses: [] };
+  var db, source = 'built', hasData = true;
+  var owned = null, ownedRaw = [];
+  var stageType = store('stageType') || 'Maiden';
+  var stageCode = store('stageCode') || 'MV1C1S1';
+  var customStage = store('custom') || { w: [0, 20, 0, 20, 0, 20, 0, 20, 0, 20], tag: [0, 0], tw: [0, 0] };
+  var optimize = store('optimize'); if (optimize === null) optimize = true;
+  var overrides = {};
+  var openSlot = null;
+  var lastRanked = null, lastOutfit = null, lastStage = null;
+
+  function setDb(raw, src) { db = E.buildDb(raw); source = src; hasData = db.clothes.length > 0 && db.stages.length > 0; indexStages(); }
+
+  var stageIdx;
+  function indexStages() {
+    stageIdx = { Arena: [], Commission: {}, Maiden: {}, Princess: {}, other: {} };
+    db.stages.forEach(function (s) {
+      var m;
+      if (s.type === 'Arena') stageIdx.Arena.push(s);
+      else if (s.type === 'Commission' && (m = /^GA(\d+)S(\d+)$/.exec(s.code))) {
+        (stageIdx.Commission[m[1]] = stageIdx.Commission[m[1]] || []).push({ s: s, n: +m[2] });
+      } else if ((s.type === 'Maiden' || s.type === 'Princess') && (m = /^[MP]V(\d+)C(\d+)(SS|S)(\d+)(T\d+)?$/.exec(s.code))) {
+        var V = stageIdx[s.type][m[1]] = stageIdx[s.type][m[1]] || {};
+        (V[m[2]] = V[m[2]] || []).push({ s: s, n: +m[4], side: m[3] === 'SS', tier: m[5] || '' });
+      } else (stageIdx.other[s.type] = stageIdx.other[s.type] || []).push(s);
+    });
+    var num = function (a, b) { return a - b; };
+    stageIdx.Arena.sort(function (a, b) { return (+a.code.slice(1)) - (+b.code.slice(1)); });
+    Object.keys(stageIdx.Commission).forEach(function (k) { stageIdx.Commission[k].sort(function (a, b) { return a.n - b.n; }); });
+    ['Maiden', 'Princess'].forEach(function (ty) {
+      Object.keys(stageIdx[ty]).forEach(function (v) {
+        Object.keys(stageIdx[ty][v]).forEach(function (c) {
+          stageIdx[ty][v][c].sort(function (a, b) { return (a.side - b.side) || (a.n - b.n) || (a.tier < b.tier ? -1 : 1); });
+        });
+      });
+    });
+    stageIdx.keysNum = function (o) { return Object.keys(o).map(Number).sort(num).map(String); };
+  }
+
+  /* ---------- wardrobe ---------- */
+  var useAll = false;
+  function siteOwnedIds() {
+    var set = new Set();
+    try { JSON.parse(localStorage.getItem('lnOwned') || '[]').forEach(function (x) { set.add(String(x)); }); } catch (e) {}
+    try {
+      if (typeof state !== 'undefined' && state.items) state.items.forEach(function (it) {
+        if (set.has(String(it.id)) || (it.internal_id && set.has(String(it.internal_id)))) {
+          if (it.id) set.add(String(it.id)); if (it.internal_id) set.add(String(it.internal_id));
+        }
+      });
+    } catch (e) {}
+    return Array.from(set).filter(function (x) { return /^\d+$/.test(x); });
+  }
+  function loadSiteWard() { var ids = siteOwnedIds(); ownedRaw = ids; owned = ids.length && !useAll ? new Set(ids) : null; }
+  function setOwned(ids, replace) {
+    if (ids && (ids.length || replace)) {
+      try {
+        if (typeof state !== 'undefined' && typeof saveOwned === 'function') {
+          if (replace) state.owned = new Set(); ids.forEach(function (x) { state.owned.add(String(x)); }); saveOwned();
+          try { renderItems(); renderCloset(); } catch (e) {}
+        } else {
+          var cur = []; try { cur = JSON.parse(localStorage.getItem('lnOwned') || '[]'); } catch (e) {} if (replace) cur = [];
+          localStorage.setItem('lnOwned', JSON.stringify(Array.from(new Set(cur.map(String).concat(ids.map(String))))));
+        }
+      } catch (e) {}
+    }
+    useAll = false; loadSiteWard(); overrides = {};
+    renderWardStatus(); compute();
+  }
+  function jsonIds(text) {
+    var d = JSON.parse(text), a = Array.isArray(d) ? d : (d && Array.isArray(d.owned) ? d.owned : []);
+    return a.map(function (x) { return String(x).trim().replace(/\.0+$/, ''); }).filter(function (x) { return /^\d+$/.test(x); });
+  }
+  window.lnDecodeWardrobe = function (text) { return looksTyped(text) ? E.parseTyped(text).ids : E.decodeClothesDate(text); };
+  function renderWardStatus() {
+    var el = $('wardStatus'), vi = lang === 'vi';
+    if (!owned) {
+      el.innerHTML = useAll ? t('wAll') : (vi ? 'Tủ đồ của bạn đang trống nên dùng tất cả quần áo. Thêm đồ ở mục My Wardrobe.' : 'Your wardrobe is empty, so every item is used. Add pieces in My Wardrobe.');
+      $('wardClear').hidden = !useAll; $('wardClear').textContent = vi ? 'Dùng tủ đồ của tôi' : 'Use my wardrobe'; return;
+    }
+    var found = 0;
+    db.clothes.forEach(function (c) { if (owned.has(String(c.id))) found++; });
+    el.innerHTML = t('wHave')(owned.size, found);
+    $('wardClear').hidden = false; $('wardClear').textContent = vi ? 'Dùng tất cả' : 'Use all items';
+  }
+  function looksTyped(text) {
+    var lines = text.split(/\r?\n/).map(function (l) { return l.trim(); }).filter(Boolean);
+    if (!lines.length) return false;
+    var ok = lines.filter(function (l) { return /^[a-zA-Z]\d+$/.test(l) || /^[a-zA-Z]\d+$/.test(l.replace(/\s+/g, '')); }).length;
+    return ok / lines.length > 0.6;
+  }
+  function readFiles(files) {
+    var list = Array.prototype.slice.call(files);
+    var pending = list.length, add = [], bad = false;
+    list.forEach(function (f) {
+      var r = new FileReader();
+      r.onload = function () {
+        var text = String(r.result);
+        try {
+          var ids = /\.json$/i.test(f.name) ? jsonIds(text) : (looksTyped(text) ? E.parseTyped(text).ids : E.decodeClothesDate(text));
+          if (!ids.length) bad = true; else add = add.concat(ids);
+        } catch (e) { bad = true; }
+        if (--pending === 0) finish();
+      };
+      r.onerror = function () { bad = true; if (--pending === 0) finish(); };
+      r.readAsText(f, 'utf-8');
+    });
+    function finish() {
+      if (!add.length) { $('wardStatus').innerHTML = '<span class="err">' + esc(t('wBad')) + '</span>'; return; }
+      setOwned(Array.from(new Set(add)), true);
+      if (bad) toast(t('wBad'));
+    }
+  }
+
+  /* ---------- stage picker ---------- */
+  var TYPES = ['Arena', 'Commission', 'Maiden', 'Princess', 'Custom'];
+  function renderTabs() {
+    $('typeTabs').innerHTML = TYPES.map(function (ty) {
+      return '<button type="button" data-ty="' + ty + '" aria-pressed="' + (ty === stageType) + '">' + esc(t('types')[ty]) + '</button>';
+    }).join('');
+  }
+  function opt(v, label, sel) { return '<option value="' + esc(v) + '"' + (sel ? ' selected' : '') + '>' + esc(label) + '</option>'; }
+  function sel(id, label, options) { return '<label class="f"><span>' + esc(label) + '</span><select id="' + id + '">' + options + '</select></label>'; }
+
+  function renderStageFields() {
+    var box = $('stageFields'), cur = db.stageByCode[stageCode], m, html = '';
+    if (stageType === 'Arena') {
+      html = sel('sArena', t('theme'), stageIdx.Arena.map(function (s) {
+        return opt(s.code, s.code.slice(1) + '. ' + s.name, s.code === stageCode);
+      }).join(''));
+    } else if (stageType === 'Commission') {
+      var acts = stageIdx.keysNum(stageIdx.Commission);
+      m = /^GA(\d+)S(\d+)$/.exec(stageCode);
+      var act = m && stageIdx.Commission[m[1]] ? m[1] : acts[0];
+      html = '<div class="row">' + sel('sAct', t('act'), acts.map(function (a) { return opt(a, a, a === act); }).join('')) +
+        sel('sComm', t('st'), (stageIdx.Commission[act] || []).map(function (x) {
+          return opt(x.s.code, x.n + (x.s.name ? ' · ' + x.s.name : ''), x.s.code === stageCode);
+        }).join('')) + '</div>';
+    } else if (stageType === 'Maiden' || stageType === 'Princess') {
+      var T2 = stageIdx[stageType], vols = stageIdx.keysNum(T2);
+      m = /^[MP]V(\d+)C(\d+)/.exec(stageCode);
+      var v = m && T2[m[1]] && stageCode[0] === stageType[0] ? m[1] : vols[0];
+      var chs = stageIdx.keysNum(T2[v] || {});
+      var c = m && T2[v] && T2[v][m[2]] && stageCode[0] === stageType[0] ? m[2] : chs[0];
+      html = '<div class="row">' + sel('sVol', t('vol'), vols.map(function (x) { return opt(x, x, x === v); }).join('')) +
+        sel('sCh', t('ch'), chs.map(function (x) { return opt(x, x, x === c); }).join('')) +
+        sel('sSt', t('st'), ((T2[v] || {})[c] || []).map(function (x) {
+          return opt(x.s.code, (x.side ? 'SS' : 'S') + x.n + (x.side ? ' (' + t('side') + ')' : '') + (x.tier ? ' ' + x.tier : ''), x.s.code === stageCode);
+        }).join('')) + '</div>';
+    } else {
+      html = renderCustom();
+    }
+    box.innerHTML = html;
+    if (stageType !== 'Custom') {
+      var last = box.querySelector('select:last-of-type, #sArena, #sComm, #sSt');
+      var selects = box.querySelectorAll('select');
+      var finalSel = selects[selects.length - 1];
+      if (finalSel && finalSel.value && finalSel.value !== stageCode) { stageCode = finalSel.value; }
+    }
+    bindStageFields();
+  }
+  function renderCustom() {
+    var cs = customStage, h = '<div class="small muted">' + esc(t('custom')) + '</div><div class="custom-grid">';
+    for (var p = 0; p < 5; p++) {
+      var a = 2 * p, b = a + 1, side = cs.w[b] > 0 && !(cs.w[a] > 0) ? b : a, val = cs.w[side] || 0;
+      h += '<div class="custom-pair"><div class="seg" role="group">' +
+        '<button type="button" data-pair="' + p + '" data-side="' + a + '" aria-pressed="' + (side === a) + '">' + esc(attrName(a)) + '</button>' +
+        '<button type="button" data-pair="' + p + '" data-side="' + b + '" aria-pressed="' + (side === b) + '">' + esc(attrName(b)) + '</button></div>' +
+        '<input type="number" min="0" step="1" id="cw' + p + '" value="' + val + '" aria-label="' + esc(attrName(a) + '/' + attrName(b)) + '"></div>';
+    }
+    var tagOpts = function (curv) {
+      return opt(0, t('noTag'), !curv) + Object.keys(db.tags).map(Number).sort(function (x, y) { return x - y; }).map(function (id) { return opt(id, db.tags[id], id === curv); }).join('');
+    };
+    h += '</div><div class="row">' + sel('ct1', t('tag1'), tagOpts(cs.tag[0])) +
+      '<label class="f"><span>' + esc(t('bonus')) + '</span><input type="number" id="ctw1" min="0" value="' + (cs.tw[0] || 0) + '"></label></div>' +
+      '<div class="row">' + sel('ct2', t('tag2'), tagOpts(cs.tag[1])) +
+      '<label class="f"><span>' + esc(t('bonus')) + '</span><input type="number" id="ctw2" min="0" value="' + (cs.tw[1] || 0) + '"></label></div>';
+    return h;
+  }
+  function readCustom() {
+    var w = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    for (var p = 0; p < 5; p++) {
+      var on = $('stageFields').querySelector('[data-pair="' + p + '"][aria-pressed="true"]');
+      w[+on.getAttribute('data-side')] = Math.max(0, parseFloat($('cw' + p).value) || 0);
+    }
+    customStage = { w: w, tag: [+$('ct1').value || 0, +$('ct2').value || 0], tw: [+$('ctw1').value || 0, +$('ctw2').value || 0] };
+    store('custom', customStage);
+  }
+  function bindStageFields() {
+    var box = $('stageFields');
+    box.querySelectorAll('select').forEach(function (s) {
+      s.addEventListener('change', function () {
+        if (stageType === 'Custom') { readCustom(); compute(); return; }
+        if (s.id === 'sAct') { stageCode = (stageIdx.Commission[s.value] || [{ s: { code: '' } }])[0].s.code; }
+        else if (s.id === 'sVol') { var ch = stageIdx.keysNum(stageIdx[stageType][s.value])[0]; stageCode = stageIdx[stageType][s.value][ch][0].s.code; }
+        else if (s.id === 'sCh') { stageCode = stageIdx[stageType][$('sVol').value][s.value][0].s.code; }
+        else stageCode = s.value;
+        overrides = {}; renderStageFields(); compute();
+      });
+    });
+    box.querySelectorAll('.seg button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var p = b.getAttribute('data-pair');
+        box.querySelectorAll('[data-pair="' + p + '"]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+        readCustom(); compute();
+      });
+    });
+    box.querySelectorAll('input').forEach(function (i) { i.addEventListener('input', function () { readCustom(); compute(); }); });
+  }
+  function currentStage() {
+    if (stageType === 'Custom') return { code: 'CUSTOM', type: 'Custom', name: t('types').Custom, w: customStage.w, tag: customStage.tag, tw: customStage.tw, sk: [0, 0, 0, 0] };
+    return db.stageByCode[stageCode] || null;
+  }
+  function renderStageInfo(st) {
+    var box = $('stageInfo');
+    if (!st) { box.innerHTML = ''; return; }
+    var max = Math.max.apply(null, st.w.concat([1]));
+    var h = '<div class="balance">';
+    for (var p = 0; p < 5; p++) {
+      var a = st.w[2 * p] || 0, b = st.w[2 * p + 1] || 0, fill = '';
+      if (a > 0) fill = '<span class="fill" style="right:50%;width:' + (a / max * 50) + '%"></span>';
+      if (b > 0) fill += '<span class="fill" style="left:50%;width:' + (b / max * 50) + '%"></span>';
+      h += '<div class="bal"><span class="l ' + (a > 0 ? 'on' : 'off') + '">' + esc(attrName(2 * p)) + (a > 0 ? '<small>' + a + '</small>' : '') + '</span>' +
+        '<span class="bar">' + fill + '</span><span class="' + (b > 0 ? 'on' : 'off') + '">' + esc(attrName(2 * p + 1)) + (b > 0 ? '<small>' + b + '</small>' : '') + '</span></div>';
+    }
+    h += '</div><div class="chips">';
+    for (var i = 0; i < 2; i++) if (st.tag[i]) h += '<span class="chip">' + esc(db.tags[st.tag[i]] || ('Tag ' + st.tag[i])) + ' +' + fmt(st.tw[i]) + '</span>';
+    (st.sk || []).forEach(function (x) {
+      if (!x) return;
+      var id = Math.floor(x / 100), lv = x % 100;
+      h += '<span class="chip skill">' + esc(db.skills[id] || ('Skill ' + id)) + ' ' + lv + '</span>';
+    });
+    h += '</div>';
+    box.innerHTML = h;
+  }
+
+  /* ---------- compute + render result ---------- */
+  function compute() {
+    var st = currentStage();
+    lastStage = st;
+    store('stageType', stageType); if (stageType !== 'Custom') store('stageCode', stageCode);
+    renderStageInfo(st);
+    if (!st) { $('result').innerHTML = '<div class="empty">' + esc(t('emptyRes')) + '</div>'; return; }
+    lastRanked = E.rankAll(db, st, owned);
+    lastOutfit = E.buildOutfit(db, lastRanked, { optimize: optimize, overrides: overrides });
+    renderResult();
+  }
+  function stageLabel(st) {
+    if (st.type === 'Custom') return t('types').Custom;
+    return st.name || t('types')[st.type] || '';
+  }
+  function rowHtml(m, flag) {
+    var e = m.e, key = m.slot.key, b = '';
+    if (e.tagHit) b += '<span class="badge tag">' + t('tag') + '</span>';
+    if (overrides[key] && overrides[key] !== 'none') b += '<span class="badge pin">' + t('pinned') + '</span>';
+    if (flag === 'dropped') b += '<span class="badge off">' + t('dropped') + '</span>';
+    var h = '<tr class="item' + (flag === 'dropped' ? ' dropped' : '') + '" data-slot="' + key + '" tabindex="0" aria-expanded="' + (openSlot === key) + '">' +
+      '<td class="slot">' + esc(slotName(m.slot)) + '</td><td class="name">' + esc(e.item.name || '—') + b + '</td>' +
+      '<td class="sc">' + fmt(e.score) + '</td></tr>';
+    if (openSlot === key) h += altsHtml(key, e);
+    return h;
+  }
+  function emptyRow(s) {
+    var h = '<tr class="item dropped" data-slot="' + s.key + '" tabindex="0" aria-expanded="' + (openSlot === s.key) + '"><td class="slot">' + esc(slotName(s)) + '</td><td class="name">—' +
+      (overrides[s.key] === 'none' ? '<span class="badge pin">' + t('pinned') + '</span>' : '') + '</td><td class="sc"></td></tr>';
+    if (openSlot === s.key) h += altsHtml(s.key, null);
+    return h;
+  }
+  function altsHtml(key, cur) {
+    var list = (lastRanked[key] || []).slice(0, 20);
+    var h = '<tr class="alts"><td colspan="4"><div class="small muted" style="margin-bottom:4px">' + esc(t('top20')) + '</div><ol>';
+    list.forEach(function (x, i) {
+      var isCur = cur && x.item.id === cur.item.id;
+      h += '<li class="' + (isCur ? 'cur' : '') + '"><span class="rk">' + (i + 1) + '</span><span class="nm">' + esc(x.item.name || '—') +
+        (x.tagHit ? '<span class="badge tag">' + t('tag') + '</span>' : '') + '</span>' +
+        '<span class="sc">' + fmt(x.score) + '</span>' +
+        (isCur ? '<span></span>' : '<button type="button" class="ghost" data-pick="' + key + '" data-i="' + i + '">' + esc(t('use')) + '</button>') + '</li>';
+    });
+    if (!list.length) h += '<li><span></span><span class="muted">—</span></li>';
+    h += '</ol><div class="alt-actions"><button type="button" data-none="' + key + '">' + esc(t('none')) + '</button>' +
+      (overrides[key] ? '<button type="button" data-auto="' + key + '">' + esc(t('auto')) + '</button>' : '') + '</div></td></tr>';
+    return h;
+  }
+  function renderResult() {
+    var o = lastOutfit, st = lastStage;
+    var h = '<div class="score-head"><div><div class="score-label">' + esc(t('total')) + '</div><div class="score-big">' + fmt(o.total) + '</div>' +
+      '<div class="score-stage">' + '<b>' + esc(stageLabel(st)) + '</b></div></div>' +
+      '<div class="breakdown"><div>' + esc(t('main')) + '<b>' + fmt(o.mainSum) + '</b></div><div>' + esc(t('acc')) + '<b>' + fmt(o.accTotal, 1) + '</b></div>' +
+      '<div>' + esc(t('acc')) + '<b>' + esc(t('accN')(o.accCount, o.accMult)) + '</b></div></div></div>';
+    h += '<div class="opts"><label><input type="checkbox" id="optChk"' + (optimize ? ' checked' : '') + '> ' + esc(t('opt')) + '</label>' +
+      (Object.keys(overrides).length ? '<button type="button" class="ghost" id="clearOv">' + esc(t('reset')) + '</button>' : '') + '</div>';
+    h += '<div class="outfit-wrap"><table class="outfit"><thead><tr><th colspan="2">' + esc(t('mainH')) + '</th><th style="text-align:right">' + esc(t('thScore')) + '</th></tr></thead><tbody>';
+    var shownMain = {};
+    o.main.forEach(function (m) { shownMain[m.slot.key] = 1; h += rowHtml(m); });
+    db.slots.forEach(function (s) {
+      if (s.group === 'accessory' || s.group.indexOf('hand') === 0 || shownMain[s.key]) return;
+      if ((lastRanked[s.key] || []).length) h += emptyRow(s);
+    });
+    h += '</tbody><thead><tr><th colspan="2">' + esc(t('accH')) + '</th><th style="text-align:right">' + esc(t('thScore')) + '</th></tr></thead><tbody>';
+    var shownAcc = {};
+    o.acc.forEach(function (m) { shownAcc[m.slot.key] = 1; h += rowHtml(m); });
+    o.accDropped.forEach(function (m) { shownAcc[m.slot.key] = 1; h += rowHtml(m, 'dropped'); });
+    db.slots.forEach(function (s) {
+      if (!(s.group === 'accessory' || s.group.indexOf('hand') === 0) || shownAcc[s.key]) return;
+      if ((lastRanked[s.key] || []).length) h += emptyRow(s);
+    });
+    h += '</tbody></table></div>';
+    $('result').innerHTML = h;
+    $('optChk').addEventListener('change', function (e) { optimize = e.target.checked; store('optimize', optimize); compute(); });
+    if ($('clearOv')) $('clearOv').addEventListener('click', function () { overrides = {}; compute(); });
+  }
+  $('result').addEventListener('click', function (ev) {
+    var b = ev.target.closest('button');
+    if (b && b.hasAttribute('data-pick')) { var k = b.getAttribute('data-pick'); overrides[k] = lastRanked[k][+b.getAttribute('data-i')]; compute(); return; }
+    if (b && b.hasAttribute('data-none')) { overrides[b.getAttribute('data-none')] = 'none'; compute(); return; }
+    if (b && b.hasAttribute('data-auto')) { delete overrides[b.getAttribute('data-auto')]; compute(); return; }
+    var tr = ev.target.closest('tr.item');
+    if (tr) { var key = tr.getAttribute('data-slot'); openSlot = openSlot === key ? null : key; renderResult(); }
+  });
+  $('result').addEventListener('keydown', function (ev) {
+    if ((ev.key === 'Enter' || ev.key === ' ') && ev.target.matches('tr.item')) { ev.preventDefault(); ev.target.click(); }
+  });
+
+  function resultText() {
+    var o = lastOutfit; if (!o) return '';
+    var L = [stageLabel(lastStage), ''];
+    o.main.concat(o.acc).forEach(function (m) { L.push(m.slot.en + ': ' + m.e.item.name + ', ' + m.e.score); });
+    L.push('', 'Total: ' + fmt(o.total, 1));
+    return L.join('\n');
+  }
+  $('copyBtn').addEventListener('click', function () {
+    var txt = resultText();
+    try { navigator.clipboard.writeText(txt).then(function () { toast(t('copied')); }, fallback); } catch (e) { fallback(); }
+    function fallback() {
+      var ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); toast(t('copied')); } catch (e2) {} ta.remove();
+    }
+  });
+  function toast(msg) {
+    var d = document.createElement('div'); d.className = 'toast'; d.textContent = msg; root.appendChild(d);
+    setTimeout(function () { d.remove(); }, 2200);
+  }
+
+  /* ---------- data: Google Sheet / xlsx ---------- */
+  var TABS = ['Clothes', 'Stages', 'Slots', 'Bonuses', 'Penalty', 'Tags', 'Skills'];
+  function sheetId(url) { var m = /\/spreadsheets\/d\/([a-zA-Z0-9_-]{20,})/.exec(url || ''); return m ? m[1] : (/^[a-zA-Z0-9_-]{30,}$/.test(url || '') ? url : null); }
+  function parseCsv(text) {
+    var rows = [], row = [], f = '', q = false;
+    for (var i = 0; i < text.length; i++) {
+      var c = text[i];
+      if (q) { if (c === '"') { if (text[i + 1] === '"') { f += '"'; i++; } else q = false; } else f += c; }
+      else if (c === '"') q = true;
+      else if (c === ',') { row.push(f); f = ''; }
+      else if (c === '\n') { row.push(f); rows.push(row); row = []; f = ''; }
+      else if (c !== '\r') f += c;
+    }
+    if (f !== '' || row.length) { row.push(f); rows.push(row); }
+    return rows;
+  }
+  function norm(h) { return String(h == null ? '' : h).trim().toLowerCase().replace(/[^a-z0-9]+/g, ''); }
+  function tableToObjs(rows) {
+    if (!rows || !rows.length) return [];
+    var head = rows[0].map(norm);
+    return rows.slice(1).filter(function (r) { return r.some(function (v) { return String(v == null ? '' : v).trim() !== ''; }); }).map(function (r) {
+      var o = {}; head.forEach(function (h, i) { o[h] = r[i] == null ? '' : r[i]; }); return o;
+    });
+  }
+  function N(v, d) { if (v === '' || v == null) return d === undefined ? 0 : d; var n = Number(String(v).replace(/,/g, '')); return isNaN(n) ? (d === undefined ? 0 : d) : n; }
+  var ATTR_KEYS = ['gorgeous', 'simple', 'elegant', 'lively', 'mature', 'cute', 'sexy', 'pure', 'warm', 'cool'];
+  function tablesToRaw(tables) {
+    var raw = {}, used = [];
+    if (tables.Clothes && tables.Clothes.length) {
+      raw.clothes = tables.Clothes.filter(function (o) { return o.id !== ''; }).map(function (o) {
+        return [N(o.id), String(o.name), N(o.slotcode)].concat(ATTR_KEYS.map(function (k) { return N(o[k]); })).concat([N(o.specialtag1, -1), N(o.specialtag2, -1)]);
+      });
+      used.push('Clothes ' + raw.clothes.length);
+    }
+    if (tables.Stages && tables.Stages.length) {
+      raw.stages = tables.Stages.filter(function (o) { return o.code !== ''; }).map(function (o) {
+        return { code: String(o.code).trim().toUpperCase(), type: String(o.type).trim(), name: String(o.name || ''), w: ATTR_KEYS.map(function (k) { return N(o[k]); }),
+          tag: [N(o.tag1), N(o.tag2)], tw: [N(o.tag1bonus), N(o.tag2bonus)], sk: [N(o.skill1), N(o.skill2), N(o.skill3), N(o.skill4)] };
+      });
+      used.push('Stages ' + raw.stages.length);
+    }
+    if (tables.Slots && tables.Slots.length) {
+      var byKey = {}, order = [];
+      tables.Slots.forEach(function (o) {
+        var k = String(o.slotkey || o.sloten).trim(); if (!k) return;
+        if (!byKey[k]) { byKey[k] = [k, String(o.sloten || k), String(o.slotvi || o.sloten || k), String(o.group || 'accessory').trim().toLowerCase(), N(o.tagmultiplier), []]; order.push(k); }
+        if (o.slotcode !== '') byKey[k][5].push(N(o.slotcode));
+      });
+      raw.slots = order.map(function (k) { return byKey[k]; });
+      used.push('Slots ' + order.length);
+    }
+    if (tables.Bonuses) { raw.bonuses = tables.Bonuses.filter(function (o) { return o.name !== ''; }).map(function (o) { return [String(o.name), N(o.bonus)]; }); used.push('Bonuses ' + raw.bonuses.length); }
+    if (tables.Penalty && tables.Penalty.length) { raw.penalty = tables.Penalty.map(function (o) { return [N(o.accessoriesatleast), N(o.multiplier, 1)]; }); used.push('Penalty'); }
+    if (tables.Tags && tables.Tags.length) { raw.tags = tables.Tags.map(function (o) { return [N(o.tagid), String(o.tagname)]; }); used.push('Tags'); }
+    if (tables.Skills && tables.Skills.length) { raw.skills = tables.Skills.map(function (o) { return [N(o.skilltype), String(o.skillname)]; }); used.push('Skills'); }
+    var fb = builtinFor(srv()) || EMPTY;
+    ['clothes', 'stages', 'bonuses'].forEach(function (key) { if (!raw[key]) raw[key] = fb[key]; });
+    if (!raw.clothes.length || !raw.stages.length) throw new Error('empty');
+    return { raw: raw, used: used };
+  }
+  function applyTables(tables, src, label) {
+    var r = tablesToRaw(tables);
+    setDb(r.raw, src);
+    idbSet('data:' + server, { raw: r.raw, src: src, label: label, at: Date.now() });
+    afterDataChange();
+    return r.used.join(' · ');
+  }
+  function afterDataChange() {
+    overrides = {}; openSlot = null; renderServer(); renderSource(); renderCounts();
+    if (!hasData) return;
+    renderWardStatus(); renderTabs(); renderStageFields(); compute();
+  }
+  var loadState = 'idle';
+  function fetchTables(sv) {
+    var base = sv.url.replace(/\?.*$/, '');
+    function ok(t) { return t && t.Clothes && t.Stages; }
+    return loadXlsxLib().then(function () {
+      return fetch(base + '?output=xlsx', { cache: 'no-store' });
+    }).then(function (r) {
+      if (!r.ok) throw new Error(r.status); return r.arrayBuffer();
+    }).then(function (buf) {
+      var wb = XLSX.read(buf, { type: 'array' }), tables = {};
+      wb.SheetNames.forEach(function (n) {
+        var tab = TABS.filter(function (x) { return x.toLowerCase() === n.trim().toLowerCase(); })[0];
+        if (tab) tables[tab] = tableToObjs(XLSX.utils.sheet_to_json(wb.Sheets[n], { header: 1, raw: true, defval: '' }));
+      });
+      if (!ok(tables)) throw new Error('tabs');
+      return tables;
+    }).catch(function (e) {
+      console.warn('[Outfit Scorer] workbook download failed, trying per-tab CSV', e);
+      var gids = sv.gids || {};
+      return Promise.all(TABS.map(function (tab) {
+        var u = gids[tab] != null ? base + '?gid=' + gids[tab] + '&single=true&output=csv' : (tab === 'Clothes' ? sv.url : null);
+        if (!u) return null;
+        return fetch(u, { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : null; })
+          .then(function (txt) { return txt && !/^\s*</.test(txt) ? tableToObjs(parseCsv(txt)) : null; }).catch(function () { return null; });
+      })).then(function (res) {
+        var tables = {}; TABS.forEach(function (tab, i) { if (res[i]) tables[tab] = res[i]; });
+        if (!ok(tables)) throw new Error('Could not load the Stages tab: add its gid to this server in SERVERS');
+        return tables;
+      });
+    });
+  }
+  function sync(silent) {
+    var sv = srv(), forServer = server;
+    if (!sv.url) { loadState = 'idle'; if (!hasData) afterDataChange(); return; }
+    if (!hasData) { loadState = 'loading'; afterDataChange(); }
+    fetchTables(sv).then(function (tables) {
+      if (forServer !== server) return;
+      loadState = 'idle';
+      applyTables(tables, 'sheet', 'Google Sheet');
+    }).catch(function (e) {
+      console.warn('[Outfit Scorer]', e);
+      if (forServer !== server) return;
+      if (!hasData) { loadState = 'failed'; afterDataChange(); }
+    });
+  }
+  function loadXlsxLib() {
+    if (window.XLSX) return Promise.resolve();
+    return new Promise(function (res, rej) {
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+      s.onload = res; s.onerror = rej; document.head.appendChild(s);
+    });
+  }
+  function importXlsx(file) {
+    var msg = $('dataMsg'); msg.className = 'msg'; msg.textContent = t('loadingLib');
+    loadXlsxLib().then(function () {
+      return file.arrayBuffer();
+    }).then(function (buf) {
+      var wb = XLSX.read(buf, { type: 'array' }), tables = {};
+      wb.SheetNames.forEach(function (n) {
+        var tab = TABS.filter(function (x) { return x.toLowerCase() === n.trim().toLowerCase(); })[0];
+        if (tab) tables[tab] = tableToObjs(XLSX.utils.sheet_to_json(wb.Sheets[n], { header: 1, raw: true, defval: '' }));
+      });
+      if (!tables.Clothes && !tables.Stages) throw new Error('none');
+      var used = applyTables(tables, 'file', file.name);
+      msg.className = 'msg ok'; msg.textContent = t('synced')(used);
+    }).catch(function () { msg.className = 'msg bad'; msg.textContent = t('fileFail'); });
+  }
+
+  function idb() {
+    return new Promise(function (res, rej) {
+      try { var r = indexedDB.open('ln-outfit-scorer', 1); r.onupgradeneeded = function () { r.result.createObjectStore('kv'); }; r.onsuccess = function () { res(r.result); }; r.onerror = rej; }
+      catch (e) { rej(e); }
+    });
+  }
+  function idbSet(k, v) { idb().then(function (d) { d.transaction('kv', 'readwrite').objectStore('kv').put(v, k); }).catch(function () {}); }
+  function idbGet(k) {
+    return idb().then(function (d) { return new Promise(function (res) { var q = d.transaction('kv').objectStore('kv').get(k); q.onsuccess = function () { res(q.result); }; q.onerror = function () { res(null); }; }); }).catch(function () { return null; });
+  }
+  function idbDel(k) { idb().then(function (d) { d.transaction('kv', 'readwrite').objectStore('kv').delete(k); }).catch(function () {}); }
+
+  /* ---------- static text / data panel ---------- */
+  function renderServer() {
+    var s = srv();
+    $('srvBtns').innerHTML = SERVERS.map(function (x) {
+      return '<button type="button" data-srv="' + x.id + '" aria-pressed="' + (x.id === server) + '" title="' + esc(x.name[lang]) + '">' + esc(x.label) + '</button>';
+    }).join('');
+    $('mainGrid').hidden = !hasData;
+    $('noData').hidden = hasData;
+    if (!hasData) {
+      var vi = lang === 'vi';
+      $('noData').innerHTML = '<h2>' + esc(s.name[lang]) + '</h2><p>' + esc(!s.url ? (vi ? 'Dữ liệu cho server này chưa có.' : "This server's data isn't available yet.") : loadState === 'failed' ? (vi ? 'Không tải được dữ liệu. Thử tải lại trang.' : "Couldn't load the data. Try reloading the page.") : (vi ? 'Đang tải dữ liệu…' : 'Loading data…')) + '</p>';
+    }
+    $('resetBtn').textContent = s.builtin ? t('resetData') : t('resetServer');
+    $('resetBtn').hidden = !s.builtin && !hasData;
+  }
+  function switchServer(id, first) {
+    if (!first && id === server) return;
+    server = id; store('server', id);
+    var s = srv(), token = (switchServer.n = (switchServer.n || 0) + 1);
+    useAll = false; loadSiteWard();
+    $('sheetIn').value = store(k('sheet')) || s.sheet || '';
+    $('dataMsg').textContent = '';
+    setDb(builtinFor(s) || EMPTY, builtinFor(s) ? 'built' : 'none');
+    afterDataChange();
+    idbGet('data:' + id).then(function (c) {
+      if (token !== switchServer.n) return;
+      if (c && c.raw && c.raw.clothes && c.raw.stages) { setDb(c.raw, c.src || 'file'); afterDataChange(); }
+      sync(true);
+    });
+  }
+  function renderSource() {
+    var label = source === 'sheet' ? t('srcSheet') : source === 'file' ? t('srcFile') : source === 'none' ? '—' : t('srcBuilt');
+    label = srv().label;
+    ['srcPill', 'srcPill2'].forEach(function (id) { $(id).className = 'pill src-' + source; });
+    $('srcText').textContent = label; $('srcText2').textContent = label;
+  }
+  function renderCounts() {
+    $('counts').innerHTML = [[t('cClothes'), db.clothes.length], [t('cStages'), db.stages.length], [t('cBonus'), Object.keys(db.bonuses).length]]
+      .map(function (x) { return '<div><b>' + fmt(x[1]) + '</b>' + esc(x[0]) + '</div>'; }).join('');
+  }
+  function renderStatic() {
+    $('t-sub').textContent = t('sub'); $('t-ward').textContent = t('ward'); $('t-drop').textContent = t('drop'); $('t-drop2').textContent = t('drop2');
+    $('t-typed').textContent = t('typed'); $('typedBtn').textContent = t('typedBtn'); $('wardClear').textContent = t('wClear');
+    $('t-stage').textContent = t('stage'); $('t-res').textContent = t('res'); $('copyBtn').textContent = t('copy');
+    $('t-data').textContent = t('data'); $('t-sheetlbl').textContent = t('sheetLbl'); $('syncBtn').textContent = t('sync'); $('xlsxBtn').textContent = t('xlsx');
+    $('t-howto').textContent = t('howto'); $('t-srv').textContent = t('server');
+    $('howto').innerHTML = t('steps').map(function (s) { return '<li>' + s + '</li>'; }).join('');
+    $('tabTable').innerHTML = TABS.map(function (tab) { return '<tr><td><code>' + tab + '</code></td><td>' + esc(t('tabsDesc')[tab]) + '</td></tr>'; }).join('');
+    $('credit').textContent = t('credit'); $('langBtn').textContent = lang === 'vi' ? 'EN' : 'VI';
+    $('langBtn').setAttribute('aria-label', lang === 'vi' ? 'Switch to English' : 'Chuyển sang tiếng Việt');
+  }
+
+  /* ---------- events ---------- */
+  var drop = $('drop');
+  drop.addEventListener('click', function () { $('fileIn').click(); });
+  drop.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $('fileIn').click(); } });
+  $('fileIn').addEventListener('change', function (e) { if (e.target.files.length) readFiles(e.target.files); e.target.value = ''; });
+  ['dragenter', 'dragover'].forEach(function (n) { drop.addEventListener(n, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (n) { drop.addEventListener(n, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) { if (e.dataTransfer.files.length) readFiles(e.dataTransfer.files); });
+  $('typedBtn').addEventListener('click', function () {
+    var r = E.parseTyped($('typedIn').value);
+    if (!r.ids.length) return;
+    setOwned(Array.from(new Set((owned ? ownedRaw : []).concat(r.ids))));
+    $('typedIn').value = '';
+  });
+  $('wardClear').addEventListener('click', function () { useAll = !useAll; loadSiteWard(); overrides = {}; renderWardStatus(); compute(); });
+  $('wardExport').addEventListener('click', function () { var b = document.getElementById('exportBtn'); if (b) b.click(); });
+  $('typeTabs').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    stageType = b.getAttribute('data-ty'); overrides = {}; openSlot = null;
+    if (stageType !== 'Custom' && !(db.stageByCode[stageCode] && db.stageByCode[stageCode].type === stageType)) stageCode = '';
+    renderTabs(); renderStageFields(); compute();
+  });
+  $('langBtn').addEventListener('click', function () {
+    lang = lang === 'vi' ? 'en' : 'vi'; store('lang2', lang);
+    renderStatic(); afterDataChange();
+  });
+  $('syncBtn').addEventListener('click', function () { sync(false); });
+  $('xlsxBtn').addEventListener('click', function () { $('xlsxIn').click(); });
+  $('xlsxIn').addEventListener('change', function (e) { if (e.target.files[0]) importXlsx(e.target.files[0]); e.target.value = ''; });
+  $('resetBtn').addEventListener('click', function () {
+    idbDel('data:' + server); setDb(builtinFor(srv()) || EMPTY, builtinFor(srv()) ? 'built' : 'none'); afterDataChange();
+    $('dataMsg').className = 'msg ok'; $('dataMsg').textContent = t('resetDone');
+  });
+
+  /* ---------- boot (runs the first time the Scorer tab is opened) ---------- */
+  $('srvBtns').addEventListener('click', function (e) { var b = e.target.closest('button[data-srv]'); if (b) switchServer(b.getAttribute('data-srv')); });
+  var booted = false;
+  window.lnScorerShow = function () {
+    if (!booted) { booted = true; renderStatic(); switchServer(server, true); return; }
+    loadSiteWard(); renderWardStatus(); if (hasData) { overrides = {}; compute(); }
+  };
+})();
+})();
 </script>
 </body>
 </html>
