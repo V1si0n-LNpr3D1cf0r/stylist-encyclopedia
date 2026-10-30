@@ -3098,10 +3098,6 @@ var Engine = (function () {
 
   var ATTRS = ['Gorgeous', 'Simple', 'Elegant', 'Lively', 'Mature', 'Cute', 'Sexy', 'Pure', 'Warm', 'Cool'];
 
-  /* ---------- data model ----------
-     db = { clothes:[{id,name,depth,a:[10],sp1,sp2}], stages:[{code,type,name,w:[10],tag:[2],tw:[2],sk:[4]}],
-            slots:[{key,en,vi,group,mult,codes:[]}], bonuses:{name:bonus}, penalty:[[min,mult]],
-            tags:{id:name}, skills:{id:name} } */
   function buildDb(raw) {
     var db = {};
     db.clothes = raw.clothes.map(function (c) {
@@ -3139,7 +3135,6 @@ var Engine = (function () {
     return 1;
   }
 
-  /* ---------- scoring ---------- */
   function scoreItem(db, item, stage) {
     var s = 0, a = item.a, w = stage.w;
     for (var i = 0; i < 10; i++) s += w[i] * (a[i] || 0);
@@ -3153,7 +3148,6 @@ var Engine = (function () {
     return { score: Math.trunc(s), tagPart: tagPart, tagHit: tagPart > 0 };
   }
 
-  /* owned: Set of id strings or null (= all clothes) */
   function rankAll(db, stage, owned) {
     var bySlot = {}, WL = {}, BL = {};
     (stage.wl || []).forEach(function (x) { WL[x] = 1; });
@@ -3161,9 +3155,9 @@ var Engine = (function () {
     db.slots.forEach(function (s) { bySlot[s.key] = []; });
     for (var i = 0; i < db.clothes.length; i++) {
       var it = db.clothes[i], id = String(it.id);
-      if (BL[id]) continue;                       
+      if (BL[id]) continue;                      
       var have = !owned || owned.has(id);
-      if (!have && !WL[id]) continue;
+      if (!have && !WL[id]) continue;        
       var r = scoreItem(db, it, stage);
       bySlot[slotOf(db, it).key].push({ item: it, score: r.score, tagPart: r.tagPart, tagHit: r.tagHit, needed: !!WL[id], notOwned: !have });
     }
@@ -3358,7 +3352,7 @@ if (typeof module !== 'undefined') module.exports = Engine;
       wAll: 'Chưa nạp tủ đồ, đang tính với <b>toàn bộ</b> đồ trong game.',
       wHave: function (n, m) { return 'Tủ đồ: <b>' + fmt(n) + '</b> món, <b>' + fmt(m) + '</b> món có trong dữ liệu.'; },
       wClear: 'Dùng toàn bộ đồ', wBad: 'Không đọc được file này. Hãy chọn clothes_date.txt hoặc clothes_typed.txt.',
-      stage: 'Màn chơi', types: { Arena: 'Arena', Commission: 'Commission', Maiden: 'Maiden', Princess: 'Princess', Custom: 'Tự đặt' },
+      stage: 'Màn chơi', types: { Arena: 'Arena', Commission: 'Commission', 'Co-op': 'Co-op', Maiden: 'Maiden', Princess: 'Princess', Custom: 'Tự đặt' },
       vol: 'Tập', ch: 'Chương', st: 'Màn', act: 'Act', theme: 'Chủ đề', side: 'phụ', go: 'Mở',
       noStage: 'Không tìm thấy mã màn này.', tags: 'Tag đặc biệt', skills: 'Kỹ năng đối thủ',
       res: 'Bộ đồ đề xuất', total: 'Tổng điểm', main: 'Đồ chính', acc: 'Phụ kiện', accN: function (n, m) { return n + ' món × ' + m; },
@@ -3395,7 +3389,7 @@ if (typeof module !== 'undefined') module.exports = Engine;
       wAll: 'No wardrobe loaded. Scoring with <b>every</b> item in the game.',
       wHave: function (n, m) { return 'Wardrobe: <b>' + fmt(n) + '</b> items, <b>' + fmt(m) + '</b> found in data.'; },
       wClear: 'Use all items (from the game)', wBad: "That file couldn't be read. Choose clothes_date.txt or clothes_typed.txt.",
-      stage: 'Stage', types: { Arena: 'Arena', Commission: 'Commission', Maiden: 'Maiden', Princess: 'Princess', Custom: 'Custom' },
+      stage: 'Stage', types: { Arena: 'Arena', Commission: 'Commission', 'Co-op': 'Co-op', Maiden: 'Maiden', Princess: 'Princess', Custom: 'Custom' },
       vol: 'Volume', ch: 'Chapter', st: 'Stage', act: 'Act', theme: 'Theme', side: 'side', go: 'Open',
       noStage: 'No stage with that code.', tags: 'Special tags', skills: 'Opponent skills',
       res: 'Suggested outfit', total: 'Total score', main: 'Main pieces', acc: 'Accessories', accN: function (n, m) { return n + ' items × ' + m; },
@@ -3471,10 +3465,11 @@ if (typeof module !== 'undefined') module.exports = Engine;
 
   var stageIdx;
   function indexStages() {
-    stageIdx = { Arena: [], Commission: {}, Maiden: {}, Princess: {}, other: {} };
+    stageIdx = { Arena: [], Coop: [], Commission: {}, Maiden: {}, Princess: {}, other: {} };
     db.stages.forEach(function (s) {
       var m;
       if (s.type === 'Arena') stageIdx.Arena.push(s);
+      else if (s.type === 'Co-op') stageIdx.Coop.push(s);
       else if (s.type === 'Commission' && (m = /^GA(\d+)S(\d+)$/.exec(s.code))) {
         (stageIdx.Commission[m[1]] = stageIdx.Commission[m[1]] || []).push({ s: s, n: +m[2] });
       } else if ((s.type === 'Maiden' || s.type === 'Princess') && (m = /^[MP]V(\d+)C(\d+)(SS|S)(\d+)(T\d+)?$/.exec(s.code))) {
@@ -3484,6 +3479,7 @@ if (typeof module !== 'undefined') module.exports = Engine;
     });
     var num = function (a, b) { return a - b; };
     stageIdx.Arena.sort(function (a, b) { return (+a.code.slice(1)) - (+b.code.slice(1)); });
+    stageIdx.Coop.sort(function (a, b) { return (parseInt(a.code.replace(/\D/g, ''), 10) || 0) - (parseInt(b.code.replace(/\D/g, ''), 10) || 0); });
     Object.keys(stageIdx.Commission).forEach(function (k) { stageIdx.Commission[k].sort(function (a, b) { return a.n - b.n; }); });
     ['Maiden', 'Princess'].forEach(function (ty) {
       Object.keys(stageIdx[ty]).forEach(function (v) {
@@ -3509,7 +3505,7 @@ if (typeof module !== 'undefined') module.exports = Engine;
     return Array.from(set).filter(function (x) { return /^\d+$/.test(x); });
   }
   function loadSiteWard() { var ids = siteOwnedIds(); ownedRaw = ids; owned = ids.length && !useAll ? new Set(ids) : null; }
-  function setOwned(ids, replace) { 
+  function setOwned(ids, replace) { // file imports replace the wardrobe; typed codes add to it
     if (ids && (ids.length || replace)) {
       try {
         if (typeof state !== 'undefined' && typeof saveOwned === 'function') {
@@ -3569,10 +3565,11 @@ if (typeof module !== 'undefined') module.exports = Engine;
     }
   }
 
-  /* ---------- stage picker ---------- */
-  var TYPES = ['Arena', 'Commission', 'Maiden', 'Princess', 'Custom'];
+  var TYPES = ['Arena', 'Commission', 'Co-op', 'Maiden', 'Princess', 'Custom'];
   function renderTabs() {
-    $('typeTabs').innerHTML = TYPES.map(function (ty) {
+    $('typeTabs').innerHTML = TYPES.filter(function (ty) {
+      return ty !== 'Co-op' || ty === stageType || db.stages.some(function (s) { return s.type === 'Co-op'; });
+    }).map(function (ty) {
       return '<button type="button" data-ty="' + ty + '" aria-pressed="' + (ty === stageType) + '">' + esc(t('types')[ty]) + '</button>';
     }).join('');
   }
@@ -3593,6 +3590,10 @@ if (typeof module !== 'undefined') module.exports = Engine;
         sel('sComm', t('st'), (stageIdx.Commission[act] || []).map(function (x) {
           return opt(x.s.code, x.n + (x.s.name ? ' · ' + x.s.name : ''), x.s.code === stageCode);
         }).join('')) + '</div>';
+    } else if (stageType === 'Co-op') {
+      html = sel('sCoop', t('theme'), stageIdx.Coop.map(function (s) {
+        return opt(s.code, s.name || s.code, s.code === stageCode);
+      }).join(''));
     } else if (stageType === 'Maiden' || stageType === 'Princess') {
       var T2 = stageIdx[stageType], vols = stageIdx.keysNum(T2);
       m = /^[MP]V(\d+)C(\d+)/.exec(stageCode);
@@ -3691,7 +3692,6 @@ if (typeof module !== 'undefined') module.exports = Engine;
     box.innerHTML = h;
   }
 
-  /* ---------- compute + render result ---------- */
   function compute() {
     var st = currentStage();
     lastStage = st;
@@ -3803,7 +3803,6 @@ if (typeof module !== 'undefined') module.exports = Engine;
     setTimeout(function () { d.remove(); }, 2200);
   }
 
-  /* ---------- data: Google Sheet / xlsx ---------- */
   var TABS = ['Clothes', 'Stages', 'Slots', 'Bonuses', 'Penalty', 'Tags', 'Skills'];
   function sheetId(url) { var m = /\/spreadsheets\/d\/([a-zA-Z0-9_-]{20,})/.exec(url || ''); return m ? m[1] : (/^[a-zA-Z0-9_-]{30,}$/.test(url || '') ? url : null); }
   function parseCsv(text) {
@@ -3961,7 +3960,6 @@ if (typeof module !== 'undefined') module.exports = Engine;
   }
   function idbDel(k) { idb().then(function (d) { d.transaction('kv', 'readwrite').objectStore('kv').delete(k); }).catch(function () {}); }
 
-  /* ---------- static text / data panel ---------- */
   function renderServer() {
     var s = srv();
     $('srvBtns').innerHTML = SERVERS.map(function (x) {
@@ -4013,7 +4011,6 @@ if (typeof module !== 'undefined') module.exports = Engine;
     $('langBtn').setAttribute('aria-label', lang === 'vi' ? 'Switch to English' : 'Chuyển sang tiếng Việt');
   }
 
-  /* ---------- events ---------- */
   var drop = $('drop');
   drop.addEventListener('click', function () { $('fileIn').click(); });
   drop.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $('fileIn').click(); } });
@@ -4047,7 +4044,6 @@ if (typeof module !== 'undefined') module.exports = Engine;
     $('dataMsg').className = 'msg ok'; $('dataMsg').textContent = t('resetDone');
   });
 
-  /* ---------- boot (runs the first time the Scorer tab is opened) ---------- */
   $('srvBtns').addEventListener('click', function (e) { var b = e.target.closest('button[data-srv]'); if (b) switchServer(b.getAttribute('data-srv')); });
   var booted = false;
   window.lnScorerShow = function () {
@@ -4059,4 +4055,3 @@ if (typeof module !== 'undefined') module.exports = Engine;
 </script>
 </body>
 </html>
-
