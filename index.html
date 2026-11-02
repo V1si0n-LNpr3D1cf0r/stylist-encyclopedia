@@ -2027,9 +2027,9 @@ function mergeServerRows(rows, overlay){
     return "";
   };
   const headers = rows.length ? Object.keys(rows[0]) : [];
-  const hasRarity = headers.some(k => ["rarity", "star", "stars", "rarity stars"].includes(k));
-  const hasType = headers.some(k => ["type", "item type", "category type"].includes(k));
-  const hasExt = rows.length && hasRarity && hasType;
+  const hasHidden = headers.some(k => ["hidden", "is hidden"].includes(k));
+  // every extra column works on its own: a value in the sheet wins, then the classic sheet, then what can be worked out
+  const pick = (...vals) => { for(const v of vals){ const x = String(v == null ? "" : v).trim(); if(x !== "") return x; } return ""; };
   const slotOf = r => field(r, "slot code", "slot", "slot_code");
   // learn from the items both sheets know: slot code -> type, special tag id -> name, stat number -> S/A/B grade,
   // and the newest item id per slot (so old hidden items are not mistaken for new ones)
@@ -2069,34 +2069,26 @@ function mergeServerRows(rows, overlay){
   const out = [];
   rows.forEach(r => {
     const iid = field(r, "id", "internal_id", "internal id", "item id"); if(!iid) return;
-    const o = ov.get(iid), sl = slotOf(r), idn = parseInt(iid, 10) || 0;
-    if(hasExt){
+    const o = ov.get(iid) || null, sl = slotOf(r), idn = parseInt(iid, 10) || 0, sm = slotMap[sl] || {};
+    if(hasHidden){
       const hid = field(r, "hidden", "is hidden").toLowerCase();
       if(hid && hid !== "0" && hid !== "false") return;
     }else if(!o){
       const m = maxId[sl];
       if(m !== undefined && !(idn > m)) return;      // an old item the classic sheet doesn't list = hidden in the game
     }
-    const it = Object.assign({}, o || {}, { internal_id: iid, name: field(r, "name", "en name", "item name") || (o && o.name) || "" });
-    if(hasExt){
-      it.type = field(r, "type", "item type", "category type") || (o && o.type) || "";
-      it.subtype = field(r, "subtype", "sub type", "item subtype") || (o && o.subtype) || "";
-      it.rarity = field(r, "rarity", "star", "stars", "rarity stars") || (o && o.rarity) || "";
-      it.tag1 = field(r, "tag 1 name", "tag1", "tag 1") || (o && o.tag1) || "";
-      it.tag2 = field(r, "tag 2 name", "tag2", "tag 2") || (o && o.tag2) || "";
-      it.desc = field(r, "description", "desc", "item description") || (o && (o.desc || o.description)) || "";
-      ATTRS.forEach(a => { it[a] = field(r, "grade " + a, a + " grade") || (o && o[a]) || ""; });
-    }else if(!o){
-      const sm = slotMap[sl] || {};
-      it.type = field(r, "type", "item type") || sm.type || (o && o.type) || "";
-      it.subtype = field(r, "subtype", "item subtype") || sm.subtype || (o && o.subtype) || "";
-      it.rarity = field(r, "rarity", "star", "stars", "rarity stars") || (o && o.rarity) || "";
-      it.desc = field(r, "description", "desc", "item description") || (o && (o.desc || o.description)) || "";
-      it.tag1 = field(r, "tag 1 name", "tag1", "tag 1") || tagMap[field(r, "special tag 1", "special_tag_1")] || (o && o.tag1) || "";
-      it.tag2 = field(r, "tag 2 name", "tag2", "tag 2") || tagMap[field(r, "special tag 2", "special_tag_2")] || (o && o.tag2) || "";
-      ATTRS.forEach(a => { it[a] = gradeFor(sl, parseInt(r[a], 10) || 0); });
-    }
-    it.id = (o && o.id) || field(r, "site id", "display id") || (it.type ? String(it.type).toLowerCase() + (idn % 10000) : "");
+    const it = Object.assign({}, o || {}, { internal_id: iid, name: pick(field(r, "name", "en name", "item name"), o && o.name) });
+    it.type = pick(field(r, "type", "item type", "category type"), o && o.type, sm.type);
+    it.subtype = pick(field(r, "subtype", "sub type", "item subtype"), o && o.subtype, sm.subtype);
+    it.rarity = pick(field(r, "rarity", "star", "stars", "rarity stars"), o && o.rarity);
+    it.desc = pick(field(r, "description", "desc", "item description"), o && (o.desc || o.description));
+    it.tag1 = pick(field(r, "tag 1 name", "tag1", "tag 1"), o && o.tag1, tagMap[field(r, "special tag 1", "special_tag_1")]);
+    it.tag2 = pick(field(r, "tag 2 name", "tag2", "tag 2"), o && o.tag2, tagMap[field(r, "special tag 2", "special_tag_2")]);
+    it.suit = pick(field(r, "suit", "suit name"), o && o.suit);
+    it.inasuit = pick(field(r, "in suit", "inasuit", "in a suit"), o && o.inasuit);
+    it.category = pick(field(r, "category", "category / nation", "nation"), o && o.category);
+    ATTRS.forEach(a => { it[a] = pick(field(r, "grade " + a, a + " grade"), o && o[a], o ? "" : gradeFor(sl, parseInt(r[a], 10) || 0)); });
+    it.id = pick(o && o.id, field(r, "site id", "display id"), it.type ? String(it.type).toLowerCase() + (idn % 10000) : "");
     out.push(it);
   });
   return out;
