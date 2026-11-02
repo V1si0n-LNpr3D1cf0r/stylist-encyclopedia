@@ -2018,17 +2018,28 @@ document.addEventListener("click", e => {
 function mergeServerRows(rows, overlay){
   const ATTRS = ["gorgeous","simple","elegant","lively","mature","cute","sexy","pure","warm","cool"], GR = ["C","B","A","S","SS","SSS"];
   const ov = new Map(overlay.map(o => [String(o.internal_id || "").trim(), o]));
-  const hasExt = rows.length && ("rarity" in rows[0]) && ("type" in rows[0]);   // extended columns are optional
-  const slotOf = r => String(r["slot code"] || "").trim();
+  // Scorer sheet is primary for name, rarity and description. Accept alternate header spellings.
+  const field = (r, ...keys) => {
+    for (const key of keys) {
+      const k = String(key).toLowerCase();
+      if (r[k] !== undefined && r[k] !== null && String(r[k]).trim() !== "") return String(r[k]).trim();
+    }
+    return "";
+  };
+  const headers = rows.length ? Object.keys(rows[0]) : [];
+  const hasRarity = headers.some(k => ["rarity", "star", "stars", "rarity stars"].includes(k));
+  const hasType = headers.some(k => ["type", "item type", "category type"].includes(k));
+  const hasExt = rows.length && hasRarity && hasType;
+  const slotOf = r => field(r, "slot code", "slot", "slot_code");
   // learn from the items both sheets know: slot code -> type, special tag id -> name, stat number -> S/A/B grade,
   // and the newest item id per slot (so old hidden items are not mistaken for new ones)
   const slotVotes = {}, tagVotes = {}, hist = {}, maxId = {};
   const vote = (m, k, n) => { const v = m[k] = m[k] || {}; v[n] = (v[n] || 0) + 1; };
   rows.forEach(r => {
-    const iid = String(r["id"] || "").trim(), o = ov.get(iid), sl = slotOf(r); if(!o || !sl) return;
+    const iid = field(r, "id", "internal_id", "internal id", "item id"), o = ov.get(iid), sl = slotOf(r); if(!o || !sl) return;
     maxId[sl] = Math.max(maxId[sl] || 0, parseInt(iid, 10) || 0);
     vote(slotVotes, sl, (o.type || "") + "|" + (o.subtype || ""));
-    ["1","2"].forEach(n => { const sid = String(r["special tag " + n] || "").trim(), nm = String(o["tag" + n] || "").trim(); if(sid && nm) vote(tagVotes, sid, nm); });
+    ["1","2"].forEach(n => { const sid = field(r, "special tag " + n, "special_tag_" + n), nm = String(o["tag" + n] || "").trim(); if(sid && nm) vote(tagVotes, sid, nm); });
     ATTRS.forEach(a => { const v = parseInt(r[a], 10), g = String(o[a] || "").trim(); if(v > 0 && GR.includes(g)){ const h = hist[sl] = hist[sl] || {}; vote(h, g, v); } });
   });
   const best = m => Object.keys(m).sort((a, b) => m[b] - m[a])[0];
@@ -2057,28 +2068,35 @@ function mergeServerRows(rows, overlay){
 
   const out = [];
   rows.forEach(r => {
-    const iid = String(r["id"] || "").trim(); if(!iid) return;
+    const iid = field(r, "id", "internal_id", "internal id", "item id"); if(!iid) return;
     const o = ov.get(iid), sl = slotOf(r), idn = parseInt(iid, 10) || 0;
     if(hasExt){
-      const hid = String(r["hidden"] || "").trim().toLowerCase();
+      const hid = field(r, "hidden", "is hidden").toLowerCase();
       if(hid && hid !== "0" && hid !== "false") return;
     }else if(!o){
       const m = maxId[sl];
       if(m !== undefined && !(idn > m)) return;      // an old item the classic sheet doesn't list = hidden in the game
     }
-    const it = Object.assign({}, o || {}, { internal_id: iid, name: r["name"] || (o && o.name) || "" });
+    const it = Object.assign({}, o || {}, { internal_id: iid, name: field(r, "name", "en name", "item name") || (o && o.name) || "" });
     if(hasExt){
-      it.type = String(r["type"] || (o && o.type) || "").trim(); it.subtype = r["subtype"] || (o && o.subtype) || "";
-      it.rarity = r["rarity"] || (o && o.rarity) || ""; it.tag1 = r["tag 1 name"] || ""; it.tag2 = r["tag 2 name"] || "";
-      it.desc = r["description"] || (o && o.desc) || "";
-      ATTRS.forEach(a => { it[a] = r["grade " + a] || ""; });
+      it.type = field(r, "type", "item type", "category type") || (o && o.type) || "";
+      it.subtype = field(r, "subtype", "sub type", "item subtype") || (o && o.subtype) || "";
+      it.rarity = field(r, "rarity", "star", "stars", "rarity stars") || (o && o.rarity) || "";
+      it.tag1 = field(r, "tag 1 name", "tag1", "tag 1") || (o && o.tag1) || "";
+      it.tag2 = field(r, "tag 2 name", "tag2", "tag 2") || (o && o.tag2) || "";
+      it.desc = field(r, "description", "desc", "item description") || (o && (o.desc || o.description)) || "";
+      ATTRS.forEach(a => { it[a] = field(r, "grade " + a, a + " grade") || (o && o[a]) || ""; });
     }else if(!o){
       const sm = slotMap[sl] || {};
-      it.type = sm.type || ""; it.subtype = sm.subtype || ""; it.rarity = ""; it.desc = "";
-      it.tag1 = tagMap[String(r["special tag 1"] || "").trim()] || ""; it.tag2 = tagMap[String(r["special tag 2"] || "").trim()] || "";
+      it.type = field(r, "type", "item type") || sm.type || (o && o.type) || "";
+      it.subtype = field(r, "subtype", "item subtype") || sm.subtype || (o && o.subtype) || "";
+      it.rarity = field(r, "rarity", "star", "stars", "rarity stars") || (o && o.rarity) || "";
+      it.desc = field(r, "description", "desc", "item description") || (o && (o.desc || o.description)) || "";
+      it.tag1 = field(r, "tag 1 name", "tag1", "tag 1") || tagMap[field(r, "special tag 1", "special_tag_1")] || (o && o.tag1) || "";
+      it.tag2 = field(r, "tag 2 name", "tag2", "tag 2") || tagMap[field(r, "special tag 2", "special_tag_2")] || (o && o.tag2) || "";
       ATTRS.forEach(a => { it[a] = gradeFor(sl, parseInt(r[a], 10) || 0); });
     }
-    it.id = (o && o.id) || (it.type ? String(it.type).toLowerCase() + (idn % 10000) : "");
+    it.id = (o && o.id) || field(r, "site id", "display id") || (it.type ? String(it.type).toLowerCase() + (idn % 10000) : "");
     out.push(it);
   });
   return out;
@@ -2097,8 +2115,8 @@ async function loadItems(){
         const rows = await fetchCSV(sv.url);
         if(myToken !== itemsToken) return;
         if(rows.length && ("id" in rows[0]) && ("name" in rows[0])) items = mergeServerRows(rows, overlayRows);
-        else note = "Couldn't load this server's sheet, so the classic catalog is shown.";
-      }catch(e){ console.warn("[Wardrobe] server sheet failed", e); note = "Couldn't load this server's sheet, so the classic catalog is shown."; }
+        else note = "Scorer sheet could not be loaded; showing classic Encyclopedia data instead.";
+      }catch(e){ console.warn("[Wardrobe] server sheet failed", e); note = "Scorer sheet could not be loaded; showing classic Encyclopedia data instead."; }
     }
     if(myToken !== itemsToken) return;
     if(!items) items = overlayRows.map(o => Object.assign({}, o));
