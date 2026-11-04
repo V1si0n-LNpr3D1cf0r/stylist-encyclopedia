@@ -136,13 +136,25 @@ async function scorerXlsx(key, request, env) {
   return new Response(r.body, { headers: { "content-type": mime, "cache-control": "no-store", "x-content-type-options": "nosniff" } });
 }
 export async function onRequest({ request, env, params }) {
-  if (path[0] === "wardrobe" && path.length === 2)
-  return await scorerClothesCsv(path[1], env);
   if (request.method !== "GET") return error(405, "Method not allowed");
-  const path = Array.isArray(params.path) ? params.path : String(params.path || "").split("/").filter(Boolean);
+
+  const path = Array.isArray(params.path)
+    ? params.path
+    : String(params.path || "").split("/").filter(Boolean);
+
   try {
-    if (path[0] === "main" && path.length === 2) return await mainCsv(path[1], env);
-    if (path[0] === "scorer" && path.length === 2) return await scorerXlsx(path[1], request, env);
+    if (path[0] === "wardrobe" && path.length === 2) {
+      return await scorerClothesCsv(path[1], env);
+    }
+
+    if (path[0] === "main" && path.length === 2) {
+      return await mainCsv(path[1], env);
+    }
+
+    if (path[0] === "scorer" && path.length === 2) {
+      return await scorerXlsx(path[1], request, env);
+    }
+
     return error(404, "Unknown data endpoint");
   } catch (e) {
     console.error("[private sheet API]", e);
