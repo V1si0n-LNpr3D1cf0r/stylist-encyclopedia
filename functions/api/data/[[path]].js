@@ -6,11 +6,11 @@ const SHEETS = {
     tabs: { items: null, crafting: 1432725843, chapters: 563709766, breakdowns: 333774526, themes: 1701381424, serverNames: 1044161109, music: 210977537, taskSuits: 1505720108, suitGallery: 1089816438 }
   },
   scorer: {
-    ln: "1xvY-FBKSDAg_9F3By7ERIh_ZkvMitJfuWVbRjYh1Jns",
-    vn: "1n_d9afE_v6wphHnWhTdBdX6B6rJQV32cmNEVkHhvupg",
-    cn: "1uO81VAutbW249ZUBlukWBDOsejwwUnhHGL3bk2qxypo",
+    ln: "1do-UIvxKA9-8Un90g-SwqdR7HACPT4H1SnAfDbEgT1o",
+    vn: "1uO81VAutbW249ZUBlukWBDOsejwwUnhHGL3bk2qxypo ",
+    cn: "1n_d9afE_v6wphHnWhTdBdX6B6rJQV32cmNEVkHhvupg",
     jp: "1a8jmEGctFeTthZ59_FMfBmPlgoR6KOWi0RuWQRzIyHU",
-    tw: "1do-UIvxKA9-8Un90g-SwqdR7HACPT4H1SnAfDbEgT1o"
+    tw: "1xvY-FBKSDAg_9F3By7ERIh_ZkvMitJfuWVbRjYh1Jns"
   }
 };
 let cachedToken = null, tokenExpiresAt = 0;
