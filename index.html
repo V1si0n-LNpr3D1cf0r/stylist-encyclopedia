@@ -1265,15 +1265,49 @@ body.dark{--sc-good:#6cc59a;--sc-warn:#f0a26a}
 <script>
 
 window.LN_SERVERS = (function () {
-  var SHEET_LN = '/api/data/scorer/ln?output=xlsx';
-
   var SERVERS = [
-    { id: 'ln', label: 'LN', name: { en: 'Global', vi: 'Love Nikki ' }, url: SHEET_LN, gids: {} },
-    { id: 'vn', label: 'VN', name: { en: 'Vietnam Server', vi: 'Server Việt Nam' }, url: '/api/data/scorer/vn?output=xlsx', gids: {} },
-    { id: 'cn', label: 'CN', name: { en: 'Chinese Server', vi: 'Server Chinese' }, url: '/api/data/scorer/cn?output=xlsx', gids: {} },
-    { id: 'jp', label: 'JP', name: { en: 'Japananese Server', vi: 'Server Japan' }, url: '/api/data/scorer/jp?output=xlsx', gids: {} },
-    { id: 'tw', label: 'TW', name: { en: 'Taiwan Server', vi: 'Server Taiwan' }, url: '/api/data/scorer/tw?output=xlsx', gids: {} }
+    {
+      id: 'ln',
+      label: 'LN',
+      name: { en: 'Global', vi: 'Love Nikki' },
+      url: '/api/data/scorer/ln?output=xlsx',
+      itemsUrl: '/api/data/wardrobe/ln',
+      gids: {}
+    },
+    {
+      id: 'vn',
+      label: 'VN',
+      name: { en: 'Vietnam Server', vi: 'Server Việt Nam' },
+      url: '/api/data/scorer/vn?output=xlsx',
+      itemsUrl: '/api/data/wardrobe/vn',
+      gids: {}
+    },
+    {
+      id: 'cn',
+      label: 'CN',
+      name: { en: 'Chinese Server', vi: 'Server Chinese' },
+      url: '/api/data/scorer/cn?output=xlsx',
+      itemsUrl: '/api/data/wardrobe/cn',
+      gids: {}
+    },
+    {
+      id: 'jp',
+      label: 'JP',
+      name: { en: 'Japanese Server', vi: 'Server Japan' },
+      url: '/api/data/scorer/jp?output=xlsx',
+      itemsUrl: '/api/data/wardrobe/jp',
+      gids: {}
+    },
+    {
+      id: 'tw',
+      label: 'TW',
+      name: { en: 'Taiwan Server', vi: 'Server Taiwan' },
+      url: '/api/data/scorer/tw?output=xlsx',
+      itemsUrl: '/api/data/wardrobe/tw',
+      gids: {}
+    }
   ];
+
   return SERVERS;
 })();
 </script>
@@ -2193,10 +2227,10 @@ async function loadItems(){
     if(!overlayRows) overlayRows = await fetchCSV(DATA.items);
     const sv = (window.LN_SERVERS || []).find(s => s.id === sid);
     let items = null, note = "";
-    if(sv && sv.url){
+    if(sv && sv.itemsUrl){
       document.getElementById("itemResults").innerHTML = '<div class="loading">Loading items…</div>';
       try{
-        const rows = await fetchCSV(sv.url);
+        const rows = await fetchCSV(sv.itemsUrl);
         if(myToken !== itemsToken) return;
         if(rows.length && ("id" in rows[0]) && ("name" in rows[0])) items = mergeServerRows(rows, overlayRows);
         else note = "Scorer sheet could not be loaded; showing classic Encyclopedia data instead.";

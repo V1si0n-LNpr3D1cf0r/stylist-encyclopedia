@@ -86,6 +86,47 @@ async function mainCsv(key, env) {
   const csv = rows.map(row => row.map(csvCell).join(",")).join("\r\n");
   return new Response(csv, { headers: { "content-type": "text/csv; charset=utf-8", "cache-control": "public, max-age=60, s-maxage=300", "x-content-type-options": "nosniff" } });
 }
+async function scorerClothesCsv(key, env) {
+  const id = SHEETS.scorer[key];
+  if (!id) return error(404, "Unknown scorer server");
+
+  // Find the worksheet named Clothes.
+  const meta = await googleFetch(
+    "https://sheets.googleapis.com/v4/spreadsheets/" +
+    id + "?fields=" +
+    encodeURIComponent("sheets.properties(sheetId,title)"),
+    env
+  );
+
+  const data = await meta.json();
+  const sheet = (data.sheets || []).find(
+    x => String(x.properties.title || "").trim().toLowerCase() === "clothes"
+  );
+
+  if (!sheet) throw new Error("Clothes worksheet was not found");
+
+  const title = sheet.properties.title;
+  const range = "'" + title.replace(/'/g, "''") + "'";
+
+  const r = await googleFetch(
+    "https://sheets.googleapis.com/v4/spreadsheets/" +
+    id + "/values/" + encodeURIComponent(range) +
+    "?majorDimension=ROWS&valueRenderOption=FORMATTED_VALUE",
+    env
+  );
+
+  const result = await r.json();
+  const rows = result.values || [];
+  const csv = rows.map(row => row.map(csvCell).join(",")).join("\r\n");
+
+  return new Response(csv, {
+    headers: {
+      "content-type": "text/csv; charset=utf-8",
+      "cache-control": "public, max-age=60, s-maxage=300",
+      "x-content-type-options": "nosniff"
+    }
+  });
+}
 async function scorerXlsx(key, request, env) {
   const id = SHEETS.scorer[key];
   if (!id) return error(404, "Unknown scorer server");
@@ -95,6 +136,8 @@ async function scorerXlsx(key, request, env) {
   return new Response(r.body, { headers: { "content-type": mime, "cache-control": "no-store", "x-content-type-options": "nosniff" } });
 }
 export async function onRequest({ request, env, params }) {
+  if (path[0] === "wardrobe" && path.length === 2)
+  return await scorerClothesCsv(path[1], env);
   if (request.method !== "GET") return error(405, "Method not allowed");
   const path = Array.isArray(params.path) ? params.path : String(params.path || "").split("/").filter(Boolean);
   try {
