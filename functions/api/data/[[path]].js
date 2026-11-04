@@ -71,7 +71,7 @@ async function mainCsv(key, env) {
   const r = await googleFetch("https://sheets.googleapis.com/v4/spreadsheets/" + SHEETS.main.id + "/values/" + encodeURIComponent(range) + "?majorDimension=ROWS&valueRenderOption=FORMATTED_VALUE", env);
   const data = await r.json(), rows = data.values || [];
   const csv = rows.map(row => row.map(csvCell).join(",")).join("\r\n");
-  return new Response(csv, { headers: { "content-type": "text/csv; charset=utf-8", "cache-control": "no-store", "x-content-type-options": "nosniff" } });
+  return new Response(csv, { headers: { "content-type": "text/csv; charset=utf-8", "cache-control": "public, max-age=60, s-maxage=300", "x-content-type-options": "nosniff" } });
 }
 async function scorerXlsx(key, request, env) {
   const id = SHEETS.scorer[key];
@@ -79,7 +79,7 @@ async function scorerXlsx(key, request, env) {
   if (new URL(request.url).searchParams.get("output") !== "xlsx") return error(400, "Unsupported scorer format");
   const mime = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
   const r = await googleFetch("https://www.googleapis.com/drive/v3/files/" + id + "/export?mimeType=" + encodeURIComponent(mime), env);
-  return new Response(r.body, { headers: { "content-type": mime, "cache-control": "public, max-age=60, s-maxage=300", "x-content-type-options": "nosniff" } });
+  return new Response(r.body, { headers: { "content-type": mime, "cache-control": "no-store", "x-content-type-options": "nosniff" } });
 }
 export async function onRequest({ request, env, params }) {
   if (request.method !== "GET") return error(405, "Method not allowed");
