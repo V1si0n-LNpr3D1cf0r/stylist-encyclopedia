@@ -45,8 +45,21 @@ async function accessToken(env) {
   return cachedToken;
 }
 async function googleFetch(url, env) {
-  const token = await accessToken(env), r = await fetch(url, { headers: { authorization: "Bearer " + token } });
-  if (!r.ok) throw new Error("Google data request failed (" + r.status + ")");
+  const token = await accessToken(env);
+  const r = await fetch(url, {
+    headers: { authorization: "Bearer " + token }
+  });
+
+  if (!r.ok) {
+    const details = await r.text();
+    console.error("[Google API diagnostic]", {
+      status: r.status,
+      message: details.slice(0, 1000),
+      url: url.replace(/\/files\/[^/]+/, "/files/[REDACTED]")
+    });
+    throw new Error("Google data request failed (" + r.status + ")");
+  }
+
   return r;
 }
 function csvCell(v) {
