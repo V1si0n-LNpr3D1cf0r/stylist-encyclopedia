@@ -71,7 +71,7 @@ async function mainCsv(key, env) {
   const r = await googleFetch("https://sheets.googleapis.com/v4/spreadsheets/" + SHEETS.main.id + "/values/" + encodeURIComponent(range) + "?majorDimension=ROWS&valueRenderOption=FORMATTED_VALUE", env);
   const data = await r.json(), rows = data.values || [];
   const csv = rows.map(row => row.map(csvCell).join(",")).join("\r\n");
-  return new Response(csv, { headers: { "content-type": "text/csv; charset=utf-8", "cache-control": "public, max-age=60, s-maxage=300", "x-content-type-options": "nosniff" } });
+  return new Response(csv, { headers: { "content-type": "text/csv; charset=utf-8", "cache-control": "no-store", "x-content-type-options": "nosniff" } });
 }
 async function scorerXlsx(key, request, env) {
   const id = SHEETS.scorer[key];
