@@ -19,8 +19,6 @@ MAIN_ID = "1vDpYDFGoCrhZjVxNf2RFOXc9vr3reV25kDtdRHIZXt8"
 
 MAIN_TABS = {
     "items": None,
-    "crafting": 1432725843,
-    "chapters": 563709766,
     "breakdowns": 333774526,
     "themes": 1701381424,
     "serverNames": 1044161109,
