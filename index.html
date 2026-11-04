@@ -1265,14 +1265,14 @@ body.dark{--sc-good:#6cc59a;--sc-warn:#f0a26a}
 <script>
 
 window.LN_SERVERS = (function () {
-  var SHEET_LN = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQz03CXtOiGLcOEV9xd88QDe1FvwkUsxdGuYOEckRZXql2Z2FmTm3VVxdPNbLe8aKIVA9moXMltshW3/pub?output=csv';
+  var SHEET_LN = '/api/data/scorer/ln?output=xlsx';
 
   var SERVERS = [
     { id: 'ln', label: 'LN', name: { en: 'Global', vi: 'Love Nikki ' }, url: SHEET_LN, gids: {} },
-    { id: 'vn', label: 'VN', name: { en: 'Vietnam Server', vi: 'Server Việt Nam' }, url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQiKpuAp-fI4o2nTFoG3KHZVxeXG_qojkuVyss_OR4zk2G5aRqJS8-jHyvL1_NYQCIPpDlDckumOTqI/pub?output=csv', gids: {} },
-    { id: 'cn', label: 'CN', name: { en: 'Chinese Server', vi: 'Server Chinese' }, url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSCwZJkPJvdGGnBnOBUhulg3FYUVd87O0ANH7nWek3r8a7hzScGd3V5LZ01XbA74O8jY42zPrp8tzxl/pub?output=csv', gids: {} },
-    { id: 'jp', label: 'JP', name: { en: 'Japananese Server', vi: 'Server Japan' }, url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQK-QsWjSHwtKCBtKPW6Fdx2Wqe1_FOzRDWhcDRecl4rK1sJxdoCQ3Yjhhq9PEYEfaaih8KzOKkVXp_/pub?output=csv', gids: {} },
-    { id: 'tw', label: 'TW', name: { en: 'Taiwan Server', vi: 'Server Taiwan' }, url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSxY5tmVoMDtrPgTqhTYAQABjvGi0Las0BoXojnx3tO-ju_srsDHD8cNS6VjuZfJ_0KDdr_Pf7gBO3A/pub?output=csv', gids: {} }
+    { id: 'vn', label: 'VN', name: { en: 'Vietnam Server', vi: 'Server Việt Nam' }, url: '/api/data/scorer/vn?output=xlsx', gids: {} },
+    { id: 'cn', label: 'CN', name: { en: 'Chinese Server', vi: 'Server Chinese' }, url: '/api/data/scorer/cn?output=xlsx', gids: {} },
+    { id: 'jp', label: 'JP', name: { en: 'Japananese Server', vi: 'Server Japan' }, url: '/api/data/scorer/jp?output=xlsx', gids: {} },
+    { id: 'tw', label: 'TW', name: { en: 'Taiwan Server', vi: 'Server Taiwan' }, url: '/api/data/scorer/tw?output=xlsx', gids: {} }
   ];
   return SERVERS;
 })();
@@ -1282,7 +1282,7 @@ const SUPPORT_PAGE_URL = "https://patreon.com/ManamiNaomi";
 
 const SUIT_GALLERY_DATA = {
   sheet:
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=1089816438&single=true&output=csv",
+    "/api/data/main/suitGallery",
   suitImageBase:
     "https://cdn.jsdelivr.net/gh/V1si0n-LNpr3D1cf0r/mn-dump-suits@main/",
   thumbBase:
@@ -1290,14 +1290,14 @@ const SUIT_GALLERY_DATA = {
 };
 
 const DATA = {
-  items: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?output=csv",
-  crafting: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=1432725843&single=true&output=csv",
-  chapters: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=563709766&single=true&output=csv",
-  breakdowns: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=333774526&single=true&output=csv",
-  themes: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=1701381424&single=true&output=csv",
-  serverNames: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=1044161109&single=true&output=csv",
-  music: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=210977537&single=true&output=csv",
-  taskSuits:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfXbX-O6q1yIBOGr-Jd9yx6mvu5oRGekCKajNqlGROaLDFxC7RlOLkTvAUiYdPpMlDO65-v7jKpnNf/pub?gid=1505720108&single=true&output=csv"
+  items: "/api/data/main/items",
+  crafting: "/api/data/main/crafting",
+  chapters: "/api/data/main/chapters",
+  breakdowns: "/api/data/main/breakdowns",
+  themes: "/api/data/main/themes",
+  serverNames: "/api/data/main/serverNames",
+  music: "/api/data/main/music",
+  taskSuits:  "/api/data/main/taskSuits"
 };
 
 const PLACEHOLDER = "https://placehold.co/400x400/fff8fb/d57ca2?text=No+Image";
