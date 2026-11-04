@@ -7,7 +7,7 @@ const SHEETS = {
   },
   scorer: {
     ln: "1do-UIvxKA9-8Un90g-SwqdR7HACPT4H1SnAfDbEgT1o",
-    vn: "1uO81VAutbW249ZUBlukWBDOsejwwUnhHGL3bk2qxypo ",
+    vn: "1uO81VAutbW249ZUBlukWBDOsejwwUnhHGL3bk2qxypo",
     cn: "1n_d9afE_v6wphHnWhTdBdX6B6rJQV32cmNEVkHhvupg",
     jp: "1a8jmEGctFeTthZ59_FMfBmPlgoR6KOWi0RuWQRzIyHU",
     tw: "1xvY-FBKSDAg_9F3By7ERIh_ZkvMitJfuWVbRjYh1Jns"
