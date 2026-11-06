@@ -4035,7 +4035,13 @@ if (typeof module !== 'undefined') module.exports = Engine;
   function tablesToRaw(tables) {
     var raw = {}, used = [];
     if (tables.Clothes && tables.Clothes.length) {
-      raw.clothes = tables.Clothes.filter(function (o) { return o.id !== ''; }).map(function (o) {
+      var keepHidden = {};
+      (tables.Stages || []).forEach(function (o) { idList(o.whitelist).forEach(function (x) { keepHidden[x] = 1; }); });
+      raw.clothes = tables.Clothes.filter(function (o) {
+        if (o.id === '') return false;
+        var h = String(o.hidden == null ? '' : o.hidden).trim().toLowerCase();
+        return !(h === '1' || h === 'true' || h === 'yes') || !!keepHidden[String(o.id).trim()];
+      }).map(function (o) {
         return [N(o.id), String(o.name), N(o.slotcode)].concat(ATTR_KEYS.map(function (k) { return N(o[k]); })).concat([N(o.specialtag1, -1), N(o.specialtag2, -1)]);
       });
       used.push('Clothes ' + raw.clothes.length);
