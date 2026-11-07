@@ -234,7 +234,44 @@ a{color:inherit}
 .card.owned{border-color:#d98db1;box-shadow:0 0 0 2px rgba(217,141,177,.13)}
 .card-img{height:185px;background:linear-gradient(145deg,#fff8fb,#f8edf4);display:flex;align-items:center;justify-content:center;padding:10px;cursor:pointer}
 .card-img img{width:100%;height:100%;object-fit:contain}.noimg{font-size:42px;opacity:.3}
-.card-body{padding:12px;cursor:pointer}.card-name{font-weight:900;color:#694c5b;line-height:1.25;min-height:32px}.card-sub{font-size:11px;color:var(--muted);margin-top:5px}.badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}.badge{font-size:9px;padding:4px 7px;border-radius:999px;background:#f8e4ed;color:#8c5470;font-weight:900}
+.card-body {
+  padding: 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  min-height: 112px;
+  box-sizing: border-box;
+}
+
+.card-name {
+  font-weight: 900;
+  color: #694c5b;
+  line-height: 1.25;
+  min-height: 32px;
+}
+
+.card-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+.badges {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.badge {
+  font-size: 9px;
+  padding: 4px 7px;
+  border-radius: 999px;
+  background: #f8e4ed;
+  color: #8c5470;
+  font-weight: 900;
+}
 .heart{position:absolute;right:9px;top:9px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.92);border:1px solid var(--line);color:#d57ca2;font-size:17px;z-index:2}.heart.on{background:#d97ea6;color:#fff}
 .pagination{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:6px;margin:14px 0 36px}
 .pagination[id$="Top"]{margin:0 0 14px}
@@ -912,8 +949,14 @@ body.dark{--sc-good:#6cc59a;--sc-warn:#f0a26a}
 }
 
 #itemResults.grid {
-  align-content: start;
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(160px, 1fr)
+  );
   align-items: start;
+  align-content: start;
+  grid-auto-rows: max-content;
 }
 </style>
 </head>
@@ -2027,27 +2070,7 @@ function renderPagination(id,total,current,go){
   const els=[document.getElementById(id),document.getElementById(id+"Top")].filter(Boolean);
   if(!els.length)return;
   const res=document.getElementById(id.replace(/Pagination$/,"Results"));
-  if (res) {
-  if (
-    res._sig !== res.className ||
-    current === 1 ||
-    current === total
-  ) {
-    res.style.minHeight = "";
-    res._minH = 0;
-  }
 
-  res._sig = res.className;
-
-  if (total > 1 && current < total) {
-    res._minH = Math.max(
-      res._minH || 0,
-      res.offsetHeight
-    );
-
-    res.style.minHeight = res._minH + "px";
-  }
-}
   if(total<=1){els.forEach(e=>{e.innerHTML=""});return}
   const btn=(p,label,dis,cls,title)=>`<button type="button" class="${cls||""}" ${dis?"disabled":""} data-p="${p}"${title?` title="${title}" aria-label="${title}"`:""}>${label}</button>`;
   let h=btn(1,"«",current===1,"","First page")+btn(current-1,"‹",current===1,"","Previous page");
@@ -4516,8 +4539,6 @@ function tablesToRaw(tables) {
     );
   }
 
-  console.log("[Outfit Scorer] Loading server:", serverId);
-
   return loadServerData(serverId).then(function (dataset) {
     if (!dataset || !dataset.sheets) {
       throw new Error("Invalid .dat dataset for " + serverId);
@@ -4550,26 +4571,11 @@ function tablesToRaw(tables) {
       );
     }
 
-    console.log("[Outfit Scorer] .dat loaded successfully:", {
-      server: dataset.server,
-      sheets: Object.keys(tables),
-      clothes: tables.Clothes.length,
-      stages: tables.Stages.length
-    });
-
     return tables;
   });
 }
 function sync(silent) {
   var sv = srv(), forServer = server;
-
-  if (!sv || !sv.id) {
-    loadState = 'failed';
-    refreshing = false;
-    afterDataChange();
-    console.error('[Outfit Scorer] Selected server not found:', server);
-    return;
-  }
 
   if (!hasData) {
     loadState = 'loading';
@@ -4599,7 +4605,6 @@ function sync(silent) {
     }
 
   }).catch(function (e) {
-    console.error('[Outfit Scorer] .dat refresh failed:', e);
 
     if (forServer !== server) return;
 
