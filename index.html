@@ -830,6 +830,86 @@ body.dark{--sc-good:#6cc59a;--sc-warn:#f0a26a}
 .data-server .ds-label{font-size:12px;font-weight:900;color:var(--muted)}
 .data-server .js-server-btns{display:inline-flex;gap:6px;flex-wrap:wrap}
 .data-server .js-server-note{color:var(--muted);font-size:11px}
+
+.app-announcement {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0 18px;
+  padding: 11px 15px;
+  background: var(--panel, #fff7fa);
+  border: 1px solid #edc9dc;
+  border-radius: 10px;
+}
+
+.app-announcement-icon {
+  font-size: 21px;
+}
+
+.app-announcement-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 3px;
+  min-width: 0;
+}
+
+.app-announcement-text b {
+  font-size: 12px;
+  color: #945879;
+}
+
+.app-announcement-text span {
+  font-size: 11px;
+  color: var(--muted, #887887);
+}
+
+.app-announcement-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.app-announcement-actions a {
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.app-announcement-download {
+  color: #b45f8b;
+}
+
+.app-announcement-discord {
+  color: var(--muted, #887887);
+}
+
+@media (max-width: 600px) {
+  .app-announcement {
+    gap: 8px;
+    padding: 10px;
+    flex-wrap: wrap;
+  }
+
+  .app-announcement-text {
+    flex-basis: calc(100% - 40px);
+  }
+
+  .app-announcement-actions {
+    width: 100%;
+    justify-content: flex-end;
+    padding-left: 29px;
+  }
+}
+
+.app-version {
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 10px;
+  color: var(--muted, #887887);
+  opacity: 0.85;
+}
 </style>
 </head>
 <body>
@@ -871,12 +951,35 @@ body.dark{--sc-good:#6cc59a;--sc-warn:#f0a26a}
     <button class="icon-btn" id="darkBtn" title="Dark mode">☾</button>
     <button class="icon-btn" id="infoBtn" title="About">ⓘ</button>
   </div>
-
   <section class="view active" id="view-home">
     <div class="hero">
       <div class="eyebrow">Love Nikki • Fan-made database</div>
       <h2>Your wardrobe, organized.</h2>
       <p>An encyclopedia combining a searchable item database, checklist of your owned items, stages, crafting, suit breakdowns and a theme generator in one interface.</p>
+    </div>
+    <div class="app-announcement">
+  <span class="app-announcement-icon"></span>
+
+  <div class="app-announcement-text">
+  <b>Stylist Encyclopedia Android App</b>
+  <span>
+    Offline version available!
+    <small class="app-version">v1.0.2 · Updated November 6, 2026</small>
+  </span>
+</div>
+  <div class="app-announcement-actions">
+    <a href="https://drive.google.com/file/d/1AVHSLSXV2Uqy84gPq9AFvJayVCinVVO8/view?usp=sharing" class="app-announcement-download">
+      Download APK ↓
+    </a>
+
+    <a href="https://discord.gg/wkRsQyKN7"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="app-announcement-discord">
+      Discord ↗
+    </a>
+  </div>
+</div>
     <div class="stats">
       <div class="stat"><b id="statItems">—</b><span>Wardrobe Items</span></div>
       <div class="stat"><b id="statOwned">0</b><span>Owned Items</span></div>
@@ -1265,16 +1368,33 @@ body.dark{--sc-good:#6cc59a;--sc-warn:#f0a26a}
 <script>
 
 window.LN_SERVERS = (function () {
-  var SHEET_LN = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQz03CXtOiGLcOEV9xd88QDe1FvwkUsxdGuYOEckRZXql2Z2FmTm3VVxdPNbLe8aKIVA9moXMltshW3/pub?output=csv';
-
-  var SERVERS = [
-    { id: 'ln', label: 'LN', name: { en: 'Global', vi: 'Love Nikki ' }, url: SHEET_LN, gids: {} },
-    { id: 'vn', label: 'VN', name: { en: 'Vietnam Server', vi: 'Server Việt Nam' }, url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQiKpuAp-fI4o2nTFoG3KHZVxeXG_qojkuVyss_OR4zk2G5aRqJS8-jHyvL1_NYQCIPpDlDckumOTqI/pub?output=csv', gids: {} },
-    { id: 'cn', label: 'CN', name: { en: 'Chinese Server', vi: 'Server Chinese' }, url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSCwZJkPJvdGGnBnOBUhulg3FYUVd87O0ANH7nWek3r8a7hzScGd3V5LZ01XbA74O8jY42zPrp8tzxl/pub?output=csv', gids: {} },
-    { id: 'jp', label: 'JP', name: { en: 'Japananese Server', vi: 'Server Japan' }, url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQK-QsWjSHwtKCBtKPW6Fdx2Wqe1_FOzRDWhcDRecl4rK1sJxdoCQ3Yjhhq9PEYEfaaih8KzOKkVXp_/pub?output=csv', gids: {} },
-    { id: 'tw', label: 'TW', name: { en: 'Taiwan Server', vi: 'Server Taiwan' }, url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSxY5tmVoMDtrPgTqhTYAQABjvGi0Las0BoXojnx3tO-ju_srsDHD8cNS6VjuZfJ_0KDdr_Pf7gBO3A/pub?output=csv', gids: {} }
+  return [
+    {
+      id: 'ln',
+      label: 'LN',
+      name: { en: 'Global', vi: 'Love Nikki' }
+    },
+    {
+      id: 'vn',
+      label: 'VN',
+      name: { en: 'Vietnam Server', vi: 'Server Việt Nam' }
+    },
+    {
+      id: 'cn',
+      label: 'CN',
+      name: { en: 'Chinese Server', vi: 'Server Trung Quốc' }
+    },
+    {
+      id: 'jp',
+      label: 'JP',
+      name: { en: 'Japanese Server', vi: 'Server Nhật Bản' }
+    },
+    {
+      id: 'tw',
+      label: 'TW',
+      name: { en: 'Taiwan Server', vi: 'Server Đài Loan' }
+    }
   ];
-  return SERVERS;
 })();
 </script>
 <script>
@@ -1497,6 +1617,73 @@ async function fetchCSV(url){
   const r=await fetch(url,{cache:"no-store"});
   if(!r.ok) throw new Error("HTTP "+r.status);
   return parseCSV(await r.text());
+}
+const OFFLINE_DATA_CACHE = {};
+
+async function loadServerData(server) {
+    server = String(server).toLowerCase();
+
+    const allowedServers = ["ln", "cn", "vn", "jp", "tw"];
+
+    if (!allowedServers.includes(server)) {
+        throw new Error("Unknown server: " + server);
+    }
+
+    if (OFFLINE_DATA_CACHE[server]) {
+        return OFFLINE_DATA_CACHE[server];
+    }
+
+    if (typeof DecompressionStream === "undefined") {
+        throw new Error("GZIP decompression is not supported.");
+    }
+
+    const dataUrl = new URL(
+  `data/${server}.dat`,
+  window.location.origin + "/stylist-encyclopedia/"
+);
+
+const response = await fetch(`./data/${server}.dat`);
+
+    if (!response.ok) {
+        throw new Error(`Failed to load ${server}.dat: ${response.status}`);
+    }
+
+    const scrambled = new Uint8Array(await response.arrayBuffer());
+
+    if (
+        scrambled.length < 4 ||
+        scrambled[0] !== 0x53 ||
+        scrambled[1] !== 0x45 ||
+        scrambled[2] !== 0x31
+    ) {
+        throw new Error("Invalid dataset: " + server);
+    }
+
+    const key = new TextEncoder().encode(
+        "StylistEncyclopedia-Offline-v1"
+    );
+
+    const compressed = new Uint8Array(scrambled.length - 3);
+
+    for (let i = 3; i < scrambled.length; i++) {
+        compressed[i - 3] =
+            scrambled[i] ^ key[(i - 3) % key.length];
+    }
+
+    const stream = new Blob([compressed])
+        .stream()
+        .pipeThrough(new DecompressionStream("gzip"));
+
+    const text = await new Response(stream).text();
+    const data = JSON.parse(text);
+  ;
+
+    if (data.server !== server || !data.sheets) {
+        throw new Error("Dataset contents do not match " + server);
+    }
+
+    OFFLINE_DATA_CACHE[server] = data;
+    return data;
 }
 function saveOwned(){try{localStorage.setItem(ownedKey(ownedServerId),JSON.stringify([...state.owned]))}catch(e){}updateOwnedUI()}
 function keyFor(item){return String(item.id||item.internal_id||"")}
@@ -2108,12 +2295,27 @@ function mergeServerRows(rows, overlay){
   const ov = new Map(overlay.map(o => [String(o.internal_id || "").trim(), o]));
 
   const field = (r, ...keys) => {
-    for (const key of keys) {
-      const k = String(key).toLowerCase();
-      if (r[k] !== undefined && r[k] !== null && String(r[k]).trim() !== "") return String(r[k]).trim();
+  for (const key of keys) {
+    const target = String(key).toLowerCase().replace(/[_\s-]+/g, "");
+    const actualKey = Object.keys(r).find(
+      k => String(k).toLowerCase().replace(/[_\s-]+/g, "") === target
+    );
+
+    if (actualKey !== undefined) {
+      const value = r[actualKey];
+
+      if (
+        value !== undefined &&
+        value !== null &&
+        String(value).trim() !== ""
+      ) {
+        return String(value).trim();
+      }
     }
-    return "";
-  };
+  }
+
+  return "";
+};
   const headers = rows.length ? Object.keys(rows[0]) : [];
   const hasHidden = headers.some(k => ["hidden", "is hidden"].includes(k));
 
@@ -2189,42 +2391,100 @@ async function loadItems(){
   const myToken = ++itemsToken, sid = wardrobeServerId();
   itemsServerId = sid;
   renderServerBtns();
+
   try{
     if(!overlayRows) overlayRows = await fetchCSV(DATA.items);
+
     const sv = (window.LN_SERVERS || []).find(s => s.id === sid);
     let items = null, note = "";
-    if(sv && sv.url){
-      document.getElementById("itemResults").innerHTML = '<div class="loading">Loading items…</div>';
+
+    if(sv){
+      document.getElementById("itemResults").innerHTML =
+        '<div class="loading">Loading items…</div>';
+
       try{
-        const rows = await fetchCSV(sv.url);
+        const dataset = await loadServerData(sid);
+
         if(myToken !== itemsToken) return;
-        if(rows.length && ("id" in rows[0]) && ("name" in rows[0])) items = mergeServerRows(rows, overlayRows);
-        else note = "Scorer sheet could not be loaded; showing classic Encyclopedia data instead.";
-      }catch(e){ console.warn("[Wardrobe] server sheet failed", e); note = "Scorer sheet could not be loaded; showing classic Encyclopedia data instead."; }
+
+        const clothesKey = Object.keys(dataset.sheets || {})
+          .find(key => key.toLowerCase() === "clothes");
+
+        const rows = clothesKey ? dataset.sheets[clothesKey] : null;
+
+        if(
+  Array.isArray(rows) &&
+  rows.length &&
+  ("ID" in rows[0] || "id" in rows[0]) &&
+  ("Name" in rows[0] || "name" in rows[0])
+){
+          items = mergeServerRows(rows, overlayRows);
+        }else{
+          note = "Server dataset could not be loaded; showing classic Encyclopedia data instead.";
+        }
+
+      }catch(e){
+        console.warn("[Wardrobe] server dataset failed", e);
+        note = "Server dataset could not be loaded; showing classic Encyclopedia data instead.";
+      }
     }
+
     if(myToken !== itemsToken) return;
+
     if(!items) items = overlayRows.map(o => Object.assign({}, o));
+
     setServerNote(note);
-    ownedServerId = sid; state.owned = new Set(readOwned(sid));
+    ownedServerId = sid;
+    state.owned = new Set(readOwned(sid));
     state.items = items;
-    state.items.forEach((item, i) => { if (!item.id) item.id = `item_${i}`; });
-    const exactOrder = ['hair', 'dress', 'coat', 'top', 'bottom', 'hosiery', 'shoes', 'makeup', 'accessory', 'soul'];
-    state.items.sort((a, b) => {
-      const aIndex = exactOrder.indexOf((a.type || a.subtype || '').toLowerCase().trim());
-      const bIndex = exactOrder.indexOf((b.type || b.subtype || '').toLowerCase().trim());
-      return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
+
+    state.items.forEach((item, i) => {
+      if(!item.id) item.id = `item_${i}`;
     });
 
-    state.filtered=[...state.items];
+    const exactOrder = [
+      'hair', 'dress', 'coat', 'top', 'bottom',
+      'hosiery', 'shoes', 'makeup', 'accessory', 'soul'
+    ];
+
+    state.items.sort((a, b) => {
+      const aIndex = exactOrder.indexOf(
+        (a.type || a.subtype || '').toLowerCase().trim()
+      );
+
+      const bIndex = exactOrder.indexOf(
+        (b.type || b.subtype || '').toLowerCase().trim()
+      );
+
+      return (aIndex === -1 ? 999 : aIndex) -
+             (bIndex === -1 ? 999 : bIndex);
+    });
+
+    state.filtered = [...state.items];
+
     initItemFilters();
     hideEmptyFilters();
     renderItems();
     renderCloset();
     updateOwnedUI();
-    document.getElementById("statItems").textContent=state.items.length.toLocaleString();
-    status(`Wardrobe loaded ✓ • ${state.items.length.toLocaleString()} items` + (sv ? ` (${sv.label})` : ""))
+
+    document.getElementById("statItems").textContent =
+      state.items.length.toLocaleString();
+
+    status(
+      "Wardrobe loaded ✓ • " +
+      state.items.length.toLocaleString() +
+      " items" +
+      (sv ? ` (${sv.label})` : "")
+    );
+
+  }catch(e){
+    console.error(e);
+    document.getElementById("itemResults").innerHTML =
+      '<div class="loading">Could not load the wardrobe sheet.</div>';
+
+    status("Wardrobe sheet unavailable");
   }
-  catch(e){console.error(e);document.getElementById("itemResults").innerHTML='<div class="loading">Could not load the wardrobe sheet.</div>';status("Wardrobe sheet unavailable")}
 }
 function status(s){document.getElementById("dataStatus").textContent=s}
 
@@ -2495,8 +2755,8 @@ async function loadThemes(){
 }
 
 document.getElementById("infoBtn").onclick=()=>{document.getElementById("modal").innerHTML=`<div class="modal-head"><h3>About this Website</h3><button class="close" onclick="closeModal()">×</button></div>
-<p>Stylist Encyclopedia is an info catalog of wardrobe items from the game. (Will soon be cross-server catalog)</p>
-<div class="info-grid"><div class="info"><b>Inspirations</b><a href="https://lovenikki.miraheze.org/wiki/Love_Nikki-Dress_UP_Queen!_Wiki">LN Wiki</a>, <a href="https://seal100x.github.io/nikkiup2u3">Seal</a>, <a href="https://docs.google.com/spreadsheets/d/1OhAgfzk0pCY9TG5PDPaSFjnv7ZHevxxJtlvfKm16ykg/edit?gid=602775022#gid=602775022">Ultimate LN Style Search Sheet</a>, and <a href="ln.nikkis.info">Nikki's Info</a></div><div class="info"><b>Features</b>Filled with stats, rarity, color, etc. (data and images to be placed later). Search and filter by type, rarity , nation, color, and tags</div><div class="info"><b>Credits/Helpers/Testers (Feedback Giver)</b>danc (@danc12321) for crafting data. mikachuu (@mikachuu#0493) provided info for missing items up to Daybreak Blade suit, lynndeeznuts (@LynnD#6271) provided info for items on JP server, krichur (@krichur) and Viv (@vivly) for the data of the colors. Lydia (@Lydia#0675), Pearl (@Ederne#4620), Viv (@vivly), mikachuu (@mikachuu#0493), Sinthu (FB)</div><div class="info"><b>Contact</b>Manami (@manami_naomi at Discord, u/OkTumbleweed8362 at Reddit, Margielyn Pascua (Main FB)/Manami Naomi (My Page) at Facebook, ramunesakura.ln at Instagram, @ramunesakura4 at Tiktok)</div></div>`;openModal()};
+<p>Stylist Encyclopedia is an info catalog of wardrobe items from the game.</p>
+<div class="info-grid"><div class="info"><b>Inspirations</b><a href="https://lovenikki.miraheze.org/wiki/Love_Nikki-Dress_UP_Queen!_Wiki">LN Wiki</a>, <a href="https://seal100x.github.io/nikkiup2u3">Seal</a>, <a href="https://docs.google.com/spreadsheets/d/1OhAgfzk0pCY9TG5PDPaSFjnv7ZHevxxJtlvfKm16ykg/edit?gid=602775022#gid=602775022">Ultimate LN Style Search Sheet</a>, and <a href="ln.nikkis.info">Nikki's Info</a></div><div class="info"><b>Features</b>Filled with stats, rarity, color, etc. (data and images to be placed later). Search and filter by type, rarity , nation, color, and tags</div><div class="info"><b>Credits/Helpers/Testers (Feedback Giver)</b>danc (@danc12321) for crafting data (unused now). mikachuu (@mikachuu#0493) provided info for missing items up to Daybreak Blade suit, lynndeeznuts (@LynnD#6271) provided info for items on JP server, krichur (@krichur) and Viv (@vivly) for the data of the colors. Crescendont (@crescendont) for the input code used for typing extra items in Outfit Scorer (See the "Manual Wardrobe Input" part <a href="https://github.com/crescendont/ln-scoring-algorithm-updated/tree/main">here!</a> Try her scoring tool too!), Hoà Nè (@hoanemn) for helping me with the scoring, Lydia (@Lydia#0675), Pearl (@Ederne#4620), Viv (@vivly), mikachuu (@mikachuu#0493), Sinthu (FB)</div><div class="info"><b>Contact</b>Manami (@manami_naomi at Discord, u/OkTumbleweed8362 at Reddit, Margielyn Pascua (Main FB)/Manami Naomi (My Page) at Facebook, ramunesakura.ln at Instagram, @ramunesakura4 at Tiktok)</div></div>`;openModal()};
 
 function getTrackTitle(track) {
   return val(track, "music name", "music_name", "name", "title", "track name") || "Untitled Track";
@@ -3569,7 +3829,7 @@ if (typeof module !== 'undefined') module.exports = Engine;
         'Dán link Sheet ở bên trái và bấm <b>Đồng bộ</b>. Trang nhớ link và dữ liệu cho lần sau.'],
       tabsDesc: { Clothes: 'Mỗi dòng một món: ID, tên, mã ô, 10 chỉ số, 2 tag đặc biệt', Stages: 'Mỗi dòng một màn: mã, loại, tên, 10 trọng số, 2 tag + điểm thưởng, 4 kỹ năng',
         Slots: 'Mã ô → tên ô, nhóm, hệ số tag', Bonuses: 'Điểm cộng cố định cho đồ Dreamweaver', Penalty: 'Hệ số giảm theo số phụ kiện', Tags: 'Tên tag đặc biệt', Skills: 'Tên kỹ năng đối thủ' },
-      credit: 'Được làm với sự giúp đỡ của Hoa Ne (hoanemn tại Discord). Xin gửi lời cảm ơn đến Crescendont vì các đoạn mã được sử dụng để nhập thêm các mục bổ sung!',
+      credit: 'Được làm với sự giúp đỡ của Hoà Nè (hoanemn tại Discord). Xin gửi lời cảm ơn đến Crescendont (@crescendont) vì đoạn mã được sử dụng để nhập thêm các món đồ trong công cụ chấm điểm trang phục "Outfit Scorer" (hãy xem phần "Manual Wardrobe Input" trên trang GitHub của cô ấy – nhấn vào biểu tượng ⓘ để biết thêm thông tin nhé!). Bạn cũng có thể thử sử dụng công cụ chấm điểm của cô ấy đấy!',
       server: 'Server', resetServer: 'Xoá dữ liệu server này',
       noDataH: function (n) { return 'Chưa có dữ liệu cho ' + n; },
       noDataP: 'Mỗi server có bộ đồ và màn chơi riêng. Nạp dữ liệu cho server này bằng một trong hai cách bên dưới, trang sẽ nhớ cho lần sau.',
@@ -3606,7 +3866,7 @@ if (typeof module !== 'undefined') module.exports = Engine;
         'Paste the Sheet link on the left and click <b>Sync</b>. The page remembers the link and data.'],
       tabsDesc: { Clothes: 'One row per item: ID, name, slot code, 10 stats, 2 special tags', Stages: 'One row per stage: code, type, name, 10 weights, 2 tags + bonus, 4 skills',
         Slots: 'Slot code → slot name, group, tag multiplier', Bonuses: 'Flat bonus for Dreamweaver items', Penalty: 'Accessory count multiplier', Tags: 'Special tag names', Skills: 'Opponent skill names' },
-      credit: 'Made with the help of Hoa Ne (hoanemn at Discord). Credit to Crescendont for the input codes used for typing extra items!',
+      credit: 'Made with the help of Hoà Nè (hoanemn at Discord). Credit to Crescendont (@crescendont) for the input code used for typing extra items in Outfit Scorer (See the "Manual Wardrobe Input" part at her github (tap ⓘ for more info)! Try her scoring tool too!)',
       server: 'Server', resetServer: "Clear this server's data",
       noDataH: function (n) { return 'No data for ' + n + ' yet'; },
       noDataP: 'Each server has its own items and stages. Load data for this server one of these two ways; the page remembers it.',
@@ -4032,40 +4292,180 @@ if (typeof module !== 'undefined') module.exports = Engine;
   }
   function N(v, d) { if (v === '' || v == null) return d === undefined ? 0 : d; var n = Number(String(v).replace(/,/g, '')); return isNaN(n) ? (d === undefined ? 0 : d) : n; }
   var ATTR_KEYS = ['gorgeous', 'simple', 'elegant', 'lively', 'mature', 'cute', 'sexy', 'pure', 'warm', 'cool'];
-  function tablesToRaw(tables) {
+  
+function tablesToRaw(tables) {
     var raw = {}, used = [];
+
+    function get(o, key) {
+      var target = String(key).toLowerCase().replace(/[_\s-]+/g, "");
+      var actual = Object.keys(o).find(function (k) {
+        return String(k).toLowerCase().replace(/[_\s-]+/g, "") === target;
+      });
+      return actual === undefined ? "" : o[actual];
+    }
+
+    function val(o, key, fallback) {
+      var v = get(o, key);
+      return v == null || String(v).trim() === ""
+        ? (fallback === undefined ? "" : fallback)
+        : v;
+    }
+
+    function num(o, key, fallback) {
+      return N(val(o, key, fallback));
+    }
+
     if (tables.Clothes && tables.Clothes.length) {
-      raw.clothes = tables.Clothes.filter(function (o) { return o.id !== ''; }).map(function (o) {
-        return [N(o.id), String(o.name), N(o.slotcode)].concat(ATTR_KEYS.map(function (k) { return N(o[k]); })).concat([N(o.specialtag1, -1), N(o.specialtag2, -1)]);
+      var keepHidden = {};
+
+      (tables.Stages || []).forEach(function (o) {
+        idList(val(o, "whitelist")).forEach(function (x) {
+          keepHidden[x] = 1;
+        });
       });
-      used.push('Clothes ' + raw.clothes.length);
+
+      raw.clothes = tables.Clothes.filter(function (o) {
+        var id = val(o, "id");
+        if (id === "") return false;
+
+        var h = String(val(o, "hidden")).trim().toLowerCase();
+        return !(h === "1" || h === "true" || h === "yes") ||
+          !!keepHidden[String(id).trim()];
+      }).map(function (o) {
+        return [
+          num(o, "id"),
+          String(val(o, "name")),
+          num(o, "slotcode")
+        ].concat(
+          ATTR_KEYS.map(function (k) {
+            return num(o, k);
+          })
+        ).concat([
+          num(o, "specialtag1", -1),
+          num(o, "specialtag2", -1)
+        ]);
+      });
+
+      used.push("Clothes " + raw.clothes.length);
     }
+
     if (tables.Stages && tables.Stages.length) {
-      raw.stages = tables.Stages.filter(function (o) { return o.code !== ''; }).map(function (o) {
-        return { code: String(o.code).trim().toUpperCase(), type: String(o.type).trim(), name: String(o.name || ''), w: ATTR_KEYS.map(function (k) { return N(o[k]); }),
-          tag: [N(o.tag1), N(o.tag2)], tw: [N(o.tag1bonus), N(o.tag2bonus)], sk: [N(o.skill1), N(o.skill2), N(o.skill3), N(o.skill4)], wl: idList(o.whitelist), bl: idList(o.blacklist) };
+      raw.stages = tables.Stages.filter(function (o) {
+        return val(o, "code") !== "";
+      }).map(function (o) {
+        return {
+          code: String(val(o, "code")).trim().toUpperCase(),
+          type: String(val(o, "type")).trim(),
+          name: String(val(o, "name")),
+          w: ATTR_KEYS.map(function (k) {
+            return num(o, k);
+          }),
+          tag: [num(o, "tag1"), num(o, "tag2")],
+          tw: [num(o, "tag1bonus"), num(o, "tag2bonus")],
+          sk: [
+            num(o, "skill1"),
+            num(o, "skill2"),
+            num(o, "skill3"),
+            num(o, "skill4")
+          ],
+          wl: idList(val(o, "whitelist")),
+          bl: idList(val(o, "blacklist"))
+        };
       });
-      used.push('Stages ' + raw.stages.length);
+
+      used.push("Stages " + raw.stages.length);
     }
+
     if (tables.Slots && tables.Slots.length) {
       var byKey = {}, order = [];
+
       tables.Slots.forEach(function (o) {
-        var k = String(o.slotkey || o.sloten).trim(); if (!k) return;
-        if (!byKey[k]) { byKey[k] = [k, String(o.sloten || k), String(o.slotvi || o.sloten || k), String(o.group || 'accessory').trim().toLowerCase(), N(o.tagmultiplier), []]; order.push(k); }
-        if (o.slotcode !== '') byKey[k][5].push(N(o.slotcode));
+        var k = String(val(o, "slotkey") || val(o, "sloten")).trim();
+        if (!k) return;
+
+        if (!byKey[k]) {
+          byKey[k] = [
+            k,
+            String(val(o, "slot en", k)),
+            String(val(o, "slot vi", val(o, "slot en", k))),
+            String(val(o, "group", "accessory")).trim().toLowerCase(),
+            num(o, "tagmultiplier"),
+            []
+          ];
+          order.push(k);
+        }
+
+        if (val(o, "slotcode") !== "") {
+          byKey[k][5].push(num(o, "slotcode"));
+        }
       });
-      raw.slots = order.map(function (k) { return byKey[k]; });
-      used.push('Slots ' + order.length);
+
+      raw.slots = order.map(function (k) {
+        return byKey[k];
+      });
+
+      used.push("Slots " + order.length);
     }
-    if (tables.Bonuses) { raw.bonuses = tables.Bonuses.filter(function (o) { return o.name !== ''; }).map(function (o) { return [String(o.name), N(o.bonus)]; }); used.push('Bonuses ' + raw.bonuses.length); }
-    if (tables.Penalty && tables.Penalty.length) { raw.penalty = tables.Penalty.map(function (o) { return [N(o.accessoriesatleast), N(o.multiplier, 1)]; }); used.push('Penalty'); }
-    if (tables.Tags && tables.Tags.length) { raw.tags = tables.Tags.map(function (o) { return [N(o.tagid), String(o.tagname)]; }); used.push('Tags'); }
-    if (tables.Skills && tables.Skills.length) { raw.skills = tables.Skills.map(function (o) { return [N(o.skilltype), String(o.skillname)]; }); used.push('Skills'); }
+
+    if (tables.Bonuses) {
+      raw.bonuses = tables.Bonuses.filter(function (o) {
+        return val(o, "name") !== "";
+      }).map(function (o) {
+        return [
+          String(val(o, "name")),
+          num(o, "bonus")
+        ];
+      });
+
+      used.push("Bonuses " + raw.bonuses.length);
+    }
+
+    if (tables.Penalty && tables.Penalty.length) {
+      raw.penalty = tables.Penalty.map(function (o) {
+        return [
+          num(o, "accessoriesatleast"),
+          num(o, "multiplier", 1)
+        ];
+      });
+
+      used.push("Penalty");
+    }
+
+    if (tables.Tags && tables.Tags.length) {
+      raw.tags = tables.Tags.map(function (o) {
+        return [
+          num(o, "tagid"),
+          String(val(o, "tagname"))
+        ];
+      });
+
+      used.push("Tags");
+    }
+
+    if (tables.Skills && tables.Skills.length) {
+      raw.skills = tables.Skills.map(function (o) {
+        return [
+          num(o, "skilltype"),
+          String(val(o, "skillname"))
+        ];
+      });
+
+      used.push("Skills");
+    }
+
     var fb = builtinFor(srv()) || EMPTY;
-    ['clothes', 'stages', 'bonuses'].forEach(function (key) { if (!raw[key]) raw[key] = fb[key]; });
-    if (!raw.clothes.length || !raw.stages.length) throw new Error('empty');
+
+    ["clothes", "stages", "bonuses"].forEach(function (key) {
+      if (!raw[key]) raw[key] = fb[key];
+    });
+
+    if (!raw.clothes.length || !raw.stages.length) {
+      throw new Error("Empty Clothes or Stages data after conversion");
+    }
+
     return { raw: raw, used: used };
-  }
+}
+
   function applyTables(tables, src, label) {
     var r = tablesToRaw(tables);
     setDb(r.raw, src);
@@ -4080,56 +4480,121 @@ if (typeof module !== 'undefined') module.exports = Engine;
   }
   var loadState = 'idle', refreshing = false, lastSyncAt = 0;
   function fetchTables(sv) {
-    var base = sv.url.replace(/\?.*$/, '');
-    function ok(t) { return t && t.Clothes && t.Stages; }
-    var wbErr = '';
-    return loadXlsxLib().then(function () {
-      var get = function (u) { return fetch(u, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.arrayBuffer(); }); };
-      return get(base + '?output=xlsx').catch(function () { return get(base + '?output=xlsx&_=' + Date.now()); });
-    }).then(function (buf) {
-      var wb = XLSX.read(buf, { type: 'array' }), tables = {};
-      wb.SheetNames.forEach(function (n) {
-        var tab = TABS.filter(function (x) { return x.toLowerCase() === n.trim().toLowerCase(); })[0];
-        if (tab) tables[tab] = tableToObjs(XLSX.utils.sheet_to_json(wb.Sheets[n], { header: 1, raw: true, defval: '' }));
-      });
-      if (!ok(tables)) throw new Error('tabs');
-      return tables;
-    }).catch(function (e) {
-      wbErr = String((e && e.message) || e);
-      console.warn('[Outfit Scorer] workbook download failed, trying per-tab CSV', e);
-      var gids = sv.gids || {};
-      return Promise.all(TABS.map(function (tab) {
-        var u = gids[tab] != null ? base + '?gid=' + gids[tab] + '&single=true&output=csv' : (tab === 'Clothes' ? sv.url : null);
-        if (!u) return null;
-        return fetch(u + (u.indexOf('?') >= 0 ? '&' : '?') + '_=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : null; })
-          .then(function (txt) { return txt && !/^\s*</.test(txt) ? tableToObjs(parseCsv(txt)) : null; }).catch(function () { return null; });
-      })).then(function (res) {
-        var tables = {}; TABS.forEach(function (tab, i) { if (res[i]) tables[tab] = res[i]; });
-        if (!ok(tables)) throw new Error(wbErr === 'tabs' ? 'the sheet needs a Clothes tab and a Stages tab' : 'could not download the sheet (' + wbErr + ')');
-        return tables;
-      });
-    });
+  var serverId = typeof sv === "string"
+    ? sv
+    : (sv && sv.id);
+
+  if (!serverId) {
+    return Promise.reject(
+      new Error("Outfit Scorer: No server ID was provided.")
+    );
   }
-  function sync(silent) {
-    var sv = srv(), forServer = server;
-    if (!sv.url) { loadState = 'idle'; if (!hasData) afterDataChange(); return; }
-    if (!hasData) { loadState = 'loading'; afterDataChange(); }
-    refreshing = true; renderSource();
-    if (!silent) toast(lang === 'vi' ? '\u0110ang c\u1eadp nh\u1eadt\u2026' : 'Refreshing\u2026');
-    fetchTables(sv).then(function (tables) {
-      if (forServer !== server) return;
-      loadState = 'idle'; refreshing = false; lastSyncAt = Date.now(); $('srcPill').title = 'Click to refresh the data';
-      applyTables(tables, 'sheet', 'Google Sheet');
-      if (!silent) toast(lang === 'vi' ? 'D\u1eef li\u1ec7u \u0111\u00e3 m\u1edbi nh\u1ea5t' : 'Up to date');
-    }).catch(function (e) {
-      console.warn('[Outfit Scorer]', e);
-      if (forServer !== server) return;
-      refreshing = false; renderSource();
-      var why = String((e && e.message) || e); $('srcPill').title = "Couldn't refresh: " + why;
-      if (!silent) toast((lang === 'vi' ? 'Kh\u00f4ng c\u1eadp nh\u1eadt \u0111\u01b0\u1ee3c: ' : "Couldn't refresh: ") + why);
-      if (!hasData) { loadState = 'failed'; afterDataChange(); }
+
+  console.log("[Outfit Scorer] Loading server:", serverId);
+
+  return loadServerData(serverId).then(function (dataset) {
+    if (!dataset || !dataset.sheets) {
+      throw new Error("Invalid .dat dataset for " + serverId);
+    }
+
+    var source = dataset.sheets;
+    var tables = {};
+
+    TABS.forEach(function (tab) {
+      var key = Object.keys(source).find(function (name) {
+        return String(name).trim().toLowerCase() === tab.toLowerCase();
+      });
+
+      if (key !== undefined) {
+        var sheet = source[key];
+
+        if (Array.isArray(sheet)) {
+          tables[tab] = sheet;
+        }
+      }
     });
+
+    var missing = TABS.filter(function (tab) {
+      return !Array.isArray(tables[tab]);
+    });
+
+    if (missing.length) {
+      throw new Error(
+        "Missing scorer sheets: " + missing.join(", ")
+      );
+    }
+
+    console.log("[Outfit Scorer] .dat loaded successfully:", {
+      server: dataset.server,
+      sheets: Object.keys(tables),
+      clothes: tables.Clothes.length,
+      stages: tables.Stages.length
+    });
+
+    return tables;
+  });
+}
+function sync(silent) {
+  var sv = srv(), forServer = server;
+
+  if (!sv || !sv.id) {
+    loadState = 'failed';
+    refreshing = false;
+    afterDataChange();
+    console.error('[Outfit Scorer] Selected server not found:', server);
+    return;
   }
+
+  if (!hasData) {
+    loadState = 'loading';
+    afterDataChange();
+  }
+
+  refreshing = true;
+  renderSource();
+
+  if (!silent) {
+    toast(lang === 'vi' ? 'Đang cập nhật…' : 'Refreshing…');
+  }
+
+  fetchTables(sv).then(function (tables) {
+    if (forServer !== server) return;
+
+    loadState = 'idle';
+    refreshing = false;
+    lastSyncAt = Date.now();
+
+    $('srcPill').title = 'Click to refresh the data';
+
+    applyTables(tables, 'dat', '.dat dataset');
+
+    if (!silent) {
+      toast(lang === 'vi' ? 'Dữ liệu đã mới nhất' : 'Data updated');
+    }
+
+  }).catch(function (e) {
+    console.error('[Outfit Scorer] .dat refresh failed:', e);
+
+    if (forServer !== server) return;
+
+    refreshing = false;
+    renderSource();
+
+    var why = String((e && e.message) || e);
+    $('srcPill').title = "Couldn't refresh: " + why;
+
+    if (!silent) {
+      toast(
+        (lang === 'vi' ? 'Không cập nhật được: ' : "Couldn't refresh: ") + why
+      );
+    }
+
+    if (!hasData) {
+      loadState = 'failed';
+      afterDataChange();
+    }
+  });
+}
   function loadXlsxLib() {
     if (window.XLSX) return Promise.resolve();
     return new Promise(function (res, rej) {
@@ -4167,19 +4632,42 @@ if (typeof module !== 'undefined') module.exports = Engine;
   function idbDel(k) { idb().then(function (d) { d.transaction('kv', 'readwrite').objectStore('kv').delete(k); }).catch(function () {}); }
 
   function renderServer() {
-    var s = srv();
-    $('srvBtns').innerHTML = SERVERS.map(function (x) {
-      return '<button type="button" data-srv="' + x.id + '" aria-pressed="' + (x.id === server) + '" title="' + esc(x.name[lang]) + '">' + esc(x.label) + '</button>';
-    }).join('');
-    $('mainGrid').hidden = !hasData;
-    $('noData').hidden = hasData;
-    if (!hasData) {
-      var vi = lang === 'vi';
-      $('noData').innerHTML = '<h2>' + esc(s.name[lang]) + '</h2><p>' + esc(!s.url ? (vi ? 'Dữ liệu cho server này chưa có.' : "This server's data isn't available yet.") : loadState === 'failed' ? (vi ? 'Không tải được dữ liệu. Thử tải lại trang.' : "Couldn't load the data. Try reloading the page.") : (vi ? 'Đang tải dữ liệu…' : 'Loading data…')) + '</p>';
-    }
-    $('resetBtn').textContent = s.builtin ? t('resetData') : t('resetServer');
-    $('resetBtn').hidden = !s.builtin && !hasData;
+  var s = srv();
+
+  $('srvBtns').innerHTML = SERVERS.map(function (x) {
+    return '<button type="button" data-srv="' + x.id +
+      '" aria-pressed="' + (x.id === server) +
+      '" title="' + esc(x.name[lang]) + '">' +
+      esc(x.label) + '</button>';
+  }).join('');
+
+  $('mainGrid').hidden = !hasData;
+  $('noData').hidden = hasData;
+
+  if (!hasData) {
+    var vi = lang === 'vi';
+
+    var message = loadState === 'failed'
+      ? (vi
+          ? 'Không tải được dữ liệu. Thử tải lại trang.'
+          : "Couldn't load the data. Try reloading the page.")
+      : loadState === 'loading'
+        ? (vi ? 'Đang tải dữ liệu…' : 'Loading data…')
+        : (vi
+            ? 'Dữ liệu cho server này chưa có.'
+            : "This server's data isn't available yet.");
+
+    $('noData').innerHTML =
+      '<h2>' + esc(s.name[lang]) + '</h2>' +
+      '<p>' + esc(message) + '</p>';
   }
+
+  $('resetBtn').textContent = s.builtin
+    ? t('resetData')
+    : t('resetServer');
+
+  $('resetBtn').hidden = !s.builtin && !hasData;
+}
   function switchServer(id, first) {
     if (!first && id === server) return;
     server = id; store('server', id);
