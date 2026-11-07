@@ -1368,14 +1368,14 @@ body.dark{--sc-good:#6cc59a;--sc-warn:#f0a26a}
 <script>
 
 window.LN_SERVERS = (function () {
-  var SHEET_LN = '';
+  var SHEET_LN = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQz03CXtOiGLcOEV9xd88QDe1FvwkUsxdGuYOEckRZXql2Z2FmTm3VVxdPNbLe8aKIVA9moXMltshW3/pub?output=csv';
 
   var SERVERS = [
     { id: 'ln', label: 'LN', name: { en: 'Global', vi: 'Love Nikki ' }, url: SHEET_LN, gids: {} },
-    { id: 'vn', label: 'VN', name: { en: 'Vietnam Server', vi: 'Server Việt Nam' }, url: '', gids: {} },
-    { id: 'cn', label: 'CN', name: { en: 'Chinese Server', vi: 'Server Chinese' }, url: '', gids: {} },
-    { id: 'jp', label: 'JP', name: { en: 'Japananese Server', vi: 'Server Japan' }, url: '', gids: {} },
-    { id: 'tw', label: 'TW', name: { en: 'Taiwan Server', vi: 'Server Taiwan' }, url: '', gids: {} }
+    { id: 'vn', label: 'VN', name: { en: 'Vietnam Server', vi: 'Server Việt Nam' }, url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQiKpuAp-fI4o2nTFoG3KHZVxeXG_qojkuVyss_OR4zk2G5aRqJS8-jHyvL1_NYQCIPpDlDckumOTqI/pub?output=csv', gids: {} },
+    { id: 'cn', label: 'CN', name: { en: 'Chinese Server', vi: 'Server Chinese' }, url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSCwZJkPJvdGGnBnOBUhulg3FYUVd87O0ANH7nWek3r8a7hzScGd3V5LZ01XbA74O8jY42zPrp8tzxl/pub?output=csv', gids: {} },
+    { id: 'jp', label: 'JP', name: { en: 'Japananese Server', vi: 'Server Japan' }, url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQK-QsWjSHwtKCBtKPW6Fdx2Wqe1_FOzRDWhcDRecl4rK1sJxdoCQ3Yjhhq9PEYEfaaih8KzOKkVXp_/pub?output=csv', gids: {} },
+    { id: 'tw', label: 'TW', name: { en: 'Taiwan Server', vi: 'Server Taiwan' }, url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSxY5tmVoMDtrPgTqhTYAQABjvGi0Las0BoXojnx3tO-ju_srsDHD8cNS6VjuZfJ_0KDdr_Pf7gBO3A/pub?output=csv', gids: {} }
   ];
   return SERVERS;
 })();
@@ -1617,69 +1617,6 @@ function toggleOwned(item){
   saveOwned();
   renderItems();
   renderCloset();
-}
-const OFFLINE_DATA_CACHE = {};
-
-async function loadServerData(server) {
-    server = String(server).toLowerCase();
-
-    const allowedServers = ["ln", "cn", "vn", "jp", "tw"];
-
-    if (!allowedServers.includes(server)) {
-        throw new Error("Unknown server: " + server);
-    }
-
-    if (OFFLINE_DATA_CACHE[server]) {
-        return OFFLINE_DATA_CACHE[server];
-    }
-
-    if (typeof DecompressionStream === "undefined") {
-        throw new Error("GZIP decompression is not supported.");
-    }
-
-    const response = await fetch(
-  new URL(`data/${server}.dat`, document.baseURI)
-);
-
-    if (!response.ok) {
-        throw new Error(`Failed to load ${server}.dat: ${response.status}`);
-    }
-
-    const scrambled = new Uint8Array(await response.arrayBuffer());
-
-    if (
-        scrambled.length < 4 ||
-        scrambled[0] !== 0x53 ||
-        scrambled[1] !== 0x45 ||
-        scrambled[2] !== 0x31
-    ) {
-        throw new Error("Invalid dataset: " + server);
-    }
-
-    const key = new TextEncoder().encode(
-        "StylistEncyclopedia-Offline-v1"
-    );
-
-    const compressed = new Uint8Array(scrambled.length - 3);
-
-    for (let i = 3; i < scrambled.length; i++) {
-        compressed[i - 3] =
-            scrambled[i] ^ key[(i - 3) % key.length];
-    }
-
-    const stream = new Blob([compressed])
-        .stream()
-        .pipeThrough(new DecompressionStream("gzip"));
-
-    const text = await new Response(stream).text();
-    const data = JSON.parse(text);
-
-    if (data.server !== server || !data.sheets) {
-        throw new Error("Dataset contents do not match " + server);
-    }
-
-    OFFLINE_DATA_CACHE[server] = data;
-    return data;
 }
 function updateOwnedUI(){
   const count=state.items.reduce((n,i)=>n+(isOwned(i)?1:0),0);
@@ -2355,100 +2292,42 @@ async function loadItems(){
   const myToken = ++itemsToken, sid = wardrobeServerId();
   itemsServerId = sid;
   renderServerBtns();
-
   try{
     if(!overlayRows) overlayRows = await fetchCSV(DATA.items);
-
     const sv = (window.LN_SERVERS || []).find(s => s.id === sid);
     let items = null, note = "";
-
-    if(sv){
-      document.getElementById("itemResults").innerHTML =
-        '<div class="loading">Loading items…</div>';
-
+    if(sv && sv.url){
+      document.getElementById("itemResults").innerHTML = '<div class="loading">Loading items…</div>';
       try{
-        const dataset = await loadServerData(sid);
-
+        const rows = await fetchCSV(sv.url);
         if(myToken !== itemsToken) return;
-
-        const clothesKey = Object.keys(dataset.sheets || {})
-          .find(key => key.toLowerCase() === "clothes");
-
-        const rows = clothesKey ? dataset.sheets[clothesKey] : null;
-
-        if(
-          Array.isArray(rows) &&
-          rows.length &&
-          ("id" in rows[0]) &&
-          ("name" in rows[0])
-        ){
-          items = mergeServerRows(rows, overlayRows);
-        }else{
-          note = "Server dataset could not be loaded; showing classic Encyclopedia data instead.";
-        }
-
-      }catch(e){
-        console.warn("[Wardrobe] server dataset failed", e);
-        note = "Server dataset could not be loaded; showing classic Encyclopedia data instead.";
-      }
+        if(rows.length && ("id" in rows[0]) && ("name" in rows[0])) items = mergeServerRows(rows, overlayRows);
+        else note = "Scorer sheet could not be loaded; showing classic Encyclopedia data instead.";
+      }catch(e){ console.warn("[Wardrobe] server sheet failed", e); note = "Scorer sheet could not be loaded; showing classic Encyclopedia data instead."; }
     }
-
     if(myToken !== itemsToken) return;
-
     if(!items) items = overlayRows.map(o => Object.assign({}, o));
-
     setServerNote(note);
-    ownedServerId = sid;
-    state.owned = new Set(readOwned(sid));
+    ownedServerId = sid; state.owned = new Set(readOwned(sid));
     state.items = items;
-
-    state.items.forEach((item, i) => {
-      if(!item.id) item.id = `item_${i}`;
-    });
-
-    const exactOrder = [
-      'hair', 'dress', 'coat', 'top', 'bottom',
-      'hosiery', 'shoes', 'makeup', 'accessory', 'soul'
-    ];
-
+    state.items.forEach((item, i) => { if (!item.id) item.id = `item_${i}`; });
+    const exactOrder = ['hair', 'dress', 'coat', 'top', 'bottom', 'hosiery', 'shoes', 'makeup', 'accessory', 'soul'];
     state.items.sort((a, b) => {
-      const aIndex = exactOrder.indexOf(
-        (a.type || a.subtype || '').toLowerCase().trim()
-      );
-
-      const bIndex = exactOrder.indexOf(
-        (b.type || b.subtype || '').toLowerCase().trim()
-      );
-
-      return (aIndex === -1 ? 999 : aIndex) -
-             (bIndex === -1 ? 999 : bIndex);
+      const aIndex = exactOrder.indexOf((a.type || a.subtype || '').toLowerCase().trim());
+      const bIndex = exactOrder.indexOf((b.type || b.subtype || '').toLowerCase().trim());
+      return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
     });
 
-    state.filtered = [...state.items];
-
+    state.filtered=[...state.items];
     initItemFilters();
     hideEmptyFilters();
     renderItems();
     renderCloset();
     updateOwnedUI();
-
-    document.getElementById("statItems").textContent =
-      state.items.length.toLocaleString();
-
-    status(
-      "Wardrobe loaded ✓ • " +
-      state.items.length.toLocaleString() +
-      " items" +
-      (sv ? ` (${sv.label})` : "")
-    );
-
-  }catch(e){
-    console.error(e);
-    document.getElementById("itemResults").innerHTML =
-      '<div class="loading">Could not load the wardrobe sheet.</div>';
-
-    status("Wardrobe sheet unavailable");
+    document.getElementById("statItems").textContent=state.items.length.toLocaleString();
+    status(`Wardrobe loaded ✓ • ${state.items.length.toLocaleString()} items` + (sv ? ` (${sv.label})` : ""))
   }
+  catch(e){console.error(e);document.getElementById("itemResults").innerHTML='<div class="loading">Could not load the wardrobe sheet.</div>';status("Wardrobe sheet unavailable")}
 }
 function status(s){document.getElementById("dataStatus").textContent=s}
 
