@@ -910,6 +910,11 @@ body.dark{--sc-good:#6cc59a;--sc-warn:#f0a26a}
   color: var(--muted, #887887);
   opacity: 0.85;
 }
+
+#itemResults.grid {
+  align-content: start;
+  align-items: start;
+}
 </style>
 </head>
 <body>
@@ -2317,7 +2322,11 @@ function mergeServerRows(rows, overlay){
   return "";
 };
   const headers = rows.length ? Object.keys(rows[0]) : [];
-  const hasHidden = headers.some(k => ["hidden", "is hidden"].includes(k));
+  const hasHidden = headers.some(k =>
+  ["hidden", "ishidden"].includes(
+    String(k).toLowerCase().replace(/[\s_-]+/g, "")
+  )
+);
 
   const pick = (...vals) => { for(const v of vals){ const x = String(v == null ? "" : v).trim(); if(x !== "") return x; } return ""; };
   const slotOf = r => field(r, "slot code", "slot", "slot_code");
@@ -2359,13 +2368,14 @@ function mergeServerRows(rows, overlay){
   rows.forEach(r => {
     const iid = field(r, "id", "internal_id", "internal id", "item id"); if(!iid) return;
     const o = ov.get(iid) || null, sl = slotOf(r), idn = parseInt(iid, 10) || 0, sm = slotMap[sl] || {};
-    if(hasHidden){
-      const hid = field(r, "hidden", "is hidden").toLowerCase();
-      if(hid && hid !== "0" && hid !== "false") return;
-    }else if(!o){
-      const m = maxId[sl];
-      if(m !== undefined && !(idn > m)) return;     
-    }
+    if (hasHidden) {
+  const hid = field(r, "hidden", "is hidden").toLowerCase();
+
+  if (["1", "true", "yes"].includes(hid)) return;
+} else if (!o) {
+  const m = maxId[sl];
+  if (m !== undefined && !(idn > m)) return;
+}
     const it = Object.assign({}, o || {}, {
   internal_id: iid,
   scorer_id: iid,
