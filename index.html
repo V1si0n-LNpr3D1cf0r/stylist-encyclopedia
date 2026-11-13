@@ -1553,36 +1553,99 @@ function wardrobeImageFromId(id){
   return repo && clean ? `https://V1si0n-LNpr3D1cf0r.github.io/${repo}/${encodeURIComponent(clean)}.png` : PLACEHOLDER;
 }
 
+
 const IMAGE = {
   icon: id => {
-    const cleanId = String(id).trim().replace(/\s*\([sS]\)$/, "");
-    const encodedId = encodeURIComponent(cleanId);
-    return encodedId && !encodedId.startsWith("item_") ? `https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-icons/main/${encodedId}.png` : PLACEHOLDER;
-  },
-  itemRepos: {
-    hair:"mn-dump-hair-b1", dress:"mn-dump-dress-b1", coat:"mn-dump-coat-b1",
-    top:"mn-dump-top-b1", bottom:"mn-dump-bottom-b1", hosiery:"mn-dump-hosiery-b1",
-    shoes:"mn-dump-shoes-b1", makeup:"mn-dump-makeup-b1", accessory:"mn-dump-accessory-b1", soul:"mn-dump-soul-b1"
-  },
-  item: item => {
-    if(item.img) return item.img;
-    const bestId = getBestId(item);
-    if(!bestId || String(bestId).startsWith("item_")) return PLACEHOLDER;
+    const cleanId = String(id)
+      .trim()
+      .replace(/\s*\(S\)$/i, "");
 
-    const explicitType=(item.type||item.subtype||"").toLowerCase().trim();
-    const repo=IMAGE.itemRepos[explicitType] || imageRepoFromId(bestId);
+    const encodedId = encodeURIComponent(cleanId);
+
+    return encodedId && !encodedId.startsWith("item_")
+      ? `https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-icons/main/${encodedId}.png`
+      : PLACEHOLDER;
+  },
+
+  itemRepos: {
+    hair: "mn-dump-hair-b1",
+    dress: "mn-dump-dress-b1",
+    coat: "mn-dump-coat-b1",
+    top: "mn-dump-top-b1",
+    bottom: "mn-dump-bottom-b1",
+    hosiery: "mn-dump-hosiery-b1",
+    shoes: "mn-dump-shoes-b1",
+    makeup: "mn-dump-makeup-b1",
+    accessory: "mn-dump-accessory-b1",
+    soul: "mn-dump-soul-b1"
+  },
+
+  item: item => {
+    if (item.img) return item.img;
+
+    const bestId = getBestId(item);
+
+    if (!bestId || String(bestId).startsWith("item_")) {
+      return PLACEHOLDER;
+    }
+
+    const explicitType = (item.type || item.subtype || "")
+      .toLowerCase()
+      .trim();
+
+    const repo = IMAGE.itemRepos[explicitType] || imageRepoFromId(bestId);
+
     return repo
       ? `https://V1si0n-LNpr3D1cf0r.github.io/${repo}/${encodeURIComponent(String(bestId).trim())}.png`
       : PLACEHOLDER;
   },
-  breakdown: (suit,id) => {
-    const base="https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-breakdown/main/";
-    const cleanId=String(id||"").trim();
-    const suitName=String(suit||"").trim();
-    if(!cleanId) return PLACEHOLDER;
-    if(cleanId.includes("-")) return base+encodeURIComponent(cleanId)+".png";
-    if(!suitName) return base+encodeURIComponent(cleanId)+".png";
-    return base+encodeURIComponent(`${suitName}-${cleanId}`)+".png";
+
+  // Exported collectible card images
+  card(item) {
+    if (!item) return "";
+
+    const id = String(getBestId(item) || "");
+    const number = id.replace(/^[a-z]+/i, "");
+
+    if (!number) return "";
+
+    const type = String(val(item, "type", "subtype") || "").toLowerCase();
+    const repos = {
+    hair: "mn-dump-hair-b1",
+    dress: "mn-dump-dress-b1",
+    coat: "mn-dump-coat-b1",
+    top: "mn-dump-top-b1",
+    bottom: "mn-dump-bottom-b1",
+    hosiery: "mn-dump-hosiery-b1",
+    shoes: "mn-dump-shoes-b1",
+    makeup: "mn-dump-makeup-b1",
+    accessory: "mn-dump-accessory-b1",
+    soul: "mn-dump-soul-b1"
+};
+
+const repo = `https://V1si0n-LNpr3D1cf0r.github.io/${repos[type]}`;
+
+    if (!repo) return "";
+
+    return `${repo}/${number}_card.png`;
+},
+
+  breakdown: (suit, id) => {
+    const base = "https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-dump-breakdown/main/";
+    const cleanId = String(id || "").trim();
+    const suitName = String(suit || "").trim();
+
+    if (!cleanId) return PLACEHOLDER;
+
+    if (cleanId.includes("-")) {
+      return base + encodeURIComponent(cleanId) + ".png";
+    }
+
+    if (!suitName) {
+      return base + encodeURIComponent(cleanId) + ".png";
+    }
+
+    return base + encodeURIComponent(`${suitName}-${cleanId}`) + ".png";
   }
 };
 
@@ -2089,7 +2152,7 @@ function renderPagination(id,total,current,go){
 }
 function openItem(item){
   const stats=["gorgeous","simple","elegant","lively","mature","cute","sexy","pure","warm","cool"].filter(k=>item[k]!==undefined&&item[k]!=="");
-  const img=IMAGE.item(item),owned=isOwned(item);
+  const img=IMAGE.card(item),owned=isOwned(item);
   const tag=(x)=>x?`<span class="badge" style="${getBadgeStyle(x)}">${esc(x)}</span>`:"";
   
   let serverHTML = "";
