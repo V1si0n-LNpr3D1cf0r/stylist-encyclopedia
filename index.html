@@ -260,6 +260,9 @@ body.dark .item-name-link{color:#f0e7ed}
   color: var(--muted);
   margin-top: 5px;
 }
+.card-copy-name{position:absolute;left:9px;top:9px;width:34px;height:34px;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.92);border:1px solid var(--line);color:#9b6b83;font-size:17px;line-height:1;z-index:3;cursor:pointer;box-shadow:0 2px 8px rgba(122,73,101,.08)}
+.card-copy-name:hover{background:#fff0f6;color:#b65f88}
+.card-copy-name.copied{background:#f2bfd4;color:#7d4260;border-color:#e7a7c3}
 
 .badges {
   display: flex;
@@ -288,7 +291,7 @@ body.dark .item-name-link{color:#f0e7ed}
 .view-toggle{display:flex;gap:6px}.view-toggle button.active{background:#df77a6;color:#fff}
 .progress{height:10px;background:#f1e2e9;border-radius:999px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,#e184ad,#a886d7);width:0}
 .owned-toolbar{display:flex;gap:8px;flex-wrap:wrap}.owned-empty{text-align:center;padding:50px;color:var(--muted)}
-.detail{display:grid;grid-template-columns:260px 1fr;gap:22px}.detail-img{min-height:260px;border-radius:18px;background:#fff4f8;display:flex;align-items:center;justify-content:center;padding:12px}.detail-img img{max-width:100%;max-height:290px;object-fit:contain}.detail h2{font-family:"DM Serif Display",serif;font-size:34px;margin:0 0 6px;color:#6d5060}.detail p{color:var(--muted);line-height:1.65}.info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:14px}.info{padding:10px 12px;border-radius:12px;background:#fff;border:1px solid var(--line);font-size:12px}.info b{display:block;color:#a65b80;margin-bottom:3px}.score-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:12px}.score{padding:9px;border-radius:10px;background:#fff0f6;text-align:center}.score b{display:block;color:#b55e89}.score span{font-size:10px;color:var(--muted)}
+.detail{display:grid;grid-template-columns:260px 1fr;gap:22px}.detail-img{min-height:260px;border-radius:18px;background:#fff4f8;display:flex;align-items:center;justify-content:center;padding:12px}.detail-img img{max-width:100%;max-height:290px;object-fit:contain}.detail h2{font-family:"DM Serif Display",serif;font-size:34px;margin:0 0 6px;color:#6d5060}.item-title-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.item-title-row h2{margin:0}.item-title-row .btn{flex-shrink:0}.detail p{color:var(--muted);line-height:1.65}.info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:14px}.info{padding:10px 12px;border-radius:12px;background:#fff;border:1px solid var(--line);font-size:12px}.info b{display:block;color:#a65b80;margin-bottom:3px}.score-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:12px}.score{padding:9px;border-radius:10px;background:#fff0f6;text-align:center}.score b{display:block;color:#b55e89}.score span{font-size:10px;color:var(--muted)}
 .overlay{position:fixed;inset:0;background:rgba(55,34,46,.48);backdrop-filter:blur(7px);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}.overlay.open{display:flex}.modal{width:min(900px,100%);max-height:90vh;overflow:auto;background:#fffafc;border:1px solid var(--line);border-radius:24px;box-shadow:0 25px 80px rgba(60,30,50,.25);padding:20px}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.modal-head h3{margin:0;font-family:"DM Serif Display",serif;font-size:28px;color:#6f5261}.close{width:38px;height:38px;border-radius:50%;background:#f7e4ed;color:#8b526b;font-size:20px}
 .suit-list{display:grid;gap:10px}.suit{border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden}.suit-head{width:100%;display:flex;justify-content:space-between;padding:14px 16px;background:#fff7fa;color:#754f61;font-weight:900;text-align:left}.suit-body{display:none;padding:13px;border-top:1px solid var(--line)}.suit.open .suit-body{display:flex;gap:12px;overflow:auto}.suit-piece{min-width:125px;text-align:center}.suit-piece img{width:115px;height:115px;object-fit:contain;background:#fff4f8;border-radius:12px}.suit-piece span{display:block;font-size:11px;margin-top:5px}
 .theme-layout{display:grid;grid-template-columns:280px 1fr;gap:18px}.mode-list{display:grid;gap:7px}.mode-list button{text-align:left;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:#6d5260;font-weight:800}.mode-list button.active{background:#f1c1d6;border-color:#e5a8c1}.theme-box{min-height:300px;border-radius:24px;padding:30px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:
@@ -2108,6 +2111,7 @@ function itemCard(item){
   const identity = item.item_key || item.scorer_id || item.id || item.internal_id;
 
   return `<article class="card ${owned?"owned":""} ${missingData}">
+    <button class="btn small card-copy-name" type="button" title="Copy item name" aria-label="Copy item name" data-copy-name="${esc(name)}">⧉</button>
     <button class="heart ${owned?"on":""}" title="${owned?"Remove from owned items":"Add to owned items"}" data-id="${esc(identity)}">${owned?"♥":"♡"}</button>
     <div class="card-img" data-open="${esc(identity)}"><img src="${esc(img)}" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER}'"></div>
     <div class="card-body" data-open="${esc(identity)}">
@@ -2133,7 +2137,7 @@ function tableRow(item){
   const color=(x)=>x?`<span class="color-value"><i class="color-swatch" style="background:${colorMap[x]||"#ddd"}"></i>${esc(x)}</span>`:"-";
   return `<tr>
     <td class="sticky-save"><input type="checkbox" ${owned?"checked":""} data-row-own="${esc(item.item_key || item.scorer_id || item.internal_id)}"></td>
-    <td class="name-cell"><b><span class="item-name-link" data-open="${esc(item.item_key || item.scorer_id || item.internal_id)}">${esc(val(item,"name")||"Unknown")}</span></b></td>
+    <td class="name-cell"><b><span class="item-name-link" data-open="${esc(item.item_key || item.scorer_id || item.internal_id)}">${esc(val(item,"name")||"Unknown")}</span></b> <button class="btn small card-copy-name table-copy-name" type="button" title="Copy item name" aria-label="Copy item name" data-copy-name="${esc(val(item,"name")||"Unknown")}">⧉</button></td>
     <td>${esc(val(item,"type")||"-")}</td>
     <td>${esc(val(item,"subtype")||"-")}</td>
     <td>${esc(item.rarity||"0")}♥</td>
@@ -2193,6 +2197,41 @@ container.querySelectorAll("[data-open]").forEach(el => el.onclick = e => {
   const item = findItem(el.dataset.open);
   if(item) openItem(item);
 });
+
+container.querySelectorAll("[data-copy-name]").forEach(button => {
+  button.onclick = async e => {
+    e.preventDefault();
+    e.stopPropagation();
+    const original = button.textContent;
+    try {
+      const name = button.dataset.copyName;
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(name);
+      } else {
+        const temp = document.createElement("textarea");
+        temp.value = name;
+        temp.setAttribute("readonly", "");
+        temp.style.position = "fixed";
+        temp.style.opacity = "0";
+        document.body.appendChild(temp);
+        temp.select();
+        const copied = document.execCommand("copy");
+        temp.remove();
+        if (!copied) throw new Error("Clipboard copy failed");
+      }
+      button.textContent = "Copied!";
+      button.classList.add("copied");
+      setTimeout(() => {
+        if (button.isConnected) {
+          button.textContent = original;
+          button.classList.remove("copied");
+        }
+      }, 1400);
+    } catch (error) {
+      button.textContent = "Copy failed";
+    }
+  };
+});
   renderPagination("itemPagination",pages,state.itemPage,p=>{state.itemPage=p;renderItems()});
 }
 function renderPagination(id,total,current,go){
@@ -2217,6 +2256,7 @@ function renderPagination(id,total,current,go){
   });
 }
 function openItem(item){
+  const itemDisplayName = val(item,"name") || "Unknown Item";
   const stats=["gorgeous","simple","elegant","lively","mature","cute","sexy","pure","warm","cool"].filter(k=>item[k]!==undefined&&item[k]!=="");
   const img=IMAGE.card(item),owned=isOwned(item);
   const tag=(x)=>x?`<span class="badge" style="${getBadgeStyle(x)}">${esc(x)}</span>`:"";
@@ -2237,7 +2277,7 @@ const serverMatch = serverMap[itemNameKey] || (itemIdKey ? serverMap[itemIdKey] 
 
   document.getElementById("modal").innerHTML=`<div class="modal-head"><h3>Item Details</h3><button class="close" onclick="closeModal()">×</button></div>
   <div class="detail"><div class="detail-img"><img src="${esc(img)}" onerror="this.onerror=null;this.src='${PLACEHOLDER}'"></div>
-  <div><h2>${esc(val(item,"name")||"Unknown Item")}</h2><div class="badges"><span class="badge">${esc(val(item,"type","subtype")||"Item")}</span><span class="badge">${esc(item.rarity||0)}♥</span></div>
+  <div><div class="item-title-row"><h2>${esc(itemDisplayName)}</h2></div><div class="badges"><span class="badge">${esc(val(item,"type","subtype")||"Item")}</span><span class="badge">${esc(item.rarity||0)}♥</span></div>
   <p>${esc(val(item,"desc","description"))}</p><div class="item-characteristics">
   <h4>Characteristics</h4>
   <div class="badges">
@@ -2254,6 +2294,7 @@ const serverMatch = serverMap[itemNameKey] || (itemIdKey ? serverMap[itemIdKey] 
   ${serverHTML}
   </div></div>`;
   document.getElementById("modalOwn").onclick=()=>{toggleOwned(item);openItem(item)};
+
   openModal();
 }
 
