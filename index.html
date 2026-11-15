@@ -249,6 +249,11 @@ a{color:inherit}
   line-height: 1.25;
   min-height: 32px;
 }
+.item-name-link{
+  color:#694c5b;text-decoration:none;cursor:pointer;font-weight:inherit
+}
+.item-name-link:hover{text-decoration:underline;color:var(--accent)}
+body.dark .item-name-link{color:#f0e7ed}
 
 .card-sub {
   font-size: 11px;
@@ -1660,9 +1665,67 @@ function readOwned(sid){
       localStorage.setItem("lnOwned_before_servers", legacy); localStorage.removeItem("lnOwned");
     }
     const list = JSON.parse(raw || "[]");
-    return Array.isArray(list) ? list : [];
+    return persistOwnedIds(Array.isArray(list) ? list : []);
   }catch(e){ return []; }
 }
+
+/* ── Canonical wardrobe IDs ────────────────────────────────────────────────
+   An item carries three identifiers:
+     internal_id  the game / Nikki's Info id  (10001, 181234 …)  ← canonical
+     id           the image/display key      ("hair1", "accessory1234")
+     item_key     "<slot>:<internal_id>"
+   "id" is NOT unique: it is generated as type + (id % 10000) so 80001 and
+   180001 both become "accessory1".  Only internal_id may be persisted.
+   normalizeOwnedIds() maps every accepted spelling back to internal_id and
+   throws away anything that does not resolve to a real item.            */
+function normalizeOwnedIds(rawList, items){
+  const toCanonical = new Map();
+  (items || []).forEach(it => {
+    const cid = String(it.internal_id == null ? "" : it.internal_id).trim();
+    if(!cid) return;
+    toCanonical.set(cid, cid);
+    const displayId = String(it.id == null ? "" : it.id).trim();
+    if(displayId && !displayId.startsWith("item_") && !toCanonical.has(displayId)) toCanonical.set(displayId, cid);
+    const itemKey = String(it.item_key == null ? "" : it.item_key).trim();
+    if(itemKey && !toCanonical.has(itemKey)) toCanonical.set(itemKey, cid);
+  });
+
+  const out = new Set();
+  (rawList || []).forEach(raw => {
+    const key = String(raw == null ? "" : raw).trim().replace(/\.0+$/, "");
+    if(!key) return;
+    const cid = toCanonical.get(key);
+    if(cid) out.add(cid);
+  });
+  return out;
+}
+
+/* Sanitise a raw imported payload before it is persisted.
+   - resolves display ids / item keys to internal_id when the item is loaded
+   - keeps bare numeric ids even when unmatched: they can belong to items that
+     are hidden in the current sheet, so dropping them would destroy data
+   - drops "", null, NaN and every "item_N" placeholder the UI invents        */
+function sanitizeOwnedPayload(rawList, items){
+  const resolve = normalizeOwnedIds(rawList, items);
+  const out = new Set(resolve);
+  (rawList || []).forEach(raw => {
+    const key = String(raw == null ? "" : raw).trim().replace(/\.0+$/, "");
+    if(!key || key.startsWith("item_")) return;
+    if(resolve.has(key)) return;
+    if(/^\d+$/.test(key) && Number(key) > 0) out.add(key);
+  });
+  return Array.from(out);
+}
+
+/* Only numeric internal_ids may ever reach localStorage. */
+function persistOwnedIds(list){
+  return Array.from(new Set(
+    (list || [])
+      .map(x => String(x == null ? "" : x).trim().replace(/\.0+$/, ""))
+      .filter(x => x && !x.startsWith("item_") && /^\d+$/.test(x) && Number(x) > 0)
+  ));
+}
+
 let ownedServerId = wardrobeServerId();
 const state = {
   items:[],filtered:[],owned:new Set(readOwned(wardrobeServerId())),
@@ -1797,15 +1860,14 @@ const response = await fetch(`./data/${server}.dat`);
     return data;
 }
 function saveOwned(){try{localStorage.setItem(ownedKey(ownedServerId),JSON.stringify([...state.owned]))}catch(e){}updateOwnedUI()}
-function keyFor(item){return String(item.id||item.internal_id||"")}
-function isOwned(item){return state.owned.has(String(item.id))|| (item.internal_id&&state.owned.has(String(item.internal_id)))}
+function keyFor(item){return String(item.internal_id||item.id||"")}
+function isOwned(item){return item.internal_id?state.owned.has(String(item.internal_id)):state.owned.has(String(item.id))}
 function toggleOwned(item){
   const internal_id = String(item.internal_id || "").trim();
   if (!internal_id) return;
   
   if (isOwned(item)) {
     state.owned.delete(internal_id);
-    if (item.id) state.owned.delete(String(item.id).trim());
   } else {
     state.owned.add(internal_id);
   }
@@ -2049,7 +2111,7 @@ function itemCard(item){
     <button class="heart ${owned?"on":""}" title="${owned?"Remove from owned items":"Add to owned items"}" data-id="${esc(identity)}">${owned?"♥":"♡"}</button>
     <div class="card-img" data-open="${esc(identity)}"><img src="${esc(img)}" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER}'"></div>
     <div class="card-body" data-open="${esc(identity)}">
-      <div class="card-name">${esc(name)}</div>
+      <div class="card-name"><span class="item-name-link" data-open="${esc(identity)}">${esc(name)}</span></div>
       <div class="card-sub">${esc(type)} • ${itemNo(item)!==null?"No."+itemNo(item)+" • ":""}${esc(item.rarity||"0")}♥</div>
       <div class="badges">${tags.slice(0,2).map(t=>`<span class="badge" style="${getBadgeStyle(t)}">${esc(t)}</span>`).join("")}</div>
     </div>
@@ -2058,7 +2120,10 @@ function itemCard(item){
 
 
 function tableRow(item){
-  const img=IMAGE.item(item), owned=isOwned(item);
+  const iconId = getIconId(item);
+  let img = IMAGE.icon(iconId);
+  if (img === PLACEHOLDER) img = IMAGE.item(item);
+  const owned=isOwned(item);
   const tag=(x)=>x?`<span class="badge" style="${getBadgeStyle(x)}">${esc(x)}</span>`:"-";
   const colorMap={
     White:"#fff",Black:"#222",Pink:"#ffc0cb",Red:"#e74c3c",Orange:"#f39c12",
@@ -2068,7 +2133,7 @@ function tableRow(item){
   const color=(x)=>x?`<span class="color-value"><i class="color-swatch" style="background:${colorMap[x]||"#ddd"}"></i>${esc(x)}</span>`:"-";
   return `<tr>
     <td class="sticky-save"><input type="checkbox" ${owned?"checked":""} data-row-own="${esc(item.item_key || item.scorer_id || item.internal_id)}"></td>
-    <td class="name-cell"><b>${esc(val(item,"name")||"Unknown")}</b></td>
+    <td class="name-cell"><b><span class="item-name-link" data-open="${esc(item.item_key || item.scorer_id || item.internal_id)}">${esc(val(item,"name")||"Unknown")}</span></b></td>
     <td>${esc(val(item,"type")||"-")}</td>
     <td>${esc(val(item,"subtype")||"-")}</td>
     <td>${esc(item.rarity||"0")}♥</td>
@@ -2123,7 +2188,8 @@ container.querySelectorAll("[data-row-own]").forEach(b => b.onchange = () => {
   if(item) toggleOwned(item);
 });
 
-container.querySelectorAll("[data-open]").forEach(el => el.onclick = () => {
+container.querySelectorAll("[data-open]").forEach(el => el.onclick = e => {
+  e.stopPropagation();
   const item = findItem(el.dataset.open);
   if(item) openItem(item);
 });
@@ -2228,7 +2294,8 @@ c.querySelectorAll(".heart").forEach(b => b.onclick = e => {
   if(item) toggleOwned(item);
 });
 
-c.querySelectorAll("[data-open]").forEach(el => el.onclick = () => {
+c.querySelectorAll("[data-open]").forEach(el => el.onclick = e => {
+  e.stopPropagation();
   const item = findItem(el.dataset.open);
   if(item) openItem(item);
 });
@@ -2273,7 +2340,6 @@ document.getElementById("saveFilteredEncyclopedia").onclick = () => {
 document.getElementById("removeFilteredEncyclopedia").onclick = () => {
   state.filtered.forEach(i => {
     if (i.internal_id) state.owned.delete(String(i.internal_id).trim());
-    if (i.id) state.owned.delete(String(i.id).trim());
   });
   saveOwned();
   renderItems();
@@ -2333,7 +2399,13 @@ document.getElementById("fileInput").onchange=async e=>{
         let n = 0;
         (window.LN_SERVERS || []).forEach(sv => {
           const l = data.servers[sv.id];
-          if(Array.isArray(l)){ localStorage.setItem(ownedKey(sv.id), JSON.stringify(l.map(String))); n++; }
+          if(Array.isArray(l)) {
+            const clean = sv.id === ownedServerId
+              ? sanitizeOwnedPayload(l, state.items)
+              : persistOwnedIds(l);
+            localStorage.setItem(ownedKey(sv.id), JSON.stringify(clean));
+            n++;
+          }
         });
         if(!n) throw new Error("Invalid wardrobe JSON");
         state.owned = new Set(readOwned(ownedServerId));
@@ -2342,7 +2414,7 @@ document.getElementById("fileInput").onchange=async e=>{
       }else{
         const imported = Array.isArray(data) ? data : (Array.isArray(data?.owned) ? data.owned : null);
         if(!imported) throw new Error("Invalid wardrobe JSON");
-        state.owned=new Set(imported.map(String));
+        state.owned=new Set(sanitizeOwnedPayload(imported, state.items));
         saveOwned();
         renderItems();
         renderCloset();
@@ -2350,9 +2422,10 @@ document.getElementById("fileInput").onchange=async e=>{
       }
     }else{
       if(!window.lnDecodeWardrobe) throw new Error("decoder unavailable");
-      const ids=window.lnDecodeWardrobe(text);
+      const decoded = window.lnDecodeWardrobe(text);
+      const ids = sanitizeOwnedPayload(decoded, state.items);
       if(!ids.length) throw new Error("no items");
-      state.owned=new Set(ids.map(String));
+      state.owned = new Set(ids);
       saveOwned();
       renderItems();
       renderCloset();
@@ -3858,13 +3931,18 @@ var Engine = (function () {
     var bytes = rc4(WARDROBE_KEY, decodeBase64Loose(text));
     var s = '';
     for (var i = 0; i < bytes.length; i += 8192) s += String.fromCharCode.apply(null, bytes.slice(i, i + 8192));
-    var ids = [], b = s.indexOf('[');
-    while (b !== -1) {
-      var e = s.indexOf(']');
-      if (e === -1) break;
-      ids.push(s.slice(b + 1, e).trim());
-      s = s.slice(e + 1);
-      b = s.indexOf('[');
+    /* Pair each "[" with its OWN "]" and keep only digits.
+       The old scanner searched "]" from index 0, so a "]" that appeared before
+       the next "[" produced an empty entry and shifted every later pair, and
+       anything between brackets was accepted — including slot metadata,
+       "[-1]" placeholders and version numbers — and stored as owned items. */
+    var ids = [], seen = Object.create(null), re = /\[([^\[\]]*)\]/g, m;
+    while ((m = re.exec(s)) !== null) {
+      var id = m[1].trim().replace(/\.0+$/, '');
+      if (!/^\d+$/.test(id) || id === '0') continue;
+      if (seen[id]) continue;
+      seen[id] = 1;
+      ids.push(id);
     }
     return ids;
   }
@@ -4051,17 +4129,42 @@ if (typeof module !== 'undefined') module.exports = Engine;
   }
 
   var useAll = false;
+  var wardUnresolved = 0;
+  /* Resolve every stored id to the canonical internal_id of a real item.
+     The previous version UNIONed the display id ("hair1", "accessory484")
+     into the same Set as the numeric internal_id.  Each of those aliases is
+     a separate Set entry, so the Scorer's "owned.size" counted identifiers
+     instead of items and drifted above My Wardrobe, which counts items. */
   function siteOwnedIds() {
-    var set = new Set();
-    try { JSON.parse(localStorage.getItem('lnOwned:' + server) || '[]').forEach(function (x) { set.add(String(x)); }); } catch (e) {}
-    try {
-      if (typeof state !== 'undefined' && state.items && typeof ownedServerId !== 'undefined' && ownedServerId === server) state.items.forEach(function (it) {
-        if (set.has(String(it.id)) || (it.internal_id && set.has(String(it.internal_id)))) {
-          if (it.id) set.add(String(it.id)); if (it.internal_id) set.add(String(it.internal_id));
-        }
-      });
-    } catch (e) {}
-    return Array.from(set).filter(function (x) { return /^\d+$/.test(x); });
+    var raw = [];
+    try { raw = JSON.parse(localStorage.getItem('lnOwned:' + server) || '[]'); } catch (e) { raw = []; }
+    if (!Array.isArray(raw)) raw = [];
+
+    var items = (typeof state !== 'undefined' && state.items && typeof ownedServerId !== 'undefined' && ownedServerId === server)
+      ? state.items : [];
+
+    var toCanonical = Object.create(null);
+    items.forEach(function (it) {
+      var cid = String(it.internal_id == null ? '' : it.internal_id).trim();
+      if (!cid) return;
+      if (!toCanonical[cid]) toCanonical[cid] = cid;
+      var disp = String(it.id == null ? '' : it.id).trim();
+      if (disp && !disp.startsWith('item_') && !toCanonical[disp]) toCanonical[disp] = cid;
+      var key = String(it.item_key == null ? '' : it.item_key).trim();
+      if (key && !toCanonical[key]) toCanonical[key] = cid;
+    });
+
+    var out = new Set(), unresolved = 0;
+    raw.forEach(function (x) {
+      var key = String(x == null ? '' : x).trim().replace(/\.0+$/, '');
+      if (!key) return;
+      var cid = toCanonical[key];
+      if (cid) { out.add(cid); return; }
+      if (!items.length && /^\d+$/.test(key)) { out.add(key); return; }
+      unresolved++;
+    });
+    wardUnresolved = unresolved;
+    return Array.from(out);
   }
   function loadSiteWard() { var ids = siteOwnedIds(); ownedRaw = ids; owned = ids.length && !useAll ? new Set(ids) : null; }
   function setOwned(ids, replace) {
@@ -4093,7 +4196,13 @@ if (typeof module !== 'undefined') module.exports = Engine;
     }
     var found = 0;
     db.clothes.forEach(function (c) { if (owned.has(String(c.id))) found++; });
-    el.innerHTML = t('wHave')(owned.size, found);
+    var status = t('wHave')(owned.size, found);
+    if (wardUnresolved > 0) {
+      status += vi
+        ? ' <span style="color:var(--sc-warn)">(' + fmt(wardUnresolved) + ' mục không khớp bộ dữ liệu)</span>'
+        : ' <span style="color:var(--sc-warn)">(' + fmt(wardUnresolved) + ' stored IDs matched no item)</span>';
+    }
+    el.innerHTML = status;
     $('wardClear').hidden = false; $('wardClear').textContent = vi ? 'Dùng tất cả' : 'Use all items';
   }
   function looksTyped(text) {
@@ -4277,7 +4386,7 @@ if (typeof module !== 'undefined') module.exports = Engine;
     if (overrides[key] && overrides[key] !== 'none') b += '<span class="badge pin">' + t('pinned') + '</span>';
     if (flag === 'dropped') b += '<span class="badge off">' + t('dropped') + '</span>';
     var h = '<tr class="item' + (flag === 'dropped' ? ' dropped' : '') + '" data-slot="' + key + '" tabindex="0" aria-expanded="' + (openSlot === key) + '">' +
-      '<td class="slot">' + esc(slotName(m.slot)) + '</td><td class="name">' + esc(e.item.name || '—') + cpyBtn(e.item.name) + b + '</td>' +
+      '<td class="slot">' + esc(slotName(m.slot)) + '</td><td class="name"><span class="item-name-link" data-open="'+esc(e.item.id)+'">'+esc(e.item.name||'—')+'</span>'+cpyBtn(e.item.name)+b+'</td>' +
       '<td class="sc">' + fmt(e.score) + '</td></tr>';
     if (openSlot === key) h += altsHtml(key, e);
     return h;
@@ -4293,7 +4402,7 @@ if (typeof module !== 'undefined') module.exports = Engine;
     var h = '<tr class="alts"><td colspan="4"><div class="small muted" style="margin-bottom:4px">' + esc(t('top20')) + '</div><ol>';
     list.forEach(function (x, i) {
       var isCur = cur && x.item.id === cur.item.id;
-      h += '<li class="' + (isCur ? 'cur' : '') + '"><span class="rk">' + (i + 1) + '</span><span class="nm">' + esc(x.item.name || '—') + cpyBtn(x.item.name) +
+      h += '<li class="' + (isCur ? 'cur' : '') + '"><span class="rk">' + (i + 1) + '</span><span class="nm"><span class="item-name-link" data-open="'+esc(x.item.id)+'">'+esc(x.item.name||'—')+'</span></span>'+cpyBtn(x.item.name) +
         neededBadge(x) + (x.tagHit ? '<span class="badge tag">' + t('tag') + '</span>' : '') + '</span>' +
         '<span class="sc">' + fmt(x.score) + '</span>' +
         (isCur ? '<span></span>' : '<button type="button" class="ghost" data-pick="' + key + '" data-i="' + i + '">' + esc(t('use')) + '</button>') + '</li>';
@@ -4332,6 +4441,19 @@ if (typeof module !== 'undefined') module.exports = Engine;
     if ($('clearOv')) $('clearOv').addEventListener('click', function () { overrides = {}; compute(); });
   }
   $('result').addEventListener('click', function (ev) {
+    var lnk = ev.target.closest('.item-name-link');
+    if (lnk) {
+      var key = lnk.getAttribute('data-open');
+      // Prefer the full wardrobe item (matching by canonical internal_id / scorer_id)
+      var wardrobeItem = typeof state !== 'undefined' && state.items
+        ? state.items.find(function(i){ return String(i.internal_id || i.scorer_id || i.id) === String(key); })
+        : null;
+      // Fallback to the scorer's own item if no wardrobe match exists
+      var scorerItem = db.clothes.find(function(c){return String(c.id)===String(key);});
+      var item = wardrobeItem || scorerItem;
+      if (item) openItem(item);
+      return;
+    }
     var b = ev.target.closest('button');
     if (b && b.hasAttribute('data-copy')) { copyText(b.getAttribute('data-copy')); return; }
     if (b && b.hasAttribute('data-pick')) { var k = b.getAttribute('data-pick'); overrides[k] = lastRanked[k][+b.getAttribute('data-i')]; compute(); return; }
